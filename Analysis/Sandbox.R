@@ -21,6 +21,13 @@ check.morpho(matrix, tree) # This produces a fairly good matrix
 # Should correlation be measured as statistical correlation (e.g pearson, kendall, spearman, ...) or as scaled euclidean distance (i.e. the proportion of differences).
 # Maybe correlation should be calculated by just duplicating some number of characters (up to 100%) rather than recreating characters?
 
+#Or just use classic cor (pearson)
+
+cor(as.numeric(matrix[,1]), as.numeric(matrix[,2])) #Is whatever value
+cor(as.numeric(matrix[,1]), as.numeric(matrix[,1])) #Is 1
+
+mat <- apply(matrix, 2, as.numeric)
+cor(mat)
 
 #' @title Generate correlated characters
 #'
@@ -51,5 +58,20 @@ set.correlation <- function(matrix, nchar, cor.dis) {
     change.state <- function(character, distance) {
     }
 
+
     return(NULL)
+}
+
+
+char.diff <- function(X,Y) {
+    if(length(X) != length(Y)) {
+        stop("Characters have not the same length!")
+    }
+    if(class(X) != "numeric" | class(Y) != "numeric") {
+        stop("Characters are not numeric!")
+    }
+
+    abs(sum(X-Y))
+
+    return(1 - ( (abs(sum(X-Y))/length(X)-0.5)/0.5 ))
 }
