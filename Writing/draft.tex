@@ -1,0 +1,178 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{natbib}
+
+%Packages
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\usepackage{dcolumn}
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+\pagenumbering{arabic}
+
+
+%Pagination style and stuff
+\linespread{2}
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+%\bibpunct{(}{)}{;}{a}{}{,}
+
+%---------------------------------------------
+%
+%       START
+%
+%---------------------------------------------
+
+\begin{document}
+
+%Running head
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\bigskip
+\noindent RH: Characters correlation
+
+\bigskip
+\medskip
+%\begin{center}
+
+%\noindent{\Large \bf Tree rearrangements rearranged} %TG: I'm bad at puns.
+\bigskip
+
+% \noindent {\normalsize \sc Thomas Guillerme$^1$$^*$, and Martin D. Brazeau$^1$}\\ %TG: Author order can be swapped of course! There's only a finite combination of 2 elements anyway!
+% \noindent {\small \it 
+% $^1$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\}
+% \end{center}
+% \medskip
+% \noindent{*\bf Corresponding author.} \textit{t.guillerme@imperial.ac.uk}\\  %TG: Same as above
+\vspace{1in}
+
+%Line numbering
+\modulolinenumbers[1]
+\linenumbers
+
+%---------------------------------------------
+%
+%       ABSTRACT
+%
+%---------------------------------------------
+
+\newpage
+\begin{abstract}
+blablabla
+\end{abstract}
+
+\noindent (Keywords: )\\
+
+\vspace{1.5in}
+
+\newpage 
+
+
+%---------------------------------------------
+% LaTeX tips for modifying/editing the document:
+%---------------------------------------------
+% - You can comment using the percentage sign. I suggest you use the % sign alone for commenting out sections of the text:
+%       e.g. "This is a really long sentence %because this sentence is very long." Here the % is used for ignoring the end of the sentence (but for some reason you want to keep track of it).%
+%       For comments as in verbose comments, I suggest you use "%MB:":
+%       e.g. "This is a really long sentence %because this sentence is very long. %MB: yeah, no shit!" 
+% - For optimal version control, write only one sentence per line (for more precise track changes)
+% - To build the pdf, use command+B in Sublime.
+% - Because of the bibliography, the pdf needs to be build in the same folder that contains "References.bib" and "sysbio.bst"
+% - For citing papers, you must put their bibtex reference in the "References.bib" file and then you can use the following sysbio tags:
+%        \cite{bibtexBob2000} for citing within a sentence: "Bob (2000)"
+%        \citep{bibtexBob2000} for citing within brackets: "(Bob, 2000)"
+%        \citep[Before:][-After]{bibtexBob2000} for citing within brackets with additional text: "(Before: Bob, 2000 -After)"
+%        \citealt{bibtexBob2000} for citing without brackets: "Bob, 2000"
+%        You can put more cites in each \cite tag by separating them with commas.
+% - For equation, find every details here: https://en.wikibooks.org/wiki/LaTeX/Mathematics
+% - For titles and stuff, the hierarchy goes \section{}, \subsection{}, \subsubsection{} and so forth...
+% - For bullet points or enumerations you can use:
+%       \begin{itemize}
+%           \item my first bullet point/enumeration
+%       \end{itemize}
+%       With replacing "itemize" by "enumerate" for enumeration.
+
+
+
+
+%---------------------------------------------
+%
+%       INTRODUCTION
+%
+%---------------------------------------------
+\section{Introduction}
+
+
+
+\section{Methods}
+
+\subsection{Characters difference (CD)}
+
+\begin{equation}
+    CD = 1 - \left(\frac{\abs*{\frac{\abs*{\sum_{i}^{n}(x_{i} - y_{i})}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+\end{equation}
+
+\noindent Where $n$ is the number of taxa and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
+
+% This operation can be repeated for all the internal edges in the original tree, thus the maximum TBR can be:
+% \begin{equation}
+%     \text{Maximum TBR} = \overbrace{(n-3)}^{\text{internal edges}} \sum_{i=2}^{n-2} (2i-3)(2(n-i)-3) %TG: Check! Summation might be incorrect
+% \end{equation}
+% Where $i$ and $n-i$ corresponds respectively to the size of the smallest and biggest trees resulting from the bisection the original tree.
+
+\section{Acknowledgments}
+European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
+
+
+% \bibliographystyle{sysbio}
+% \bibliography{References}
+
+\end{document}
+
