@@ -64,14 +64,5 @@ set.correlation <- function(matrix, nchar, cor.dis) {
 
 
 char.diff <- function(X,Y) {
-    if(length(X) != length(Y)) {
-        stop("Characters have not the same length!")
-    }
-    if(class(X) != "numeric" | class(Y) != "numeric") {
-        stop("Characters are not numeric!")
-    }
-
-    abs(sum(X-Y))
-
-    return(1 - ( (abs(sum(X-Y))/length(X)-0.5)/0.5 ))
+    return(1 - ( abs(sum(abs(X-Y))/length(X)-0.5)/0.5 )) #NOT GOOD!
 }
