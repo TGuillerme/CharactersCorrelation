@@ -63,6 +63,20 @@ set.correlation <- function(matrix, nchar, cor.dis) {
 }
 
 
-char.diff <- function(X,Y) {
-    return(1 - ( abs(sum(abs(X-Y))/length(X)-0.5)/0.5 )) #NOT GOOD!
+char.diff <- function(X,Y, type = "Fitch") {
+
+    differences <- X-Y
+
+    if(type == "Fitch") {
+        #Making the differences binary
+        differences <- ifelse(differences == 0, 0, 1) 
+
+    #    return(1 - ( (sum((X-Y)/(X-Y)) / length(X) - 0.5) / 0.5 ))
+    }
+
+    return(1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ))
+
+    # if(type == "Wagner") {
+    #     return(1 - ( abs(sum(abs(X-Y))/length(X)-0.5)/0.5 ))
+    # }
 }
