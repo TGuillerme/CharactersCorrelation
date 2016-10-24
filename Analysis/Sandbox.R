@@ -135,7 +135,7 @@ expect_equal(char.diff(A,E), char.diff(A,D))
 
 # Plotting the characters differences (depending on the metric)
 ## Graphical parameters 
-op <- par(mfrow = c(1,2), bty = "n")
+op <- par(mfrow = c(2,2), bty = "n")
 
 character_differences <- unlist(lapply(list(B,C,D,E), char.diff, A))
 character_correlations <- abs(unlist(lapply(list(B,C,D,E), cor, A)))
@@ -143,6 +143,8 @@ plot(character_differences, type = "l", col = "blue", ylim = c(0,1), xaxt = "n",
 axis(1, at = 1:4, labels = c("A:B", "A:C", "A:D", "A:E"))
 lines(1-character_correlations, col = "orange")
 legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1, yjust = 1, col = c("blue", "orange"))
+
+plot(density(character_differences - (1-character_correlations)), main = "residuals")
 
 # Plotting the characters differences for 50 "random" characters
 library(dispRity) ; set.seed(12345)
@@ -160,3 +162,7 @@ sorting <- sort(character_differences, index.return = TRUE)[[2]]
 plot(character_differences[sorting], type = "l", col = "blue", ylim = c(0,1), xlab = "", ylab = "")
 lines(1-character_correlations[sorting], col = "orange")
 legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1, yjust = 1, col = c("blue", "orange"))
+
+plot(density(character_differences[sorting] - (1-character_correlations[sorting])), main = "residuals")
+
+par(op)
