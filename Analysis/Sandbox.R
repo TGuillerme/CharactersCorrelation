@@ -139,7 +139,7 @@ op <- par(mfrow = c(2,2), bty = "n")
 
 character_differences <- unlist(lapply(list(B,C,D,E), char.diff, A))
 character_correlations <- abs(unlist(lapply(list(B,C,D,E), cor, A)))
-plot(character_differences, type = "l", col = "blue", ylim = c(0,1), xaxt = "n", xlab = "", ylab = "")
+plot(character_differences, type = "l", col = "blue", ylim = c(0,1), xaxt = "n", xlab = "", ylab = "", main = "characters comparison (5x5)")
 axis(1, at = 1:4, labels = c("A:B", "A:C", "A:D", "A:E"))
 lines(1-character_correlations, col = "orange")
 legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1, yjust = 1, col = c("blue", "orange"))
@@ -147,7 +147,7 @@ legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1,
 plot(density(character_differences - (1-character_correlations)), main = "residuals")
 
 # Plotting the characters differences for 50 "random" characters
-library(dispRity) ; set.seed(12345)
+library(dispRity) ; #set.seed(0)
 # Creating the characters
 tree <- rcoal(100)
 matrix <- sim.morpho(tree, 500, rates = c(rgamma, rate = 10, shape = 5), invariant = FALSE)
@@ -159,7 +159,7 @@ character_correlations <- abs(apply(matrix[,-1], 2, cor, matrix[,1]))
 #Sort the values
 sorting <- sort(character_differences, index.return = TRUE)[[2]]
 
-plot(character_differences[sorting], type = "l", col = "blue", ylim = c(0,1), xlab = "", ylab = "")
+plot(character_differences[sorting], type = "l", col = "blue", ylim = c(0,1), xlab = "", ylab = "", main = "characters comparison (100x500)")
 lines(1-character_correlations[sorting], col = "orange")
 legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1, yjust = 1, col = c("blue", "orange"))
 
