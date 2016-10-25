@@ -166,3 +166,50 @@ legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1,
 plot(density(character_differences[sorting] - (1-character_correlations[sorting])), main = "residuals")
 
 par(op)
+
+
+# Loop that!
+library(dispRity) ; #set.seed(0)
+
+matrix_details <- list()
+characters_differences <- list()
+characters_correlations <- list()
+replicates <- 500
+for(replicate in 1:replicates) {
+    tree <- rcoal(100)
+    try(matrix <- sim.morpho(tree, 500, rates = c(rgamma, rate = 10, shape = 5), invariant = FALSE, verbose = TRUE), silent = TRUE)
+    matrix_details[[replicate]] <- c(check.morpho(matrix, tree))
+
+    matrix <- apply(matrix, 2, as.numeric)
+    character_differences <- apply(matrix[,-1], 2, char.diff, matrix[,1])
+    character_correlations <- abs(apply(matrix[,-1], 2, cor, matrix[,1]))
+
+    sorting <- sort(character_differences, index.return = TRUE)[[2]]
+    characters_differences[[replicate]] <- character_differences[sorting]
+    characters_correlations[[replicate]] <- 1-character_correlations[sorting]
+}
+
+#Store the results
+results_differences <- matrix(ncol = replicates, nrow = 499)
+results_correlations <- matrix(ncol = replicates, nrow = 499)
+for (replicate in 1:replicates) {
+    results_differences[,replicate] <- characters_differences[[replicate]]
+    results_correlations[,replicate] <- characters_correlations[[replicate]]
+}
+
+median_differences <- apply(results_differences, 1, median)
+median_correlations <- apply(results_correlations, 1, median)
+
+plot(characters_differences[[1]], type = "l", col = "lightblue", ylim = c(0,1), xlab = "", ylab = "", main = "characters comparison (100x500)")
+lines(characters_correlations[[1]], col = "yellow")
+for(replicate in 2:replicates) {
+    lines(characters_differences[[replicate]], col = "lightblue")
+    lines(characters_correlations[[replicate]], col = "yellow")
+}
+
+lines(median_differences, col = "blue")
+lines(median_correlations, col = "orange")
+legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1, yjust = 1, col = c("blue", "orange"))
+
+
+
