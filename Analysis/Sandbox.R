@@ -212,4 +212,49 @@ lines(median_correlations, col = "orange")
 legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1, yjust = 1, col = c("blue", "orange"))
 
 
+# Testing characters correlation (multistate)
+A <- c(1,2,0,0,0)
+B <- c(2,3,4,4,4)
+C <- c(0,1,2,0,0)
+D <- c(0,2,1,0,0)
+E <- c(1,2,1,0,0)
+F <- c(2,0,2,1,1)
+G <- c(1,2,2,0,0)
 
+#AB are the same
+expect_equal(char.diff(A,B), 0)
+#EF are the same
+expect_equal(char.diff(E,F), 0)
+#So AE must be equal to AF
+expect_equal(char.diff(A,E), char.diff(A,F))
+
+
+char.diff <- function(X,Y, type = "Fitch") {
+
+    #Needs to reorder the character to have the first token being 1, second being 2, etc...
+
+    #Transform states into similar values
+    normalise.character <- function(X) {
+        #Get the states of X
+        states <- as.numeric(levels(as.factor(X)))
+        #Modify the original states 
+        for(state in 1:length(states)) {
+            X <- as.numeric(gsub(states[state], state-1, X))
+        }
+        return(X)
+    }
+
+    X <- normalise.character(X)
+    Y <- normalise.character(Y)
+
+    #Calculate the differences
+    differences <- X-Y
+
+    if(type == "Fitch") {
+        #Make the differences binary (i.e. if the difference is != 0, set to 1)
+        differences <- ifelse(differences != 0, 1, 0)
+    }
+
+    #Calculate the difference
+    return(1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ))
+}
