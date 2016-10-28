@@ -62,10 +62,6 @@ set.correlation <- function(matrix, nchar, cor.dis) {
     return(NULL)
 }
 
-
-
-
-
 char.diff <- function(X,Y, type = "Fitch") {
 
     differences <- X-Y
@@ -166,6 +162,63 @@ legend("topleft", legend = c("Difference", "1-Correlation"), lty = 1, xjust = 1,
 plot(density(character_differences[sorting] - (1-character_correlations[sorting])), main = "residuals")
 
 par(op)
+
+
+# Correlation profiles
+correlation.matrix <- function(matrix, diff.fun, verbose = TRUE) {
+
+    apply.diff.fun <- function(x, verbose, diff.fun) {
+        diff.fun(matrix[,x[1]], matrix[,x[2]])
+        if(verbose != FALSE) {
+            cat(".")
+        }
+    }
+
+    if(verbose) {
+        cat("Calculating the pairwise characters differences: ")
+    }
+    #Get the combination matrix
+    comb_matrix <- combn(1:ncol(matrix), 2)
+
+    #calculating the pairwise differences
+    differences <- apply(comb_matrix, 2, apply.diff.fun, verbose = verbose, diff.fun = diff.fun)
+
+    if(verbose) {
+        cat("Done.")
+    }
+
+    # Create the empty matrix
+    differences_matrix <- matrix(data = NA, ncol = ncol(matrix), nrow = ncol(matrix))
+    # Set up the diagonal (no difference)
+    diag(differences_matrix) <- diff.fun(matrix[,1], matrix[,1])
+    # Fill up the lower triangle
+    differences_matrix[lower.tri(differences_matrix, diag = FALSE)] <- differences
+
+    return(differences_matrix)
+}
+
+pairwise_matrix <- correlation.matrix(matrix, char.diff, verbose = TRUE)
+
+plot.pairwise.matrix <- function(matrix, col = c("blue", "orange"), legend = TRUE, legend.title = "Difference", axis = TRUE, ...) {
+
+    #Setting the colours
+    colfunc<-colorRampPalette(col)
+    colheat<-colfunc(10)
+
+    #Plotting the heat map
+    image(pairwise_matrix, col = colheat, axes = FALSE, ...)
+    if(axis) {
+        axis(1, at = seq(from = 0, to = 1, length.out = ncol(matrix)), labels = FALSE, tick = TRUE)
+        axis(2, at = seq(from = 0, to = 1, length.out = ncol(matrix)), labels = FALSE, tick = TRUE)
+    }
+
+    #Adding the legend
+    if(legend) {
+    legend("topleft", legend = c(as.character(round(max(pairwise_matrix, na.rm = TRUE), 2)), as.character(round(min(pairwise_matrix, na.rm = TRUE), 2))), title = legend.title, col = col, pch = 19)
+    }
+}
+
+plot.pairwise.matrix(pairwise_matrix)
 
 
 # Loop that!
