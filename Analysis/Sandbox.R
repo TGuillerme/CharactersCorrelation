@@ -167,11 +167,12 @@ par(op)
 # Correlation profiles
 correlation.matrix <- function(matrix, diff.fun, verbose = TRUE) {
 
-    apply.diff.fun <- function(x, verbose, diff.fun) {
-        diff.fun(matrix[,x[1]], matrix[,x[2]])
+    apply.diff.fun <- function(x, matrix, verbose, diff.fun) {
+        difference <- diff.fun(matrix[,x[1]], matrix[,x[2]])
         if(verbose != FALSE) {
             cat(".")
         }
+        return(difference)
     }
 
     if(verbose) {
@@ -181,7 +182,7 @@ correlation.matrix <- function(matrix, diff.fun, verbose = TRUE) {
     comb_matrix <- combn(1:ncol(matrix), 2)
 
     #calculating the pairwise differences
-    differences <- apply(comb_matrix, 2, apply.diff.fun, verbose = verbose, diff.fun = diff.fun)
+    differences <- apply(comb_matrix, 2, apply.diff.fun, matrix = matrix, verbose = verbose, diff.fun = diff.fun)
 
     if(verbose) {
         cat("Done.")
@@ -197,7 +198,15 @@ correlation.matrix <- function(matrix, diff.fun, verbose = TRUE) {
     return(differences_matrix)
 }
 
-pairwise_matrix <- correlation.matrix(matrix, char.diff, verbose = TRUE)
+matrix <- apply(matrix, 2, as.numeric)
+pairwise_matrix_difference <- correlation.matrix(matrix, char.diff, verbose = TRUE)
+
+cor.fun <- function(x,y, ...) {
+    return(1-abs(cor(x,y, ...)))
+}
+
+pairwise_matrix_correlation <- correlation.matrix(matrix, cor.fun, verbose = TRUE)
+
 
 plot.pairwise.matrix <- function(matrix, col = c("blue", "orange"), legend = TRUE, legend.title = "Difference", axis = TRUE, ...) {
 
@@ -206,7 +215,7 @@ plot.pairwise.matrix <- function(matrix, col = c("blue", "orange"), legend = TRU
     colheat<-colfunc(10)
 
     #Plotting the heat map
-    image(pairwise_matrix, col = colheat, axes = FALSE, ...)
+    image(matrix, col = colheat, axes = FALSE, ...)
     if(axis) {
         axis(1, at = seq(from = 0, to = 1, length.out = ncol(matrix)), labels = FALSE, tick = TRUE)
         axis(2, at = seq(from = 0, to = 1, length.out = ncol(matrix)), labels = FALSE, tick = TRUE)
@@ -214,12 +223,17 @@ plot.pairwise.matrix <- function(matrix, col = c("blue", "orange"), legend = TRU
 
     #Adding the legend
     if(legend) {
-    legend("topleft", legend = c(as.character(round(max(pairwise_matrix, na.rm = TRUE), 2)), as.character(round(min(pairwise_matrix, na.rm = TRUE), 2))), title = legend.title, col = col, pch = 19)
+    legend("topleft", legend = c(as.character(round(max(matrix, na.rm = TRUE), 2)), as.character(round(min(matrix, na.rm = TRUE), 2))), title = legend.title, col = col, pch = 19)
     }
 }
 
-plot.pairwise.matrix(pairwise_matrix)
-
+op <- par(mfrow = c(2,2), bty = "n")
+plot.pairwise.matrix(pairwise_matrix_difference, main = "Difference score")
+plot.pairwise.matrix(pairwise_matrix_correlation, main = "Correlation score")
+pairwise_difference <- pairwise_matrix_difference-pairwise_matrix_correlation
+plot.pairwise.matrix(pairwise_difference, main = "Differences between both")
+plot(density(as.vector(pairwise_difference)[-which(is.na(as.vector(pairwise_difference)))]), main = "Differences distribution")
+par(op)
 
 # Loop that!
 library(dispRity) ; #set.seed(0)
