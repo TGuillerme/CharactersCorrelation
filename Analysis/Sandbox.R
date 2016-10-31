@@ -292,22 +292,40 @@ G <- c(1,2,2,0,0)
 expect_equal(char.diff(A,B), 0)
 #EF are the same
 expect_equal(char.diff(E,F), 0)
-#So AE must be equal to AF
+#So AE must be equal to AF (triangle equality!)
 expect_equal(char.diff(A,E), char.diff(A,F))
 
 
 char.diff <- function(X,Y, type = "Fitch") {
 
-    #Needs to reorder the character to have the first token being 1, second being 2, etc...
+    #Convert character
+    convert.character <- function(X) {
+        if(class(X) == "numeric") {
+            X <- LETTERS[X+1]
+        } else {
+            X <- as.factor(X)
+            levels(X) <- 1:length(levels(X))
+            X <- as.numeric(X)
+        }
+        return(X)
+    }
 
     #Transform states into similar values
     normalise.character <- function(X) {
+        #Convert X to character
+        if(class(X) != "numeric") {
+            X <- convert.character(X)
+        }
+        X <- as.character(X)
         #Get the states of X
         states <- as.numeric(levels(as.factor(X)))
-        #Modify the original states 
+        states_match <- sort(match(states, X))
+
+        #Replacing the original states
         for(state in 1:length(states)) {
-            X <- as.numeric(gsub(states[state], state-1, X))
+            X <- gsub(X[states_match[state]], LETTERS[state], X)
         }
+        X <- convert.character(X)
         return(X)
     }
 
