@@ -3,7 +3,7 @@
 #' @description Plots the correlation matrix.
 #'
 #' @param X,Y Two morphological characters.
-#' @param type How to count characters difference: \code{"Fitch"} (default) or \code{"Wagner"}.
+##' @param type How to count characters difference: \code{"Fitch"} (default) or \code{"Wagner"}.
 #' 
 #' @details
 #' \code{type}: \code{"Fitch"} counts any differences as \code{1}; \code{"Wagner"} counts the actual difference in terms of distance.
@@ -16,7 +16,7 @@
 #' @export
 #' 
 
-char.diff <- function(X,Y, type = "Fitch") {
+char.diff <- function(X,Y){ #, type = "Fitch") {
 
     # Convert character
     convert.character <- function(X) {
@@ -57,7 +57,7 @@ char.diff <- function(X,Y, type = "Fitch") {
         differences <- ifelse(X-Y != 0, 1, 0)
 
         # Calculate the difference
-        return(1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ))
+        return( round( 1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ), digit = 10))
     } else {
         # Normalise the characters
         X <- normalise.character(X, states_X)
@@ -66,12 +66,15 @@ char.diff <- function(X,Y, type = "Fitch") {
         # Calculate the differences
         differences <- X-Y        
 
+        #Default fitch for now.
+        type <- "Fitch"
+
         if(type == "Fitch") {
             # Make the differences binary (i.e. if the difference is != 0, set to 1)
             differences <- ifelse(differences != 0, 1, 0)
         }
 
         # Get the characters difference
-        return(1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ))       
+        return( round( 1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ), digit = 10))
     }
 }
