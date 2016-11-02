@@ -3,11 +3,9 @@
 #' @description Plots the correlation matrix.
 #'
 #' @param X,Y Two morphological characters.
-##' @param type How to count characters difference: \code{"Fitch"} (default) or \code{"Wagner"}.
 #' 
 #' @details
-#' \code{type}: \code{"Fitch"} counts any differences as \code{1}; \code{"Wagner"} counts the actual difference in terms of distance.
-#' For example, the \code{"Fitch"} distance between two character states \code{0} and \code{2} is \code{1}; the \code{"Wagner"} distance is \code{3}.
+#' \emph{unknown differences}: when unknown tokens are found ("?"), character state are replaced by a new state not observed (this maximises difference between characters).
 #' 
 #' @examples
 #' ##
@@ -16,16 +14,22 @@
 #' @export
 #' 
 
-char.diff <- function(X,Y){ #, type = "Fitch") {
+# TODO: deal with '&' characters
+# TODO: deal with '?' and a minimising algorithm
+
+
+char.diff <- function(X,Y){ 
 
     # Convert character
     convert.character <- function(X) {
         if(class(X) == "numeric") {
             X <- LETTERS[X+1]
         } else {
-            X <- as.factor(X)
-            levels(X) <- 1:length(levels(X))
-            X <- as.numeric(X)
+            #if(unknown.difference == "max") {
+                X <- as.factor(X)
+                levels(X) <- 1:length(levels(X))
+                X <- as.numeric(X)
+            #}
         }
         return(X)
     }
@@ -46,6 +50,14 @@ char.diff <- function(X,Y){ #, type = "Fitch") {
         }
         X <- convert.character(X)
         return(X)
+    }
+
+    # Convert the characters to numeric (if needed)
+    if(class(X) != "numeric") {
+        X <- convert.character(X)
+    }
+    if(class(Y) != "numeric") {
+        Y <- convert.character(Y)
     }
 
     # Check if characters are binary
