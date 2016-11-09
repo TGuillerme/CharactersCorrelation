@@ -3,9 +3,11 @@
 #' @description Plots the correlation matrix.
 #'
 #' @param X,Y Two morphological characters.
+#' @param missing The algorithm to deal with missing characters. Either \code{"Max"} or \code{"Gower"}. See details.
 #' 
 #' @details
-#' \emph{unknown differences}: when unknown tokens are found ("?"), character state are replaced by a new state not observed (this maximises difference between characters).
+#' \code{missing = "Max"} maximises the difference between two characters by counting the missing character states tokens (\code{"?"}) as a separate state. In this scenario the difference between \code{A = c(0,1,1,1)} and \code{B = c(0,0,?,?)} is always maximise.
+#' \code{missing = "Gower"} uses a Gower (1966) like character comparisons: only the comparable characters states are used. In the same example as above, only \code{A = c(0,1)} and \code{B = c(0,0)} will be used.
 #' 
 #' @examples
 #' ##
@@ -13,23 +15,36 @@
 #' @author Thomas Guillerme
 #' @export
 #' 
+#Gower J.C. 1966. Some distance properties of latent root and vector methods used in multivariate analysis. Biometrika 53:325–338.
+
 
 # TODO: deal with '&' characters
 # TODO: deal with '?' and a minimising algorithm
 
 
-char.diff <- function(X,Y){ 
+char.diff <- function(X,Y, missing = "Max"){ 
 
     # Convert character
     convert.character <- function(X) {
         if(class(X) == "numeric") {
             X <- LETTERS[X+1]
         } else {
-            #if(unknown.difference == "max") {
+            if(missing == "Max") {
                 X <- as.factor(X)
                 levels(X) <- 1:length(levels(X))
                 X <- as.numeric(X)
-            #}
+            } else {
+                options(warn = -1)
+                X <- as.numeric(X)
+                X_NA <- which(is.na(X))
+                if(length(X_NA) != 0) {
+                    NAs <<- X_NA
+                    X <- X[-X_NA]
+                } else {
+                    NAs <<- NULL
+                }
+                options(warn = 0)
+            }
         }
         return(X)
     }
@@ -52,12 +67,35 @@ char.diff <- function(X,Y){
         return(X)
     }
 
+    # Set up missing (if needed)
+    if(missing != "Max") {
+        NA_remove <- NULL
+    }
+
     # Convert the characters to numeric (if needed)
     if(class(X) != "numeric") {
         X <- convert.character(X)
+        if(missing != "Max") {
+            NA_remove <- c(NA_remove, NAs)
+        }
     }
     if(class(Y) != "numeric") {
         Y <- convert.character(Y)
+        if(missing != "Max") {
+            NA_remove <- c(NA_remove, NAs)
+        }
+    }
+
+    # Remove non-comparable (if needed)
+    if(missing != "Max") {
+        if(length(NA_remove) != 0) {
+            if(length(NA_remove) < length(X)) {
+                X <- X[-NA_remove]
+                Y <- Y[-NA_remove]
+            } else {
+                return(NA)
+            }
+        }
     }
 
     # Check if characters are binary
@@ -76,17 +114,22 @@ char.diff <- function(X,Y){
         Y <- normalise.character(Y, states_Y)
 
         # Calculate the differences
-        differences <- X-Y        
+        differences <- X-Y
 
         #Default fitch for now.
-        type <- "Fitch"
+        #type <- "Fitch"
 
-        if(type == "Fitch") {
+        #if(type == "Fitch") {
             # Make the differences binary (i.e. if the difference is != 0, set to 1)
             differences <- ifelse(differences != 0, 1, 0)
-        }
+        #}
 
         # Get the characters difference
         return( round( 1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ), digit = 10))
     }
 }
+
+
+
+# https://github.com/wch/r-source/tree/e5b21d0397c607883ff25cca379687b86933d730/src/library/stats/src
+# http://stackoverflow.com/questions/36829700/rcpp-my-distance-matrix-program-is-slower-than-the-function-in-package
