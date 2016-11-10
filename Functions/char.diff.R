@@ -22,6 +22,64 @@
 # TODO: deal with '?' and a minimising algorithm
 
 
+dyn.load("char.diff.so")
+
+
+char.diff.C <- function (x, method = "Gower")  {
+
+    ## Convert character
+    convert.character <- function(X) {
+        if(class(X) == "numeric") {
+            X <- LETTERS[X+1]
+        } else {
+            X <- as.factor(X)
+            levels(X) <- 1:length(levels(X))
+            X <- as.numeric(X)
+        }
+        return(X)
+    }
+
+    ## Transform states into similar values
+    normalise.character <- function(X) {
+        ## Get the present states
+        states <- as.numeric(levels(as.factor(X)))
+        ## Get the states of X
+        states_match <- sort(match(states, X))
+
+        ## Replacing the original states
+        for(state in 1:length(states)) {
+            X <- gsub(X[states_match[state]], LETTERS[state], X)
+        }
+
+        X <- convert.character(X)
+        
+        return(X)
+    }
+
+    ## Options to remove:
+    diag = FALSE
+    upper = FALSE
+    p = 2
+
+    ## Getting the matrix parameters
+    x <- apply(x, 2, normalise.character)
+    x <- t(x)
+    N <- nrow(x)
+    
+    ## Setting the attributes
+    attrs <- list(Size = N, Labels = dimnames(x)[[1L]], Diag = diag, Upper = upper, method = method, call = match.call(),  class = "dist")
+
+    ## Running the C distance code
+    options(warn = -1)
+    output <- as.matrix(.Call("CharDiff", x, method, attrs, p))
+    options(warn = 0)
+
+    ## Calculating the character difference
+    return(round( 1 - ( abs(output-0.5)/0.5 ), digit = 10))
+}
+
+
+
 char.diff <- function(X,Y, missing = "Max"){ 
 
     # Convert character
@@ -128,8 +186,6 @@ char.diff <- function(X,Y, missing = "Max"){
         return( round( 1 - ( abs(sum(abs(differences))/length(X)-0.5)/0.5 ), digit = 10))
     }
 }
-
-
 
 # https://github.com/wch/r-source/tree/e5b21d0397c607883ff25cca379687b86933d730/src/library/stats/src
 # http://stackoverflow.com/questions/36829700/rcpp-my-distance-matrix-program-is-slower-than-the-function-in-package
