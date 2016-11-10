@@ -18,18 +18,21 @@
 
 plot.cor.matrix <- function(matrix, col = c("blue", "orange"), legend = TRUE, legend.title = "Difference", axis = TRUE, ...) {
 
-    #Setting the colours
+    ## Remove the upper triangle
+    matrix[upper.tri(matrix)] <- NA
+
+    ## Setting the colours
     colfunc <- grDevices::colorRampPalette(col)
     colheat <- colfunc(10)
 
-    #Plotting the heat map
+    ## Plotting the heat map
     image(matrix, col = colheat, axes = FALSE, ...)
     if(axis) {
         axis(1, at = seq(from = 0, to = 1, length.out = ncol(matrix)), labels = FALSE, tick = TRUE)
         axis(2, at = seq(from = 0, to = 1, length.out = ncol(matrix)), labels = FALSE, tick = TRUE)
     }
 
-    #Adding the legend
+    ## Adding the legend
     if(legend) {
         legend("topleft", legend = c(as.character(round(max(matrix, na.rm = TRUE), 2)), as.character(round(min(matrix, na.rm = TRUE), 2))), title = legend.title, col = col, pch = 19)
     }
