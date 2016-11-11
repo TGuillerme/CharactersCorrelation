@@ -59,10 +59,10 @@ char.diff.C <- function (x, method = "Gower")  {
     ## Options to remove:
     diag = FALSE
     upper = FALSE
-    p = 2
+    #p = 2
 
     ## Getting the matrix parameters
-    x <- apply(x, 2, normalise.character)
+    #x <- apply(x, 2, normalise.character)
     x <- t(x)
     N <- nrow(x)
     
@@ -71,7 +71,7 @@ char.diff.C <- function (x, method = "Gower")  {
 
     ## Running the C distance code
     options(warn = -1)
-    output <- as.matrix(.Call("CharDiff", x, method, attrs, p))
+    output <- as.matrix(.Call("CharDiff", x, method, attrs))
     options(warn = 0)
 
     ## Calculating the character difference
@@ -80,29 +80,16 @@ char.diff.C <- function (x, method = "Gower")  {
 
 
 
-char.diff <- function(X,Y, missing = "Max"){ 
+char.diff <- function(X,Y){ 
 
     # Convert character
     convert.character <- function(X) {
         if(class(X) == "numeric") {
             X <- LETTERS[X+1]
         } else {
-            if(missing == "Max") {
-                X <- as.factor(X)
-                levels(X) <- 1:length(levels(X))
-                X <- as.numeric(X)
-            } else {
-                options(warn = -1)
-                X <- as.numeric(X)
-                X_NA <- which(is.na(X))
-                if(length(X_NA) != 0) {
-                    NAs <<- X_NA
-                    X <- X[-X_NA]
-                } else {
-                    NAs <<- NULL
-                }
-                options(warn = 0)
-            }
+            X <- as.factor(X)
+            levels(X) <- 1:length(levels(X))
+            X <- as.numeric(X)
         }
         return(X)
     }
@@ -125,35 +112,24 @@ char.diff <- function(X,Y, missing = "Max"){
         return(X)
     }
 
-    # Set up missing (if needed)
-    if(missing != "Max") {
-        NA_remove <- NULL
-    }
-
     # Convert the characters to numeric (if needed)
     if(class(X) != "numeric") {
         X <- convert.character(X)
-        if(missing != "Max") {
-            NA_remove <- c(NA_remove, NAs)
-        }
     }
     if(class(Y) != "numeric") {
         Y <- convert.character(Y)
-        if(missing != "Max") {
-            NA_remove <- c(NA_remove, NAs)
-        }
     }
 
-    # Remove non-comparable (if needed)
-    if(missing != "Max") {
-        if(length(NA_remove) != 0) {
-            if(length(NA_remove) < length(X)) {
-                X <- X[-NA_remove]
-                Y <- Y[-NA_remove]
-            } else {
-                return(NA)
-            }
-        }
+    # Remove any uncomparable characters
+    na_X <- which(is.na(X))
+    na_Y <- which(is.na(Y))
+    if(length(c(na_X, na_Y)) > 0) {
+        X <- X[-c(na_X, na_Y)]
+        Y <- Y[-c(na_X, na_Y)]
+    }
+    
+    if(length(X) == 0) {
+        return(NA)
     }
 
     # Check if characters are binary
