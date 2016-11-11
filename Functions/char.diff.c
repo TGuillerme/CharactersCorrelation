@@ -84,60 +84,38 @@ static double R_Gower(double *x, int nr, int nc, int i1, int i2)
 }
 
 
-// // Convert character into number
-// double character_to_numeric(char c)
-// {
-//     double n = -1;
-//     static const char * const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//     char *p = strchr(alphabet, (unsigned char)c);
+// Convert character into number
+double character_to_numeric(char c)
+{
+    double n = -1;
+    static const char * const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char *p = strchr(alphabet, (unsigned char)c);
 
-//     if (p) {
-//         n = p - alphabet;
-//     }
+    if (p) {
+        n = p - alphabet;
+    }
 
-//     return n;
-// }
-
-
-
-// int get_uniques(int *vector) {
-
-//     int i, j, n, size;
-//     size = 4;
-//     int unique[size];
-
-//     n = 0;
-//     for (i = 0; i < size; ++i) {
-//         for (j = 0; j < n; ++j) {
-//             if (!strcmp(vector[i], vector[unique[j]]))
-//                break;
-//         }
-
-//         if (j == n)
-//             unique[n++] = i;
-//     }
-
-//     return unique;
-// }
+    return n;
+}
 
 
 // Calculating the Gower character distance
 static double Normalise_characters(double *x, int nr, int nc, int i1, int i2)
 {
     double diff, dist, vector1[nc], vector2[nc], normalised_char[nc*2];
-    int count, j, k, element;
+    int count, i, j, k, element;
     char vector_char1[nc], vector_char2[nc], element_char;
     char alphabet[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','\0'};
 
     //Initialise the values
     count= 0;
     dist = 0;
-    //Loop through the differences
-    printf("Number of columns is %i:\n", nc);
 
+    //Isolating the two comparable characters
+    printf("\n");
     for(j = 0 ; j < nc ; j++) {
         if(both_non_NA(x[i1], x[i2])) {
-            printf("i1 = %f - i2 = %f\n", x[i1], x[i2]);
+            printf("c1 = %f - c2 = %f\n", x[i1], x[i2]);
             
             // Create the vectors
             vector1[count] = x[i1];
@@ -150,30 +128,26 @@ static double Normalise_characters(double *x, int nr, int nc, int i1, int i2)
         i2 += nr;
     }
 
-    // Transform characters into the vector // Need to find the unique elements first!
+    // Getting each unique element of the vector and translating them into standardised characters
+    element = 0;
 
-    // double* elements[];
-    // int element;
-    // elements = get_uniques(vector1);
-    // element = sizeof(elements)/sizeof(elements[0])
+    for (i = 0; i < count; ++i) {
+        for (j = 0; j < i; ++j) {
+            if (vector1[i] == vector1[j])
+               break;
+        }
 
-    // printf("Unique elements are:\n")
-    // for(k = 0; k < element; k++) {
-    //     printf("%f ", elements[element])
-    // }   
-
-
-    for(element = 0; element < count; element++){
-        
-        //Find unique elements!
-       
-        element_char = alphabet[element];
-        printf("Converting the value %f into %c;\n", vector1[element], element_char);
-        
-        for(k = 0; k < count; k++) {
-            if(vector1[k] == vector1[element]) {
-                vector_char1[k] = element_char;
+        if (i == j) {
+            // If encountering unique characters, attribute the first letter of the alphabet and so on
+            element_char = alphabet[element];
+            printf("Converting the value %f into %c;\n", vector1[i], element_char);
+            for(k = 0; k < count; k++) {
+                if(vector1[k] == vector1[i]) {
+                    vector_char1[k] = element_char;
+                    printf("Position %i (value %f) -> %c.\n", k, vector1[k], element_char);
+                }
             }
+            element ++;
         }
     }
 
@@ -182,27 +156,45 @@ static double Normalise_characters(double *x, int nr, int nc, int i1, int i2)
         printf("%c ", vector_char1[k]);
     }
 
-
-    //Combine the vectors
-    printf("Making a single vector");
-    for(k = 0; k < count; k++) {
-        normalised_char[k] = vector1[k];
-    }
-    printf(" of %i elements", k);
-    for(k = count; k < count*2; k++) {
-        normalised_char[k] = vector2[k-count];
-    }
-
-    // Printing the two vectors
-    printf("\nThe two vectors are:\n");
+    // Transforming the character back to numeric (double)
+    printf("Reconverting to numeric:\n");
     for(k = 0; k < count ; k++) {
-        printf("%f ", normalised_char[k]);
+        vector1[k] = character_to_numeric(vector_char1[k]);
     }
-    printf("\nAnd \n");
-    for(k = count; k < count*2 ; k++) {
-        printf("%f ", normalised_char[k]);
+
+    printf("Resulting in vector:\n");
+    for(k = 0; k < count ; k++) {
+        printf("%f ", vector1[k]);
     }
+
+
     printf("\n");
+
+
+    // Logic for combining the two vectors (and handle a single output)
+
+    // //Combine the vectors
+    // printf("Making a single vector");
+    // for(k = 0; k < count; k++) {
+    //     normalised_char[k] = vector1[k]; // Creating a single vector
+    // }
+    // printf(" of %i elements", k);
+    // for(k = count; k < count*2; k++) {
+    //     normalised_char[k] = vector2[k-count]; // Adding the next vector to it
+    // }
+
+    // Logic for differentiating the two vectors
+
+    // // Printing the two vectors
+    // printf("\nThe two vectors are:\n");
+    // for(k = 0; k < count ; k++) {
+    //     printf("%f ", normalised_char[k]);
+    // }
+    // printf("\nAnd \n");
+    // for(k = count; k < count*2 ; k++) {
+    //     printf("%f ", normalised_char[k]);
+    // }
+    // printf("\n");
 
     return dist;
 }
