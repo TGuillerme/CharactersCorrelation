@@ -51,13 +51,13 @@ static double R_Gower_old(double *x, int nr, int nc, int i1, int i2)
     count= 0;
     dist = 0;
     //Loop through the differences
-    printf("Count differences:\n");
+    //printf("Count differences:\n");
 
     // Normalise character here?
 
     for(j = 0 ; j < nc ; j++) {
         if(both_non_NA(x[i1], x[i2])) {
-            printf("i1 = %f - i2 = %f\n", x[i1], x[i2]);
+            //printf("i1 = %f - i2 = %f\n", x[i1], x[i2]);
             //Count the absolute difference
             diff = fabs(x[i1] - x[i2]);
             //Normalise the difference (Fitch like)
@@ -78,7 +78,7 @@ static double R_Gower_old(double *x, int nr, int nc, int i1, int i2)
         return NA_REAL;
     } else {
         dist = dist/count;
-        printf("Distance = %f\n", dist);
+        //printf("Distance = %f\n", dist);
         return dist;
     }
 }
@@ -117,35 +117,35 @@ void Normalise_single_character(double *vector, int count) {
         if (i == j) {
             // If encountering unique characters, attribute the first letter of the alphabet and so on
             element_char = alphabet[element];
-            printf("Converting the value %f into %c;\n", vector[i], element_char);
+            //printf("Converting the value %f into %c;\n", vector[i], element_char);
             for(k = 0; k < count; k++) {
                 if(vector[k] == vector[i]) {
                     vector_char[k] = element_char;
-                    printf("Position %i (value %f) -> %c.\n", k, vector[k], element_char);
+                    //printf("Position %i (value %f) -> %c.\n", k, vector[k], element_char);
                 }
             }
             element ++;
         }
     }
 
-    printf("Resulting in vector:\n");
+    //printf("Resulting in vector:\n");
     for(k = 0; k < count ; k++) {
-        printf("%c ", vector_char[k]);
+        //printf("%c ", vector_char[k]);
     }
-    printf("\n");
+    //printf("\n");
 
     // Transforming the character back to numeric (double)
-    printf("Reconverting to numeric...");
+    //printf("Reconverting to numeric...");
     for(k = 0; k < count ; k++) {
         vector[k] = character_to_numeric(vector_char[k]);
     }
 
-    printf("Resulting in vector:\n");
+    //printf("Resulting in vector:\n");
     for(k = 0; k < count ; k++) {
-        printf("%f ", vector[k]);
+        //printf("%f ", vector[k]);
     }
 
-    printf("\n");
+    //printf("\n");
 }
 
 
@@ -153,17 +153,17 @@ void Normalise_single_character(double *vector, int count) {
 static double R_Gower(double *x, int nr, int nc, int i1, int i2)
 {
     double diff, dist, vector1[nc], vector2[nc];
-    int count, i, j, k;
+    int count, i, k;
 
     //Initialise the values
     count= 0;
     dist = 0;
 
     //Isolating the two comparable characters
-    printf("Character decomposition:\n");
-    for(j = 0 ; j < nc ; j++) {
+    //printf("Character decomposition:\n");
+    for(i = 0 ; i < nc ; i++) {
         if(both_non_NA(x[i1], x[i2])) {
-            printf("c1 = %f - c2 = %f\n", x[i1], x[i2]);
+            //printf("c1 = %f - c2 = %f\n", x[i1], x[i2]);
             
             // Create the vectors
             vector1[count] = x[i1];
@@ -176,15 +176,15 @@ static double R_Gower(double *x, int nr, int nc, int i1, int i2)
         i2 += nr;
     }
 
-    printf("\nNormalising the first character:\n");
+    //printf("\nNormalising the first character:\n");
 
     // Normalising the characters
     Normalise_single_character(vector1, count);
 
-    printf("\nNormalising the second character:\n");
+    //printf("\nNormalising the second character:\n");
     Normalise_single_character(vector2, count);
 
-    printf("\nMoving to next character...\n");
+    //printf("\nMoving to next character...\n");
 
     for(k = 0 ; k < count ; k++) {
          diff = fabs(vector1[k] - vector2[k]);
@@ -202,7 +202,7 @@ static double R_Gower(double *x, int nr, int nc, int i1, int i2)
         return NA_REAL;
     } else {
         dist = dist/count;
-        printf("Distance = %f\n", dist);
+        //printf("Distance = %f\n", dist);
         return dist;
     }
 }
