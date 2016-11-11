@@ -51,8 +51,13 @@ static double R_Gower(double *x, int nr, int nc, int i1, int i2)
     count= 0;
     dist = 0;
     //Loop through the differences
+    printf("Count differences:\n");
+
+    // Normalise character here?
+
     for(j = 0 ; j < nc ; j++) {
         if(both_non_NA(x[i1], x[i2])) {
+            printf("i1 = %f - i2 = %f\n", x[i1], x[i2]);
             //Count the absolute difference
             diff = fabs(x[i1] - x[i2]);
             //Normalise the difference (Fitch like)
@@ -73,37 +78,140 @@ static double R_Gower(double *x, int nr, int nc, int i1, int i2)
         return NA_REAL;
     } else {
         dist = dist/count;
+        printf("Distance = %f\n", dist);
         return dist;
     }
 }
 
-static double R_minkowski(double *x, int nr, int nc, int i1, int i2, double p)
-{
-    double dev, dist;
-    int count, j;
 
+// // Convert character into number
+// double character_to_numeric(char c)
+// {
+//     double n = -1;
+//     static const char * const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//     char *p = strchr(alphabet, (unsigned char)c);
+
+//     if (p) {
+//         n = p - alphabet;
+//     }
+
+//     return n;
+// }
+
+
+
+// int get_uniques(int *vector) {
+
+//     int i, j, n, size;
+//     size = 4;
+//     int unique[size];
+
+//     n = 0;
+//     for (i = 0; i < size; ++i) {
+//         for (j = 0; j < n; ++j) {
+//             if (!strcmp(vector[i], vector[unique[j]]))
+//                break;
+//         }
+
+//         if (j == n)
+//             unique[n++] = i;
+//     }
+
+//     return unique;
+// }
+
+
+// Calculating the Gower character distance
+static double Normalise_characters(double *x, int nr, int nc, int i1, int i2)
+{
+    double diff, dist, vector1[nc], vector2[nc], normalised_char[nc*2];
+    int count, j, k, element;
+    char vector_char1[nc], vector_char2[nc], element_char;
+    char alphabet[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','\0'};
+
+    //Initialise the values
     count= 0;
     dist = 0;
+    //Loop through the differences
+    printf("Number of columns is %i:\n", nc);
+
     for(j = 0 ; j < nc ; j++) {
-    if(both_non_NA(x[i1], x[i2])) {
-        dev = (x[i1] - x[i2]);
-        if(!ISNAN(dev)) {
-        dist += R_pow(fabs(dev), p);
-        count++;
+        if(both_non_NA(x[i1], x[i2])) {
+            printf("i1 = %f - i2 = %f\n", x[i1], x[i2]);
+            
+            // Create the vectors
+            vector1[count] = x[i1];
+            vector2[count] = x[i2];
+
+            //Increment the counter
+            count++;
+        }
+        i1 += nr;
+        i2 += nr;
+    }
+
+    // Transform characters into the vector // Need to find the unique elements first!
+
+    // double* elements[];
+    // int element;
+    // elements = get_uniques(vector1);
+    // element = sizeof(elements)/sizeof(elements[0])
+
+    // printf("Unique elements are:\n")
+    // for(k = 0; k < element; k++) {
+    //     printf("%f ", elements[element])
+    // }   
+
+
+    for(element = 0; element < count; element++){
+        
+        //Find unique elements!
+       
+        element_char = alphabet[element];
+        printf("Converting the value %f into %c;\n", vector1[element], element_char);
+        
+        for(k = 0; k < count; k++) {
+            if(vector1[k] == vector1[element]) {
+                vector_char1[k] = element_char;
+            }
         }
     }
-    i1 += nr;
-    i2 += nr;
+
+    printf("Resulting in vector:\n");
+    for(k = 0; k < count ; k++) {
+        printf("%c ", vector_char1[k]);
     }
-    if(count == 0) return NA_REAL;
-    if(count != nc) dist /= ((double)count/nc);
-    return R_pow(dist, 1.0/p);
+
+
+    //Combine the vectors
+    printf("Making a single vector");
+    for(k = 0; k < count; k++) {
+        normalised_char[k] = vector1[k];
+    }
+    printf(" of %i elements", k);
+    for(k = count; k < count*2; k++) {
+        normalised_char[k] = vector2[k-count];
+    }
+
+    // Printing the two vectors
+    printf("\nThe two vectors are:\n");
+    for(k = 0; k < count ; k++) {
+        printf("%f ", normalised_char[k]);
+    }
+    printf("\nAnd \n");
+    for(k = count; k < count*2 ; k++) {
+        printf("%f ", normalised_char[k]);
+    }
+    printf("\n");
+
+    return dist;
 }
 
-enum { GOWER=1, MINKOWSKI};
+
+enum { GOWER=1};
 /* == 1,2,..., defined by order in the R function dist */
 
-void R_distance(double *x, int *nr, int *nc, double *d, int *diag, int *method, double *p)
+void R_distance(double *x, int *nr, int *nc, double *d, int *diag, int *method)
 {
     int dc, i, j;
     size_t  ij;  /* can exceed 2^31 - 1 */
@@ -113,7 +221,7 @@ void R_distance(double *x, int *nr, int *nc, double *d, int *diag, int *method, 
 #ifdef _OPENMP
     int nthreads;
 #endif
-    distfun = R_Gower;
+    distfun = Normalise_characters;
 
     dc = (*diag) ? 0 : 1; /* diag=1:  we do the diagonal */
 
@@ -128,9 +236,7 @@ void R_distance(double *x, int *nr, int *nc, double *d, int *diag, int *method, 
     ij = 0;
     for(j = 0 ; j <= *nr ; j++)
         for(i = j+dc ; i < *nr ; i++)
-        d[ij++] = (*method != MINKOWSKI) ?
-            distfun(x, *nr, *nc, i, j) :
-            R_minkowski(x, *nr, *nc, i, j, *p);
+        d[ij++] = distfun(x, *nr, *nc, i, j);
     }
     else
     /* This produces uneven thread workloads since the outer loop
@@ -139,37 +245,33 @@ void R_distance(double *x, int *nr, int *nc, double *d, int *diag, int *method, 
        i and j values from ij. */
 #pragma omp parallel for num_threads(nthreads) default(none)    \
     private(i, j, ij)                       \
-    firstprivate(nr, dc, d, method, distfun, nc, x, p)
+    firstprivate(nr, dc, d, method, distfun, nc, x)
     for(j = 0 ; j <= *nr ; j++) {
         ij = j * (*nr - dc) + j - ((1 + j) * j) / 2;
         for(i = j+dc ; i < *nr ; i++)
-        d[ij++] = (*method != MINKOWSKI) ?
-            distfun(x, *nr, *nc, i, j) :
-            R_minkowski(x, *nr, *nc, i, j, *p);
+        d[ij++] = distfun(x, *nr, *nc, i, j);
     }
 #else
     ij = 0;
     for(j = 0 ; j <= *nr ; j++)
     for(i = j+dc ; i < *nr ; i++)
-        d[ij++] = (*method != MINKOWSKI) ?
-        distfun(x, *nr, *nc, i, j) : R_minkowski(x, *nr, *nc, i, j, *p);
+        d[ij++] = distfun(x, *nr, *nc, i, j);
 #endif
 }
 
 #include <Rinternals.h>
 
-SEXP CharDiff(SEXP x, SEXP smethod, SEXP attrs, SEXP p)
+SEXP CharDiff(SEXP x, SEXP smethod, SEXP attrs)
 {
     SEXP ans;
     int nr = nrows(x), nc = ncols(x), method = asInteger(smethod);
     int diag = 0;
     R_xlen_t N;
-    double rp = asReal(p);
     N = (R_xlen_t)nr * (nr-1)/2; /* avoid int overflow for N ~ 50,000 */
     PROTECT(ans = allocVector(REALSXP, N));
     if(TYPEOF(x) != REALSXP) x = coerceVector(x, REALSXP);
     PROTECT(x);
-    R_distance(REAL(x), &nr, &nc, REAL(ans), &diag, &method, &rp);
+    R_distance(REAL(x), &nr, &nc, REAL(ans), &diag, &method);
     /* tack on attributes */
     SEXP names = getAttrib(attrs, R_NamesSymbol);
     for (int i = 0; i < LENGTH(attrs); i++)
