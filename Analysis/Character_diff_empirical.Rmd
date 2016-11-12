@@ -33,6 +33,9 @@ Loading the functions
 library(Claddis) ; library(dispRity)
 source("functions.R") ; load.functions(test = FALSE)
 
+## Load the C libraries
+dyn.load("../Functions/char.diff.so")
+
 ## Function for helping loading the matrices
 find.non.numerics <- function(x) {
     options(warn = -1)
@@ -91,7 +94,7 @@ A difference of 0 means the characters convey the same phylogenetic information 
 
 ```{r}
 ## Calculate the differences
-differences <- lapply(matrices, cor.matrix, char.diff)
+differences <- lapply(matrices, char.diff)
 
 ## Estimate the distributions densities
 densities <- lapply(differences, density, na.rm = TRUE)
