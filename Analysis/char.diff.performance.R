@@ -44,7 +44,7 @@ mul_C <- as.matrix(char.diff.C(matrix_multi))
 
 mul_C == mul_R
 
-matrix <- sim.morpho(rtree(100), 400, states = c(0.85, 0.15), rates = c(rgamma, 10, 5), invariant = FALSE)
+matrix <- sim.morpho(rtree(200), 800, states = c(0.85, 0.15), rates = c(rgamma, 10, 5), invariant = FALSE)
 
 time_R <- system.time(results_R <- cor.matrix(matrix, char.diff))
 time_C <- system.time(results_C <- as.matrix(char.diff.C(matrix)))

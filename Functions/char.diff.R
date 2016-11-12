@@ -22,38 +22,16 @@
 # TODO: deal with '?' and a minimising algorithm
 
 
-dyn.load("char.diff.so")
+#dyn.load("char.diff.so")
 
 
-char.diff.C <- function (x, method = "Gower")  {
+char.diff <- function (x, method = "Gower")  {
 
-    ## Convert character
-    convert.character <- function(X) {
-        if(class(X) == "numeric") {
-            X <- LETTERS[X+1]
-        } else {
-            X <- as.factor(X)
-            levels(X) <- 1:length(levels(X))
-            X <- as.numeric(X)
-        }
-        return(X)
-    }
-
-    ## Transform states into similar values
-    normalise.character <- function(X) {
-        ## Get the present states
-        states <- as.numeric(levels(as.factor(X)))
-        ## Get the states of X
-        states_match <- sort(match(states, X))
-
-        ## Replacing the original states
-        for(state in 1:length(states)) {
-            X <- gsub(X[states_match[state]], LETTERS[state], X)
-        }
-
-        X <- convert.character(X)
-        
-        return(X)
+    ## Convert matrix (if not numeric)
+    if(!all(apply(x, 2, class) == "numeric")) {
+        options(warn = -1)
+        x <- apply(x, 2, as.numeric)
+        options(warn = 0)
     }
 
     ## Options to remove:
@@ -80,7 +58,7 @@ char.diff.C <- function (x, method = "Gower")  {
 
 
 
-char.diff <- function(X,Y){ 
+char.diff_R <- function(X,Y){ 
 
     # Convert character
     convert.character <- function(X) {
