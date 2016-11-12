@@ -1,0 +1,353 @@
+---
+title: "Comparing characters"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 12
+---
+
+Before starting
+===============
+
+Loading the package
+-----------------------------------
+
+```{r, eval = FALSE}
+# The latest version of devtools
+if(!require(devtools)) install.packages("devtools")
+
+## The latest version of dispRity 
+install_github("TGuillerme/dispRity")
+```
+
+Comparing characters?
+===============
+
+The first step is to look at how to compare morphological characters.
+How can we efficiently measure the correlation between two characters?
+Of course, in some examples, it is pretty easy: a character `A {0,1,1,1,1}` is completely correlated to a character `B {0,1,1,1,1}`.
+Moreover, `A {0,1,1,1,1}` must also be completely correlated with `C {1,0,0,0,0}`.
+But for two other characters `D {0,0,1,1,1}` and `E {0,1,0,1,1}`, which one is more correlated to `A` (if any)?
+
+Here we are going to explore the inverse absolute Spearman correlation (ranging from 0 - full correlation - to 1 - no correlation) as follows:
+
+```{r}
+cor.spearman <- function(X, Y) {
+    return(1-round(abs(cor(X,Y, method = "spearman")), digit = 10))
+}
+## Note that to avoid rounding issues, we will round the correlation value up to the last 10 digits
+```
+
+We will also introduce a new difference simply called "Character difference" that counts the difference in states pattern (ranging from 0 - no difference - to 1 - complete difference) as follows:
+
+![equation](http://www.sciweavers.org/tex2img.php?eq=1%20-%20%5Cleft%28%20%5Cfrac%7B%5Cmid%20%7B%5Cfrac%7B%5Cabs%7B%5Csum_%7Bi%7D%5E%7Bn%7D%28%5Cmid%20x_%7Bi%7D%20-%20y_%7Bi%7D%5Cmid%20%29%7D%7D%20%7Bn%7D-%5Cfrac%7B1%7D%7B2%7D%7D%20%5Cmid%20%20%7D%7B%5Cfrac%7B1%7D%7B2%7D%7D%5Cright%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+<!-- \begin{equation}
+    1 - \left( \frac{\mid {\frac{\abs{\sum_{i}^{n}(\mid x_{i} - y_{i}\mid )}} {n}-\frac{1}{2}} \mid  }{\frac{1}{2}}\right)
+\end{equation} -->
+
+Where *n* is the number of taxa with comparable data and *x_i* and *y_i* are each characters states for the characters *x* and *y* and the taxon *i*.
+
+Note that in practice, the characters are first normalised and the Gower distance is then calculated.
+The normalisation works by changing the characters tokens labels to always start from `0` being the first state.
+For example, a character `{8,8,2,1,3,0}` will be normalised by changing all the occurences of the first state (`8`) by `0`, then all the occurences of the second one (`2`) by `1` and so on resulting in the character being normalised as `{0,0,1,2,3,4}`.
+Note that from a phylogenetic point of view, if the character is Fitch-like, both characters convey the exact same information.
+
+```{r}
+source("../Functions/char.diff.R")
+dyn.load("../Functions/char.diff.so")
+```
+
+A simple case
+----------------
+Let's create a bunch of binary characters first
+
+```{r}
+A <- c(1,0,0,0,0)
+B <- c(0,1,1,1,1)
+C <- c(1,1,0,0,0)
+D <- c(0,1,1,0,0)
+E <- c(1,0,0,1,1)
+```
+
+Straight away, we expect `A` and `B` to be totally correlated as well as `D` and `E`.
+Also, will will check if our difference metric is triangular (i.e. if `A` = `B` then the difference `(A,X)` must be equal to `(B,X)`).
+
+```{r}
+## As expected:
+cor.spearman(A,B)
+cor.spearman(D,E)
+## Note that the order doesn't matters
+cor.spearman(B,A)
+cor.spearman(E,D)
+## And concerning the triangularity
+cor.spearman(A,C) == cor.spearman(B,C)
+cor.spearman(D,C) == cor.spearman(E,C)
+```
+
+This works as well for our character difference metric
+
+```{r}
+char.diff(matrix(c(A,B), nrow = 5))[2,1]
+char.diff(matrix(c(D,E), nrow = 5))[2,1]
+char.diff(matrix(c(B,A), nrow = 5))[2,1]
+char.diff(matrix(c(E,D), nrow = 5))[2,1]
+char.diff(matrix(c(A,C), nrow = 5))[2,1] ==
+char.diff(matrix(c(B,C), nrow = 5))[2,1]
+char.diff(matrix(c(D,C), nrow = 5))[2,1] ==
+char.diff(matrix(c(E,C), nrow = 5))[2,1]
+```
+
+Let's have a look at the differences between `A` and the other characters:
+
+```{r, fig.width=6, fig.height=6}
+## Calculating the differences/correlations
+character_correlations <- unlist(lapply(list(B,C,D,E), cor.spearman, A))
+character_differences <- char.diff(matrix(c(A,B,C,D,E), nrow = 5))[1,-1]
+
+## Plotting the results
+plot(character_differences, type = "l", col = "blue", ylim = c(0,1), xaxt = "n", xlab = "",
+    ylab = "", main = "Characters comparisons (binary)")
+axis(1, at = 1:4, labels = c("A:B", "A:C", "A:D", "A:E"))
+lines(character_correlations, col = "orange")
+legend("topleft", legend = c("Difference", "Correlation"), lty = 1, xjust = 1, yjust = 1,
+    col = c("blue", "orange"))
+```
+
+Although both metrics show different results, the magnitudes of changes seems consistent between them.
+In other words, the "Character difference" seems to pick up slightly higher differences than the correlation one but overall the same trend is observed (increase differences and then no differences).
+
+A non-binary case
+----------------
+However, in reality, some characters might have more than two state.
+
+```{r}
+A <- c(1,2,0,0,0)
+B <- c(2,3,4,4,4)
+C <- c(1,2,1,0,0)
+D <- c(2,0,2,1,1)
+E <- c(1,2,2,0,0)
+F <- c(0,1,2,0,0)
+G <- c(0,2,1,0,0)
+```
+
+In this case again, we expect `A` and 
+
+Straight away, we expect `A` and `B` to be totally correlated/not different as well as well as `C` and `D`.
+However, the spearman correlation does pick up some difference (i.e. not totally correlated)
+
+```{r}
+cor.spearman(A,B)
+cor.spearman(C,D)
+## And triangularity is not conserved!
+cor.spearman(C,F) == cor.spearman(D,F)
+```
+Thankfully though, the "Character Difference" metric has no problems!
+
+```{r}
+char.diff(matrix(c(A,B), nrow = 5))[2,1]
+char.diff(matrix(c(C,D), nrow = 5))[2,1]
+char.diff(matrix(c(A,F), nrow = 5))[2,1] ==
+char.diff(matrix(c(B,F), nrow = 5))[2,1]
+char.diff(matrix(c(C,F), nrow = 5))[2,1] ==
+char.diff(matrix(c(D,F), nrow = 5))[2,1]
+```
+
+Let's have a look at the differences between `A` and the other characters:
+
+```{r, fig.width=6, fig.height=6}
+## Calculating the differences/correlations
+character_correlations <- unlist(lapply(list(B,C,D,E,F,G), cor.spearman, A))
+character_differences <- char.diff(matrix(c(A,B,C,D,E,F,G), nrow = 5))[1,-1]
+
+## Plotting the results
+plot(character_differences, type = "l", col = "blue", ylim = c(0,1), xaxt = "n", xlab = "",
+    ylab = "", main = "Characters comparisons (non-binary)")
+axis(1, at = 1:6, labels = c("A:B", "A:C", "A:D", "A:E", "A:F", "A:G"))
+lines(character_correlations, col = "orange")
+legend("topleft", legend = c("Difference", "Correlation"), lty = 1, xjust = 1, yjust = 1,
+    col = c("blue", "orange"))
+```
+
+The correlation metric does not match the actual differences between characters anymore!
+
+Some more complex example
+===============
+
+Making up some data
+-----------------------------------
+First let's make up some discrete morphological matrices using the `dispRity` package.
+
+```{r}
+library(dispRity) ; set.seed(123)
+# A random tree (coalescent)
+tree <- rcoal(15)
+# A morphological matrix (Mk model)
+matrix <- sim.morpho(tree, 50, states = c(0.85, 0.15), rates = c(rgamma, rate = 10, shape = 5),
+    invariant = FALSE)
+# Checking matrix
+check.morpho(matrix, tree)
+
+## This produces a fairly "realistic" matrix
+# Transforming the characters to be numeric
+matrix <- apply(matrix, 2, as.numeric)
+```
+
+Let's now run the pairwise comparisons for both metrics. We will use the `cor.matrix` function for calculating the spearman correlation (slow).
+
+```{r}
+source("../Functions/cor.matrix.R")
+pairwise_matrix_correlation <- cor.matrix(matrix, cor.spearman)
+pairwise_matrix_differences <- char.diff(matrix)
+```
+
+We can now visualise a same single pairwise comparison (character `1` *versus* the others):
+
+```{r, fig.width=6, fig.height=6}
+source("../Functions/plot.cor.matrix.R")
+## Extracting the first character differences
+character_differences <- pairwise_matrix_differences[,1]
+character_correlation <- pairwise_matrix_correlation[,1]
+
+## Sorting the values following the characters differences
+sorting <- sort(character_differences, index.return = TRUE)[[2]]
+character_differences <- character_differences[sorting]
+character_correlation <- character_correlation[sorting]
+
+## Plotting the results
+plot(character_differences, type = "l", col = "blue", ylim = c(0,1), xlab = "", ylab = "",
+    main = "Characters comparisons (non-binary)")
+lines(character_correlation, col = "orange")
+legend("topleft", legend = c("Difference", "Correlation"), lty = 1, xjust = 1, yjust = 1,
+    col = c("blue", "orange"))
+```
+Note how the correlations quickly seem to plateau around 0.6-0.8 with a decrease in variance as the character difference increase (see below for replicated simulations).
+
+We can also visualise the whole pairwise character differences/correlation distributions:
+
+```{r, fig.width = 12, fig.height = 12}
+op <- par(mfrow = c(2,2), bty = "n")
+plot.cor.matrix(pairwise_matrix_differences, main = "Pairwise Characters Differences")
+plot.cor.matrix(pairwise_matrix_correlation, main = "Pairwise Correlations score")
+hist(na.omit(as.vector(pairwise_matrix_differences)), breaks = 15,
+    main = "Differences distribution", xlab = "Character differences")
+hist(na.omit(as.vector(pairwise_matrix_correlation)), breaks = 15,
+    main = "Correlations distribution", xlab = "Character correlations")
+par(op)
+```
+
+Two interesting points to note for the character differences metric:
+ * The metric is not continuous: some values are never achieved!
+ * The distribution looks like "half" of a normal distribution. This is easily explainable since we consider "mirror" character (e.g. `A {0,1,1}` and `B {1,0,0}`) to be identical and thus only one side of the distribution is explored. 
+We can also have a look at the difference between both methods.
+Ideally this difference (the residuals) should be normally distributed.
+
+```{r, fig.width = 6, fig.height = 6}
+## Calculating the differences
+pairwise_differences <- pairwise_matrix_differences-pairwise_matrix_correlation
+## Plotting the differences
+hist(na.omit(as.vector(pairwise_differences)), breaks = 15,
+    main = "Methods Differences distribution", xlab = "Residuals")
+
+## Are the residuals normal?
+shapiro.test(na.omit(pairwise_differences))
+```
+
+
+Appendix
+===============
+
+Some more simulations
+-----------------------------------
+Because here we are affected by the random seed and the size of the matrix, here is a longer simulation running past more matrices:
+
+For speed improvement, we will "functionise" the different procedures (i.e. making matrices, etc...). 
+
+```{r}
+# Function for looping the first step (matrix generation)
+make.a.matrix <- function(taxa = 80, characters = 400) {
+    ## Generate a tree
+    tree <- rcoal(taxa)
+    ## Generate a matrix
+    matrix <- sim.morpho(tree, characters, states = c(0.85, 0.15),
+        rates = c(rgamma, rate = 10, shape = 5), invariant = FALSE, verbose = FALSE)
+    # Make the matrix output numeric
+    matrix <- apply(matrix, 2, as.numeric)
+
+    return(matrix)
+}
+```
+
+```{r}
+# Number of replicates:
+replicates = 100
+# Generate the matrices
+matrices <- replicate(replicates, make.a.matrix(), simplify = FALSE)
+
+# Get the character differences
+character_differences <- lapply(matrices, char.diff)
+character_correlation <- lapply(matrices, cor.matrix, cor.spearman)
+
+# Calculating the residuals
+characters_differences_distribution <- NULL
+characters_correlation_distribution <- NULL
+for (replicate in 1:replicates) {
+    characters_differences_distribution <- c(characters_differences_distribution,
+        as.vector(na.omit(character_differences[[replicate]])))
+    characters_correlation_distribution <- c(characters_correlation_distribution,
+        as.vector(na.omit(character_correlation[[replicate]])))
+}
+residuals <- characters_differences_distribution - characters_correlation_distribution
+
+# Sorting the first characters
+first_character_differences <- matrix(ncol = replicates, nrow = nrow(character_differences[[1]]))
+first_character_correlation <- first_character_differences
+for (replicate in 1:replicates) {
+    sorting <- sort(character_differences[[replicate]][,1], index.return = TRUE)[[2]]
+    first_character_differences[,replicate] <- character_differences[[replicate]][,1][sorting]
+    first_character_correlation[,replicate] <- character_correlation[[replicate]][,1][sorting]
+}
+
+# Calculating the medians of the first characters differences
+median_first_character_differences <- apply(first_character_differences, 1, median)
+median_first_character_correlation <- apply(first_character_correlation, 1, median)
+```
+
+Now let's plot all these results:
+
+```{r, fig.width = 12, fig.height = 12}
+op <- par(mfrow = c(2,2), bty = "n")
+hist(characters_differences_distribution, breaks = 40, main = "Characters Difference distribution",
+    xlab = "Characters Differences")
+hist(characters_correlation_distribution, breaks = 40, main = "Characters Correlation distribution",
+    xlab = "Characters Correlation")
+plot(density(residuals), main = "Difference between both methods",
+    xlab = "Residuals")
+par(op)
+```
+
+And finally the example for the first character again:
+
+```{r, fig.width = 10, fig.height = 10}
+plot(first_character_differences[,1], type = "l", col = "lightblue", ylim = c(0,1), xlab = "",
+    ylab = "", main = "Characters comparison (matrix 80x400)")
+lines(first_character_correlation[,1], col = "yellow", lty = 3)
+for(replicate in 2:replicates) {
+    lines(first_character_differences[,replicate], col = "lightblue")
+    lines(first_character_correlation[,replicate], col = "yellow", lty = 3)
+}
+# Adding the medians
+lines(median_first_character_differences, col = "blue")
+lines(median_first_character_correlation, col = "orange")
+legend("topleft", legend = c("Differences", "Correlation"), lty = 1, xjust = 1,
+    yjust = 1, col = c("blue", "orange"))
+```
+
+
+Digression on missing data
+-----------------------------------
+
+In practice some (all?) matrices contain a number of missing data entries. In the character difference metric, because we use the Gower distance, only comparable sites are taken into account.
+For example, the difference between two characters `A = {0,0,?,?,?}` and `B = {0,1,1,?,?}` will be obtained by comparing only `A' = {0,0}` and `B' = {0,1}` (resulting into a difference of 1).
+If a third character `C = {?,?,0,0,1}`, the difference between `A` and `C` is typically inapplicable (`NA`).
