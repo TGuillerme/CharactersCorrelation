@@ -1,5 +1,5 @@
 *.fls
 *.pdf
-
+.Rapp.history
 
 Data/100_Matrices/*
