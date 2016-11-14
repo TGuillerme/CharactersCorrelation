@@ -80,17 +80,17 @@ Version dated: \today
 
 \bigskip
 \medskip
-%\begin{center}
+\begin{center}
 
-%\noindent{\Large \bf Tree rearrangements rearranged} %TG: I'm bad at puns.
+\noindent{\Large \bf Effect of coding correlated discrete character correlation on tree inference}
 \bigskip
 
-% \noindent {\normalsize \sc Thomas Guillerme$^1$$^*$, and Martin D. Brazeau$^1$}\\ %TG: Author order can be swapped of course! There's only a finite combination of 2 elements anyway!
-% \noindent {\small \it 
-% $^1$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\}
-% \end{center}
-% \medskip
-% \noindent{*\bf Corresponding author.} \textit{t.guillerme@imperial.ac.uk}\\  %TG: Same as above
+\noindent {\normalsize \sc Thomas Guillerme$^1$$^*$, and Martin D. Brazeau$^1$}\\
+\noindent {\small \it 
+$^1$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\}
+\end{center}
+\medskip
+\noindent{*\bf Corresponding author.} \textit{t.guillerme@imperial.ac.uk}\\ 
 \vspace{1in}
 
 %Line numbering
@@ -149,30 +149,73 @@ blablabla
 %---------------------------------------------
 \section{Introduction}
 
+Discrete characters correlation have been studied in the context of Phylogenetic Comparative Methods to test whether two or more characters could have coevolved (Maddison 1990, Evolution; Pagel 1994, Proc B).
+However, nobody (that we know of) has looked at what is the effect of actually coding characters that coevolved in a phylogenetic matrix.
 
+
+
+-Morphological characters are more and more used: phenomics, tip-dating, Total-Evidence.
+
+-More accurate methods (parsimony vs Bayesian) and better models (Mk, Mk variable from Wright).
+
+-But question remains on which characters to code!
+
+-Don't code correlated characters but what is the actual effect of that? And how many characters are ``secretly'' correlated?
+
+\cite{Davalos01072014}: character correlation + signal in bats
+\cite{Grabowski2016}: amount of data needed for testing correlations? CHECK
+\cite{Lande1983}: measure correlation CHECK
+\cite{Pagel1994}: measure correlation
+\cite{Pagel2006}: measure correlation Bayesian
+\cite{Maddison1990}: measure binary state character correlation for testing coevol
 
 \section{Methods}
 
-\subsection{Characters difference (CD)}
+We define characters as being correlated if they give the same phylogenetic information.
 
+\subsection{Measuring correlation between characters}
+
+In order to measure, the difference between two characters, we propose a new distance metric defined as follows:
+
+\subsubsection{Characters difference (CD)}
 \begin{equation}
-    CD = 1 - \left(\frac{\abs*{\frac{\abs*{\sum_{i}^{n}(x_{i} - y_{i})}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+    CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\abs*{\sum_{i}^{n}(x_{i} - y_{i})}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
 \end{equation}
 
-\noindent Where $n$ is the number of taxa and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
+\noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$ \citep[i.e. the Gower distance;][]{GowerDist}.
+Since we are considering differences as being only Fitch-like, we ignore the actual distance between two different character states tokens: two same character states tokens have a difference of $0$ and two different, a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
+In order to facilitate and standardise characters states comparison, we standardised each characters by arbitrarily modifying their character states tokens by order of appearance.
+In other words, we replaced all the occurences of the first token to be $0$, the second to be $1$, etc.
+This way, a character \texttt{A = {2,2,3,0,0,3}} would be standardised as \texttt{A' = {0,0,1,2,2,1}}. Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
+When the character difference is equal to $0$, it means that characters convey the same phylogenetic signal.
+When the character difference is equal to 1 it means it conveys the most different signal.
+For example with three characters \texttt{A = {0,1,1,1}}, \texttt{B = {1,0,0,0}} and \texttt{C = {0,1,2,3}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$.
 
-% This operation can be repeated for all the internal edges in the original tree, thus the maximum TBR can be:
-% \begin{equation}
-%     \text{Maximum TBR} = \overbrace{(n-3)}^{\text{internal edges}} \sum_{i=2}^{n-2} (2i-3)(2(n-i)-3) %TG: Check! Summation might be incorrect
-% \end{equation}
-% Where $i$ and $n-i$ corresponds respectively to the size of the smallest and biggest trees resulting from the bisection the original tree.
+This metric respects triangular equality [CHECK THE PROPER NAME] (i.e. $CD_{(A,B)} = CD_{(B,A)}$ and $CD_{(A,C)} = CD_{(B,C)}$).
 
-\section{Acknowledgments}
+
+
+\subsection{Simulating discrete morphological matrices}
+
+\subsection{Modifying the matrices}
+
+\subsection{Inferring the phylogenies}
+
+\subsection{Comparing the topologies}
+
+\cite{Guillerme2016146}
+
+\subsection{Empirical morphological matrices}
+
+
+\section{Acknowledgements}
 European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
 
+% Suggested reviewers:
+%- Liliana Davalos
 
-% \bibliographystyle{sysbio}
-% \bibliography{References}
+\bibliographystyle{sysbio}
+\bibliography{References}
 
 \end{document}
 
