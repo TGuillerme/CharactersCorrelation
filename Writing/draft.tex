@@ -149,32 +149,41 @@ blablabla
 %---------------------------------------------
 \section{Introduction}
 
-Discrete characters correlation have been studied in the context of Phylogenetic Comparative Methods to test whether two or more characters could have coevolved (Maddison 1990, Evolution; Pagel 1994, Proc B).
-However, nobody (that we know of) has looked at what is the effect of actually coding characters that coevolved in a phylogenetic matrix.
+The last five years have seen a drastic expansion (resurgence?) of the use of discrete morphological data in macroevolutionary studies.
+In fact, traditionally confined to classic cladistics \citep{felsenstein2004inferring} these methods have recently been highly improved whether based on the models and methods for inferring phylogenies (\citealt{lewisa2001} + BAPSTinReview; with some debate on which method to use: \citealt{spencerefficacy2013,wrightbayesian2014,OReilly20160081}) or the methods to date them \citep[e.g.][]{bapsta2013} or to combine them with molecular data \citep{pyrondivergence2011,ronquista2012}.
+In parallel, much development has also been done on pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic analysis \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
 
+However, using discrete morphological data comes with several caveats, like the effect of missing data \citep{Guillerme2016146} or of the model \citep{OReilly20160081}.
+One specific assumption is that coded characters should not be correlated \citep{Brazeau2011}[FIND BETTER CITE?].
 
+Character correlation can be due to
+- co-evolution of two traits (e.g. the character ``number of digits on a limb'' co-evolves with the character ``presence/absence of limb'' - this correlation can be sometimes fairly obvious, sometimes less)
+- modularity of morphological features [CITE GOSWAMI!]
+- convergent evolution (e.g. the character ``flight'') [???]
+- error from the coder (e.g. a coder can unintentionally code the same feature multiple times, thus effectively waiting it, for example: ``presence/absence of a proximal end on a limb'' and ``presence/absence of a distal end on a limb'' - effectively weighting the character ``presence/absence of a limb'' by two).
+%-Don't code correlated characters but what is the actual effect of that? And how many characters are ``secretly'' correlated?
 
--Morphological characters are more and more used: phenomics, tip-dating, Total-Evidence.
+A lot of work has been done on character correlation \textit{per se}, but focussing mainly on how to measure correlation between characters to detect patterns of coevolution \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable expections of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data.
+It is thus still unclear what will be the effect of characters correlation on phylogenetic inference.
 
--More accurate methods (parsimony vs Bayesian) and better models (Mk, Mk variable from Wright).
+% \cite{Davalos01072014}: character correlation + signal in bats
+% \cite{Grabowski2016}: amount of data needed for testing correlations? CHECK
+% \cite{Lande1983}: measure correlation CHECK
+% \cite{Pagel1994}: measure correlation
+% \cite{Pagel2006}: measure correlation Bayesian
+% \cite{Maddison1990}: measure binary state character correlation for testing coevol
+% \cite{ZouConvergence}: convergence measured as characters correlation (Removing convergence prone characters improves accuracy)
 
--But question remains on which characters to code!
+In this study, we propose a new way to measure character correlation (more adapted to discrete morphological characters) and test on simulated and empirical data what is the effect of character correlation on topology. %TG: check if we do just topology?
+In other words, we generate matrices and maximise or minimise character correlation and see how that affects topology.
 
--Don't code correlated characters but what is the actual effect of that? And how many characters are ``secretly'' correlated?
-
-\cite{Davalos01072014}: character correlation + signal in bats
-\cite{Grabowski2016}: amount of data needed for testing correlations? CHECK
-\cite{Lande1983}: measure correlation CHECK
-\cite{Pagel1994}: measure correlation
-\cite{Pagel2006}: measure correlation Bayesian
-\cite{Maddison1990}: measure binary state character correlation for testing coevol
 
 \section{Methods}
 
-We define characters as being correlated if they give the same phylogenetic information.
-
 \subsection{Measuring correlation between characters}
 
+We define characters as being correlated if they give the same phylogenetic information.
 In order to measure, the difference between two characters, we propose a new distance metric defined as follows:
 
 \subsubsection{Characters difference (CD)}
@@ -193,9 +202,9 @@ For example with three characters \texttt{A = {0,1,1,1}}, \texttt{B = {1,0,0,0}}
 
 This metric respects triangular equality [CHECK THE PROPER NAME] (i.e. $CD_{(A,B)} = CD_{(B,A)}$ and $CD_{(A,C)} = CD_{(B,C)}$).
 
-
-
 \subsection{Simulating discrete morphological matrices}
+
+We simulated discrete morphological matrices based on the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}.
 
 \subsection{Modifying the matrices}
 
@@ -207,9 +216,21 @@ This metric respects triangular equality [CHECK THE PROPER NAME] (i.e. $CD_{(A,B
 
 \subsection{Empirical morphological matrices}
 
+We applied the same procedure described above to 100 empirical matrices downloaded from TreeBASE (\url{http://treebase.org/}).
+The 100 matrices where selected to be the most representative of empirical work with discrete morphological data: with randomly selected matrices with more than 100 each, published between 1985 and 2013 and covering 19 taxonomic classes within 6 phyla (Chordata, Arthropoda, Annelida, Angiosperm, Gymnosperm and Pteridophyta).
+The full list of matrices is available in the supplementary materials @@@.
 
 \section{Acknowledgements}
 European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
+
+
+\section{Results}
+
+
+\section{Discussion}
+
+
+\subsection{Conclusion}
 
 % Suggested reviewers:
 %- Liliana Davalos
