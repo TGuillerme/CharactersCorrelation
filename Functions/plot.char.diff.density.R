@@ -63,7 +63,7 @@ plot.char.diff.density <- function(matrix, main, legend, col, xlim, ylim, legend
     cum_density <- density(as.numeric(chara_diff), na.rm = TRUE)
 
     ## Empty plot
-    plot(1,1, col = "white", xlim = xlim, ylim = ylim, main = main, xlab = xlab, ylab = ylab)
+    plot(1,1, col = "white", xlim = xlim, ylim = ylim, main = main, xlab = xlab, ylab = ylab, bty = "n")
 
     ## Adding the densities
     silent <- lapply(densities, lines, col = col[2])
