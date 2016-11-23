@@ -7,6 +7,9 @@ dyn.load("../Functions/char.diff.so")
 ## Modify the write.nexus.data function
 write.nexus.std <- write.nexus.data
 body(write.nexus.std)[[2]] <- substitute(format <- match.arg(toupper(format), c("DNA", "PROTEIN", "STANDARD")))
+body(write.nexus.std)[[26]][[3]][[4]] <- substitute(fcat(indent, "FORMAT", " ", DATATYPE, " ", MISSING, " ", GAP, 
+    " ", INTERLEAVE, " symbols=\"0123456789\";\n"))
+
 
 ###############
 # Parameters for generating the matrix
@@ -70,6 +73,7 @@ for(run in 1:10) {
     matrices_modified$norm <- matrices[[run]]
     matrices_modified$maxi <- modify.matrix(matrices[[run]], type = "maximise", threshold = 0.25, character_differences)
     matrices_modified$mini <- modify.matrix(matrices[[run]], type = "minimise", threshold = 0.75, character_differences)
+    matrices_modified$rand <- modify.matrix(matrices[[run]], type = "randomise", character_differences)
 
     ###############
     # Modifying the matrices
@@ -79,6 +83,7 @@ for(run in 1:10) {
     write.nexus.std(matrices_modified$norm, file = paste(path, chain_name, "_norm.nex", sep = ""), format = "standard")
     write.nexus.std(matrices_modified$maxi, file = paste(path, chain_name, "_maxi.nex", sep = ""), format = "standard")
     write.nexus.std(matrices_modified$mini, file = paste(path, chain_name, "_mini.nex", sep = ""), format = "standard")
+    write.nexus.std(matrices_modified$rand, file = paste(path, chain_name, "_rand.nex", sep = ""), format = "standard")
 
     ## Generate the commands
     current_dir <- getwd()
@@ -88,6 +93,7 @@ for(run in 1:10) {
     system(paste("mb ", chain_name, "_norm.cmd", sep = ""))
     system(paste("mb ", chain_name, "_maxi.cmd", sep = ""))
     system(paste("mb ", chain_name, "_mini.cmd", sep = ""))
+    system(paste("mb ", chain_name, "_rand.cmd", sep = ""))
 
     ## Compile the consensus trees
     system(paste("sh con.tree.sh ", chain_name, sep = ""))
@@ -98,16 +104,33 @@ for(run in 1:10) {
     trees$norm <- read.nexus(paste(path, chain_name, "_norm.con.tre", sep = ""))
     trees$maxi <- read.nexus(paste(path, chain_name, "_maxi.con.tre", sep = ""))
     trees$mini <- read.nexus(paste(path, chain_name, "_mini.con.tre", sep = ""))
+    trees$rand <- read.nexus(paste(path, chain_name, "_rand.con.tre", sep = ""))
 
     ## Plotting the pdf results
-    pdf(paste(chain_name, "pdf", sep = "."), 15.22222, 8.11811)
-    nf<-layout(matrix(c(1,2,3,4,5,6),2,3,byrow = TRUE), c(2,2,2), c(3,2), FALSE)
-    #layout.show(nf)
-    plot(trees$norm, main = paste(chain_name, "-norm", sep = ""), cex = 0.6)
-    plot(trees$maxi, main = paste(chain_name, "-maxi", sep = ""), cex = 0.6)
-    plot(trees$mini, main = paste(chain_name, "-mini", sep = ""), cex = 0.6)
-    plot.char.diff.density(matrices_modified$norm, main = "")
-    plot.char.diff.density(matrices_modified$maxi, main = "")
-    plot.char.diff.density(matrices_modified$mini, main = "")
-    dev.off()
+    # pdf(paste(chain_name, "pdf", sep = "."), 15.22222, 8.11811)
+    # nf<-layout(matrix(c(1,2,3,4,5,6),2,3,byrow = TRUE), c(2,2,2), c(3,2), FALSE)
+    # #layout.show(nf)
+    # plot(trees$norm, main = paste(chain_name, "-norm", sep = ""), cex = 0.6)
+    # plot(trees$maxi, main = paste(chain_name, "-maxi", sep = ""), cex = 0.6)
+    # plot(trees$mini, main = paste(chain_name, "-mini", sep = ""), cex = 0.6)
+    # plot.char.diff.density(matrices_modified$norm, main = "")
+    # plot.char.diff.density(matrices_modified$maxi, main = "")
+    # plot.char.diff.density(matrices_modified$mini, main = "")
+    # dev.off()
+}
+
+for(run in 1:10) {
+    matrices_modified <- list()
+    character_differences <- char.diff(matrices[[run]])
+    matrices_modified$norm <- matrices[[run]]
+    matrices_modified$maxi <- modify.matrix(matrices[[run]], type = "maximise", threshold = 0.25, character_differences)
+    matrices_modified$mini <- modify.matrix(matrices[[run]], type = "minimise", threshold = 0.75, character_differences)
+    matrices_modified$rand <- modify.matrix(matrices[[run]], type = "randomise", character_differences)
+
+    par(mfrow = c(2,2), bty = "n")
+    plot.char.diff.density(matrices_modified$norm, main = paste("Normal", run))
+    plot.char.diff.density(matrices_modified$maxi, main = paste("Maximise", run))
+    plot.char.diff.density(matrices_modified$mini, main = paste("Minimise", run))
+    plot.char.diff.density(matrices_modified$rand, main = paste("Randomise", run))
+    Sys.sleep(1)
 }
