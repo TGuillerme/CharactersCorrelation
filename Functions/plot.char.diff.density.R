@@ -49,6 +49,29 @@ plot.char.diff.density <- function(matrix, main, legend, col, xlim, ylim, legend
     ## Calculating the character difference matrix
     chara_diff <- char.diff(matrix)
 
+    ## Removing columns with only NAs
+    select.nas <- function(column) {
+        if((length(column) - length(which(is.na(column)))) <= 2) {
+            return(TRUE)
+        } else {
+            return(FALSE)
+        }
+    }
+    NA_columns <- which(apply(chara_diff, 2, select.nas) == TRUE)
+    if(length(NA_columns) != 0) {
+        chara_diff <- chara_diff[,-NA_columns]
+    }
+
+    ## DEBUG
+    # warning("DEBUG plot.char.diff.density.R")
+    # densities <- list()
+    # for(column in 1:ncol(chara_diff)) {
+    #     cat(paste("Column", column))
+    #     densities[[column]] <- density(chara_diff[, column], na.rm = TRUE)
+    #     cat(" ok.\n")
+    # }
+
+
     ## Measuring the densities
     densities <- apply(chara_diff, 2, density, na.rm = TRUE)
 
