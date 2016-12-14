@@ -5,7 +5,7 @@ source("functions.R") ; load.functions(test = FALSE)
 dyn.load("../Functions/char.diff.so")
 
 ## Modify the write.nexus.data function
-write.nexus.std <- write.nexus.data
+write.nexus.std <- ape::write.nexus.data
 body(write.nexus.std)[[2]] <- substitute(format <- match.arg(toupper(format), c("DNA", "PROTEIN", "STANDARD")))
 body(write.nexus.std)[[26]][[3]][[4]] <- substitute(fcat(indent, "FORMAT", " ", DATATYPE, " ", MISSING, " ", GAP, 
     " ", INTERLEAVE, " symbols=\"0123456789\";\n"))
@@ -134,3 +134,49 @@ for(run in 1:10) {
     plot.char.diff.density(matrices_modified$rand, main = paste("Randomise", run))
     Sys.sleep(1)
 }
+
+
+
+
+
+## Pipeline for generating and modifying simulated matrices
+library(diversitree)
+## 0 - Parameters
+## Number of taxa
+ntaxa <- 25
+ncharacters <- 100
+simulationID <- "0001"
+
+## 1 - Generating the tree:
+## Get the birth/death parameters
+sample.birth.death <- function() {
+    birth <- runif(min = 0, max = 1, 1)
+    death <- runif(min = 0, max = birth, 1)
+    return(c(birth, death))
+}
+
+## Get the tree
+tree <- NULL
+birth_death <- sample.birth.death()
+while(is.null(tree)) {
+    tree <- tree.bd(birth_death, max.taxa = ntaxa)
+}
+
+## Remove the $node labels (bugging for some reason)
+tree$node.label <- NULL
+
+## Make the first taxa (arbitrarily) the outgroup
+tree$tip.label[[1]] <- "outgroup"
+tree <- root(tree, "outgroup", resolve.root = TRUE)
+
+## Save the "True tree"
+write.nexus(tree, file = paste(ntaxa,"t_", ncharacters, "c_", simulationID, "_truetree.nex", sep = ""))
+
+## 2 - Generating the matrix
+model = "mixed"
+sates = c(0.85,0.15)
+rates = c(rgamma, rate = 100, shape = 3)  #Alpha  = 5, beta = 1
+invariant = FALSE
+verbose = TRUE
+
+test <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 3), invariant = FALSE)
