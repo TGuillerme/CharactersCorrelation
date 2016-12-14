@@ -204,19 +204,50 @@ This metric respects triangular equality [CHECK THE PROPER NAME] (i.e. $CD_{(A,B
 
 \subsection{Simulating discrete morphological matrices}
 
-We simulated discrete morphological matrices based on the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}.
+To simulate the matrices we applied a protocol similar to \citep{Guillerme2016146}.
+First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform ($0$,$1$) distribution maintaining $\lambda$ $>$ $\mu$ using the diversitree \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
+For each tree, we arbitrarily set the outgroup to be the first taxa (alphabetically) thus effectively rooting the trees on this taxa.
+These trees are hereafter called the ``true'' trees.
+We then simulated the characters using the either of the two following models:
+\begin{itemize}
+    \item The HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution an scale to sum to one) and using a transition/transvertion rate of two \citep{douadycomparison2003} but where the purines (AG) were changed into state $0$ and the pyrimidines (CT) in state $1$.
+    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][]{OReilly20160081} but can only generate binary state characters.
+    \item To generate more that two states characters, we used the M$k$ model \citep{lewisa2001}.
+    We draw the number of character states with a probability of $0.85$ for two-state characters (binary) and $0.15$ for three state characters \citep{Guillerme2016146}.
+    Assuming the same transition rate between character states might seem unrealistic and ignoring characters following, for example, a Dollo pattern, \cite{Wright01072016} have shown that an equal rate transition is still strictly majority in empirical data.
+\end{itemize}
+
+For each character, both models (HKY-binary or M$k$) where chosen randomly and ran with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $3$).
+We resimulated every invariant characters to obtain a matrix with no invariant characters.
+Choosing these low evolutionary rate values allowed us to obtain discrete characters matrices with realistic values of Consistency Indices that where superior that $0.26$ \citep{OReilly20160081}.
+For each trees with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
+The matrices where generated using the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}.
+To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 50 times resulting in 450 morphological matrices (hereafter called the ``normal'' matrices).
 
 \subsection{Modifying the matrices}
 
+We then calculated the pairwise character differences for each generated matrices. 
+We then modified the matrices to either maximise or minimise the pairwise character differences for each matrices using three different algorithms.
+For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<$$0.25$) and replaced them randomly by any of the remaining characters.
+This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
+Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<$$0.75$) and randomly replaced them with the remaining ones.
+Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<$$0.25$ or $>$$0.75$ a weight of $0$ and giving the randomly selected characters to replace them a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a null expectation modification (i.e. randomly weighting characters).
+This step resulted in a total of 1800 matrices (hereafter called the ``maximised'', ``minimised'' and ``random'' matrices).
+The algorithms for the three modifications is available on GitHub@@@. %TG: "@@@" is my "to replace" sign.
+
 \subsection{Inferring the phylogenies}
+
+We inferred the topologies in both Bayesian and Parsimony using MrBayes and PAUP* respectively.
+Bayesian settings.
+PAUP ``settings''.
 
 \subsection{Comparing the topologies}
 
-\cite{Guillerme2016146}
+We compared the topologies using the same approach as in \cite{Guillerme2016146}.
 
 \subsection{Empirical morphological matrices}
 
-We applied the same procedure described above to 100 empirical matrices downloaded from TreeBASE (\url{http://treebase.org/}).
+We applied the same procedure described above (without the morphological matrices simulation) to 100 empirical matrices downloaded from TreeBASE (\url{http://treebase.org/}).
 The 100 matrices where selected to be the most representative of empirical work with discrete morphological data: with randomly selected matrices with more than 100 each, published between 1985 and 2013 and covering 19 taxonomic classes within 6 phyla (Chordata, Arthropoda, Annelida, Angiosperm, Gymnosperm and Pteridophyta).
 The full list of matrices is available in the supplementary materials @@@.
 
