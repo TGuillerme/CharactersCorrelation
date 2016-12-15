@@ -66,28 +66,14 @@ modify.matrix <- function(matrix, type = "maximise", threshold = 0.25) {#, chara
         ## Randomise the matrix
         worst_characters_max <- get.worst.characters(matrix_modified, "maximise", 0.25)
         worst_characters_min <- get.worst.characters(matrix_modified, "minimise", 0.75)
+        
         ## Select the number of characters to change
-        if(length(worst_characters_max) > 0 & length(worst_characters_min) > 0) {
-            ## Select the average number of characters randomly
-            worst_characters <- sample(1:ncol(matrix_modified), c(length(worst_characters_max)+length(worst_characters_min))/2)
-            matrix_modified[,worst_characters] <- matrix_modified[,sample(seq(1:ncol(matrix_modified))[-worst_characters], length(worst_characters), replace = TRUE)]
-        } else {
-            if(length(worst_characters_max) != 0) {
-                ## Select just the number of max
-                worst_characters <- sample(1:ncol(matrix_modified), length(worst_characters_max))
-                matrix_modified[,worst_characters] <- matrix_modified[,sample(seq(1:ncol(matrix_modified))[-worst_characters], length(worst_characters), replace = TRUE)]                
-            } else {
-                if(length(worst_characters_min) != 0) {
-                    ## Select just the number of min
-                    worst_characters <- sample(1:ncol(matrix_modified), length(worst_characters_min))
-                    matrix_modified[,worst_characters] <- matrix_modified[,sample(seq(1:ncol(matrix_modified))[-worst_characters], length(worst_characters), replace = TRUE)]       
-                } else {
-                    ## Randomly reshuffle the matrix for consistency
-                    matrix_modified <- matrix_modified[,sample(seq(1:ncol(matrix_modified)), ncol(matrix_modified), replace = TRUE)]
-                }
-            }
+        resample <- mean(length(worst_characters_max), length(worst_characters_min))
+        if(resample == 0) {
+            resample <- ncol(matrix_modified)
         }
 
+        matrix_modified[, sample(1:ncol(matrix_modified), resample)] <- matrix_modified[, sample(1:ncol(matrix_modified), resample, replace = TRUE)]
     }
 
     return(matrix_modified)
