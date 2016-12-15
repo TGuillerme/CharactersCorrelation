@@ -82,7 +82,7 @@ Version dated: \today
 \medskip
 \begin{center}
 
-\noindent{\Large \bf Effect of coding correlated discrete character correlation on tree inference}
+\noindent{\Large \bf Effect of discrete character correlation on tree inference}
 \bigskip
 
 \noindent {\normalsize \sc Thomas Guillerme$^1$$^*$, and Martin D. Brazeau$^1$}\\
@@ -218,8 +218,10 @@ We then simulated the characters using the either of the two following models:
 \end{itemize}
 
 For each character, both models (HKY-binary or M$k$) where chosen randomly and ran with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $3$).
+This low evolutionary rate values allowed to reduce the number of homoplasic character changes and thus reinforce the phylogenetic information in the matrices.
 We resimulated every invariant characters to obtain a matrix with no invariant characters.
-Choosing these low evolutionary rate values allowed us to obtain discrete characters matrices with realistic values of Consistency Indices that where superior that $0.26$ \citep{OReilly20160081}.
+To ensure the that our simulation where reflecting the same parameters as real data, we only selected matrices with Consistency Indices superior to $0.26$ \citep{OReilly20160081}.
+
 For each trees with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
 The matrices where generated using the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}.
 To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 50 times resulting in 450 morphological matrices (hereafter called the ``normal'' matrices).
@@ -238,7 +240,9 @@ The algorithms for the three modifications is available on GitHub@@@. %TG: "@@@"
 \subsection{Inferring the phylogenies}
 
 We inferred the topologies in both Bayesian and Parsimony using MrBayes and PAUP* respectively.
+
 Bayesian settings.
+
 PAUP ``settings''.
 
 \subsection{Comparing the topologies}
