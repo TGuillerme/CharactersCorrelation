@@ -143,9 +143,10 @@ for(run in 1:10) {
 library(diversitree)
 ## 0 - Parameters
 ## Number of taxa
+set.seed(0)
 ntaxa <- 25
 ncharacters <- 100
-simulationID <- "0001"
+#simulationID <- "0001"
 
 ## 1 - Generating the tree:
 ## Get the birth/death parameters
@@ -170,13 +171,29 @@ tree$tip.label[[1]] <- "outgroup"
 tree <- root(tree, "outgroup", resolve.root = TRUE)
 
 ## Save the "True tree"
-write.nexus(tree, file = paste(ntaxa,"t_", ncharacters, "c_", simulationID, "_truetree.nex", sep = ""))
+#write.nexus(tree, file = paste(ntaxa,"t_", ncharacters, "c_", simulationID, "_truetree.nex", sep = ""))
 
 ## 2 - Generating the matrix
-model = "mixed"
-sates = c(0.85,0.15)
-rates = c(rgamma, rate = 100, shape = 3)  #Alpha  = 5, beta = 1
-invariant = FALSE
-verbose = TRUE
+matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 3), invariant = FALSE)
 
-test <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 3), invariant = FALSE)
+## Testing Consistency
+while(check.morpho(matrix_norm)[2,] < 0.26) {
+    matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 3), invariant = FALSE)
+}
+
+## 3 - modify the matrix
+character_differences <- char.diff(matrix_norm)
+
+matrix_maxi <- modify.matrix(matrix_norm, type = "maximise", threshold = 0.25)
+matrix_mini <- modify.matrix(matrix_norm, type = "minimise", threshold = 0.75)
+matrix_rand <- modify.matrix(matrix_norm, type = "randomise", threshold = 0.25)
+
+par(mfrow = c(2, 4))
+plot.char.diff.density(char.diff(matrix_norm), "Normal")
+plot.char.diff.density(char.diff(matrix_maxi), "Maximised", legend = FALSE)
+plot.char.diff.density(char.diff(matrix_mini), "Minimised", legend = FALSE)
+plot.char.diff.density(char.diff(matrix_rand), "Randomised", legend = FALSE)
+plot.cor.matrix(char.diff(matrix_norm), main = "Normal")
+plot.cor.matrix(char.diff(matrix_maxi), main = "Maximised", legend = FALSE)
+plot.cor.matrix(char.diff(matrix_mini), main = "Minimised", legend = FALSE)
+plot.cor.matrix(char.diff(matrix_rand), main ="Randomised", legend = FALSE)
