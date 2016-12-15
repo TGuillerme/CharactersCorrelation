@@ -95,5 +95,7 @@ plot.char.diff.density <- function(matrix, main, legend, col, xlim, ylim, legend
     lines(cum_density, col = col[1])
 
     ## Adding the legend
-    legend(legend.pos, legend = legend, lty = 1, col = col)
+    if(legend[1] != FALSE) {
+        legend(legend.pos, legend = legend, lty = 1, col = col)
+    }
 }

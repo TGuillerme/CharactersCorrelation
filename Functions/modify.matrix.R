@@ -5,7 +5,7 @@
 #' @param matrix A discrete morphological matrix.
 #' @param type Whether to \code{"maximise"}, \code{"minimise"} or \code{"randomise"} character differences.
 #' @param threshold The threshold value beyond/above which to maximise/minimise.
-#' @param character.differences Optional, a pre-calculated character difference matrix (if missing, the matrix is calculated from \code{matrix}).
+##' @param character.differences Optional, a pre-calculated character difference matrix (if missing, the matrix is calculated from \code{matrix}).
 #'
 #' @return
 #' A modified matrix.
@@ -17,56 +17,51 @@
 #' @export
 #' 
 
-modify.matrix <- function(matrix, type = "maximise", threshold = 0.25, character.differences) {
-    ## Backup the matrix
-    matrix_modified <- matrix
-
-    if(missing(character.differences)) {
-        ## Calculate the character differences
-        character_differences <- char.diff(matrix)
-    } else {
-        character_differences <- character.differences
-    }
+modify.matrix <- function(matrix, type = "maximise", threshold = 0.25) {#, character.differences) {
 
     ## Get the worst characters
-    get.worst.characters <- function(matrix, type, threshold, character.differences = character_differences) {
+    get.worst.characters <- function(matrix, type, threshold) {
 
-        ## Set up the quantile threshold (i.e. for maximising difference, remove characters that have 5% of their differences lower than the threshold; for minimising, remove characters that have 95% of their differences higher than the threshold).
+        ## Calculate the median character difference
+        #median_char_diff <- apply(char.diff(matrix), 2, median, na.rm = TRUE)
+
+        ## Calculate the quantiles
         if(type == "maximise") {
-            quantile.threshold = 0.05
+            median_char_diff <- apply(char.diff(matrix), 2, quantile, probs = 0.25, na.rm = TRUE)
         } else {
-            quantile.threshold = 0.75
+            median_char_diff <- apply(char.diff(matrix), 2, quantile, probs = 0.75, na.rm = TRUE)
         }
-
-        ## Calculate the quantiles
-        quantiles <- apply(character_differences, 2, quantile, probs = c(quantile.threshold), na.rm = TRUE)
 
         ## Select the worst characters
         if(type == "maximise") {
-            worst_characters <- which(quantiles < threshold)
+            return(which(median_char_diff < threshold))
         } else {
-            worst_characters <- which(quantiles > threshold)
+            return(which(median_char_diff > threshold))
         }
     }
     
+    ## Backup the matrix
+    matrix_modified <- matrix
 
     if(type != "randomise") {
         ## Get the worst characters
         worst_characters <- get.worst.characters(matrix_modified, type, threshold)
-        ## Replace the worst characters (randomly)
-        if(length(worst_characters) !=  ncol(matrix)) {
-            ## If any characters are left to be replace
-            matrix_modified[,worst_characters] <- matrix_modified[,sample(seq(1:ncol(matrix_modified))[-worst_characters], length(worst_characters), replace = TRUE)]
-        } else {
-            ## Randomly reshuffle the matrix for consistency
-            matrix_modified <- matrix_modified[,sample(seq(1:ncol(matrix_modified)), ncol(matrix_modified), replace = TRUE)]
-            if(type == "maximise") {
-                warning("All characters were below the threshold, the matrix as just been randomly reshuffled.")
-            } else {
-                warning("All characters were above the threshold, the matrix as just been randomly reshuffled.")
-            }
 
+        ## Set up the resampling values
+        if(length(worst_characters) == 0 | length(worst_characters) == ncol(matrix_modified)) {
+            sampling_pool <- seq(1:ncol(matrix_modified))
+            resample <- length(sampling_pool)
+            warning("All characters were below/above the threshold, the matrix as just been randomly reshuffled.")
+        } else {
+            sampling_pool <- seq(1:ncol(matrix_modified))[-worst_characters]
+            resample <- length(worst_characters)
         }
+
+        ## Replace the worst characters (randomly)
+        matrix_modified[, worst_characters] <- matrix_modified[, sample(sampling_pool, resample, replace = TRUE)]
+
+        #length(get.worst.characters(new_matrix, type, threshold))
+
     } else {
         ## Randomise the matrix
         worst_characters_max <- get.worst.characters(matrix_modified, "maximise", 0.25)
@@ -88,7 +83,7 @@ modify.matrix <- function(matrix, type = "maximise", threshold = 0.25, character
                     matrix_modified[,worst_characters] <- matrix_modified[,sample(seq(1:ncol(matrix_modified))[-worst_characters], length(worst_characters), replace = TRUE)]       
                 } else {
                     ## Randomly reshuffle the matrix for consistency
-                    matrix_modified <- matrix_modified[,sample(seq(1:ncol(matrix_modified)), ncol(matrix_modified), replace = TRUE)]                    
+                    matrix_modified <- matrix_modified[,sample(seq(1:ncol(matrix_modified)), ncol(matrix_modified), replace = TRUE)]
                 }
             }
         }

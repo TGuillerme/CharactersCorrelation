@@ -23,7 +23,7 @@ plot.cor.matrix <- function(matrix, col = c("blue", "orange"), legend = TRUE, le
 
     ## Setting the colours
     colfunc <- grDevices::colorRampPalette(col)
-    colheat <- colfunc(10)
+    colheat <- rev(colfunc(10))
 
     ## Plotting the heat map
     image(matrix, col = colheat, axes = FALSE, ...)
