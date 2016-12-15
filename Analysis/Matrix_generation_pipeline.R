@@ -26,6 +26,7 @@ sample.birth.death <- function() {
 
 ## Seed
 set.seed(0)
+system("echo \"\" >> Matrix_gen.log")
 
 ## Variables
 path <- "../Data/Simulations/"
