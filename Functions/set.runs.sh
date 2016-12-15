@@ -75,8 +75,7 @@ then
         echo "outgroup $outgroup ;" >> base_mbcmd.tmp
     fi
     echo "lset nst=1 rates=gamma Ngammacat=4;" >> base_mbcmd.tmp  # Model setting (Mk Gamma4)??
-    echo "prset ratepr=variable;" >> base_mbcmd.tmp               # Prior on the rates??
-    echo "prset Shapepr=Exponential(0.5);" >> base_mbcmd.tmp      # Prior on the shape??
+    echo "prset ratepr=variable Shapepr=Exponential(0.5);" >> base_mbcmd.tmp
     echo "" >> base_mbcmd.tmp
 
     echo "[MCMC settings]" >> base_mbcmd.tmp
