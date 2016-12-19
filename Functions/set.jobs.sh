@@ -4,11 +4,12 @@
 #Shell script for creating the cluster jobs
 ##########################
 #SYNTAX:
-#sh set.runs.sh <chain1> <method> <CPU> <chain2>
+#sh set.runs.sh <chain1> <method> <CPU> <job_time> <chain2>
 #with:
 #<chain1> the path to the matrix chain name to be run.
 #<method> either "PAUP", "MrBayes" or "both".
 #<CPU> number of CPUs available in total.
+#<job_time> in hours.
 #<chain2> an additional path to a matrix chain name.
 ##########################
 #----
@@ -21,7 +22,8 @@
 chain1=$1
 method=$2
 CPU=$3
-chain2=$4
+job_time=$4
+chain2=$5
 
 ## Set up the methods
 if echo $method | grep 'both' > /dev/null
@@ -52,26 +54,26 @@ then
 
     echo "" > ${chain1}.mbjob
     echo "#!/bin/sh" >> ${chain1}.mbjob
-    echo "PBS -l walltime=04:00:00" >> ${chain1}.mbjob
-    echo "PBS -l mem=3gb" >> ${chain1}.mbjob
-    echo "PBS -l select=${nodes}:ncpus=${CPU}" >> ${chain1}.mbjob
+    echo "#PBS -l walltime=${job_time}:00:00" >> ${chain1}.mbjob
+    echo "#PBS -l select=${nodes}:ncpus=${CPU}:mem=2gb" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
     echo "## Load mrbayes" >> ${chain1}.mbjob
+    echo "module load intel-suite" >> ${chain1}.mbjob
     echo "module load mpi" >> ${chain1}.mbjob
     echo "module load beagle-lib" >> ${chain1}.mbjob
     echo "module load mrbayes/3.2.6" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
     echo "## Run the chains" >> ${chain1}.mbjob
-    echo "mpiexec mb ${chain1}_norm.mbcmd" >> ${chain1}.mbjob
-    echo "mpiexec mb ${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
-    echo "mpiexec mb ${chain1}_mini.mbcmd" >> ${chain1}.mbjob
-    echo "mpiexec mb ${chain1}_rand.mbcmd" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
     if [ -n "$chain2" ]
     then
-        echo "mpiexec mb ${chain2}_norm.mbcmd" >> ${chain1}.mbjob
-        echo "mpiexec mb ${chain2}_maxi.mbcmd" >> ${chain1}.mbjob
-        echo "mpiexec mb ${chain2}_mini.mbcmd" >> ${chain1}.mbjob
-        echo "mpiexec mb ${chain2}_rand.mbcmd" >> ${chain1}.mbjob
+        echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_norm.mbcmd" >> ${chain1}.mbjob
+        echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_maxi.mbcmd" >> ${chain1}.mbjob
+        echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_mini.mbcmd" >> ${chain1}.mbjob
+        echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_rand.mbcmd" >> ${chain1}.mbjob
     fi
 fi
 
@@ -89,9 +91,8 @@ then
     
     echo "" > ${chain1}.paupjob
     echo "#!/bin/sh" >> ${chain1}.paupjob
-    echo "PBS -l walltime=04:00:00" >> ${chain1}.paupjob
-    echo "PBS -l mem=3gb" >> ${chain1}.paupjob
-    echo "PBS -l select=${nodes}:ncpus=${CPU}" >> ${chain1}.paupjob
+    echo "#PBS -l walltime=72:00:00" >> ${chain1}.mbjob
+    echo "#PBS -l select=${nodes}:ncpus=${CPU}:mem=2gb" >> ${chain1}.mbjob
     echo "" >> ${chain1}.paupjob
 
     echo "## Load PAUP" >> ${chain1}.paupjob
@@ -102,15 +103,15 @@ then
 
     echo "" >> ${chain1}.paupjob
     echo "## Run the chains" >> ${chain1}.paupjob
-    echo "mpiexec mb ${chain1}_norm.paupcmd" >> ${chain1}.paupjob
-    echo "mpiexec mb ${chain1}_maxi.paupcmd" >> ${chain1}.paupjob
-    echo "mpiexec mb ${chain1}_mini.paupcmd" >> ${chain1}.paupjob
-    echo "mpiexec mb ${chain1}_rand.paupcmd" >> ${chain1}.paupjob
+    echo "mpiexec mb \$HOME/CharSim/parsimony/${chain1}_norm.paupcmd" >> ${chain1}.paupjob
+    echo "mpiexec mb \$HOME/CharSim/parsimony${chain1}_maxi.paupcmd" >> ${chain1}.paupjob
+    echo "mpiexec mb \$HOME/CharSim/parsimony${chain1}_mini.paupcmd" >> ${chain1}.paupjob
+    echo "mpiexec mb \$HOME/CharSim/parsimony${chain1}_rand.paupcmd" >> ${chain1}.paupjob
     if [ -n "$chain2" ]
     then
-        echo "mpiexec mb ${chain2}_norm.paupcmd" >> ${chain1}.paupjob
-        echo "mpiexec mb ${chain2}_maxi.paupcmd" >> ${chain1}.paupjob
-        echo "mpiexec mb ${chain2}_mini.paupcmd" >> ${chain1}.paupjob
-        echo "mpiexec mb ${chain2}_rand.paupcmd" >> ${chain1}.paupjob
+        echo "mpiexec mb \$HOME/CharSim/parsimony${chain2}_norm.paupcmd" >> ${chain1}.paupjob
+        echo "mpiexec mb \$HOME/CharSim/parsimony${chain2}_maxi.paupcmd" >> ${chain1}.paupjob
+        echo "mpiexec mb \$HOME/CharSim/parsimony${chain2}_mini.paupcmd" >> ${chain1}.paupjob
+        echo "mpiexec mb \$HOME/CharSim/parsimony${chain2}_rand.paupcmd" >> ${chain1}.paupjob
     fi
 fi

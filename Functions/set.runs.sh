@@ -77,7 +77,7 @@ then
 
     echo "[MCMC settings]" >> base_mbcmd.tmp
     #echo "startvals tau=Start_tree V=Start_tree ;" >> base_mbcmd.tmp     # Prior on the topology??
-    echo "mcmc nruns=${runs} Nchains=${chains} ngen=${Generations} samplefreq=${sampling} printfreq=${printing} diagnfreq=${diagnosi} Stoprule=YES stopval=0.01 mcmcdiagn=YES file=<CHAIN>;" >> base_mbcmd.tmp
+    echo "mcmc nruns=2 Nchains=4 ngen=${Generations} samplefreq=${sampling} printfreq=${printing} diagnfreq=${diagnosi} Stoprule=YES stopval=0.01 mcmcdiagn=YES file=<CHAIN>;" >> base_mbcmd.tmp
     echo "sump Filename=<CHAIN> Relburnin=YES Burninfrac=0.25;" >> base_mbcmd.tmp
     echo "sumt Filename=<CHAIN> Relburnin=YES Burninfrac=0.25;" >> base_mbcmd.tmp
     echo "end;" >> base_mbcmd.tmp
