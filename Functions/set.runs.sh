@@ -4,9 +4,9 @@
 #Shell script for setting up the MrBayes and/or PAUP* scripts
 ##########################
 #SYNTAX:
-#sh set.runs.sh <matrix> <method> <CPU> <outgroup>
+#sh set.runs.sh <chain_name> <method> <CPU> <outgroup>
 #with:
-#<matrix> the path to the matrix to be run.
+#<chain_name> the path to the matrices chain to be run.
 #<method> either "PAUP", "MrBayes" or "both".
 #<CPU> number of CPUs available.
 #<outgroup> optional outgroup.
@@ -18,7 +18,7 @@
 ## Step 1 - INPUT
 
 ## Input values
-matrix=$1
+chain_name=$1
 method=$2
 CPU=$3
 outgroup=$4
@@ -28,9 +28,6 @@ if echo $method | grep 'both' > /dev/null
 then
     method="MrBayesPAUP"
 fi
-
-## Get the chain name
-chain_name=$(echo $matrix | sed 's/.nex//g')
 
 ## Get the CPU numbers
 if echo $CPU | grep '1'
