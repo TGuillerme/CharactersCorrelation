@@ -37,10 +37,10 @@ Here we are going to explore the inverse absolute Spearman correlation (ranging 
 cor.spearman <- function(X, Y) {
     return(1-round(abs(cor(X,Y, method = "spearman")), digit = 10))
 }
-## Note that to avoid rounding issues, we will round the correlation value up to the last 10 digits
 ```
+> Note that to avoid rounding issues, we will round the correlation value up to the last 10 digits
 
-We will also introduce a new difference simply called "Character difference" that counts the difference in states pattern (ranging from 0 - no difference - to 1 - complete difference) as follows:
+We will also introduce a new difference called "Character Difference" that counts the difference in states pattern (ranging from 0 - no difference - to 1 - complete difference) as follows:
 
 ![equation](http://www.sciweavers.org/tex2img.php?eq=1%20-%20%5Cleft%28%20%5Cfrac%7B%5Cmid%20%7B%5Cfrac%7B%5Cabs%7B%5Csum_%7Bi%7D%5E%7Bn%7D%28%5Cmid%20x_%7Bi%7D%20-%20y_%7Bi%7D%5Cmid%20%29%7D%7D%20%7Bn%7D-%5Cfrac%7B1%7D%7B2%7D%7D%20%5Cmid%20%20%7D%7B%5Cfrac%7B1%7D%7B2%7D%7D%5Cright%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 <!-- \begin{equation}
@@ -49,19 +49,22 @@ We will also introduce a new difference simply called "Character difference" tha
 
 Where *n* is the number of taxa with comparable data and *x_i* and *y_i* are each characters states for the characters *x* and *y* and the taxon *i*.
 
-Note that in practice, the characters are first normalised and the Gower distance is then calculated.
-The normalisation works by changing the characters tokens labels to always start from `0` being the first state.
-For example, a character `{8,8,2,1,3,0}` will be normalised by changing all the occurences of the first state (`8`) by `0`, then all the occurences of the second one (`2`) by `1` and so on resulting in the character being normalised as `{0,0,1,2,3,4}`.
+Note that in practice, the characters are first normalised and the Gower distance is then calculated:
+ * The normalisation works by changing the characters tokens labels to always start from `0` being the first state.
+For example, a character `{8,8,2,1,3,0}` will be normalised by changing all the occurrences of the first state (`8`) by `0`, then all the occurrences of the second one (`2`) by `1` and so on resulting in the character being normalised as `{0,0,1,2,3,4}`.
 Note that from a phylogenetic point of view, if the character is Fitch-like, both characters convey the exact same information.
+ * The Gower distance is simply the distance divided by the number of observation (i.e. to take into account the inapplicable or missing data).
+
+The function to calculate the character difference is a modification of the `stats::dist` function's source code (in `C`):
 
 ```{r}
-source("../Functions/char.diff.R")
-dyn.load("../Functions/char.diff.so")
+source("../../Functions/char.diff.R")
+dyn.load("../../Functions/char.diff.so")
 ```
 
 A simple case
 ----------------
-Let's create a bunch of binary characters first
+Let's create a bunch of binary characters first:
 
 ```{r}
 A <- c(1,0,0,0,0)
@@ -72,7 +75,7 @@ E <- c(1,0,0,1,1)
 ```
 
 Straight away, we expect `A` and `B` to be totally correlated as well as `D` and `E`.
-Also, will will check if our difference metric is triangular (i.e. if `A` = `B` then the difference `(A,X)` must be equal to `(B,X)`).
+Also, we will check if our difference metric is triangular (i.e. if `A` = `B` then the difference `(A,X)` must be equal to `(B,X)`).
 
 ```{r}
 ## As expected:
@@ -120,7 +123,7 @@ In other words, the "Character difference" seems to pick up slightly higher diff
 
 A non-binary case
 ----------------
-However, in reality, some characters might have more than two state.
+However, in reality, some characters might have more than two state:
 
 ```{r}
 A <- c(1,2,0,0,0)
@@ -132,10 +135,8 @@ F <- c(0,1,2,0,0)
 G <- c(0,2,1,0,0)
 ```
 
-In this case again, we expect `A` and 
-
-Straight away, we expect `A` and `B` to be totally correlated/not different as well as well as `C` and `D`.
-However, the spearman correlation does pick up some difference (i.e. not totally correlated)
+Similarly, we expect `A` and `B` to be totally totally correlated as well as `C` and `D`.
+However, the Spearman correlation does pick up some difference (i.e. not totally correlated)
 
 ```{r}
 cor.spearman(A,B)
@@ -197,7 +198,7 @@ matrix <- apply(matrix, 2, as.numeric)
 Let's now run the pairwise comparisons for both metrics. We will use the `cor.matrix` function for calculating the spearman correlation (slow).
 
 ```{r}
-source("../Functions/cor.matrix.R")
+source("../../Functions/cor.matrix.R")
 pairwise_matrix_correlation <- cor.matrix(matrix, cor.spearman)
 pairwise_matrix_differences <- char.diff(matrix)
 ```
@@ -205,7 +206,7 @@ pairwise_matrix_differences <- char.diff(matrix)
 We can now visualise a same single pairwise comparison (character `1` *versus* the others):
 
 ```{r, fig.width=6, fig.height=6}
-source("../Functions/plot.cor.matrix.R")
+source("../../Functions/plot.cor.matrix.R")
 ## Extracting the first character differences
 character_differences <- pairwise_matrix_differences[,1]
 character_correlation <- pairwise_matrix_correlation[,1]
@@ -253,7 +254,6 @@ hist(na.omit(as.vector(pairwise_differences)), breaks = 15,
 ## Are the residuals normal?
 shapiro.test(na.omit(pairwise_differences))
 ```
-
 
 Appendix
 ===============

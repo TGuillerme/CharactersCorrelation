@@ -31,10 +31,15 @@ Loading the functions
 
 ```{r}
 library(Claddis) ; library(dispRity)
-source("functions.R") ; load.functions(test = FALSE)
+source("../../Functions/cor.matrix.R")
+source("../../Functions/modify.matrix.R")
+source("../../Functions/plot.char.diff.density.R")
+source("../../Functions/plot.cor.matrix.R")
+source("../../Functions/write.nexus.std.R")
+source("../../Functions/char.diff.R")
 
 ## Load the C libraries
-dyn.load("../Functions/char.diff.so")
+dyn.load("../../Functions/char.diff.so")
 
 ## Function for helping loading the matrices
 find.non.numerics <- function(x) {
@@ -75,7 +80,7 @@ The matrices are the ones from Guillerme & Cooper 2016 (MPE) with different matr
 
 ```{r}
 ## Set up the matrices path
-matrix_path = "../Data/100_Matrices"
+matrix_path = "../../Data/100_Matrices"
 files <- list.files(path = matrix_path, pattern = ".nex")
 
 ## Read the matrices

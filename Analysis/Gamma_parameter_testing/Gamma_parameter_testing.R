@@ -2,8 +2,13 @@
 library(Claddis)
 library(dispRity)
 library(diversitree)
-source("functions.R") ; load.functions(test = FALSE)
-dyn.load("../Functions/char.diff.so")
+source("../../Functions/cor.matrix.R")
+source("../../Functions/modify.matrix.R")
+source("../../Functions/plot.char.diff.density.R")
+source("../../Functions/plot.cor.matrix.R")
+source("../../Functions/write.nexus.std.R")
+source("../../Functions/char.diff.R")
+dyn.load("../../Functions/char.diff.so")
 write.nexus.std <- ape::write.nexus.data
 body(write.nexus.std)[[2]] <- substitute(format <- match.arg(toupper(format), c("DNA", "PROTEIN", "STANDARD")))
 body(write.nexus.std)[[26]][[3]][[4]] <- substitute(fcat(indent, "FORMAT", " ", DATATYPE, " ", MISSING, " ", GAP, 
@@ -46,7 +51,7 @@ get.CI <- function(X) {
 
 ## Testing parameter (CI distribution)
 gamma <- list(c(rgamma, rate = 1, shape = 1), c(rgamma, rate = 10, shape = 1), c(rgamma, rate = 100, shape = 1), c(rgamma, rate = 1, shape = 5), c(rgamma, rate = 10, shape = 5), c(rgamma, rate = 100, shape = 5))
-runs <- 50
+runs <- 30
 
 for(param in 1:length(gamma)) {
     t25_c100 <- replicate(runs, morpho.wrapper(25, 100, gamma[[param]]), simplify = FALSE)
@@ -64,11 +69,11 @@ for(param in 1:length(gamma)) {
     hist(unlist(lapply(t25_c100, get.CI)), breaks = 20, main = "25t_100c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
     hist(unlist(lapply(t25_c350, get.CI)), breaks = 20, main = "25t_350c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
     hist(unlist(lapply(t25_c1000, get.CI)), breaks = 20, main = "25t_1000c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
-    hist(unlist(lapply(t75_c100, get.CI)), breaks = 10, main = "75t_100c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
-    hist(unlist(lapply(t75_c350, get.CI)), breaks = 10, main = "75t_350c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
-    hist(unlist(lapply(t75_c1000, get.CI)), breaks = 10, main = "75t_1000c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
-    hist(unlist(lapply(t150_c100, get.CI)), breaks = 10, main = "150t_100c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
-    hist(unlist(lapply(t150_c350, get.CI)), breaks = 10, main = "150t_350c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
-    hist(unlist(lapply(t150_c1000, get.CI)), breaks = 10, main = "150t_1000c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
+    hist(unlist(lapply(t75_c100, get.CI)), breaks = 20, main = "75t_100c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
+    hist(unlist(lapply(t75_c350, get.CI)), breaks = 20, main = "75t_350c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
+    hist(unlist(lapply(t75_c1000, get.CI)), breaks = 20, main = "75t_1000c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
+    hist(unlist(lapply(t150_c100, get.CI)), breaks = 20, main = "150t_100c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
+    hist(unlist(lapply(t150_c350, get.CI)), breaks = 20, main = "150t_350c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
+    hist(unlist(lapply(t150_c1000, get.CI)), breaks = 20, main = "150t_1000c", xlab = "Consistency Index", xlim = c(0,1)) ; abline(v = 0.26, lty = 3)
     dev.off()
 }
