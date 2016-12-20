@@ -26,7 +26,7 @@ sample.birth.death <- function() {
 
 ## Seed
 set.seed(0)
-system("echo \"\" >> Matrix_gen.log")
+system("echo \"\" > Matrix_generation.log")
 
 ## Variables
 path <- "../Data/Simulations/"
@@ -64,21 +64,21 @@ for(simulation in 1:length(simulationID)) {
 
     ## Verbose
     cat(paste("RUN: ", ntaxa,"t_", ncharacters, "c_", simulationID[simulation], " - ", sep = ""))
-    system(paste("printf \"RUN: ", ntaxa,"t_", ncharacters, "c_", simulationID[simulation], " - \" >> Matrix_gen.log", sep = ""))
+    system(paste("printf \"RUN: ", ntaxa,"t_", ncharacters, "c_", simulationID[simulation], " - \" >> Matrix_generation.log", sep = ""))
 
 
     ## 1 - Generating the tree:
     tree <- NULL
     birth_death <- sample.birth.death()
     cat("Tree:")
-    system("printf \"Tree:\" >> Matrix_gen.log")
+    system("printf \"Tree:\" >> Matrix_generation.log")
     while(is.null(tree)) {
         tree <- tree.bd(birth_death, max.taxa = ntaxa)
         cat(".")
-        system("printf \".\" >> Matrix_gen.log")
+        system("printf \".\" >> Matrix_generation.log")
     }
     cat("Done - ")
-    system("printf \"Done - \" >> Matrix_gen.log")
+    system("printf \"Done - \" >> Matrix_generation.log")
 
     tree$node.label <- NULL
     tree$tip.label[[1]] <- "outgroup"
@@ -87,30 +87,27 @@ for(simulation in 1:length(simulationID)) {
 
     ## 2 - Generating the matrices
     cat("Matrix:")
-    system("printf \"Matrix:\" >> Matrix_gen.log")
-    matrix_norm <- NULL
-    try(matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 3), invariant = FALSE), silent = TRUE)
-    if(is.null(matrix_norm)) {
-        cat("FAILURE.\n")
-        system("printf \"FAILURE.\n\" >> Matrix_gen.log")
-    } else {
+    system("printf \"Matrix:\" >> Matrix_generation.log")
+    matrix_norm <- NULL ; counter <- 0 
+    matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 5), invariant = FALSE)    
+    cat(".")
+    system("printf \".\" >> Matrix_generation.log")
+    while(counter < 15 & check.morpho(matrix_norm)[2,] < 0.26) {
+        matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 10, shape = 5), invariant = FALSE)
+        counter <- counter + 1
         cat(".")
-        system("printf \".\" >> Matrix_gen.log")
-        while(check.morpho(matrix_norm)[2,] < 0.26) {
-            matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 3), invariant = FALSE)
-            cat(".")
-            system("printf \".\" >> Matrix_gen.log")
-        }
-        cat("Done - ")
-        system("printf \"Done - \" >> Matrix_gen.log")
-        matrix_maxi <- modify.matrix(matrix_norm, type = "maximise", threshold = 0.25)
-        matrix_mini <- modify.matrix(matrix_norm, type = "minimise", threshold = 0.75)
-        matrix_rand <- modify.matrix(matrix_norm, type = "randomise", threshold = 0.25)
-        write.nexus.std(matrix_norm, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_norm.nex", sep = ""), format = "standard")
-        write.nexus.std(matrix_maxi, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_maxi.nex", sep = ""), format = "standard")
-        write.nexus.std(matrix_mini, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_mini.nex", sep = ""), format = "standard")
-        write.nexus.std(matrix_rand, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_rand.nex", sep = ""), format = "standard")
-        cat("All save... OK.\n")
-        system("printf \"All save... OK.\n\" >> Matrix_gen.log")
+        system("printf \".\" >> Matrix_generation.log")
+    }
+    cat("Done - ")
+    system("printf \"Done - \" >> Matrix_generation.log")
+    matrix_maxi <- modify.matrix(matrix_norm, type = "maximise", threshold = 0.25)
+    matrix_mini <- modify.matrix(matrix_norm, type = "minimise", threshold = 0.75)
+    matrix_rand <- modify.matrix(matrix_norm, type = "randomise", threshold = 0.25)
+    write.nexus.std(matrix_norm, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_norm.nex", sep = ""), format = "standard")
+    write.nexus.std(matrix_maxi, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_maxi.nex", sep = ""), format = "standard")
+    write.nexus.std(matrix_mini, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_mini.nex", sep = ""), format = "standard")
+    write.nexus.std(matrix_rand, file = paste(paste(path, "Matrices/", sep = ""), ntaxa,"t_", ncharacters, "c_", simulationID[simulation], "_rand.nex", sep = ""), format = "standard")
+    cat("All save... OK.\n")
+    system("printf \"All save... OK.\n\" >> Matrix_generation.log")
     }
 }
