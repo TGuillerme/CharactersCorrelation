@@ -5,3 +5,7 @@
 Data/100_Matrices/*
 
 Data/*
+Cluster/JobTracker.xlsx
+
+# Vignettes
+*.html
