@@ -63,7 +63,7 @@ then
     echo "[Data input]" >> base_mbcmd.tmp
     echo "set autoclose=yes nowarn=yes;" >> base_mbcmd.tmp
     echo "log start filename=<CHAIN>.log;" >> base_mbcmd.tmp
-    echo "execute <CHAIN>.nex;" >> base_mbcmd.tmp
+    #echo "execute <CHAIN>.nex;" >> base_mbcmd.tmp
     echo "" >> base_mbcmd.tmp
 
     echo "[Model settings]" >> base_mbcmd.tmp

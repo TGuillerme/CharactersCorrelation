@@ -63,6 +63,10 @@ then
     echo "module load beagle-lib" >> ${chain1}.mbjob
     echo "module load mrbayes/3.2.6" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
+    echo "## Entry time" >> ${chain1}.mbjob
+    echo "echo \"Entry time\"" >> ${chain1}.mbjob
+    echo "date" >> ${chain1}.mbjob
+    echo "" >> ${chain1}.mbjob
     echo "## Run the chains" >> ${chain1}.mbjob
     echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
     echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
@@ -75,6 +79,13 @@ then
         echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_mini.mbcmd" >> ${chain1}.mbjob
         echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_rand.mbcmd" >> ${chain1}.mbjob
     fi
+    echo "" >> ${chain1}.mbjob
+    echo "## Saving the output" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"mkdir -p \$WORK/CharSim/Bayesian/25t_100c_0001_\$PBS_JOBID/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/25t_100c_0001_\$PBS_JOBID/\"" >> ${chain1}.mbjob
+    echo "## Exit time" >> ${chain1}.mbjob
+    echo "echo \"Exit time\"" >> ${chain1}.mbjob
+    echo "date" >> ${chain1}.mbjob
 fi
 
 if echo $method | grep 'PAUP' > /dev/null
