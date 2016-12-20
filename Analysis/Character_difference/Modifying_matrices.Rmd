@@ -27,10 +27,15 @@ if(!require(diversitree)) install.packages("diversitree")
 
 ```{r, results="hide", message=FALSE}
 library(Claddis) ; library(dispRity) ; library(diversitree)
-source("functions.R") ; load.functions(test = FALSE)
+source("../../Functions/cor.matrix.R")
+source("../../Functions/modify.matrix.R")
+source("../../Functions/plot.char.diff.density.R")
+source("../../Functions/plot.cor.matrix.R")
+source("../../Functions/write.nexus.std.R")
+source("../../Functions/char.diff.R")
 
 ## Load the C libraries
-dyn.load("../Functions/char.diff.so")
+dyn.load("../../Functions/char.diff.so")
 
 ## Seed for repeatability
 set.seed(0)
