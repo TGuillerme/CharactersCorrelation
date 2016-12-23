@@ -9,3 +9,7 @@ Cluster/JobTracker.xlsx
 
 # Vignettes
 *.html
+
+# Jobs
+Cluster/Bayesian/*.mbcmd
+Cluster/Bayesian/*.mbjob
