@@ -81,8 +81,8 @@ then
     fi
     echo "" >> ${chain1}.mbjob
     echo "## Saving the output" >> ${chain1}.mbjob
-    echo "pbsdsh2 \"mkdir -p \$WORK/CharSim/Bayesian/25t_100c_0001_\$PBS_JOBID/\"" >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/25t_100c_0001_\$PBS_JOBID/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"mkdir -p \$WORK/CharSim/Bayesian/${chain1}_\$PBS_JOBID/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}_\$PBS_JOBID/\"" >> ${chain1}.mbjob
     echo "## Exit time" >> ${chain1}.mbjob
     echo "echo \"Exit time\"" >> ${chain1}.mbjob
     echo "date" >> ${chain1}.mbjob
