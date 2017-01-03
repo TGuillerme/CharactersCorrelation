@@ -8,7 +8,7 @@ do
 
     ## Get the starting time
     time_entry=$(grep -n 'Entry time' ${job} | sed 's/:Entry time//g')
-    let "time_entry += 1" ; echo $time_entry
+    let "time_entry += 1"
     time_entry=$(sed -n ''"${time_entry}"'p' ${job})
     time_entry=$(date -j -u -f "%a %d %b %T %Z %Y" "${time_entry}" "+%s")
 
