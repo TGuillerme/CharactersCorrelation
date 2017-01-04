@@ -30,14 +30,14 @@ then
 fi
 
 ## Get the CPU numbers
-if echo $CPU | grep '1'
-then
-    runs=1
-    chains=2
-else
-    runs=2
-    chains=$(echo "$CPU / 2" | bc | sed 's/\.[0-9]*//g')
-fi
+# if echo $CPU | grep '1'
+# then
+#     runs=1
+#     chains=2
+# else
+#     runs=2
+#     chains=$(echo "$CPU / 2" | bc | sed 's/\.[0-9]*//g')
+# fi
 
 ## Step 2 - SET UP MRBAYES
 
@@ -77,7 +77,7 @@ then
 
     echo "[MCMC settings]" >> base_mbcmd.tmp
     #echo "startvals tau=Start_tree V=Start_tree ;" >> base_mbcmd.tmp     # Prior on the topology??
-    echo "mcmc nruns=2 Nchains=4 ngen=${Generations} samplefreq=${sampling} printfreq=${printing} diagnfreq=${diagnosi} Stoprule=YES stopval=0.01 mcmcdiagn=YES file=<CHAIN>;" >> base_mbcmd.tmp
+    echo "mcmc nruns=2 Nchains=6 ngen=${Generations} samplefreq=${sampling} printfreq=${printing} diagnfreq=${diagnosi} Stoprule=YES stopval=0.01 mcmcdiagn=YES file=<CHAIN>;" >> base_mbcmd.tmp
     echo "sump Filename=<CHAIN> Relburnin=YES Burninfrac=0.25;" >> base_mbcmd.tmp
     echo "sumt Filename=<CHAIN> Relburnin=YES Burninfrac=0.25;" >> base_mbcmd.tmp
     echo "end;" >> base_mbcmd.tmp

@@ -32,13 +32,15 @@ then
 fi
 
 ## Get the nodes numbers
-nodes=$(echo "${CPU}/8" | bc)
-if [ -n "$chain2" ]
-then
-    nodes=$(echo "${nodes}*2" | bc)
-    CPU=$(echo "${CPU}*2" | bc)
-fi
+# nodes=$(echo "${CPU}/8" | bc)
+# if [ -n "$chain2" ]
+# then
+#     nodes=$(echo "${nodes}*2" | bc)
+#     CPU=$(echo "${CPU}*2" | bc)
+# fi
 
+nodes=1
+CPU=12
 
 if echo $method | grep 'MrBayes' > /dev/null
 then
