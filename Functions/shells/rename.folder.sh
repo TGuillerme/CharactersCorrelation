@@ -95,3 +95,12 @@ done
 #     # echo ${prefix}
 #     sed -i -e 's/walltime=48:00:00/walltime=120:00:00/g' ${file}
 # done
+
+
+
+## Rerunning
+# for ((num=362; num<=363; num++))
+# do
+#     sh rerun.missing.sh 150t_350c_0${num} 3
+# done
+
