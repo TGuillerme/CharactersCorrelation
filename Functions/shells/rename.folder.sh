@@ -75,10 +75,13 @@ done
 
 
 ## Modifying core numbers within text
-# for file in *.mbjob
-# do
-#     sed -i -e 's/ncpus=8/ncpus=16/g' ${file}
-# done
+for file in *.mbjob*
+do
+    sed -i -e 's/_norm.mbcmd/_norm.mbcmd; echo "norm time out"; \date/g' ${file}
+    sed -i -e 's/_maxi.mbcmd/_norm.mbcmd; echo "maxi time out"; \date/g' ${file}
+    sed -i -e 's/_mini.mbcmd/_norm.mbcmd; echo "mini time out"; \date/g' ${file}
+    sed -i -e 's/_rand.mbcmd/_norm.mbcmd; echo "rand time out"; \date/g' ${file}
+done
 
 ## Modifying the file name saving
 # for file in *.mbjob
