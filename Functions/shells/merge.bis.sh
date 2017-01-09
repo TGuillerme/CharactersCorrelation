@@ -14,5 +14,7 @@ do
         printf "."
     done
 
+    rm -R ${jobbis}
+
     echo "Done."
 done
