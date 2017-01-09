@@ -22,22 +22,22 @@ cp ${chain}.mbjob ${chain}.mbjob-bis
 if echo $missing | grep '3' > /dev/null
 then
     sed -i -e 's/$PBS_JOBID/bis_$PBS_JOBID/g' ${chain}.mbjob-bis
-    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/g' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd ; echo \"norm time out\" ; date/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd ; echo \"norm time out\" ; date/g' ${chain}.mbjob-bis
 fi
 
 if echo $missing | grep '2' > /dev/null
 then
     sed -i -e 's/$PBS_JOBID/bis_$PBS_JOBID/g' ${chain}.mbjob-bis
-    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/g' ${chain}.mbjob-bis
-    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd/g' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd ; echo \"norm time out\" ; date/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd ; echo \"norm time out\" ; date/g' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd ; echo \"maxi time out\" ; date/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd ; echo \"maxi time out\" ; date/g' ${chain}.mbjob-bis
 fi
 
 if echo $missing | grep '1' > /dev/null
 then
     sed -i -e 's/$PBS_JOBID/bis_$PBS_JOBID/g' ${chain}.mbjob-bis
-    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/g' ${chain}.mbjob-bis
-    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd/g' ${chain}.mbjob-bis
-    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.mbcmd/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.mbcmd/g' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd ; echo \"norm time out\" ; date/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd ; echo \"norm time out\" ; date/g' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd ; echo \"maxi time out\" ; date/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd ; echo \"maxi time out\" ; date/g' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.mbcmd ; echo \"mini time out\" ; date/# mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.mbcmd ; echo \"mini time out\" ; date/g' ${chain}.mbjob-bis
 fi
 
 rm *.mbjob-bis-e

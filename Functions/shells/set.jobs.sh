@@ -70,18 +70,10 @@ then
     echo "date" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
     echo "## Run the chains" >> ${chain1}.mbjob
-    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
-    echo "echo \"norm time out\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
-    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
-    echo "echo \"maxi time out\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
-    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
-    echo "echo \"mini time out\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
-    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
-    echo "echo \"rand time out\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_norm.mbcmd ; echo \"norm time out\" ; date" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd ; echo \"maxi time out\" ; date" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd ; echo \"mini time out\" ; date" >> ${chain1}.mbjob
+    echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd ; echo \"rand time out\" ; date" >> ${chain1}.mbjob
     if [ -n "$chain2" ]
     then
         echo "mpiexec mb \$HOME/CharSim/Bayesian/${chain2}_norm.mbcmd" >> ${chain1}.mbjob
