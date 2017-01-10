@@ -136,7 +136,7 @@ then
         sh Nex2New.sh ${CHAIN} "newick"
 
         ## Save the three trees in a same file
-        cat ${CHAIN}_maxi.con.tre.newick > ${CHAIN}_ref.tre
+        cat ${CHAIN}_norm.con.tre.newick > ${CHAIN}_ref.tre
         cat ${CHAIN}_maxi.con.tre.newick > ${CHAIN}_comb.con.tre
         cat ${CHAIN}_mini.con.tre.newick >> ${CHAIN}_comb.con.tre
         cat ${CHAIN}_rand.con.tre.newick >> ${CHAIN}_comb.con.tre
@@ -145,7 +145,7 @@ then
         sed -i -e 's/\[\&U\]/'"${root}"'/g' ${CHAIN}_comb.con.tre ; rm ${CHAIN}_comb.con.tre-e
     else
         ## Save the three trees in a same file
-        cat ${CHAIN}_maxi.con.tre > ${CHAIN}_ref.tre
+        cat ${CHAIN}_norm.con.tre > ${CHAIN}_ref.tre
         cat ${CHAIN}_maxi.con.tre > ${CHAIN}_comb.con.tre
         cat ${CHAIN}_mini.con.tre >> ${CHAIN}_comb.con.tre
         cat ${CHAIN}_rand.con.tre >> ${CHAIN}_comb.con.tre
