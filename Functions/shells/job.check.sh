@@ -37,15 +37,15 @@ do
         ## CPUT time
         if echo $runs_done | grep '1' > /dev/null
         then
-            time_out=$(grep -n 'norm time out' ${job} | sed 's/:Exit time//g')
+            time_out=$(grep -n 'norm time out' ${job} | sed 's/:norm time out//g')
         fi
         if echo $runs_done | grep '2' > /dev/null
         then
-            time_out=$(grep -n 'maxi time out' ${job} | sed 's/:Exit time//g')
+            time_out=$(grep -n 'maxi time out' ${job} | sed 's/:maxi time out//g')
         fi
         if echo $runs_done | grep '3' > /dev/null
         then
-            time_out=$(grep -n 'mini time out' ${job} | sed 's/:Exit time//g')
+            time_out=$(grep -n 'mini time out' ${job} | sed 's/:mini time out//g')
         fi
 
         let "time_out += 1"
