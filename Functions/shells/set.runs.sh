@@ -121,6 +121,10 @@ then
     then
         echo "[Model settings]" >> base_ppcmd.tmp
         echo "outgroup $outgroup;" >> base_ppcmd.tmp
+        echo "set maxtrees=500 increase=auto autoInc=500;" >> base_ppcmd.tmp
+    else
+        echo "[Model settings]" >> base_ppcmd.tmp
+        echo "set maxtrees=500 increase=auto autoInc=500;" >> base_ppcmd.tmp        
     fi
 
     echo "" >> base_ppcmd.tmp
