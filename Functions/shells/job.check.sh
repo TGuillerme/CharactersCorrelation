@@ -38,14 +38,26 @@ do
         if echo $runs_done | grep '1' > /dev/null
         then
             time_out=$(grep -n 'norm time out' ${job} | sed 's/:norm time out//g')
+            if [ -z "$time_out" ] 
+            then
+                time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
+            fi
         fi
         if echo $runs_done | grep '2' > /dev/null
         then
             time_out=$(grep -n 'maxi time out' ${job} | sed 's/:maxi time out//g')
+            if [ -z "$time_out" ] 
+            then
+                time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
+            fi
         fi
         if echo $runs_done | grep '3' > /dev/null
         then
             time_out=$(grep -n 'mini time out' ${job} | sed 's/:mini time out//g')
+            if [ -z "$time_out" ] 
+            then
+                time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
+            fi
         fi
 
         let "time_out += 1"
