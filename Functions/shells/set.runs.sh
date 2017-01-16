@@ -130,7 +130,7 @@ then
     echo "" >> base_ppcmd.tmp
     echo "[Parsimony search]" >> base_ppcmd.tmp
     echo "hsearch addseq=random nreps=10 rseed=01234;" >> base_ppcmd.tmp
-    echo "bootstrap bseed=12345 nreps=100 method=bandb conlevel=50 keepall;" >> base_ppcmd.tmp
+    echo "bootstrap bseed=12345 nreps=1 method=bandb conlevel=50 keepall;" >> base_ppcmd.tmp
 
 
     echo "" >> base_ppcmd.tmp
