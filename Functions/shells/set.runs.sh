@@ -124,22 +124,22 @@ then
         echo "set maxtrees=500 increase=auto autoInc=500;" >> base_ppcmd.tmp
     else
         echo "[Model settings]" >> base_ppcmd.tmp
-        echo "set maxtrees=500 increase=auto autoInc=500;" >> base_ppcmd.tmp        
+        echo "set maxtrees=500 increase=auto autoInc=500;" >> base_ppcmd.tmp
     fi
 
     echo "" >> base_ppcmd.tmp
     echo "[Parsimony search]" >> base_ppcmd.tmp
     echo "hsearch addseq=random nreps=10 rseed=01234;" >> base_ppcmd.tmp
-    echo "bootstrap bseed=12345 nreps=1 method=bandb conlevel=50 keepall;" >> base_ppcmd.tmp
+    echo "bootstrap bseed=12345 nreps=100 ConLevel=50 KeepAll=yes TreeFile = <CHAIN>.bs;" >> base_ppcmd.tmp
 
 
     echo "" >> base_ppcmd.tmp
     echo "[Summarize search]" >> base_ppcmd.tmp
     if [ -n "$outgroup" ]
     then
-        echo "savetrees from=1 to=10000 file=<CHAIN>.tre root replace;" >> base_ppcmd.tmp
+        echo "savetrees from=1 to=1000000 file=<CHAIN>.tre root replace;" >> base_ppcmd.tmp
     else
-        echo "savetrees from=1 to=10000 file=<CHAIN>.tre replace;" >> base_ppcmd.tmp
+        echo "savetrees from=1 to=1000000 file=<CHAIN>.tre replace;" >> base_ppcmd.tmp
     fi
     echo "contree /majrule cutoff=50 file=<CHAIN>.contre replace;" >> base_ppcmd.tmp
     echo "q;" >> base_ppcmd.tmp
