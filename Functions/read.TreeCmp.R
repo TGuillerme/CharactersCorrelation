@@ -14,7 +14,7 @@
 #' @export
 #' 
 
-read.TreeCmp <- function(chain) {
+read.TreeCmp <- function(chain, true = FALSE) {
     ## Sanitizing
     if(class(chain) !='character') {
         stop('No files has been found within the given chain name.')
@@ -38,18 +38,30 @@ read.TreeCmp <- function(chain) {
     ## Set up the list for the combined results
     message("Combining the TreeCmp results:", appendLF = FALSE)
     file = 1
-    maxi <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 1))
-    mini <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 2))
-    rand <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 3))
+    if(!true) {
+        maxi <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 1))
+        mini <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 2))
+        rand <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 3))
+    } else {
+        norm <- as.matrix(lapply(as.list(matrices[[file]]), `[[`, 1))
+    }
     message(".", appendLF = FALSE)
 
     for(file in 2:length(matrices)) {
-        maxi <- cbind(maxi, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 1)))
-        mini <- cbind(mini, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 2)))
-        rand <- cbind(rand, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 3)))
+        if(!true) {
+            maxi <- cbind(maxi, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 1)))
+            mini <- cbind(mini, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 2)))
+            rand <- cbind(rand, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 3)))
+        } else {
+            norm <- cbind(norm, as.matrix(lapply(as.list(matrices[[file]]), `[[`, 1)))
+        }
         message(".", appendLF = FALSE)
     }
     message("Done.\n", appendLF = FALSE)
 
-    return(list("maxi" = as.list(t(maxi)), "mini" = as.list(t(mini)), "rand" = as.list(t(rand))))
+    if(!true) {
+        return(list("maxi" = as.list(t(maxi)), "mini" = as.list(t(mini)), "rand" = as.list(t(rand))))
+    } else {
+        return(list("norm" = as.list(t(norm))))
+    }
 }
