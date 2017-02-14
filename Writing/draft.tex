@@ -153,7 +153,10 @@ The last five years have seen a drastic expansion (resurgence?) of the use of di
 In fact, traditionally confined to classic cladistics \citep{felsenstein2004inferring} these methods have recently been highly improved whether based on the models and methods for inferring phylogenies (\citealt{lewisa2001} + BAPSTinReview; with some debate on which method to use: \citealt{spencerefficacy2013,wrightbayesian2014,OReilly20160081}) or the methods to date them \citep[e.g.][]{bapsta2013} or to combine them with molecular data \citep{pyrondivergence2011,ronquista2012}.
 In parallel, much development has also been done on pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic analysis \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
 
-However, using discrete morphological data comes with several caveats, like the effect of missing data \citep{Guillerme2016146} or of the model \citep{OReilly20160081}.
+However, using discrete morphological data comes with several caveats, like the effect of missing data \citep{Guillerme2016146} or of the method \citep{OReilly20160081}.
+
+Common wisdom says that characters should not be correlated
+
 One specific assumption is that coded characters should not be correlated \citep{Brazeau2011}[FIND BETTER CITE?].
 
 Character correlation can be due to
@@ -184,7 +187,7 @@ In other words, we generate matrices and maximise or minimise character correlat
 \subsection{Measuring correlation between characters}
 
 We define characters as being correlated if they give the same phylogenetic information.
-In order to measure, the difference between two characters, we propose a new distance metric defined as follows:
+In order to measure the difference between two characters, we propose a new distance metric defined as follows:
 
 \subsubsection{Characters difference (CD)}
 \begin{equation}
@@ -192,35 +195,35 @@ In order to measure, the difference between two characters, we propose a new dis
 \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$ \citep[i.e. the Gower distance;][]{GowerDist}.
-Since we are considering differences as being only Fitch-like, we ignore the actual distance between two different character states tokens: two same character states tokens have a difference of $0$ and two different, a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
+Since we are considering differences as being only Fitch-like (i.e. non-weighted and non-ordinate), we ignore the actual distance between two different character states tokens: two same character states tokens have a difference of $0$ and two different ones have a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 In order to facilitate and standardise characters states comparison, we standardised each characters by arbitrarily modifying their character states tokens by order of appearance.
-In other words, we replaced all the occurences of the first token to be $0$, the second to be $1$, etc.
-This way, a character \texttt{A = {2,2,3,0,0,3}} would be standardised as \texttt{A' = {0,0,1,2,2,1}}. Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
+In other words, we replaced all the occurrences of the first token to be $0$, the second to be $1$, etc.
+This way, a character \texttt{A = \{2,2,3,0,0,3\}} would be standardised as \texttt{A' = \{0,0,1,2,2,1\}}.
+Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
 When the character difference is equal to $0$, it means that characters convey the same phylogenetic signal.
-When the character difference is equal to 1 it means it conveys the most different signal.
-For example with three characters \texttt{A = {0,1,1,1}}, \texttt{B = {1,0,0,0}} and \texttt{C = {0,1,2,3}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$.
-
-This metric respects triangular equality [CHECK THE PROPER NAME] (i.e. $CD_{(A,B)} = CD_{(B,A)}$ and $CD_{(A,C)} = CD_{(B,C)}$).
+When the character difference is equal to $1$ it means it conveys the most different signal.
+For example with three characters \texttt{A = \{0,1,1,1\}}, \texttt{B = \{1,0,0,0\}} and \texttt{C = \{0,1,2,3\}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$.
+This metric is thus a distance metric since it respects distances equality (i.e. $CD_{(A,B)} = CD_{(B,A)}$ and $CD_{(A,C)} = CD_{(B,C)}$).
 
 \subsection{Simulating discrete morphological matrices}
-
-To simulate the matrices we applied a protocol similar to \citep{Guillerme2016146}.
+To simulate the matrices we applied a protocol very similar to \citep{Guillerme2016146}.
 First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform ($0$,$1$) distribution maintaining $\lambda$ $>$ $\mu$ using the diversitree \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
 For each tree, we arbitrarily set the outgroup to be the first taxa (alphabetically) thus effectively rooting the trees on this taxa.
 These trees are hereafter called the ``true'' trees.
-We then simulated the characters using the either of the two following models:
+We then simulated discrete morphological characters using the either of the two following models:
 \begin{itemize}
-    \item The HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution an scale to sum to one) and using a transition/transvertion rate of two \citep{douadycomparison2003} but where the purines (AG) were changed into state $0$ and the pyrimidines (CT) in state $1$.
-    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][]{OReilly20160081} but can only generate binary state characters.
-    \item To generate more that two states characters, we used the M$k$ model \citep{lewisa2001}.
-    We draw the number of character states with a probability of $0.85$ for two-state characters (binary) and $0.15$ for three state characters \citep{Guillerme2016146}.
-    Assuming the same transition rate between character states might seem unrealistic and ignoring characters following, for example, a Dollo pattern, \cite{Wright01072016} have shown that an equal rate transition is still strictly majority in empirical data.
+    \item The HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution $(0,1)$ an scale to sum to one) and using a transition/transvertion rate of two \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
+    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][; see below]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
+    \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
+    We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146}.
+    This model assumes a equal transition rate between character states that might seem overly simplifying and excludes other observed transition patterns \citep[e.g. Dollo characters;][]{Dollo,wright2015came}.
+    Recently however, \cite{Wright01072016} have shown that an equal rate transition is still strictly majority in empirical data.
 \end{itemize}
 
-For each character, both models (HKY-binary or M$k$) where chosen randomly and ran with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
+\noindent For each character, both models (HKY-binary or M$k$) where chosen randomly and ran with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
 This low evolutionary rate values allowed to reduce the number of homoplasic character changes and thus reinforce the phylogenetic information in the matrices (see supplementary materials @@@).
-We resimulated every invariant characters to obtain a matrix with no invariant characters.
-To ensure the that our simulation where reflecting the same parameters as real data, we only selected matrices with Consistency Indices superior to $0.26$ \citep{OReilly20160081}.
+We re-simulated every invariant characters to obtain a matrix with no invariant characters.
+To ensure that our simulation where reflecting realistic observed parameters, we only selected matrices with Consistency Indices superior to $0.26$ \citep{OReilly20160081}.
 
 For each trees with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
 The matrices where generated using the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}.
@@ -228,26 +231,37 @@ To estimate the variance of our simulations and assess the effect of our random 
 
 \subsection{Modifying the matrices}
 
-We then calculated the pairwise character differences for each generated matrices. 
+We calculated the pairwise character differences for each generated matrices using the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}. %TG: TO IMPLEMENT! 
 We then modified the matrices to either maximise or minimise the pairwise character differences for each matrices using three different algorithms.
 For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<$$0.25$) and replaced them randomly by any of the remaining characters.
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<$$0.75$) and randomly replaced them with the remaining ones.
-Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<$$0.25$ or $>$$0.75$ a weight of $0$ and giving the randomly selected characters to replace them a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a null expectation modification (i.e. randomly weighting characters).
-This step resulted in a total of 1800 matrices (hereafter called the ``maximised'', ``minimised'' and ``random'' matrices).
+Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<$$0.25$ or $>$$0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a null expectation modification (i.e. randomly weighting characters).
+This step resulted in a total of 1800 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``random'' matrices).
 The algorithms for the three modifications is available on GitHub@@@. %TG: "@@@" is my "to replace" sign.
 
 \subsection{Inferring the phylogenies}
 
-We inferred the topologies in both Bayesian and Parsimony using MrBayes and PAUP* respectively.
+We inferred the topologies in both Bayesian and Maximum Parsimony using MrBayes \citep[v3.2.6;][]{Ronquist2012mrbayes} and PAUP* \citep[v4.0a151;][]{swofford2001paup} respectively.
+The Maximum Parsimony inference was run over @@@ CPU hours using a heuristic search with random sequence addition replicate 10 times (\texttt{hsearch addseq=random nreps=10}).
+The trees where also bootstrapped 100 times using the same search parameters mentioned above.
 
-Bayesian settings.
+The Bayesian inference was run over @@@ CPU hours
 
-PAUP ``settings''.
+% lset nst=1 rates=gamma Ngammacat=4;
+% prset ratepr=variable Shapepr=Exponential(0.5);
+
+% mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file=150t_100c_0304_maxi;
+% sump Filename=150t_100c_0304_maxi Relburnin=YES Burninfrac=0.25;
+% sumt Filename=150t_100c_0304_maxi Relburnin=YES Burninfrac=0.25;
 
 \subsection{Comparing the topologies}
 
-We compared the topologies using the same approach as in \cite{Guillerme2016146}.
+We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``random'' matrices and the tree inferred from the ``normal'' matrix.
+The metrics scores where obtained using the TreeCmp java script \citep{Bogdanowicz2012}.
+The measurements where then standardised using the Normalised Tree Similarity metric \citep[i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
+When the normalised metric has a score of $1$ it means both trees are identical, when it has a score of $0$ it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
+The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Fould Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
 
 \subsection{Empirical morphological matrices}
 
@@ -257,7 +271,8 @@ The full list of matrices is available in the supplementary materials @@@.
 
 \section{Acknowledgements}
 European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
-
+Cluster acknowledgements
+Bertie
 
 \section{Results}
 
