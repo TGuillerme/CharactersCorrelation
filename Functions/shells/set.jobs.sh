@@ -83,28 +83,28 @@ then
     echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
     echo "if [ -f \"${chain1}_norm.con.tre\" ] ; then echo \"norm time out\" ; else echo \"norm aborted\" ; fi"  >> ${chain1}.mbjob
     echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}_/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
 
     echo "## maxi" >> ${chain1}.mbjob
     echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
     echo "if [ -f \"${chain1}_maxi.con.tre\" ] ; then echo \"maxi time out\" ; else echo \"maxi aborted\" ; fi"  >> ${chain1}.mbjob
     echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}_/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
     
     echo "## mini" >> ${chain1}.mbjob
     echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
     echo "if [ -f \"${chain1}_mini.con.tre\" ] ; then echo \"mini time out\" ; else echo \"mini aborted\" ; fi"  >> ${chain1}.mbjob
     echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}_/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
 
     echo "## rand" >> ${chain1}.mbjob
     echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
     echo "if [ -f \"${chain1}_rand.con.tre\" ] ; then echo \"rand time out\" ; else echo \"rand aborted\" ; fi"  >> ${chain1}.mbjob
     echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}_/\"" >> ${chain1}.mbjob
+    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
 
     ## Saving exit time
