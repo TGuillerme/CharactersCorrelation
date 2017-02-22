@@ -45,7 +45,7 @@ if echo $method | grep 'MrBayes' > /dev/null
 then
 
     ## Set up the MCMC parameters (default)
-    Generations=100000000
+    Generations=1000000000
     sampling=200
     printing=2000
     diagnosi=10000
