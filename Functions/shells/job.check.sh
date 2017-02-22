@@ -29,34 +29,47 @@ do
         echo 'scale=5 ; '"${time_run}"'/3600*12' | bc
         echo ""
     else
-        ## Get the number of chains missing
-        runs_missing=4
-        let "runs_missing -= ${runs_done}"
-        echo "JOB ABORTED"
-        echo "Missing the last ${runs_missing} runs."
-        ## CPUT time
-        if echo $runs_done | grep '1' > /dev/null
+
+        ## Get the number of success
+        success=$(grep "time out" ${job} | wc -l | sed 's/[[:space:]]//g')
+
+        ## Get the number of fails
+        fails=$(grep "aborted" ${job} | wc -l | sed 's/[[:space:]]//g')
+
+        ## Print the results
+        if [ $fails -ne 0 ]
         then
-            time_out=$(grep -n 'norm time out' ${job} | sed 's/:norm time out//g')
-            if [ -z "$time_out" ] 
+            echo "ABORTED JOBS"
+            aborted=$(grep "aborted" ${job})
+            echo $aborted
+            ## Get the abortion date out
+            time_out=$(grep -n "${aborted}" ${job} | sed 's/:'"${aborted}"'//g')
+        else
+            echo "JOB-BIS SUCCESFUL"
+            grep "time out" ${job}
+
+            terminate=$(grep "rand time out" ${job})
+            if [ -n "$terminate" ]
             then
-                time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
-            fi
-        fi
-        if echo $runs_done | grep '2' > /dev/null
-        then
-            time_out=$(grep -n 'maxi time out' ${job} | sed 's/:maxi time out//g')
-            if [ -z "$time_out" ] 
-            then
-                time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
-            fi
-        fi
-        if echo $runs_done | grep '3' > /dev/null
-        then
-            time_out=$(grep -n 'mini time out' ${job} | sed 's/:mini time out//g')
-            if [ -z "$time_out" ] 
-            then
-                time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
+                time_out=$(grep -n "${terminate}" ${job} | sed 's/:'"${terminate}"'//g')
+            else
+                terminate=$(grep "mini time out" ${job})
+                if [ -n "$terminate" ]
+                then
+                    time_out=$(grep -n "${terminate}" ${job} | sed 's/:'"${terminate}"'//g')
+                else
+                    terminate=$(grep "maxi time out" ${job})
+                    if [ -n "$terminate" ]
+                    then
+                        time_out=$(grep -n "${terminate}" ${job} | sed 's/:'"${terminate}"'//g')
+                    else
+                        terminate=$(grep "maxi time out" ${job})
+                        if [ -n "$terminate" ]
+                        then
+                            time_out=$(grep -n "${terminate}" ${job} | sed 's/:'"${terminate}"'//g')
+                        fi
+                    fi
+                fi
             fi
         fi
 
@@ -66,6 +79,12 @@ do
         time_run=$(echo $((time_out-time_entry)))
         echo "CPU time:"
         echo 'scale=5 ; '"${time_run}"'/3600*12' | bc
+        ## Check convergence
+        unconverge=$(grep 'MrBayes suspects that your runs have not converged because the tree' ${job} | wc -l | sed 's/[[:space:]]//g')
+        if [ $unconverge -ne 0 ]
+        then
+            echo "Warning: $unconverge runs did not converge!"
+        fi
         echo ""
     fi
 done
