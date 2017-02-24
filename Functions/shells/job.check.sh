@@ -40,7 +40,7 @@ do
         if [ $fails -ne 0 ]
         then
             echo "ABORTED JOBS"
-            aborted=$(grep "aborted" ${job})
+            aborted=$(grep "aborted" ${job} | head -1)
             echo $aborted
             ## Get the abortion date out
             time_out=$(grep -n "${aborted}" ${job} | sed 's/:'"${aborted}"'//g')
