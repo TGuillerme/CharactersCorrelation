@@ -191,7 +191,7 @@ In order to measure the difference between two characters, we propose a new dist
 
 \subsubsection{Characters difference (CD)}
 \begin{equation}
-    CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\abs*{\sum_{i}^{n}(x_{i} - y_{i})}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+    CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
 \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$ \citep[i.e. the Gower distance;][]{GowerDist}.
@@ -251,7 +251,7 @@ The Bayesian inference was run over @@@ CPU hours
 % lset nst=1 rates=gamma Ngammacat=4;
 % prset ratepr=variable Shapepr=Exponential(0.5);
 
-% mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file=150t_100c_0304_maxi;
+% mcmc nruns=2 Nchains=6 ngen=1000000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file=150t_100c_0304_maxi;
 % sump Filename=150t_100c_0304_maxi Relburnin=YES Burninfrac=0.25;
 % sumt Filename=150t_100c_0304_maxi Relburnin=YES Burninfrac=0.25;
 
@@ -283,7 +283,158 @@ Bertie
 \subsection{Conclusion}
 
 % Suggested reviewers:
-%- Liliana Davalos
+%- Liliana Davalos for MPE
+
+
+
+\section{Appendix A - Character difference}
+
+The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarrow [0;\infty)$ with any character $x$, $y$ and $z$ $\in CD$ if an only if the followings are satisfied:
+
+\begin{equation}
+    \label{Positivity}
+    CD_{(x,y)} \geq 0
+\end{equation}
+\begin{equation}
+    \label{Identity}
+    CD_{(x,y)} = 0 \Leftrightarrow x = y
+\end{equation}
+\begin{equation}
+    \label{Equality}
+    CD_{x,y} = CD_{y,x}
+\end{equation}
+\begin{equation}
+    \label{Subadditivity}
+    CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}
+\end{equation}
+
+
+\subsection{Character difference positivity}
+
+For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ (because the difference between character states is considered as Fitch-like, i.e. the difference between two characters states \texttt{0} and \texttt{8} is equal to $1$ and the difference between two identical character states is equal to $0$:
+
+\begin{equation}
+    \label{positive_demo}
+    \begin{gathered}
+    0 \leq  \abs{x_{n}-y_{n}} \leq 1\\
+    0 \leq  \sum_{i=1}^{n}\abs{x_{i}-y_{i}} \leq n\\
+    0 \leq  \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} \leq 1\\
+    0 \leq  \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} \leq \frac{1}{2}\\
+    0 \leq  \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} \leq 1\\
+    0 \leq  1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) \leq 1\\
+    \end{gathered}
+\end{equation}
+
+Thus equation \ref{Positivity} is true.
+
+\subsection{Character difference identity}
+
+For any $n \in [1;\infty)$ and $x_{n} = y_{n}$ then:
+%TG: Is that valid for a demonstration?
+\begin{equation}
+    \label{identitydemo}
+    \begin{aligned}
+    \abs{x_{n}-y_{n}} &= 0\\
+    \sum_{i}^{n}\abs{x_{i}-y_{i}} &= 0\\
+    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= 0\\
+    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= 0\\
+    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= 0\\
+    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 0\\
+    \end{aligned}
+\end{equation}
+
+Thus equation \ref{Identity} is true.
+
+\subsection{Character difference equality}
+
+For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$, similarly to equation \ref{positive_demo}:
+
+\begin{equation}
+    \label{equality_demo}
+    \begin{aligned}
+    \abs{x_{n}-y_{n}} &= \abs{y_{n}-x_{n}}\\
+    \sum_{i}^{n}\abs{x_{i}-y_{i}} &= \sum_{i}^{n}\abs{y_{i}-x_{i}}\\
+    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= \frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}\\
+    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\\
+    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= \frac{\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\\
+    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)\\
+    \end{aligned}
+\end{equation}
+
+Thus equation \ref{Equality} is true.
+
+\subsection{Character difference subadditivity}
+
+As described in equations \ref{Positivity}, \ref{Identity} and \ref{Equality}, 
+
+\begin{equation}
+    \label{subadditivity_demo}
+    \begin{aligned}
+    &0\leq CD_{x,z} \leq 1\\
+    &\text{and}\\
+    &0\leq CD_{z,y} \leq 1\\
+    &\text{thus}\\
+    &0\leq CD_{x,z} + CD_{z,y}  \leq 2\\
+    \end{aligned}
+\end{equation}
+
+\subsubsection{Case 1}
+If $CD_{x,z} = 0$, then, following \ref{Identity}:
+
+\begin{equation}
+    \label{subadditivity_demo_case1}
+    \begin{aligned}
+    &CD_{x,z} = CD_{z,y} = CD_{x,y}\\
+    &\text{then}\\
+    &CD_{x,y} \leq CD_{x,z} + CD_{z,y}\\
+    \end{aligned}
+\end{equation}
+
+\subsubsection{Case 2}
+If $CD_{x,z} > 0$, then:
+
+\begin{equation}
+    \label{subadditivity_demo_case2}
+    \begin{aligned}
+    &CD_{x,z} = CD_{z,y} = CD_{x,y}\\
+    &\text{then}\\
+    &CD_{x,y} \leq CD_{x,z} + CD_{z,y}\\
+    \end{aligned}
+\end{equation}
+
+
+% \subsubsection{Character difference metric is ontological (identity of indiscernibles)}
+
+% \begin{equation}
+%     \label{CDnull}
+%     CD_{(x,y)} = 0 \Leftrightarrow x = y
+% \end{equation}
+% This is because of equation \ref{equality}; in fact $x$ and $y$ is actually expressed in terms of phylogenetic information per character (i.e. normalised for character state token). 
+
+
+% \subsubsection{Character difference metric is sub-additive (triangle inequality)}
+
+% \begin{equation}
+%     \label{subadditive}
+%     CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}
+% \end{equation}
+% Following equations \ref{CDpositive}, \ref{equality}, \ref{CDnull}.
+
+% Thus:
+
+% \begin{equation}
+%     d: \frac{\abs*{\sum_{i}^{n}(x_{i} - y_{i})}{n} \rightarrow [0;1]
+% \end{equation}
+
+% Thus:
+
+% \begin{equation}
+%     d: \frac{\sum_{i}^{n}(x_{i} - y_{i})}{n} \rightarrow [0;1]
+% \end{equation}
+
+
+
+
 
 \bibliographystyle{sysbio}
 \bibliography{References}
