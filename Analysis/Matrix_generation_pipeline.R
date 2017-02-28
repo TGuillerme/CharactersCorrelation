@@ -93,7 +93,7 @@ for(simulation in 1:length(simulationID)) {
     cat(".")
     system("printf \".\" >> Matrix_generation.log")
     while(counter < 15 & check.morpho(matrix_norm)[2,] < 0.26) {
-        matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 10, shape = 5), invariant = FALSE)
+        matrix_norm <- sim.morpho(tree, ncharacters, states = c(0.85,0.15), model = "mixed", rates = c(rgamma, rate = 100, shape = 5), invariant = FALSE)
         counter <- counter + 1
         cat(".")
         system("printf \".\" >> Matrix_generation.log")
