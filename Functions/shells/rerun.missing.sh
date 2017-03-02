@@ -44,25 +44,60 @@ then
     sed -i -e '32,35 s/^/#/' ${chain}.mbjob-bis
 fi
 
-
-
 ## Append checkpoints
 
 ## Append norm
-# if echo $broken | grep '1' > /dev/null
-# then
-#     ## Modify the mb command file
-#     cp ${chain}_norm.mbcmd ${chain}_norm.append
-#     sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_norm.append
-#     sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_norm.append
-#     sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_norm.append
-#     sed -i -e 's/mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file='"${chain}"'_norm;/mcmc append=yes;/' ${chain}_norm.append
+if echo $broken | grep '1' > /dev/null
+then
+    ## Modify the mb command file
+    cp ${chain}_norm.mbcmd ${chain}_norm.append
+    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_norm.append
+    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_norm.append
+    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_norm.append
+    sed -i -e 's/mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file='"${chain}"'_norm;/mcmc append=yes;/' ${chain}_norm.append
 
-#     ## Modify the job file
-#     sed -i -e 's/## norm/blabalbal/' ${chain}.mbjob-bis
-#     sed -i -e "/## norm/aline1\nline2\nline3\nline4" ${chain}.mbjob-bis
-#     #cp $HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.append $WORK\/CharSim/Bayesian\/'"${chain}"'\/ ; mv '"${chain}"'_norm.append '"${chain}"'_norm/
-#     sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/pbsexec mpiexec mb $WORK/CharSim/Bayesian/'"${chain}"'_norm/' ${chain}.mbjob-bis
-# fi
+    ## Modify the job file
+    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/cp \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.append \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_norm ; pbsexec mpiexec mb \$WORK\/CharSim\/Bayesian\/'"${chain}"'_norm/' ${chain}.mbjob-bis
+fi
 
+if echo $broken | grep '2' > /dev/null
+then
+    ## Modify the mb command file
+    cp ${chain}_maxi.mbcmd ${chain}_maxi.append
+    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_maxi.append
+    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_maxi.append
+    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_maxi.append
+    sed -i -e 's/mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file='"${chain}"'_maxi;/mcmc append=yes;/' ${chain}_maxi.append
+
+    ## Modify the job file
+    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd/cp \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.append \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_maxi ; pbsexec mpiexec mb \$WORK\/CharSim\/Bayesian\/'"${chain}"'_maxi/' ${chain}.mbjob-bis
+fi
+
+if echo $broken | grep '3' > /dev/null
+then
+    ## Modify the mb command file
+    cp ${chain}_mini.mbcmd ${chain}_mini.append
+    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_mini.append
+    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_mini.append
+    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_mini.append
+    sed -i -e 's/mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file='"${chain}"'_mini;/mcmc append=yes;/' ${chain}_mini.append
+
+    ## Modify the job file
+    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.mbcmd/cp \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.append \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_mini ; pbsexec mpiexec mb \$WORK\/CharSim\/Bayesian\/'"${chain}"'_mini/' ${chain}.mbjob-bis
+fi
+
+if echo $broken | grep '4' > /dev/null
+then
+    ## Modify the mb command file
+    cp ${chain}_rand.mbcmd ${chain}_rand.append
+    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_rand.append
+    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_rand.append
+    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_rand.append
+    sed -i -e 's/mcmc nruns=2 Nchains=6 ngen=100000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES file='"${chain}"'_rand;/mcmc append=yes;/' ${chain}_rand.append
+
+    ## Modify the job file
+    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_rand.mbcmd/cp \$HOME\/CharSim\/Bayesian\/'"${chain}"'_rand.append \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_rand ; pbsexec mpiexec mb \$WORK\/CharSim\/Bayesian\/'"${chain}"'_rand/' ${chain}.mbjob-bis
+fi
+
+rm *.append-e
 rm *.mbjob-bis-e
