@@ -366,25 +366,31 @@ Thus equation \ref{Equality} is true.
 
 \subsection{Character difference subadditivity}
 
+For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{n}$, $z_{n}$ $\in (0,1)$:
+
 \begin{equation}
     \label{subadditivity_demo}
     \begin{aligned}
     CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
+    \text{if:}\\
     1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
      &\leq 
      1 - \left(\frac{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}{\frac{1}{2}}\right) 
      +
      1 - \left(\frac{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}{\frac{1}{2}}\right) \\
-    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} 
+     \text{then, the opposite is:}\\
+    \underbrace{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} }_{\in[0,1/2]}
      &\geq 
-     \abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}
+     \underbrace{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}} }_{\in[0,1/2]}
      +
-     \abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}} - 2\\
-          % Add brackets symbols
-     \in[0,\frac{1}{2}] &\geq (-2) \in[0,\frac{1}{2}] \in[0,\frac{1}{2}]\\
+     \underbrace{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}} }_{\in[0,1/2]} - 2\\
+     \text{thus:}\\
+     \in[0,\frac{1}{2}] &\geq \in[0,\frac{1}{2}] \in[0,\frac{1}{2}] (-2) \\
      \in[0,\frac{1}{2}] &\geq \in[-2,-1]\\
     \end{aligned}
 \end{equation}
+
+Thus equation \ref{Subadditivity} is true.
 
 \bibliographystyle{sysbio}
 \bibliography{References}
