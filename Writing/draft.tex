@@ -273,6 +273,7 @@ The full list of matrices is available in the supplementary materials @@@.
 European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
 Cluster acknowledgements
 Bertie
+Guillermo Herraiz Yebes for helping with the CD metric proof.
 
 \section{Results}
 
@@ -365,92 +366,25 @@ Thus equation \ref{Equality} is true.
 
 \subsection{Character difference subadditivity}
 
-% As described in equations \ref{Positivity}, \ref{Identity} and \ref{Equality}, 
-
-% \begin{equation}
-%     \label{subadditivity_demo}
-%     \begin{aligned}
-%     &0\leq CD_{x,z} \leq 1\\
-%     &\text{and}\\
-%     &0\leq CD_{z,y} \leq 1\\
-%     &\text{thus}\\
-%     &0\leq CD_{x,z} + CD_{z,y}  \leq 2\\
-%     \end{aligned}
-% \end{equation}
-
-% \subsubsection{Case 1}
-% If $CD_{x,z} = 0$, then, following \ref{Identity}:
-
-% \begin{equation}
-%     \label{subadditivity_demo_case1}
-%     \begin{aligned}
-%     &CD_{x,z} = CD_{z,y} = CD_{x,y}\\
-%     &\text{then}\\
-%     &CD_{x,y} \leq CD_{x,z} + CD_{z,y}\\
-%     \end{aligned}
-% \end{equation}
-
-% \subsubsection{Case 2}
-% If $CD_{x,z} > 0$, then:
-
-% \begin{equation}
-%     \label{subadditivity_demo}
-%     \begin{aligned}
-    % CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
-    % 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) 
-    %  &\leq 
-    %  1 - \left(\frac{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}{\frac{1}{2}}\right) 
-    %  +
-    %  1 - \left(\frac{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}{\frac{1}{2}}\right) \\
-    % \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}} 
-    %  &\geq 
-    %  \abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}} 
-    %  +
-    %  \abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}} - 2\\
-
-     % Add brackets symbols
-
-     % \in[0,\frac{1}{2}] &\geq (-2) \in[0,\frac{1}{2}] \in[0,\frac{1}{2}]\\
-     % \in[0,\frac{1}{2}] &\geq \in[-2,-1]\\
-
-     
-
-%     \end{aligned}
-% \end{equation}
-
-
-% \subsubsection{Character difference metric is ontological (identity of indiscernibles)}
-
-% \begin{equation}
-%     \label{CDnull}
-%     CD_{(x,y)} = 0 \Leftrightarrow x = y
-% \end{equation}
-% This is because of equation \ref{equality}; in fact $x$ and $y$ is actually expressed in terms of phylogenetic information per character (i.e. normalised for character state token). 
-
-
-% \subsubsection{Character difference metric is sub-additive (triangle inequality)}
-
-% \begin{equation}
-%     \label{subadditive}
-%     CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}
-% \end{equation}
-% Following equations \ref{CDpositive}, \ref{equality}, \ref{CDnull}.
-
-% Thus:
-
-% \begin{equation}
-%     d: \frac{\abs*{\sum_{i}^{n}(x_{i} - y_{i})}{n} \rightarrow [0;1]
-% \end{equation}
-
-% Thus:
-
-% \begin{equation}
-%     d: \frac{\sum_{i}^{n}(x_{i} - y_{i})}{n} \rightarrow [0;1]
-% \end{equation}
-
-
-
-
+\begin{equation}
+    \label{subadditivity_demo}
+    \begin{aligned}
+    CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
+    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+     &\leq 
+     1 - \left(\frac{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}{\frac{1}{2}}\right) 
+     +
+     1 - \left(\frac{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}{\frac{1}{2}}\right) \\
+    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} 
+     &\geq 
+     \abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}
+     +
+     \abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}} - 2\\
+          % Add brackets symbols
+     \in[0,\frac{1}{2}] &\geq (-2) \in[0,\frac{1}{2}] \in[0,\frac{1}{2}]\\
+     \in[0,\frac{1}{2}] &\geq \in[-2,-1]\\
+    \end{aligned}
+\end{equation}
 
 \bibliographystyle{sysbio}
 \bibliography{References}
