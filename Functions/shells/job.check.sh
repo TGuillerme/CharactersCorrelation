@@ -63,7 +63,7 @@ do
                     then
                         time_out=$(grep -n "${terminate}" ${job} | sed 's/:'"${terminate}"'//g')
                     else
-                        terminate=$(grep "maxi time out" ${job})
+                        terminate=$(grep "norm time out" ${job})
                         if [ -n "$terminate" ]
                         then
                             time_out=$(grep -n "${terminate}" ${job} | sed 's/:'"${terminate}"'//g')
