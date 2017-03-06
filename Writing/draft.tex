@@ -337,8 +337,8 @@ For any $n \in [1;\infty)$ and $x_{n} = y_{n}$ then:
     \abs{x_{n}-y_{n}} &= 0\\
     \sum_{i}^{n}\abs{x_{i}-y_{i}} &= 0\\
     \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= 0\\
-    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= 0\\
-    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= 0\\
+    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \frac{1}{2}\\
+    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= 1\\
     1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 0\\
     \end{aligned}
 \end{equation}
@@ -365,42 +365,58 @@ Thus equation \ref{Equality} is true.
 
 \subsection{Character difference subadditivity}
 
-As described in equations \ref{Positivity}, \ref{Identity} and \ref{Equality}, 
+% As described in equations \ref{Positivity}, \ref{Identity} and \ref{Equality}, 
 
-\begin{equation}
-    \label{subadditivity_demo}
-    \begin{aligned}
-    &0\leq CD_{x,z} \leq 1\\
-    &\text{and}\\
-    &0\leq CD_{z,y} \leq 1\\
-    &\text{thus}\\
-    &0\leq CD_{x,z} + CD_{z,y}  \leq 2\\
-    \end{aligned}
-\end{equation}
+% \begin{equation}
+%     \label{subadditivity_demo}
+%     \begin{aligned}
+%     &0\leq CD_{x,z} \leq 1\\
+%     &\text{and}\\
+%     &0\leq CD_{z,y} \leq 1\\
+%     &\text{thus}\\
+%     &0\leq CD_{x,z} + CD_{z,y}  \leq 2\\
+%     \end{aligned}
+% \end{equation}
 
-\subsubsection{Case 1}
-If $CD_{x,z} = 0$, then, following \ref{Identity}:
+% \subsubsection{Case 1}
+% If $CD_{x,z} = 0$, then, following \ref{Identity}:
 
-\begin{equation}
-    \label{subadditivity_demo_case1}
-    \begin{aligned}
-    &CD_{x,z} = CD_{z,y} = CD_{x,y}\\
-    &\text{then}\\
-    &CD_{x,y} \leq CD_{x,z} + CD_{z,y}\\
-    \end{aligned}
-\end{equation}
+% \begin{equation}
+%     \label{subadditivity_demo_case1}
+%     \begin{aligned}
+%     &CD_{x,z} = CD_{z,y} = CD_{x,y}\\
+%     &\text{then}\\
+%     &CD_{x,y} \leq CD_{x,z} + CD_{z,y}\\
+%     \end{aligned}
+% \end{equation}
 
-\subsubsection{Case 2}
-If $CD_{x,z} > 0$, then:
+% \subsubsection{Case 2}
+% If $CD_{x,z} > 0$, then:
 
-\begin{equation}
-    \label{subadditivity_demo_case2}
-    \begin{aligned}
-    &CD_{x,z} = CD_{z,y} = CD_{x,y}\\
-    &\text{then}\\
-    &CD_{x,y} \leq CD_{x,z} + CD_{z,y}\\
-    \end{aligned}
-\end{equation}
+% \begin{equation}
+%     \label{subadditivity_demo}
+%     \begin{aligned}
+    % CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
+    % 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) 
+    %  &\leq 
+    %  1 - \left(\frac{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}{\frac{1}{2}}\right) 
+    %  +
+    %  1 - \left(\frac{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}{\frac{1}{2}}\right) \\
+    % \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}} 
+    %  &\geq 
+    %  \abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}} 
+    %  +
+    %  \abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}} - 2\\
+
+     % Add brackets symbols
+
+     % \in[0,\frac{1}{2}] &\geq (-2) \in[0,\frac{1}{2}] \in[0,\frac{1}{2}]\\
+     % \in[0,\frac{1}{2}] &\geq \in[-2,-1]\\
+
+     
+
+%     \end{aligned}
+% \end{equation}
 
 
 % \subsubsection{Character difference metric is ontological (identity of indiscernibles)}
