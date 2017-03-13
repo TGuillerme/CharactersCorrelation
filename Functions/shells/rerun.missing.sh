@@ -51,9 +51,9 @@ if echo $broken | grep '1' > /dev/null
 then
     ## Modify the mb command file
     cp ${chain}_norm.mbcmd ${chain}_norm.append
-    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_norm.append
-    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_norm.append
-    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_norm.append
+    # sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_norm.append
+    # sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_norm.append
+    # sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_norm.append
     sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_norm.append
 
     ## Modify the job file
@@ -65,9 +65,9 @@ if echo $broken | grep '2' > /dev/null
 then
     ## Modify the mb command file
     cp ${chain}_maxi.mbcmd ${chain}_maxi.append
-    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_maxi.append
-    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_maxi.append
-    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_maxi.append
+    # sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_maxi.append
+    # sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_maxi.append
+    # sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_maxi.append
     sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_maxi.append
 
     ## Modify the job file
@@ -78,9 +78,9 @@ if echo $broken | grep '3' > /dev/null
 then
     ## Modify the mb command file
     cp ${chain}_mini.mbcmd ${chain}_mini.append
-    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_mini.append
-    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_mini.append
-    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_mini.append
+    # sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_mini.append
+    # sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_mini.append
+    # sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_mini.append
     sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_mini.append
 
     ## Modify the job file
@@ -91,9 +91,9 @@ if echo $broken | grep '4' > /dev/null
 then
     ## Modify the mb command file
     cp ${chain}_rand.mbcmd ${chain}_rand.append
-    sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_rand.append
-    sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_rand.append
-    sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_rand.append
+    # sed -i -e 's/outgroup outgroup ;/[outgroup outgroup ;]/' ${chain}_rand.append
+    # sed -i -e 's/lset nst=1 rates=gamma Ngammacat=4;/[lset nst=1 rates=gamma Ngammacat=4;]/' ${chain}_rand.append
+    # sed -i -e 's/prset ratepr=variable Shapepr=Exponential(0.5);/[prset ratepr=variable Shapepr=Exponential(0.5);]/' ${chain}_rand.append
     sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_rand.append
 
     ## Modify the job file
