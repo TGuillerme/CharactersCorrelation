@@ -194,16 +194,17 @@ In order to measure the difference between two characters, we propose a new dist
     CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
 \end{equation}
 
-\noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$ \citep[i.e. the Gower distance;][]{GowerDist}.
-Since we are considering differences as being only Fitch-like (i.e. non-weighted and non-ordinate), we ignore the actual distance between two different character states tokens: two same character states tokens have a difference of $0$ and two different ones have a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
+\noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
+$CD$ is a continuous distance metric valid in a mathematical sense (see Appendix 1).
+Since we are considering differences as being only Fitch-like (i.e. non-weighted and non-ordinate), we ignore the actual distance between two different character states tokens \citep[i.e. a Gower distance;][]{GowerDist}.
+Two same character states tokens have a difference of $0$ and two different ones have a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 In order to facilitate and standardise characters states comparison, we standardised each characters by arbitrarily modifying their character states tokens by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $0$, the second to be $1$, etc.
-This way, a character \texttt{A = \{2,2,3,0,0,3\}} would be standardised as \texttt{A' = \{0,0,1,2,2,1\}}.
+This way, a character \texttt{A = \{2,2,3,0,0,3\}} would be standardised as \texttt{A' = \{0,0,1,2,2,1\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
 When the character difference is equal to $0$, it means that characters convey the same phylogenetic signal.
 When the character difference is equal to $1$ it means it conveys the most different signal.
 For example with three characters \texttt{A = \{0,1,1,1\}}, \texttt{B = \{1,0,0,0\}} and \texttt{C = \{0,1,2,3\}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$.
-This metric is thus a distance metric since it respects distances equality (i.e. $CD_{(A,B)} = CD_{(B,A)}$ and $CD_{(A,C)} = CD_{(B,C)}$).
 
 \subsection{Simulating discrete morphological matrices}
 To simulate the matrices we applied a protocol very similar to \citep{Guillerme2016146}.
@@ -312,7 +313,7 @@ The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarro
 
 \subsection{Character difference positivity}
 
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ (because the difference between character states is considered as Fitch-like, i.e. the difference between two characters states \texttt{0} and \texttt{8} is equal to $1$ and the difference between two identical character states is equal to $0$:
+For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ (because the difference between character states is considered as Fitch-like, i.e. the difference between two characters states \texttt{0} and \texttt{8} is equal to $1$ and the difference between two identical character states is equal to $0$):
 
 \begin{equation}
     \label{positive_demo}
