@@ -149,45 +149,35 @@ blablabla
 %---------------------------------------------
 \section{Introduction}
 
-The last five years have seen a drastic expansion (resurgence?) of the use of discrete morphological data in macroevolutionary studies.
-In fact, traditionally confined to classic cladistics \citep{felsenstein2004inferring} these methods have recently been highly improved whether based on the models and methods for inferring phylogenies (\citealt{lewisa2001} + BAPSTinReview; with some debate on which method to use: \citealt{spencerefficacy2013,wrightbayesian2014,OReilly20160081}) or the methods to date them \citep[e.g.][]{bapsta2013} or to combine them with molecular data \citep{pyrondivergence2011,ronquista2012}.
+The last five years have seen a drastic expansion of the use of discrete morphological data in macroevolutionary studies.
+In fact, traditionally confined to ``classic'' cladistics \citep{felsenstein2004inferring}, these methods have recently been expended and improved whether based on the models and methods for inferring phylogenies \citep{lewisa2001,Wright01072016} or the methods to date them \citep[e.g.][]{bapsta2013} or to combine them with molecular data \citep{pyrondivergence2011,ronquista2012}.
+% Debate on which inference method to use \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081}.
+% Debate on dating methods \citep{Arcila2015131}.
+% Debate on data sources (BAPST in review)
 In parallel, much development has also been done on pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic analysis \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
+However, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146}(+BAPST); the coding of this data \citep{Brazeau2011}; the inference \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081} or the dating methods \citep{Arcila2015131}.
 
-However, using discrete morphological data comes with several caveats, like the effect of missing data \citep{Guillerme2016146} or of the method \citep{OReilly20160081}.
+However, one aspect of the data is often neglected: the correlation that exists between discrete morphological characters.
+In fact, because of their nature, these characters are prone to many sources of correlation such as: (1) the co-evolution between traits (e.g. the number of digits on a limb co-evolves with the actual presence/absence of the limb); (2) morphological modularity \citep[i.e. the unity of entire morphological regions][]{goswami2006morphological}; (3) convergent evolution between traits (e.g. wings in many vertebrates); or (4), more down-to-earth, to errors from the coder \citep[e.g. the repetition of the same character described slighlty differently each case][]{Brazeau2011}.
+These sources of correlation can alter the results of phylogenetic inference by effectively weighting the correlated characters against their non-correlated counter parts leading to biases in phylogenetic inference by supporting clades with artificial synapomorphies.
+This fact have led to the popular wisdom rule of avoiding coding correlated characters for macroevolutionary studies.
 
-Common wisdom says that characters should not be correlated
+Up to this date, a lot of work has been done on character correlation \textit{per se}, but focussing mainly on how to measure correlation between characters to detect patterns of coevolution \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable exceptions of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data.
+It is thus still unclear what will be the effect of characters correlation on phylogenetic inference: how does these correlation really affect topology?
+Additionally, because of the nature of discrete morphological characters and organisms morphology, correlation is expected to rise through both combinatorics properties of the characters or simply through evolutionary processes.
+What is the effect of these two sources of correlations and can we (should we) avoid them?
 
-One specific assumption is that coded characters should not be correlated \citep{Brazeau2011}[FIND BETTER CITE?].
-
-Character correlation can be due to
-- co-evolution of two traits (e.g. the character ``number of digits on a limb'' co-evolves with the character ``presence/absence of limb'' - this correlation can be sometimes fairly obvious, sometimes less)
-- modularity of morphological features [CITE GOSWAMI!]
-- convergent evolution (e.g. the character ``flight'') [???]
-- error from the coder (e.g. a coder can unintentionally code the same feature multiple times, thus effectively waiting it, for example: ``presence/absence of a proximal end on a limb'' and ``presence/absence of a distal end on a limb'' - effectively weighting the character ``presence/absence of a limb'' by two).
-%-Don't code correlated characters but what is the actual effect of that? And how many characters are ``secretly'' correlated?
-
-A lot of work has been done on character correlation \textit{per se}, but focussing mainly on how to measure correlation between characters to detect patterns of coevolution \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
-However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable expections of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data.
-It is thus still unclear what will be the effect of characters correlation on phylogenetic inference.
-
-% \cite{Davalos01072014}: character correlation + signal in bats
-% \cite{Grabowski2016}: amount of data needed for testing correlations? CHECK
-% \cite{Lande1983}: measure correlation CHECK
-% \cite{Pagel1994}: measure correlation
-% \cite{Pagel2006}: measure correlation Bayesian
-% \cite{Maddison1990}: measure binary state character correlation for testing coevol
-% \cite{ZouConvergence}: convergence measured as characters correlation (Removing convergence prone characters improves accuracy)
-
-In this study, we propose a new way to measure character correlation (more adapted to discrete morphological characters) and test on simulated and empirical data what is the effect of character correlation on topology. %TG: check if we do just topology?
-In other words, we generate matrices and maximise or minimise character correlation and see how that affects topology.
-
+In this study, we formally assess the effect of discrete character's correlation using simulated and empirical data.
+We propose a new metric to measure the correlation (or difference) between two discrete characters and a protocol to modify discrete data matrices to increase/decrease the correlation between characters within/
+We found that blabalbal
 
 \section{Methods}
 
 \subsection{Measuring correlation between characters}
 
 We define characters as being correlated if they give the same phylogenetic information.
-In order to measure the difference between two characters, we propose a new distance metric defined as follows:
+In order to measure this similitude in phylogenetic information, we propose a new distance metric to measure the difference between two characters:
 
 \subsubsection{Characters difference (CD)}
 \begin{equation}
@@ -232,14 +222,14 @@ To estimate the variance of our simulations and assess the effect of our random 
 
 \subsection{Modifying the matrices}
 
-We calculated the pairwise character differences for each generated matrices using the \texttt{dispRity R} package \citep[][; \url{https://github.com/TGuillerme/dispRity}]{thomas_guillerme_2016_55646}. %TG: TO IMPLEMENT! 
+We calculated the pairwise character differences for each generated matrices using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}. %TG: TO IMPLEMENT! 
 We then modified the matrices to either maximise or minimise the pairwise character differences for each matrices using three different algorithms.
 For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<$$0.25$) and replaced them randomly by any of the remaining characters.
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<$$0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<$$0.25$ or $>$$0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a null expectation modification (i.e. randomly weighting characters).
 This step resulted in a total of 1800 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``random'' matrices).
-The algorithms for the three modifications is available on GitHub@@@. %TG: "@@@" is my "to replace" sign.
+The algorithms for the three modifications are available on GitHub@@@. %TG: "@@@" is my "to replace" sign.
 
 \subsection{Inferring the phylogenies}
 
@@ -270,12 +260,6 @@ We applied the same procedure described above (without the morphological matrice
 The 100 matrices where selected to be the most representative of empirical work with discrete morphological data: with randomly selected matrices with more than 100 each, published between 1985 and 2013 and covering 19 taxonomic classes within 6 phyla (Chordata, Arthropoda, Annelida, Angiosperm, Gymnosperm and Pteridophyta).
 The full list of matrices is available in the supplementary materials @@@.
 
-\section{Acknowledgements}
-European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
-Cluster acknowledgements
-Bertie
-Guillermo Herraiz Yebes for helping with the CD metric proof.
-
 \section{Results}
 
 
@@ -283,6 +267,16 @@ Guillermo Herraiz Yebes for helping with the CD metric proof.
 
 
 \subsection{Conclusion}
+
+
+\section{Funding}
+European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
+
+
+\section{Acknowledgements}
+Calculations where done using the Imperial College London Cluster Services (doi: 10.14469/hpc/2232).
+We thank Alberto Pascual Garcia and April Wright for input in the design of the simulations protocol and Guillermo Herraiz Yebes for helping with the CD proof.
+
 
 % Suggested reviewers:
 %- Liliana Davalos for MPE
