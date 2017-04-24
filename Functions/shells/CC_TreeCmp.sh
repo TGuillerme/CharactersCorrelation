@@ -141,7 +141,7 @@ then
 fi
 if [ "$REF" == 4 ]
 then
-    chain_folder=$(echo $CHAIN | sed 's/c_.*/c_cmp_null/g')
+    chain_folder=$(echo $CHAIN | sed 's/c_.*/c_cmp_rand/g')
 fi
 
 
@@ -170,15 +170,15 @@ then
         fi
         if [ "$REF" == 2 ]
         then
-            cat ${CHAIN}_norm.con.tre.newick > ${CHAIN}_ref.tre
+            cat ${CHAIN}_maxi.con.tre.newick > ${CHAIN}_ref.tre
         fi
         if [ "$REF" == 3 ]
         then
-            cat ${CHAIN}_norm.con.tre.newick > ${CHAIN}_ref.tre
+            cat ${CHAIN}_mini.con.tre.newick > ${CHAIN}_ref.tre
         fi
         if [ "$REF" == 4 ]
         then
-            cat ${CHAIN}_norm.con.tre.newick > ${CHAIN}_ref.tre
+            cat ${CHAIN}_rand.con.tre.newick > ${CHAIN}_ref.tre
         fi
 
         cat ${CHAIN}_norm.con.tre.newick > ${CHAIN}_comb.con.tre
@@ -197,15 +197,15 @@ then
         fi
         if [ "$REF" == 2 ]
         then
-            cat ${CHAIN}_norm.con.tre > ${CHAIN}_ref.tre
+            cat ${CHAIN}_maxi.con.tre > ${CHAIN}_ref.tre
         fi
         if [ "$REF" == 3 ]
         then
-            cat ${CHAIN}_norm.con.tre > ${CHAIN}_ref.tre
+            cat ${CHAIN}_mini.con.tre > ${CHAIN}_ref.tre
         fi
         if [ "$REF" == 4 ]
         then
-            cat ${CHAIN}_norm.con.tre > ${CHAIN}_ref.tre
+            cat ${CHAIN}_rand.con.tre > ${CHAIN}_ref.tre
         fi
         
         cat ${CHAIN}_norm.con.tre > ${CHAIN}_comb.con.tre
