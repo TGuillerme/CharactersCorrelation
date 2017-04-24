@@ -228,7 +228,7 @@ For maximising the pairwise differences between characters, we selected the char
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<$$0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<$$0.25$ or $>$$0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a null expectation modification (i.e. randomly weighting characters).
-This step resulted in a total of 1800 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``random'' matrices).
+This step resulted in a total of 1800 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``null'' matrices).
 The algorithms for the three modifications are available on GitHub@@@. %TG: "@@@" is my "to replace" sign.
 
 \subsection{Inferring the phylogenies}
@@ -248,7 +248,11 @@ The Bayesian inference was run over @@@ CPU hours
 
 \subsection{Comparing the topologies}
 
-We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``random'' matrices and the tree inferred from the ``normal'' matrix.
+We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``null'' matrices and the tree inferred from the ``normal'' matrix.
+
+We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the different inferred trees.
+We ran two types of comparisons, (1) the ability to recover the correct tree (``normal'' trees \textit{vs} ``null'' and ``true'' trees and (2) the effect of character differences by measuring the noise to signal ratio between the ``maximised'' and ``minimised'' trees and the ``null'' and ``normal'' trees.
+
 The metrics scores where obtained using the TreeCmp java script \citep{Bogdanowicz2012}.
 The measurements where then standardised using the Normalised Tree Similarity metric \citep[i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
 When the normalised metric has a score of $1$ it means both trees are identical, when it has a score of $0$ it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
