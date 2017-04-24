@@ -13,7 +13,7 @@ do
     time_entry=$(date -j -f '%a %d %b %T BST %Y' "${time_entry}" "+%s")
 
     ## Check if the job succeeded
-    runs_done=$(grep -c "Analysis completed." ${job})
+    runs_done=$(grep -c "Analysis completed" ${job})
 
     ## Job done properly
     if echo $runs_done | grep '4' > /dev/null
