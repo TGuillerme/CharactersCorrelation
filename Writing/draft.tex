@@ -174,8 +174,25 @@ We found that blabalbal
 
 \section{Methods}
 
-\subsection{Measuring correlation between characters}
+We applied the following simulation protocol to assess the effect of characters correlation (Fig.\ref{Fig:outline}):
+\begin{enumerate}
+    \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices.
+    \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by duplicating characters in order to maximise and minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least or most different characters and replacing them randomly by the remaining characters. We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximised or minimised character difference to create null expectancy matrices (hereafter called the ``null'' matrices).
+    \item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``null'' matrices using both Maximum Parsimony and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``null'' trees).
+    \item \textbf{Comparing topologies}: finally, we compared to topologies in two ways: (1) first we compared the ``normal'' to the ``null'' trees to assess our simulation protocol; (2) second, we compared the ``maximised'' and ``minimised'' trees to the ``null'' and ``normal'' trees respectively to measure the signal to noise ratio and thus measure the effect of character correlation on topology.
+\end{enumerate}
+Each steps are described below in more details, as well as our proposed definition of the Character Difference metric.
 
+
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.9\textwidth]{Figures/outline.pdf}
+\caption{Outline of the simulation protocol: the first step includes both the simulation and the modification of the matrices (thin solid lines); the second step includes tree inference using Maximum Parsimony and Bayesian inference (thick solid lines); the third step includes comparing the resulting tree topologies (dashed lines).}
+\label{Fig:outline}
+\end{figure}
+
+
+\subsection{Measuring correlation between characters}
 We define characters as being correlated if they give the same phylogenetic information.
 In order to measure this similitude in phylogenetic information, we propose a new distance metric to measure the difference between two characters:
 
@@ -185,7 +202,7 @@ In order to measure this similitude in phylogenetic information, we propose a ne
 \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
-$CD$ is a continuous distance metric valid in a mathematical sense (see Appendix 1).
+$CD$ is a continuous distance metric valid in a mathematical sense (see Supplementary).
 Since we are considering differences as being only Fitch-like (i.e. non-weighted and non-ordinate), we ignore the actual distance between two different character states tokens \citep[i.e. a Gower distance;][]{GowerDist}.
 Two same character states tokens have a difference of $0$ and two different ones have a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 In order to facilitate and standardise characters states comparison, we standardised each characters by arbitrarily modifying their character states tokens by order of appearance.
@@ -231,7 +248,7 @@ Finally, because this operation effectively changes the weight of characters (i.
 This step resulted in a total of 1800 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``null'' matrices).
 The algorithms for the three modifications are available on GitHub@@@. %TG: "@@@" is my "to replace" sign.
 
-\subsection{Inferring the phylogenies}
+\subsection{Inferring topologies}
 
 We inferred the topologies in both Bayesian and Maximum Parsimony using MrBayes \citep[v3.2.6;][]{Ronquist2012mrbayes} and PAUP* \citep[v4.0a151;][]{swofford2001paup} respectively.
 The Maximum Parsimony inference was run over @@@ CPU hours using a heuristic search with random sequence addition replicate 10 times (\texttt{hsearch addseq=random nreps=10}).
@@ -246,7 +263,7 @@ The Bayesian inference was run over @@@ CPU hours
 % sump Filename=150t_100c_0304_maxi Relburnin=YES Burninfrac=0.25;
 % sumt Filename=150t_100c_0304_maxi Relburnin=YES Burninfrac=0.25;
 
-\subsection{Comparing the topologies}
+\subsection{Comparing topologies}
 
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``null'' matrices and the tree inferred from the ``normal'' matrix.
 
@@ -285,111 +302,6 @@ We thank Alberto Pascual Garcia and April Wright for input in the design of the 
 % Suggested reviewers:
 %- Liliana Davalos for MPE
 
-
-
-\section{Appendix A - Character difference}
-
-The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarrow [0;\infty)$ with any character $x$, $y$ and $z$ $\in CD$ if an only if the followings are satisfied:
-
-\begin{equation}
-    \label{Positivity}
-    CD_{(x,y)} \geq 0
-\end{equation}
-\begin{equation}
-    \label{Identity}
-    CD_{(x,y)} = 0 \Leftrightarrow x = y
-\end{equation}
-\begin{equation}
-    \label{Equality}
-    CD_{x,y} = CD_{y,x}
-\end{equation}
-\begin{equation}
-    \label{Subadditivity}
-    CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}
-\end{equation}
-
-
-\subsection{Character difference positivity}
-
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ (because the difference between character states is considered as Fitch-like, i.e. the difference between two characters states \texttt{0} and \texttt{8} is equal to $1$ and the difference between two identical character states is equal to $0$):
-
-\begin{equation}
-    \label{positive_demo}
-    \begin{gathered}
-    0 \leq  \abs{x_{n}-y_{n}} \leq 1\\
-    0 \leq  \sum_{i=1}^{n}\abs{x_{i}-y_{i}} \leq n\\
-    0 \leq  \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} \leq 1\\
-    0 \leq  \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} \leq \frac{1}{2}\\
-    0 \leq  \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} \leq 1\\
-    0 \leq  1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) \leq 1\\
-    \end{gathered}
-\end{equation}
-
-Thus equation \ref{Positivity} is true.
-
-\subsection{Character difference identity}
-
-For any $n \in [1;\infty)$ and $x_{n} = y_{n}$ then:
-%TG: Is that valid for a demonstration?
-\begin{equation}
-    \label{identitydemo}
-    \begin{aligned}
-    \abs{x_{n}-y_{n}} &= 0\\
-    \sum_{i}^{n}\abs{x_{i}-y_{i}} &= 0\\
-    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= 0\\
-    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \frac{1}{2}\\
-    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= 1\\
-    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 0\\
-    \end{aligned}
-\end{equation}
-
-Thus equation \ref{Identity} is true.
-
-\subsection{Character difference equality}
-
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$, similarly to equation \ref{positive_demo}:
-
-\begin{equation}
-    \label{equality_demo}
-    \begin{aligned}
-    \abs{x_{n}-y_{n}} &= \abs{y_{n}-x_{n}}\\
-    \sum_{i}^{n}\abs{x_{i}-y_{i}} &= \sum_{i}^{n}\abs{y_{i}-x_{i}}\\
-    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= \frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}\\
-    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\\
-    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= \frac{\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\\
-    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)\\
-    \end{aligned}
-\end{equation}
-
-Thus equation \ref{Equality} is true.
-
-\subsection{Character difference subadditivity}
-
-For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{n}$, $z_{n}$ $\in (0,1)$:
-
-\begin{equation}
-    \label{subadditivity_demo}
-    \begin{aligned}
-    CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
-    \text{if:}\\
-    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
-     &\leq 
-     1 - \left(\frac{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}}}{\frac{1}{2}}\right) 
-     +
-     1 - \left(\frac{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}}}{\frac{1}{2}}\right) \\
-     \text{then, the opposite is:}\\
-    \underbrace{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} }_{\in[0,1/2]}
-     &\geq 
-     \underbrace{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-y_{k}}}{j}-\frac{1}{2}} }_{\in[0,1/2]}
-     +
-     \underbrace{\abs*{\frac{\sum_{a}^{b}\abs{x_{a}-y_{a}}}{b}-\frac{1}{2}} }_{\in[0,1/2]} - 2\\
-     \text{thus:}\\
-     \in[0,\frac{1}{2}] &\geq \in[0,\frac{1}{2}] \in[0,\frac{1}{2}] (-2) \\
-     \in[0,\frac{1}{2}] &\geq \in[-2,-1]\\
-    \end{aligned}
-\end{equation}
-
-Thus equation \ref{Subadditivity} is true.
 
 \bibliographystyle{sysbio}
 \bibliography{References}
