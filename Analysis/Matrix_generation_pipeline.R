@@ -1,16 +1,20 @@
 ## Pipeline for generating the matrices.
 ## Refer to Matrix modification vignette for more details.
 
-## Packages and functions
+## Packages
 library(Claddis)
 library(dispRity)
 library(diversitree)
+
+## Load the functions
 source("functions.R") ; load.functions(test = FALSE)
-dyn.load("../Functions/char.diff.so")
+## Modifying ape::write.nexus function
 write.nexus.std <- ape::write.nexus.data
 body(write.nexus.std)[[2]] <- substitute(format <- match.arg(toupper(format), c("DNA", "PROTEIN", "STANDARD")))
 body(write.nexus.std)[[26]][[3]][[4]] <- substitute(fcat(indent, "FORMAT", " ", DATATYPE, " ", MISSING, " ", GAP, 
     " ", INTERLEAVE, " symbols=\"0123456789\";\n"))
+
+## Counting digits in a column
 get.digit <- function(column) {
     if(max(nchar(round(column)), na.rm = TRUE) <= 4) {
        return(4-max(nchar(round(column)), na.rm = TRUE))
@@ -18,6 +22,8 @@ get.digit <- function(column) {
         return(0)
     }
 }
+
+## Birth death sampler with birth > death
 sample.birth.death <- function() {
     birth <- runif(min = 0, max = 1, 1)
     death <- runif(min = 0, max = birth, 1)
@@ -41,7 +47,6 @@ simulationID <- unlist(mapply(paste.ID, as.list(digits), as.list(simulationID)))
 
 
 for(simulation in 1:length(simulationID)) {
-    ## Set the variables
     ## Set the variables
     if(ceiling(simulation/150) == 1) {
         ntaxa <- ntaxa_list[1]
