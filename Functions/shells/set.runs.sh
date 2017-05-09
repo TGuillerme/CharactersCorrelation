@@ -129,8 +129,8 @@ then
 
     echo "" >> base_ppcmd.tmp
     echo "[Parsimony search]" >> base_ppcmd.tmp
-    echo "hsearch addseq=random nreps=10 rseed=01234;" >> base_ppcmd.tmp
-    echo "bootstrap bseed=12345 nreps=100 ConLevel=50 KeepAll=yes TreeFile = <CHAIN>.bs;" >> base_ppcmd.tmp
+    echo "hsearch addseq=random nreps=1000 rseed=01234;" >> base_ppcmd.tmp
+    # echo "bootstrap bseed=12345 nreps=100 ConLevel=50 KeepAll=yes TreeFile = <CHAIN>.bs;" >> base_ppcmd.tmp
 
 
     echo "" >> base_ppcmd.tmp
