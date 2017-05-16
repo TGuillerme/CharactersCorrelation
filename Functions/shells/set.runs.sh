@@ -129,7 +129,7 @@ then
 
     echo "" >> base_ppcmd.tmp
     echo "[Parsimony search]" >> base_ppcmd.tmp
-    echo "hsearch addseq=random nreps=1000 rseed=01234;" >> base_ppcmd.tmp
+    echo "hsearch addseq=random nreps=100 rseed=01234;" >> base_ppcmd.tmp
     # echo "bootstrap bseed=12345 nreps=100 ConLevel=50 KeepAll=yes TreeFile = <CHAIN>.bs;" >> base_ppcmd.tmp
 
 
@@ -137,9 +137,9 @@ then
     echo "[Summarize search]" >> base_ppcmd.tmp
     if [ -n "$outgroup" ]
     then
-        echo "savetrees from=1 to=1000000 file=<CHAIN>.tre root replace;" >> base_ppcmd.tmp
+        echo "savetrees /file=<CHAIN>.tre root replace;" >> base_ppcmd.tmp
     else
-        echo "savetrees from=1 to=1000000 file=<CHAIN>.tre replace;" >> base_ppcmd.tmp
+        echo "savetrees /file=<CHAIN>.tre replace;" >> base_ppcmd.tmp
     fi
     echo "contree /majrule cutoff=50 file=<CHAIN>.contre replace;" >> base_ppcmd.tmp
     echo "q;" >> base_ppcmd.tmp
