@@ -47,6 +47,10 @@ case $key in
         DRAWS="$2"
         shift
         ;;
+    -t|--true)
+        TRUE="$2"
+        shift
+        ;;
     -r|--rooted)
         ROOTED="$2"
         ;;
@@ -107,6 +111,21 @@ else
     fi
 fi
 
+if [ "$TRUE" == "" ]
+then
+    TRUE="TRUE"
+else
+    if [ "$TRUE" != "TRUE" ]
+    then
+        if [ "$TRUE" != "FALSE" ]
+        then
+            echo "ERROR: --true must be 'TRUE' or 'FALSE'!"
+            exit
+        fi
+    fi
+fi
+
+
 # ##DEBUG
 # echo "chain name = ${CHAIN}"
 # echo "output name = ${OUTPUT}"
@@ -146,7 +165,7 @@ fi
 
 
 ## Create the folder if needed
-if ls -d | grep ${chain_folder} > /dev/null
+if ls | grep ${chain_folder} > /dev/null
 then
     silent="silent"
 else 
@@ -185,7 +204,14 @@ then
         cat ${CHAIN}_maxi.con.tre.newick >> ${CHAIN}_comb.con.tre
         cat ${CHAIN}_mini.con.tre.newick >> ${CHAIN}_comb.con.tre
         cat ${CHAIN}_rand.con.tre.newick >> ${CHAIN}_comb.con.tre
+        if [ "$TRUE" == "TRUE" ]
+        then
+            cat ${CHAIN}_truetree.nex.newick >> ${CHAIN}_comb.con.tre
+        fi
+        ## If true tree = TRUE
         rm ${CHAIN}_*.newick
+
+
         ## Change the eventual root
         sed -i -e 's/\[\&U\]/'"${root}"'/g' ${CHAIN}_comb.con.tre ; rm ${CHAIN}_comb.con.tre-e
     else
@@ -212,6 +238,10 @@ then
         cat ${CHAIN}_maxi.con.tre >> ${CHAIN}_comb.con.tre
         cat ${CHAIN}_mini.con.tre >> ${CHAIN}_comb.con.tre
         cat ${CHAIN}_rand.con.tre >> ${CHAIN}_comb.con.tre
+        if [ "$TRUE" == "TRUE"]
+        then
+            cat ${CHAIN}_truetree.tre >> ${CHAIN}_comb.con.tre
+        fi
         ## Change the eventual root
         sed -i -e 's/\[\&U\]/'"${root}"'/g' ${CHAIN}_comb.con.tre ; rm ${CHAIN}_comb.con.tre-e
     fi
@@ -228,5 +258,3 @@ then
     printf "."
     echo "Done."
 fi
-
-done
