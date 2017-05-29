@@ -11,7 +11,7 @@ for tree in ${chain}_*.con.tre
 do
     strict_tree=$(grep -n "tree Strict" ${tree} | sed 's/:[[:space:]]tree Strict = .*;//g')
     sed ''"$strict_tree"'d' ${tree} > tmp
-    tmp ${tree}
+    mv tmp ${tree}
     printf "."
 done
 echo "Done"
