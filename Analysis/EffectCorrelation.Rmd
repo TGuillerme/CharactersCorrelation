@@ -1,0 +1,161 @@
+---
+title: "Effect of character correlation"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 6
+---
+
+Effect of character correlation
+===============
+
+Before starting
+===============
+
+Loading the functions
+-----------------------------------
+
+Getting the functions
+
+```{r, eval = TRUE}
+source("functions.R") ; load.functions(test = FALSE)
+dyn.load("../Functions/char.diff.so")
+load("../Data/NTS/matrix.nts.Rda")
+```
+
+Loading the data
+-----------------------------------
+
+Loading the tree comparisons from TreeCmp
+
+```{r, message = FALSE}
+## 25t_100c
+bay_25t_100c <- read.TreeCmp("25t_100c", type = "Bayesian")
+par_25t_100c <- read.TreeCmp("25t_100c", type = "Parsimony")
+
+## 25t_350c
+bay_25t_350c <- read.TreeCmp("25t_350c", type = "Bayesian")
+par_25t_350c <- read.TreeCmp("25t_350c", type = "Parsimony")
+
+## 25t_1000c
+bay_25t_1000c <- read.TreeCmp("25t_1000c", type = "Bayesian")
+par_25t_1000c <- read.TreeCmp("25t_1000c", type = "Parsimony")
+
+# ## 75t_100c
+# bay_75t_100c <- read.TreeCmp("75t_100c", type = "Bayesian")
+# par_75t_100c <- read.TreeCmp("75t_100c", type = "Parsimony")
+
+# ## 75t_350c
+# bay_75t_350c <- read.TreeCmp("75t_350c", type = "Bayesian")
+# par_75t_350c <- read.TreeCmp("75t_350c", type = "Parsimony")
+
+# ## 75t_1000c
+# bay_75t_1000c <- read.TreeCmp("75t_1000c", type = "Bayesian")
+# par_75t_1000c <- read.TreeCmp("75t_1000c", type = "Parsimony")
+
+```
+
+Analysis the differences
+===============
+
+
+
+Normalise the score
+-----------------------------------
+
+Normalising the scores using NTS
+
+```{r, message = FALSE}
+## 25t_100c
+bay_25t_100c <- NTS(bay_25t_100c, 25)
+par_25t_100c <- NTS(par_25t_100c, 25)
+
+## 25t_350c
+bay_25t_350c <- NTS(bay_25t_350c, 25)
+par_25t_350c <- NTS(par_25t_350c, 25)
+
+## 25t_1000c
+bay_25t_1000c <- NTS(bay_25t_1000c, 25)
+par_25t_1000c <- NTS(par_25t_1000c, 25)
+
+## Combining into a list
+t25_list <- list(
+    "c100" = list("bayesian" = bay_25t_100c,
+                  "parsimony" = par_25t_100c
+                  ),
+    "c350" = list("bayesian" = bay_25t_350c,
+                  "parsimony" = par_25t_350c
+                  ),
+    "c1000" = list("bayesian" = bay_25t_1000c,
+                   "parsimony" = par_25t_1000c
+                   )
+                )
+#
+
+# ## 75t_100c
+# bay_75t_100c <- NTS(bay_75t_100c, 75)
+# par_75t_100c <- NTS(par_75t_100c, 75)
+
+# ## 75t_350c
+# bay_75t_350c <- NTS(bay_75t_350c, 75)
+# par_75t_350c <- NTS(par_75t_350c, 75)
+
+# ## 75t_1000c
+# bay_75t_1000c <- NTS(bay_75t_1000c, 75)
+# par_75t_1000c <- NTS(par_75t_1000c, 75)
+
+```
+
+Plotting the results
+
+
+
+```{r, fig.width=12, fig.height=6}
+## Comparisons to the best tree (RF)
+plot.results.single(t25_list, metric = 2, what = "best",
+    main = "comparison to 'best' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Comparisons to the best tree (Triplets)
+plot.results.single(t25_list, metric = 4, what = "best",
+    main = "comparison to 'best' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Comparisons to the null tree (RF)
+plot.results.single(t25_list, metric = 2, what = "null",
+    main = "comparison to 'null' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Comparisons to the null tree (Triplets)
+plot.results.single(t25_list, metric = 4, what = "null",
+    main = "comparison to 'null' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Comparisons to the true tree (RF)
+plot.results.single(t25_list, metric = 2, what = "true",
+    main = "comparison to 'true' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Comparisons to the true tree (Triplets)
+plot.results.single(t25_list, metric = 4, what = "true",
+    main = "comparison to 'true' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Checking comparisons (RF)
+plot.results.single(t25_list, metric = 2, what = "check",
+    main = "Check comparison (25 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+```{r, fig.width=12, fig.height=6}
+## Checking comparisons (Triplets)
+plot.results.single(t25_list, metric = 4, what = "check",
+    main = "Check comparison (25 taxa)", legend = TRUE, NTS = TRUE)
+```
