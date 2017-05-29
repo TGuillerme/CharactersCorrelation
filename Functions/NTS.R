@@ -37,5 +37,5 @@ NTS <- function(data, taxa) {
     rand <- matrix_nts[which(rownames(matrix_nts) == taxa), ]
 
     ## Calculate the NTS
-    return(lapply(data, apply.NTS, rand))
+    return(lapply(data, lapply, apply.NTS, rand))
 }
