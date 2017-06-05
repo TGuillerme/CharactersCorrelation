@@ -89,7 +89,7 @@ read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCor
     message(".", appendLF = FALSE)
 
     for(file in 2:length(matrices_rand)) {
-        norm_rand <- cbind(norm_norm, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 1)))
+        norm_rand <- cbind(norm_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 1)))
         maxi_rand <- cbind(maxi_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 2)))
         mini_rand <- cbind(mini_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 3)))
         rand_rand <- cbind(rand_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 4)))

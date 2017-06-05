@@ -6,7 +6,12 @@
 #' @param metric a numeric of which metric to use (\code{1} = \code{MatchingCluster}, \code{2} = \code{R.F_Cluster}, \code{3} = \code{NodalSplitted}, \code{4} = \code{Triples})
 #' @param what which type of plot? Can be \code{"null"}, \code{"real"}, \code{"true"}, \code{"check"}. See details.
 #' @param ylim \code{ylim} parameter from \code{plot} (if missing is automatic)
+#' @param legend \code{logical}, whether to display the legend
 #' @param NTS \code{logical}, whether NTS was used
+#' @param ylab a \code{character} string to be passed to \code{boxplot(..., ylab)}
+#' @param xlab a \code{character} string to be passed to \code{boxplot(..., xlab)}
+#' @param axislab a \code{character} string to be passed to \code{axis(..., labels)}
+#' @param ... any additional argument to be passed to \code{boxplot}
 #'
 #' @details
 #' \code{"null"} = "maxi", "mini", "norm" tree vs. "rand"
@@ -25,17 +30,19 @@
 #' 
 
 
-plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FALSE, NTS = TRUE) {
+plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, NTS = TRUE, ylab, xlab, axislab, ...) {
     
     ## Graphic parameters
     ## Colours
     cols <- c("red", "orange", "green3", "lightgreen", "blue", "lightblue")
     
     ## Y lab
-    if(metric == 1) ylab <- "Similarity (Matching Cluster)"
-    if(metric == 2) ylab <- "Similarity (Robinson-Foulds)"
-    if(metric == 3) ylab <- "Similarity (Nodal Split)"
-    if(metric == 4) ylab <- "Similarity (Triplets)"
+    if(missing(ylab)) {
+        if(metric == 1) ylab <- "Similarity (Matching Cluster)"
+        if(metric == 2) ylab <- "Similarity (Robinson-Foulds)"
+        if(metric == 3) ylab <- "Similarity (Nodal Split)"
+        if(metric == 4) ylab <- "Similarity (Triplets)"
+    }
 
     ## Y lim
     get.min.list <- function(X, metric) {
@@ -49,13 +56,22 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
         ylim <- c(0,1)
     }
 
-    
+    ## X lab
+    if(missing(xlab)) {
+        xlab <- "Characters"
+    }
+
+    ## axis lab
+    if(missing(axislab)) {
+        axislab <- c("100", "350", "1000")
+    }
+
     ## Horizontal line
     line <- 0
     
 
     if(what == "null") {
-        boxplot(xlab = "Characters", ylab = ylab, xaxt = "n", main = main, ylim = ylim, col = rep(cols, 3),
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), ...,
             ## c100
             unlist(taxa_list$c100$bayesian$rand$maxi[,metric]), unlist(taxa_list$c100$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$rand$mini[,metric]), unlist(taxa_list$c100$parsimony$rand$mini[,metric]),
@@ -72,7 +88,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
 
         ## X axis
         axis(1, 1:18, labels = FALSE, tick = FALSE)
-        axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = c("100", "350", "1000"))
+        axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = axislab)
         ## Lines
         abline(v = 6.5) ; abline(v = 12.5)
         abline(h = line, col = "grey", lty = 2)
@@ -87,7 +103,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
     }
 
     if(what == "best") {
-        boxplot(xlab = "Characters", ylab = ylab, xaxt = "n", main = main, ylim = ylim, col = rep(cols, 3),
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), ...,
             ## c100
             unlist(taxa_list$c100$bayesian$norm$maxi[,metric]), unlist(taxa_list$c100$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$norm$mini[,metric]), unlist(taxa_list$c100$parsimony$norm$mini[,metric]),
@@ -104,7 +120,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
 
         ## X axis
         axis(1, 1:18, labels = FALSE, tick = FALSE)
-        axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = c("100", "350", "1000"))
+        axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = axislab)
         ## Lines
         abline(v = 6.5) ; abline(v = 12.5)
         abline(h = line, col = "grey", lty = 2)
@@ -119,7 +135,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
     }
 
     if(what == "true") {
-        boxplot(xlab = "Characters", ylab = ylab, xaxt = "n", main = main, ylim = ylim, col = rep(cols[1:4], 3),
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), ...,
             ## c100
             unlist(taxa_list$c100$bayesian$norm$true[,metric]), unlist(taxa_list$c100$parsimony$norm$true[,metric]),
             unlist(taxa_list$c100$bayesian$rand$true[,metric]), unlist(taxa_list$c100$parsimony$rand$true[,metric]),
@@ -133,7 +149,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
 
         ## X axis
         axis(1, 1:12, labels = FALSE, tick = FALSE)
-        axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = c("100", "350", "1000"))
+        axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = axislab)
         ## Lines
         abline(v = 4.5) ; abline(v = 8.5)
         abline(h = line, col = "grey", lty = 2)
@@ -147,7 +163,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
     }
 
     if(what == "check") {
-        boxplot(xlab = "Characters", ylab = ylab, xaxt = "n", main = main, ylim = ylim, col = rep(cols[1:4], 3),
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), ...,
             ## c100
             unlist(taxa_list$c100$bayesian$norm$rand[,metric]), unlist(taxa_list$c100$parsimony$norm$rand[,metric]),
             unlist(taxa_list$c100$bayesian$rand$norm[,metric]), unlist(taxa_list$c100$parsimony$rand$norm[,metric]),
@@ -161,7 +177,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, main, legend = FA
 
         ## X axis
         axis(1, 1:12, labels = FALSE, tick = FALSE)
-        axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = c("100", "350", "1000"))
+        axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = axislab)
         ## Lines
         abline(v = 4.5) ; abline(v = 8.5)
         abline(h = line, col = "grey", lty = 2)
