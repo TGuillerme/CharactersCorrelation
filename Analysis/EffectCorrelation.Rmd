@@ -11,151 +11,84 @@ output:
 Effect of character correlation
 ===============
 
-Before starting
-===============
 
-Loading the functions
+Loading the functions and the data
 -----------------------------------
 
-Getting the functions
+Getting the functions and the data
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, message = FALSE}
 source("functions.R") ; load.functions(test = FALSE)
 dyn.load("../Functions/char.diff.so")
 load("../Data/NTS/matrix.nts.Rda")
+source("../Data/load.data.R")
 ```
 
-Loading the data
+Results
 -----------------------------------
 
-Loading the tree comparisons from TreeCmp
+Comparison to 'best' tree (RF normalised distance)
 
-```{r, message = FALSE}
-## 25t_100c
-bay_25t_100c <- read.TreeCmp("25t_100c", type = "Bayesian")
-par_25t_100c <- read.TreeCmp("25t_100c", type = "Parsimony")
-
-## 25t_350c
-bay_25t_350c <- read.TreeCmp("25t_350c", type = "Bayesian")
-par_25t_350c <- read.TreeCmp("25t_350c", type = "Parsimony")
-
-## 25t_1000c
-bay_25t_1000c <- read.TreeCmp("25t_1000c", type = "Bayesian")
-par_25t_1000c <- read.TreeCmp("25t_1000c", type = "Parsimony")
-
-## 75t_100c
-bay_75t_100c <- read.TreeCmp("75t_100c", type = "Bayesian")
-par_75t_100c <- read.TreeCmp("75t_100c", type = "Parsimony")
-
-## 75t_350c
-bay_75t_350c <- read.TreeCmp("75t_350c", type = "Bayesian")
-par_75t_350c <- read.TreeCmp("75t_350c", type = "Parsimony")
-
-## 75t_1000c 
-bay_75t_1000c <- read.TreeCmp("75t_1000c", type = "Bayesian")
-par_75t_1000c <- read.TreeCmp("75t_1000c", type = "Parsimony")
-
-## 150t_100c
-bay_150t_100c <- read.TreeCmp("150t_100c", type = "Bayesian")
-par_150t_100c <- read.TreeCmp("150t_100c", type = "Parsimony")
-
-## 150t_350c
-bay_150t_350c <- read.TreeCmp("150t_350c", type = "Bayesian")
-par_150t_350c <- read.TreeCmp("150t_350c", type = "Parsimony")
-
-## 150t_1000c 
-bay_150t_1000c <- read.TreeCmp("150t_1000c", type = "Bayesian")
-par_150t_1000c <- read.TreeCmp("150t_1000c", type = "Parsimony")
-
+```{r, fig.width=12, fig.height=12}
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 2, what = "best",
+    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 2, what = "best", ylab = "RF for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 2, what = "best",
+    ylab = "RF for 150 taxa", NTS = TRUE)
+par(op)
 ```
 
-Analysis the differences
-===============
+Comparison to 'best' tree (Triplets normalised distance)
 
-
-
-Normalise the score
------------------------------------
-
-Normalising the scores using NTS
-
-```{r, message = FALSE}
-## 25t_100c
-bay_25t_100c <- NTS(bay_25t_100c, 25)
-par_25t_100c <- NTS(par_25t_100c, 25)
-
-## 25t_350c
-bay_25t_350c <- NTS(bay_25t_350c, 25)
-par_25t_350c <- NTS(par_25t_350c, 25)
-
-## 25t_1000c
-bay_25t_1000c <- NTS(bay_25t_1000c, 25)
-par_25t_1000c <- NTS(par_25t_1000c, 25)
-
-## Combining into a list
-t25_list <- list(
-    "c100" = list("bayesian" = bay_25t_100c,
-                  "parsimony" = par_25t_100c
-                  ),
-    "c350" = list("bayesian" = bay_25t_350c,
-                  "parsimony" = par_25t_350c
-                  ),
-    "c1000" = list("bayesian" = bay_25t_1000c,
-                   "parsimony" = par_25t_1000c
-                   )
-                )
-
-## 75t_100c
-bay_75t_100c <- NTS(bay_75t_100c, 25)
-par_75t_100c <- NTS(par_75t_100c, 25)
-
-## 75t_350c
-bay_75t_350c <- NTS(bay_75t_350c, 25)
-par_75t_350c <- NTS(par_75t_350c, 25)
-
-## 75t_1000c
-bay_75t_1000c <- NTS(bay_75t_1000c, 25)
-par_75t_1000c <- NTS(par_75t_1000c, 25)
-
-## Combining into a list
-t75_list <- list(
-    "c100" = list("bayesian" = bay_75t_100c,
-                  "parsimony" = par_75t_100c
-                  ),
-    "c350" = list("bayesian" = bay_75t_350c,
-                  "parsimony" = par_75t_350c
-                  ),
-    "c1000" = list("bayesian" = bay_75t_1000c,
-                   "parsimony" = par_75t_1000c
-                   )
-                )
-
-## 150t_100c
-bay_150t_100c <- NTS(bay_150t_100c, 25)
-par_150t_100c <- NTS(par_150t_100c, 25)
-
-## 150t_350c
-bay_150t_350c <- NTS(bay_150t_350c, 25)
-par_150t_350c <- NTS(par_150t_350c, 25)
-
-## 150t_1000c
-bay_150t_1000c <- NTS(bay_150t_1000c, 25)
-par_150t_1000c <- NTS(par_150t_1000c, 25)
-
-## Combining into a list
-t150_list <- list(
-    "c100" = list("bayesian" = bay_150t_100c,
-                  "parsimony" = par_150t_100c
-                  ),
-    "c350" = list("bayesian" = bay_150t_350c,
-                  "parsimony" = par_150t_350c
-                  ),
-    "c1000" = list("bayesian" = bay_150t_1000c,
-                   "parsimony" = par_150t_1000c
-                   )
-                )
-
+```{r, fig.width=12, fig.height=12}
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 4, what = "best",
+    legend = TRUE, NTS = TRUE, xlab = "", ylab = "Tr for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 4, what = "best", ylab = "Tr for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 4, what = "best",
+    ylab = "Tr for 150 taxa", NTS = TRUE)
+par(op)
 ```
+
+
+Comparison to 'null' tree (RF normalised distance)
+
+```{r, fig.width=12, fig.height=12}
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 2, what = "null",
+    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 2, what = "null", ylab = "RF for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 2, what = "null",
+    ylab = "RF for 150 taxa", NTS = TRUE)
+par(op)
+```
+
+Comparison to 'null' tree (Triplets normalised distance)
+
+```{r, fig.width=12, fig.height=12}
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 4, what = "null",
+    legend = TRUE, NTS = TRUE, xlab = "", ylab = "Tr for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 4, what = "null", ylab = "Tr for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 4, what = "null",
+    ylab = "Tr for 150 taxa", NTS = TRUE)
+par(op)
+```
+
+
+
+
+
+
 
 Plotting the results for 25 taxa
 
@@ -315,62 +248,4 @@ plot.results.single(t150_list, metric = 2, what = "check",
 ## Checking comparisons (Triplets)
 plot.results.single(t150_list, metric = 4, what = "check",
     main = "Check comparison (150 taxa)", legend = TRUE, NTS = TRUE)
-```
-
-
-Comparison to 'best' tree (RF normalised distance)
-
-```{r, fig.width=12, fig.height=12}
-op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
-plot.results.single(t25_list, metric = 2, what = "best",
-    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
-    axislab = FALSE)
-plot.results.single(t75_list, metric = 2, what = "best", ylab = "RF for 75 taxa",
-    xlab = "", axislab = FALSE, NTS = TRUE)
-plot.results.single(t150_list, metric = 2, what = "best",
-    ylab = "RF for 150 taxa", NTS = TRUE)
-par(op)
-```
-
-Comparison to 'best' tree (Triplets normalised distance)
-
-```{r, fig.width=12, fig.height=12}
-op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
-plot.results.single(t25_list, metric = 4, what = "best",
-    legend = TRUE, NTS = TRUE, xlab = "", ylab = "Tr for 25 taxa",
-    axislab = FALSE)
-plot.results.single(t75_list, metric = 4, what = "best", ylab = "Tr for 75 taxa",
-    xlab = "", axislab = FALSE, NTS = TRUE)
-plot.results.single(t150_list, metric = 4, what = "best",
-    ylab = "Tr for 150 taxa", NTS = TRUE)
-par(op)
-```
-
-
-Comparison to 'null' tree (RF normalised distance)
-
-```{r, fig.width=12, fig.height=12}
-op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
-plot.results.single(t25_list, metric = 2, what = "null",
-    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
-    axislab = FALSE)
-plot.results.single(t75_list, metric = 2, what = "null", ylab = "RF for 75 taxa",
-    xlab = "", axislab = FALSE, NTS = TRUE)
-plot.results.single(t150_list, metric = 2, what = "null",
-    ylab = "RF for 150 taxa", NTS = TRUE)
-par(op)
-```
-
-Comparison to 'null' tree (Triplets normalised distance)
-
-```{r, fig.width=12, fig.height=12}
-op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
-plot.results.single(t25_list, metric = 4, what = "null",
-    legend = TRUE, NTS = TRUE, xlab = "", ylab = "Tr for 25 taxa",
-    axislab = FALSE)
-plot.results.single(t75_list, metric = 4, what = "null", ylab = "Tr for 75 taxa",
-    xlab = "", axislab = FALSE, NTS = TRUE)
-plot.results.single(t150_list, metric = 4, what = "null",
-    ylab = "Tr for 150 taxa", NTS = TRUE)
-par(op)
 ```
