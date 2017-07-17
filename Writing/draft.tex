@@ -163,6 +163,9 @@ These sources of correlation can alter the results of phylogenetic inference by 
 This fact have led to the popular wisdom rule of avoiding coding correlated characters for macroevolutionary studies.
 
 Up to this date, a lot of work has been done on character correlation \textit{per se}, but focussing mainly on how to measure correlation between characters to detect patterns of coevolution \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+
+Also \cite{goswami2010}.
+
 However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable exceptions of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data.
 It is thus still unclear what will be the effect of characters correlation on phylogenetic inference: how does these correlation really affect topology?
 Additionally, because of the nature of discrete morphological characters and organisms morphology, correlation is expected to rise through both combinatorics properties of the characters or simply through evolutionary processes.
@@ -266,6 +269,10 @@ The Bayesian inference was run over @@@ CPU hours
 
  % "hsearch addseq=random nreps=500 rseed=01234 rearrlimit=5000000;" 
 
+
+Due to cluster hardware requirements an to save some time, when chains didn't converged and the runs exceeded 10GB, we aborted the MCMC and computed the consensus tree from the uncoverged chains.
+In practice, these chains got stuck at an ASDS around (but not below) 0.01.
+
 \subsection{Comparing topologies}
 
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``null'' matrices and the tree inferred from the ``normal'' matrix.
@@ -278,11 +285,11 @@ The measurements where then standardised using the Normalised Tree Similarity me
 When the normalised metric has a score of $1$ it means both trees are identical, when it has a score of $0$ it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
 The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Fould Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
 
-\subsection{Empirical morphological matrices}
+% \subsection{Empirical morphological matrices}
 
-We applied the same procedure described above (without the morphological matrices simulation) to 100 empirical matrices downloaded from TreeBASE (\url{http://treebase.org/}).
-The 100 matrices where selected to be the most representative of empirical work with discrete morphological data: with randomly selected matrices with more than 100 each, published between 1985 and 2013 and covering 19 taxonomic classes within 6 phyla (Chordata, Arthropoda, Annelida, Angiosperm, Gymnosperm and Pteridophyta).
-The full list of matrices is available in the supplementary materials @@@.
+% We applied the same procedure described above (without the morphological matrices simulation) to 100 empirical matrices downloaded from TreeBASE (\url{http://treebase.org/}).
+% The 100 matrices where selected to be the most representative of empirical work with discrete morphological data: with randomly selected matrices with more than 100 each, published between 1985 and 2013 and covering 19 taxonomic classes within 6 phyla (Chordata, Arthropoda, Annelida, Angiosperm, Gymnosperm and Pteridophyta).
+% The full list of matrices is available in the supplementary materials @@@.
 
 \section{Results}
 
