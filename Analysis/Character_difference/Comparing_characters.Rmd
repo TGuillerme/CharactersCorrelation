@@ -14,12 +14,8 @@ Before starting
 Loading the package
 -----------------------------------
 
-```{r, eval = FALSE}
-# The latest version of devtools
-if(!require(devtools)) install.packages("devtools")
-
-## The latest version of dispRity 
-install_github("TGuillerme/dispRity")
+```{r, eval = TRUE}
+library(dispRity) 
 ```
 
 Comparing characters?
@@ -42,10 +38,9 @@ cor.spearman <- function(X, Y) {
 
 We will also introduce a new difference called "Character Difference" that counts the difference in states pattern (ranging from 0 - no difference - to 1 - complete difference) as follows:
 
-![equation](http://www.sciweavers.org/tex2img.php?eq=1%20-%20%5Cleft%28%20%5Cfrac%7B%5Cmid%20%7B%5Cfrac%7B%5Cabs%7B%5Csum_%7Bi%7D%5E%7Bn%7D%28%5Cmid%20x_%7Bi%7D%20-%20y_%7Bi%7D%5Cmid%20%29%7D%7D%20%7Bn%7D-%5Cfrac%7B1%7D%7B2%7D%7D%20%5Cmid%20%20%7D%7B%5Cfrac%7B1%7D%7B2%7D%7D%5Cright%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
-<!-- \begin{equation}
-    1 - \left( \frac{\mid {\frac{\abs{\sum_{i}^{n}(\mid x_{i} - y_{i}\mid )}} {n}-\frac{1}{2}} \mid  }{\frac{1}{2}}\right)
-\end{equation} -->
+
+$$1 - \left( \frac{\mid {\frac{\abs{\sum_{i}^{n}(\mid x_{i} - y_{i}\mid )}} {n}-\frac{1}{2}} \mid  }{\frac{1}{2}}\right)$$
+
 
 Where *n* is the number of taxa with comparable data and *x_i* and *y_i* are each characters states for the characters *x* and *y* and the taxon *i*.
 
@@ -56,11 +51,6 @@ Note that from a phylogenetic point of view, if the character is Fitch-like, bot
  * The Gower distance is simply the distance divided by the number of observation (i.e. to take into account the inapplicable or missing data).
 
 The function to calculate the character difference is a modification of the `stats::dist` function's source code (in `C`):
-
-```{r}
-source("../../Functions/char.diff.R")
-dyn.load("../../Functions/char.diff.so")
-```
 
 A simple case
 ----------------
@@ -181,7 +171,7 @@ Making up some data
 First let's make up some discrete morphological matrices using the `dispRity` package.
 
 ```{r}
-library(dispRity) ; set.seed(123)
+set.seed(0)
 # A random tree (coalescent)
 tree <- rcoal(15)
 # A morphological matrix (Mk model)
