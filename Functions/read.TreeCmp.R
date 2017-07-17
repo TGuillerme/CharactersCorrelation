@@ -22,7 +22,7 @@ read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCor
     path <- paste(path, type, sep = "/")
 
     ## Sanitizing
-    if(class(chain) !='character') {
+    if(class(chain) != 'character') {
         stop('No files has been found within the given chain name.')
     }
 
@@ -58,45 +58,22 @@ read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCor
 
     ## Set up the list for the combined results
     message("Combining the TreeCmp results (norm):", appendLF = FALSE)
-    file = 1
-    norm_norm <- as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 1))
-    maxi_norm <- as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 2))
-    mini_norm <- as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 3))
-    rand_norm <- as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 4))
-    true_norm <- as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 5))
-    
-    message(".", appendLF = FALSE)
 
-    for(file in 2:length(matrices_norm)) {
-        norm_norm <- cbind(norm_norm, as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 1)))
-        maxi_norm <- cbind(maxi_norm, as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 2)))
-        mini_norm <- cbind(mini_norm, as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 3)))
-        rand_norm <- cbind(rand_norm, as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 4)))
-        true_norm <- cbind(true_norm, as.matrix(lapply(as.list(matrices_norm[[file]]), `[[`, 5)))
-        message(".", appendLF = FALSE)
+    flip.list <- function(matrices_list, ncol, nrow) {
+        splitted_matrices <- lapply(matrices_list, function (X) split(t(X), rep(1:ncol, each = nrow)))
+        names <- colnames(matrices_list[[1]])
+            
+        flipidy.flop <- function(element, splitted_matrices, nrow, names) {
+            return(matrix(unlist(lapply(splitted_matrices, `[[`, element)), byrow = TRUE, ncol = nrow, dimnames = list(c(),names)))
+        }
+
+        return(lapply(as.list(1:5), flipidy.flop, splitted_matrices, nrow, names))
+
     }
-    message("Done.\n", appendLF = FALSE)
 
-    ## Set up the list for the combined results
-    message("Combining the TreeCmp results (rand):", appendLF = FALSE)
-    file = 1
-    norm_rand <- as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 1))
-    maxi_rand <- as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 2))
-    mini_rand <- as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 3))
-    rand_rand <- as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 4))
-    true_rand <- as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 5))
-    
-    message(".", appendLF = FALSE)
+    flipped_matrices_norm <- flip.list(matrices_norm, 5, 4)
+    flipped_matrices_rand <- flip.list(matrices_rand, 5, 4)
+    names(flipped_matrices_norm) <- names(flipped_matrices_rand) <- c("norm", "maxi", "mini", "rand", "true")
 
-    for(file in 2:length(matrices_rand)) {
-        norm_rand <- cbind(norm_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 1)))
-        maxi_rand <- cbind(maxi_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 2)))
-        mini_rand <- cbind(mini_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 3)))
-        rand_rand <- cbind(rand_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 4)))
-        true_rand <- cbind(true_rand, as.matrix(lapply(as.list(matrices_rand[[file]]), `[[`, 5)))
-        message(".", appendLF = FALSE)
-    }
-    message("Done.\n", appendLF = FALSE)
-
-    return(list("norm" = list("norm" = as.list(t(norm_norm)), "maxi" = as.list(t(maxi_norm)), "mini" = as.list(t(mini_norm)), "rand" = as.list(t(rand_norm)), "true" = as.list(t(true_norm))), "rand" = list("norm" = as.list(t(norm_rand)), "maxi" = as.list(t(maxi_rand)), "mini" = as.list(t(mini_rand)), "norm" = as.list(t(rand_rand)), "true" = as.list(t(true_rand)))))
+    return(list("norm" = flipped_matrices_norm, "rand" = flipped_matrices_rand))
 }

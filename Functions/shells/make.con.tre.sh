@@ -10,7 +10,8 @@ echo "${chain}_${tree}"
 cd ${chain}/
 
 ## Check if the chains are finished
-if grep -q "end;" ${chain}_${tree}.run1.t
+tail_end=$(tail -1 ${chain}_${tree}.run1.t)
+if echo ${tail_end} | grep -q "end;"
 then
     run1_finished="TRUE"
 else
@@ -20,7 +21,8 @@ else
     echo "Done."
 fi
 
-if grep -q "end;" ${chain}_${tree}.run2.t
+tail_end=$(tail -1 ${chain}_${tree}.run2.t)
+if echo ${tail_end} | grep -q "end;"
 then
     run2_finished="TRUE"
 else
@@ -44,6 +46,7 @@ then
     ## Remove all the MrBayes commands and replace by sumt
     mbcmd_start=$(grep -n "begin mrbayes;" ${chain}_${tree} | sed 's/:begin mrbayes;//g')
     sed ''"$mbcmd_start"',$d' ${chain}_${tree} > tmp
+    cp ${chain}_${tree} ${chain}_${tree}.bkp
     mv tmp ${chain}_${tree}
     echo "begin mrbayes;" >> ${chain}_${tree}
     echo "set autoclose=yes nowarn=yes;" >> ${chain}_${tree}
@@ -80,6 +83,7 @@ else
         let "run1_length -=1"
         echo "Trimming ${chain}_${tree}.run1.t..."
         sed ''"$run2_length"','"$run1_length"'d' ${chain}_${tree}.run1.t > tmp
+        cp ${chain}_${tree}.run1.t ${chain}_${tree}.run1.bkp
         mv tmp ${chain}_${tree}.run1.t
         echo "Done."
     else
@@ -88,6 +92,7 @@ else
             let "run2_length -=1"
             echo "Trimming ${chain}_${tree}.run2.t..."
             sed ''"$run1_length"','"$run2_length"'d' ${chain}_${tree}.run2.t > tmp
+            cp ${chain}_${tree}.run2.t ${chain}_${tree}.run2.bkp
             mv tmp ${chain}_${tree}.run2.t
             echo "Done."
         fi
@@ -114,6 +119,12 @@ else
 
     ## Run the script
     mb ${chain}_${tree}
+
+    ## Remove the backup (if consensus tree exists)
+    if ls | grep -q ${chain}_${tree}.con.tre
+    then
+        rm ${chain}_${tree}*.bkp
+    fi
 
     ## Return to parent dir
     cd ..

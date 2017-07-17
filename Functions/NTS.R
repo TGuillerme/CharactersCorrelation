@@ -19,7 +19,7 @@ get.NTS <- function(obs, rand) {
 apply.NTS <- function(matrix, rand) {
     mat_out <- matrix
     for(col in 1:4) {
-        mat_out[,col] <- get.NTS(unlist(matrix[,col]), rand[col])
+        mat_out[,col] <- get.NTS(matrix[,col], rand[col])
     }
     return(mat_out)
 }
