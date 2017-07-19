@@ -90,7 +90,7 @@ Version dated: \today
 $^1$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\}
 \end{center}
 \medskip
-\noindent{*\bf Corresponding author.} \textit{t.guillerme@imperial.ac.uk}\\ 
+\noindent{*\bf Corresponding author.} \textit{guillert@tcd.ie}\\ 
 \vspace{1in}
 
 %Line numbering
@@ -293,11 +293,74 @@ The normalised score for both metrics thus reflects two distinct aspects of tree
 
 \section{Results}
 
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.9\textwidth]{Figures/RF_results_best.pdf} %TG: These figures will be cleaned up once I have the final results.
+\caption{Effect of Character Difference on recovering the ``best'' topology. The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different Character Difference scenarios and tree inference method with the Maximised Character Difference in Bayesian (red) and under Maximum Parsimony (orange), the Minimised Character Difference in Bayesian (dark green) and under Maximum Parsimony (light green) and the Randomised Character Difference in Bayesian (dark blue) and under Maximum Parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}
+\label{Fig:RF_results_best}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.9\textwidth]{Figures/Tr_results_best.pdf} %TG: These figures will be cleaned up once I have the final results.
+\caption{Effect of Character Difference on recovering the ``best'' topology. The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Triplets distance.}
+\label{Fig:Tr_results_best}
+\end{figure}
+
+
+
 
 \section{Discussion}
 
+\subsection{Effect of character differences on topology}
+As expected, reducing character difference reduces the ability of recovering the best tree topology since the ``assumption'' of character independence is ``violated''.
+Conversely increasing character difference increases the ability of recover the best tree topology.
+However this has not more effect of topology than simply bootstrapping the matrix.
+
+\subsection{Effect of character differences on the inference method}
+Scenarios where the characters are most different to each other could favor Bayesian over Parsimony.
+In fact, the only way to deal with it in parsimony analysis is to generate really homoplasic trees (since most character gives a different signal).
+On the other hand probabilistic methods can better deal with this problem by increasing branch length to accommodate more changes in characters between taxa.
+
+
+\subsection{Distinction between different character correlations}
+
+Throughout literature, the concept of character correlation (as a requirement for avoiding characters dependence in phylogenetic analysis) can vary along four major points based on the origin of the character correlation:
+\begin{itemize}
+    \item Biological induce correlation between characters: linkage through development or biological function (e.g. upper and lower teeth).
+    These links are readily understood through developmental biology or understanding of shared function between features.
+    This is linked to organisms morphological modules \citep[\textit{sensu}][]{goswami2006morphological}.
+
+    \item Evolutionary induced correlation between characters: linkage through shared evolutionary history (e.g. character co-evolving along branches).
+    These links are the direct cause of the biological correlation highlighted above.
+    In practice, however, these linkages can only be inferred based on a phylogeny and will thus be dependant on the phylogenetic methods used.
+    For example, if a series of characters co-evol along a branch, this can be due to actual accumulation of evolutionary changes along this branch (e.g. characters linked to volancy along the Chiroptera branch) but could also be the result of inference biases (e.g. when long branch attraction occurs).
+
+    \item Coding induced correlation between characters: linkage through coding similar characters on a feature that share a similar pattern.
+    These links can be due to researcher inadvertently defining a character twice or the researcher having to define as many characters as possible on a small feature due to the fragmentary nature of the fossil record (e.g. only isolated teeth are available to describe a group of taxa).
+
+    \item Software induced correlation between characters: this designates the way software actually interprets the differences between characters.
+    I.e. the vast majority of phylogenetic software ignore both the character's definition, the different states signification (simply treated as different/similar tokens). For example, if we have a good assumption that two binary characters coded for four taxa are not correlated (by a prior analysis of the correlations described above), if these two characters both coded `{0,0,0,1}', the software will treat them strictly identically.
+
+    How actually softwares do not care about the character’s definition and whether its in such or such module or arose from such or such evolutionary history (plus what the tokens mean to the researchers). It just looks whether the tokens are different or not between species per characters.
+
+\end{itemize}
+
+Although both biological and evolutionary induce correlation is what we're interested, unless they are studied explicitly (through evo-devo hypothesis testing for example), coding and software induced correlation are the correlations we end up having to deal with.
+In our study, we do not take into account biological correlation (because our characters are randomly simulated, we can not propose developmental or functional links between them), however, because they are simulated using evolutionary models based on Birth-Death trees, evolutionary induced correlation is present in our simulation (though not analysed specifically).
+The coding induce correlation is simulated through our protocol of maximising/minimising the Character Difference metric from the ``normal'' matrix.
+Finally, the software induced correlation is what is actually measured through these simulations.
+
 
 \subsection{Conclusion}
+Character differences as a proxy for character correlation is not a problem \textit{per se} as long as characters are not actively coded to be similar.
+On the other hand, actively selecting characters based to favor independence does not increase the ability of recovering tree topology more than bootstrapping the characters.
+
+\section{Data availability and repeatability}
+The consensus trees are available on figshare at \url{@@@}.
+The code for reproducing the simulation is available and explained at \url{https://github.com/TGuillerme/CharactersCorrelation}.
+The vignette for reproducing the analysis and the figure is available at \url{http://htmlpreview.github.io/?https://github.com/TGuillerme/CharactersCorrelation/Analysis/EffectCorrelation.html}.
 
 
 \section{Funding}
@@ -306,11 +369,11 @@ European Research Council under the European Union’s Seventh Framework Program
 
 \section{Acknowledgements}
 Calculations where done using the Imperial College London Cluster Services (doi: 10.14469/hpc/2232).
-We thank Alberto Pascual Garcia and April Wright for input in the design of the simulations protocol and Guillermo Herraiz Yebes for helping with the CD proof.
+We thank Alberto Pascual Garcia for input in the design of the simulations protocol and Guillermo Herraiz Yebes for helping with the CD proof.
 
 
 % Suggested reviewers:
-%- Liliana Davalos for MPE
+%- Liliana Davalos for MPE / Joe O'Reilly, April Wright 
 
 
 \bibliographystyle{sysbio}
