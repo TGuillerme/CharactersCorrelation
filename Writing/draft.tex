@@ -149,24 +149,63 @@ blablabla
 %---------------------------------------------
 \section{Introduction}
 
-The last five years have seen a drastic expansion of the use of discrete morphological data in macroevolutionary studies.
-In fact, traditionally confined to ``classic'' cladistics \citep{felsenstein2004inferring}, these methods have recently been expended and improved whether based on the models and methods for inferring phylogenies \citep{lewisa2001,Wright01072016} or the methods to date them \citep[e.g.][]{bapsta2013} or to combine them with molecular data \citep{pyrondivergence2011,ronquista2012}.
-% Debate on which inference method to use \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081}.
-% Debate on dating methods \citep{Arcila2015131}.
-% Debate on data sources (BAPST in review)
+The last five years have seen a fantastic expansion of the use of discrete morphological data in macroevolutionary studies.
+In fact, traditionally confined to ``classic'' cladistic studies \citep{felsenstein2004inferring}, these methods have recently been widely expended and improved whether based on the models and methods for inferring phylogenies \citep[e.g.][]{heath2014fossilized,Wright01072016} or to combine them with molecular data \citep{pyrondivergence2011,ronquista2012}.
 In parallel, much development has also been done on pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic analysis \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
-However, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146}(+BAPST); the coding of this data \citep{Brazeau2011}; the inference \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081} or the dating methods \citep{Arcila2015131}.
+Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011}; the inference \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
 
-However, one aspect of the data is often neglected: the correlation that exists between discrete morphological characters.
-In fact, because of their nature, these characters are prone to many sources of correlation such as: (1) the co-evolution between traits (e.g. the number of digits on a limb co-evolves with the actual presence/absence of the limb); (2) morphological modularity \citep[i.e. the unity of entire morphological regions][]{goswami2006morphological}; (3) convergent evolution between traits (e.g. wings in many vertebrates); or (4), more down-to-earth, to errors from the coder \citep[e.g. the repetition of the same character described slighlty differently each case][]{Brazeau2011}.
-These sources of correlation can alter the results of phylogenetic inference by effectively weighting the correlated characters against their non-correlated counter parts leading to biases in phylogenetic inference by supporting clades with artificial synapomorphies.
-This fact have led to the popular wisdom rule of avoiding coding correlated characters for macroevolutionary studies.
+One aspect of the data, however, is often neglected: the correlation between morphological characters.
+In fact, the assumption of character independence is at the base of phylogenetic inference and as been mentioned or implied throughout the history of phylogenetic methods \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
+Nowadays, this assumption of character independence is even often accepted as a fact and rarely tested or questioned in empirical datasets.
+However, specifically in the case of discrete morphological data, this assumption of independence is probably violated more often than not due to the sheer nature of the data. In practice, dependence between characters can be induced in at least three different ways:
 
-Up to this date, a lot of work has been done on character correlation \textit{per se}, but focussing mainly on how to measure correlation between characters to detect patterns of coevolution \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+\begin{itemize}
+    \item \textbf{Biological induce dependence between characters:} this is the result of a link between two characters through development or biological function (e.g. upper and lower teeth).
+    These links are readily understood through developmental biology or understanding of shared function between features \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
+    One trivial example would be the link between lower and upper molar characters in mammals: one character describing a feature of a lower molar will be expected to be correlated to another character describing a feature of the associated upper molar.
 
-Also \cite{goswami2010}.
+    \item \textbf{Evolutionary induced dependence between characters:} this is the result of sets of character co-evolving along branches in the phylogeny.
+    The character's correlation is thus due to shared evolutionary history of these characters.
+    Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+    For example, in gnatosthomes, the apparition of the jaw in the gnatosthomes clade correlates with a whole sweep of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
 
-However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable exceptions of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data.
+    \item \textbf{Coding induced dependence between characters:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep[see][and reference therein]{Brazeau2011}.
+    These dependences could be due to methodological errors. 
+    For example one could use a character describing a particular feature on a left molar as well as another character describing the same feature on a right molar.
+    However, these dependences could also be due to the nature of the available data, especially in palaeontology.
+    For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
+\end{itemize}
+
+\noindent Of course, the three sources of dependences can also be correlated to each other: characters describing the left and right lower/upper molars will have induce correlation due to the modularity of the molars, their shared history and the duplicated coding!
+
+As mentioned above, these sources of dependence between characters are well studied in biology.
+Biological and evolutionary dependences are inherent parts to evo-devo and maroevolution and best practices to avoid coding induced dependences are commonly known and applied.
+However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences softwares that are blind to these distinctions.
+This introduces a new, less studied, source of character dependence:
+
+\noindent \textbf{Software induced correlation between characters:} this is the result how software actually interprets the differences between characters.
+I.e. the vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treated as different/similar tokens) leading to dependence between characters.
+For example, in a matrix containing four cetartiodactyles - say a pig (e.g. \textit{Sus}), a deer (\textit{Cervus}), a hippo (\textit{Hippopotamus}) and a whale (\textit{Balaenoptera}) - and four characters - say (\textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragal with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley - resulting in the following matrix:
+
+\begin{table}
+\center
+    \begin{tabular}{r|cccc}
+            & C1 & C2 & C3 & C4\\
+        \hline
+        \textit{Sus} & 1 & 1 & 1 & 1\\
+        \textit{Cervus} & 1 & 1 & 1 & 1\\
+        \textit{Hippopotamus} & 1 & 1 & 1 & 1\\
+        \textit{Balaenoptera} & 0 & 0 & 0 & 0\\
+    \end{tabular}
+    \caption{Example of a matrix with software induced character correlation. \textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragal with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley.}
+    \label{Tab:example_matrix}
+\end{table}
+
+In the example in Table \ref{Tab:example_matrix}, the characters C1 and C2 are the most likely to be truly independent; characters C3 and C4 have a coding induced dependency; characters C1 and C3/C4 have an evolutionary induce dependency and again, characters C2 and C3/C4 are likely to be independent.
+Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the different character states tokens will be used in order to infer a phylogenetic tree.
+
+To our knowledge, this effect of software induced character correlation 
+
 It is thus still unclear what will be the effect of characters correlation on phylogenetic inference: how does these correlation really affect topology?
 Additionally, because of the nature of discrete morphological characters and organisms morphology, correlation is expected to rise through both combinatorics properties of the characters or simply through evolutionary processes.
 What is the effect of these two sources of correlations and can we (should we) avoid them?
@@ -174,6 +213,10 @@ What is the effect of these two sources of correlations and can we (should we) a
 In this study, we formally assess the effect of discrete character's correlation using simulated and empirical data.
 We propose a new metric to measure the correlation (or difference) between two discrete characters and a protocol to modify discrete data matrices to increase/decrease the correlation between characters within/
 We found that blabalbal
+
+
+% However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable exceptions of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data. %TG: put that somwhere
+
 
 \section{Methods}
 
@@ -325,32 +368,16 @@ On the other hand probabilistic methods can better deal with this problem by inc
 
 
 \subsection{Distinction between different character correlations}
-
-Throughout literature, the concept of character correlation (as a requirement for avoiding characters dependence in phylogenetic analysis) can vary along four major points based on the origin of the character correlation:
-\begin{itemize}
-    \item Biological induce correlation between characters: linkage through development or biological function (e.g. upper and lower teeth).
-    These links are readily understood through developmental biology or understanding of shared function between features.
-    This is linked to organisms morphological modules \citep[\textit{sensu}][]{goswami2006morphological}.
-
-    \item Evolutionary induced correlation between characters: linkage through shared evolutionary history (e.g. character co-evolving along branches).
-    These links are the direct cause of the biological correlation highlighted above.
-    In practice, however, these linkages can only be inferred based on a phylogeny and will thus be dependant on the phylogenetic methods used.
-    For example, if a series of characters co-evol along a branch, this can be due to actual accumulation of evolutionary changes along this branch (e.g. characters linked to volancy along the Chiroptera branch) but could also be the result of inference biases (e.g. when long branch attraction occurs).
-
-    \item Coding induced correlation between characters: linkage through coding similar characters on a feature that share a similar pattern.
-    These links can be due to researcher inadvertently defining a character twice or the researcher having to define as many characters as possible on a small feature due to the fragmentary nature of the fossil record (e.g. only isolated teeth are available to describe a group of taxa).
-
-    \item Software induced correlation between characters: this designates the way software actually interprets the differences between characters.
-    I.e. the vast majority of phylogenetic software ignore both the character's definition, the different states signification (simply treated as different/similar tokens). For example, if we have a good assumption that two binary characters coded for four taxa are not correlated (by a prior analysis of the correlations described above), if these two characters both coded `{0,0,0,1}', the software will treat them strictly identically.
-
-    How actually softwares do not care about the character’s definition and whether its in such or such module or arose from such or such evolutionary history (plus what the tokens mean to the researchers). It just looks whether the tokens are different or not between species per characters.
-
-\end{itemize}
-
+%TG: this is linked to the story in the intro
 Although both biological and evolutionary induce correlation is what we're interested, unless they are studied explicitly (through evo-devo hypothesis testing for example), coding and software induced correlation are the correlations we end up having to deal with.
 In our study, we do not take into account biological correlation (because our characters are randomly simulated, we can not propose developmental or functional links between them), however, because they are simulated using evolutionary models based on Birth-Death trees, evolutionary induced correlation is present in our simulation (though not analysed specifically).
 The coding induce correlation is simulated through our protocol of maximising/minimising the Character Difference metric from the ``normal'' matrix.
 Finally, the software induced correlation is what is actually measured through these simulations.
+
+
+About evolutionary induced correlation:
+In practice, however, these linkages can only be inferred based on a phylogeny and will thus be dependant on the phylogenetic methods used.
+For example, if a series of characters co-evol along a branch, this can be due to actual accumulation of evolutionary changes along this branch (e.g. characters linked to volancy along the Chiroptera branch) but could also be the result of inference biases (e.g. when long branch attraction occurs).
 
 
 \subsection{Conclusion}
