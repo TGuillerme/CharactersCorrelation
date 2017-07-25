@@ -11,31 +11,20 @@ output:
 
 #### Loading the package and functions
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 ## The latest version of devtools
 if(!require(devtools)) install.packages("devtools")
 
 ## The latest version of dispRity 
-install_github("TGuillerme/dispRity")
-
-## The latest version of Claddis
-install_github("graemetlloyd/Claddis")
+if(!require(dispRity)) install_github("TGuillerme/dispRity")
 
 ## The cran version of diversitree
 if(!require(diversitree)) install.packages("diversitree")
 ```
 
 ```{r, results="hide", message=FALSE}
-library(Claddis) ; library(dispRity) ; library(diversitree)
-source("../../Functions/cor.matrix.R")
+## Loading the functions not included in dispRity
 source("../../Functions/modify.matrix.R")
-source("../../Functions/plot.char.diff.density.R")
-source("../../Functions/plot.cor.matrix.R")
-source("../../Functions/write.nexus.std.R")
-source("../../Functions/char.diff.R")
-
-## Load the C libraries
-dyn.load("../../Functions/char.diff.so")
 
 ## Seed for repeatability
 set.seed(0)
@@ -148,33 +137,62 @@ matrix_rand <- modify.matrix(matrix_norm, type = "randomise")
 We can then visualise the modifications by looking at the pairwise character differences:
 
 ```{r, fig.width=12, fig.height=6}
+## Character difference
+char_diff_matrix_norm <- char.diff(matrix_norm)
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
-plot.char.diff.density(char.diff(matrix_norm), "Normal matrix")
+plot(char_diff_matrix_norm, type = "density", main = "Normal matrix")
 ## The character difference matrix (pairwise)
-plot.cor.matrix(char.diff(matrix_norm), main = "")
+plot(char_diff_matrix_norm, type = "matrix")
 ```
 
 ```{r, fig.width=12, fig.height=6}
+## Character difference
+char_diff_matrix_maxi <- char.diff(matrix_maxi)
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
-plot.char.diff.density(char.diff(matrix_maxi), "Maximised matrix")
+plot(char_diff_matrix_maxi, type = "density", main = "Maximised matrix")
 ## The character difference matrix (pairwise)
-plot.cor.matrix(char.diff(matrix_maxi), main = "")
+plot(char_diff_matrix_maxi, type = "matrix")
 ```
 
 ```{r, fig.width=12, fig.height=6}
+## Character difference
+char_diff_matrix_mini <- char.diff(matrix_mini)
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
-plot.char.diff.density(char.diff(matrix_mini), "Minimised matrix")
+plot(char_diff_matrix_mini, type = "density", main = "Minimised matrix")
 ## The character difference matrix (pairwise)
-plot.cor.matrix(char.diff(matrix_mini), main = "")
+plot(char_diff_matrix_mini, type = "matrix")
 ```
 
 ```{r, fig.width=12, fig.height=6}
+## Character difference
+char_diff_matrix_rand <- char.diff(matrix_rand)
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
-plot.char.diff.density(char.diff(matrix_rand), "Randomised matrix")
+plot(char_diff_matrix_rand, type = "density", main = "Randomised matrix")
 ## The character difference matrix (pairwise)
-plot.cor.matrix(char.diff(matrix_rand), main = "")
+plot(char_diff_matrix_rand, type = "matrix")
 ```
+
+
+<!-- Paper figure -->
+
+
+<!-- ```{r, fig.width=12, fig.height=12}
+par(mfrow = c(2, 3), bty = "n", mar = c(1,1,1,1))
+## Tree
+plot(tree, cex = 0.8, main = "A - Simulated tree")
+## Normal matrix
+plot(char_diff_matrix_norm, type = "matrix", main = "B - Normal matrix", legend = FALSE)
+## Empty plot
+plot(0,0, col = "white", xaxt = 'n', yaxt = 'n', xlab = "", ylab = "")
+## Maximised matrix
+plot(char_diff_matrix_maxi, type = "matrix", main = "C - Maximised matrix", legend = FALSE)
+## Minimised matrix
+plot(char_diff_matrix_mini, type = "matrix", main = "D - Minimised matrix", legend = FALSE)
+## Randomised matrix
+plot(char_diff_matrix_rand, type = "matrix", main = "E - Randomised matrix", legend = FALSE)
+```
+ -->
