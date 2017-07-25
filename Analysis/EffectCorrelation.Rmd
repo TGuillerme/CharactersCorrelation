@@ -18,6 +18,7 @@ Loading the functions and the data
 Getting the functions and the data
 
 ```{r, eval = TRUE, message = FALSE}
+library(dispRity)
 source("functions.R") ; load.functions(test = FALSE)
 dyn.load("../Functions/char.diff.so")
 load("../Data/NTS/matrix.nts.Rda")
@@ -84,9 +85,58 @@ plot.results.single(t150_list, metric = 4, what = "null",
 par(op)
 ```
 
+Some stats
+-----------------------------------
+
+```{r}
+## Getting the whole data
+whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
+
+## getting the aov data
+aov_data <- get.aov.data(whole_data, "RF", "norm", combined = TRUE)
+
+## with lme4
+library(lme4) ; library(lmerTest)
+
+## NTS function of scenario (random = method + taxa + character)
+model <- lmer(NTS ~ scenario + (1|method/taxa/character), data = aov_data$data)
+anova(model)
+difflsmeans(model, test.effs = "scenario")
+
+## Plotting the residuals
+normal_test <- shapiro.test(residuals(model))
+hist(residuals(model),
+    main = paste("Normal (W=", round(normal_test$statistic, digit = 2) ,
+        "; p=", round(normal_test$p.value, digit = 2) ,")", sep = ""))
+
+## Residuals vs predicted plot
+plot(fitted(model), residuals(model))
+
+## The residuals seem
+```
 
 
+```{r, fig.width=12, fig.height=6}
+op <- par(mfrow=c(1,2))
+## Plotting the residuals
+normal_test <- shapiro.test(residuals(model))
+hist(residuals(model),
+    main = paste("non-normal (W=", round(normal_test$statistic, digit = 2) ,
+        "; p=", round(normal_test$p.value, digit = 2) ,")", sep = ""))
 
+## Residuals vs predicted plot
+homo_test <- bartlett.test(NTS ~ scenario, data = aov_data$data)
+plot(fitted(model), residuals(model),
+    main = paste("heterodastic (Bartlett K^2=", round(homo_test$statistic, digit = 2) ,
+        "; p=", round(homo_test$p.value, digit = 2) ,")", sep = ""))
+par(op)
+```
+
+The results seem to be heterodastic
+
+
+Supp
+-----------------------------------
 
 
 
