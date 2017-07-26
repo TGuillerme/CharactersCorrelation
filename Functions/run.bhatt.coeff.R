@@ -41,7 +41,7 @@ run.bhatt.coeff <- function(data, metric, best) {
 
     ## Getting the levels of parameters
     list_names <- names(NTS_list)
-    parameter_names <- c("t25.", "t75.", "t150.", "c100.", "c350.", "c1000.", "bayesian.", "parsimony.")
+    parameter_names <- c("t25.", "t75.", "t150.", "c100.", "c350.", "c1000.", "bayesian", "parsimony")
     if(best == "norm") {
         parameter_names <- c(parameter_names, c("maxi", "mini", "rand"))
     } else {
@@ -68,8 +68,10 @@ run.bhatt.coeff <- function(data, metric, best) {
     bhatt_coeffs <- apply(combo_list, 2, function(X) pairwise.bhatt.coeff(NTS_list[X]))
 
     ## Get the column names (scenario)
+    colnames(bhatt_coeffs) <- apply(combo_matrix, 2, function(X) paste(parameter_names[X], collapse = ""))
     
     ## Get the row names (min:max, etc..)
+    rownames(bhatt_coeffs) <- c("max-min", "max-rand", "min-rand")
 
     return(t(bhatt_coeffs))
 }
