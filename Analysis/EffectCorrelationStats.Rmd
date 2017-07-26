@@ -1,0 +1,137 @@
+---
+title: "Effect of character correlation"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 6
+---
+
+Effect of character correlation
+===============
+
+
+Loading the functions and the data
+-----------------------------------
+
+Getting the functions and the data
+
+```{r, eval = TRUE, message = FALSE}
+library(dispRity)
+library(lme4)
+library(lmerTest)
+library(ordinal)
+library(MASS)
+source("functions.R") ; load.functions(test = FALSE)
+dyn.load("../Functions/char.diff.so")
+load("../Data/NTS/matrix.nts.Rda")
+source("../Data/load.data.R")
+```
+
+Nested anova
+-----------------------------------
+
+Let's analysis the data using a nested anova.
+The models look at the effect of our scenarios ("maximised", "minimised", etc...) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).
+
+```{r}
+## Getting the whole data
+whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
+
+## getting the aov data
+aov_data_RF_best <- get.aov.data(whole_data, "RF", "norm", combined = TRUE)
+aov_data_Tr_best <- get.aov.data(whole_data, "Triples", "norm", combined = TRUE)
+aov_data_RF_null <- get.aov.data(whole_data, "RF", "null", combined = TRUE)
+aov_data_Tr_null <- get.aov.data(whole_data, "Triples", "null", combined = TRUE)
+
+
+## Models with normalised tree score function of scenario (with nestedness)
+model_RF_best <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
+                      data = aov_data_RF_best)
+model_Tr_best <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
+                      data = aov_data_Tr_best)
+model_RF_null <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
+                      data = aov_data_RF_null)
+model_Tr_null <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
+                      data = aov_data_Tr_null)
+
+## Testing model assumptions
+## Normality of the residuals
+norm_RF_best <- shapiro.test(residuals(model_RF_best))
+norm_Tr_best <- shapiro.test(residuals(model_Tr_best))
+norm_RF_null <- shapiro.test(residuals(model_RF_null))
+norm_Tr_null <- shapiro.test(residuals(model_Tr_null))
+normality <- list(norm_RF_best, norm_Tr_best, norm_RF_null, norm_Tr_null)
+
+## Variance homoscedasticity
+homo_RF_best <- bartlett.test(NTS ~ scenario, data = aov_data_RF_best)
+homo_Tr_best <- bartlett.test(NTS ~ scenario, data = aov_data_Tr_best)
+homo_RF_null <- bartlett.test(NTS ~ scenario, data = aov_data_RF_null)
+homo_Tr_null <- bartlett.test(NTS ~ scenario, data = aov_data_Tr_null)
+homoscedasticity <- list(homo_RF_best, homo_Tr_best, homo_RF_null, homo_Tr_null)
+
+## Summarise the results
+results <- matrix(nrow = 4, data = c(
+                round(unlist(lapply(normality, `[[`, 1)), digit = 3),
+                round(unlist(lapply(normality, `[[`, 2)), digit = 3),
+                round(unlist(lapply(homoscedasticity, `[[`, 1)), digit = 3),
+                round(unlist(lapply(homoscedasticity, `[[`, 2)), digit = 3),
+                round(unlist(lapply(homoscedasticity, `[[`, 3)), digit = 3)),
+            dimnames = list(
+                c("RF best", "Triples best", "RF null", "Triples null"),
+                c("W", "p.value", "Bartlett's K-squared", "df", "p.value")))
+
+## Check assumption's validities
+validity <- apply(results, 1,
+    function(X) ifelse((X[2] >= 0.05 && X[5] >= 0.05), TRUE, FALSE))
+
+## Report results
+(results <- cbind(as.data.frame(results), validity))
+
+```
+
+All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios.
+
+
+Distributions probability overlap (Bhattacharrya Coefficient)
+-----------------------------------
+
+We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions.
+A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don't overlap (significant effect of one scenario on topology).
+Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).
+
+```{r}
+## Running the pairwise Bhattacharrya Coefficient analysis:
+(bc_RF_best <- run.bhatt.coeff(whole_data, "RF", "norm"))
+(bc_Tr_best <- run.bhatt.coeff(whole_data, "Triples", "norm"))
+(bc_RF_null <- run.bhatt.coeff(whole_data, "RF", "null"))
+(bc_Tr_null <- run.bhatt.coeff(whole_data, "Triples", "null"))
+```
+
+
+
+
+Non-parametric anova
+-----------------------------------
+
+We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions.
+A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don't overlap (significant effect of one scenario on topology).
+Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).
+
+```{r}
+# ## Cumulative Link Mixed Models
+# mm1 <- clmm(NTS ~ scenario + (1|taxa/method) + (1|character/method),
+#             data = aov_data_RF_best)
+# mm1
+# summary(mm1)
+
+
+
+# ## Ordinated logistic regression
+# polr(scenario ~ NTS + (1) ,
+#                       data = aov_data_RF_best)
+
+
+```
+
