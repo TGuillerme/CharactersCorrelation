@@ -35,15 +35,15 @@ get.aov.data <- function(data, metric, best, combined = FALSE) {
     }
 
     ## Getting the formula
-    if(combined) {
-        formula <- NTS ~ taxa + character + method + scenario
-    } else {
-        if(best == "norm") {
-            formula <- NTS ~ taxa + character + method + maximised + minimised + randomised
-        } else {
-            formula <- NTS ~ taxa + character + method + normal + maximised + minimised
-        }
-    }
+    # if(combined) {
+    #     formula <- NTS ~ taxa + character + method + scenario
+    # } else {
+    #     if(best == "norm") {
+    #         formula <- NTS ~ taxa + character + method + maximised + minimised + randomised
+    #     } else {
+    #         formula <- NTS ~ taxa + character + method + normal + maximised + minimised
+    #     }
+    # }
 
     ## Create the common aov table
     aov_data <- data.frame("taxa" = count.taxa(NTS),
@@ -69,7 +69,7 @@ get.aov.data <- function(data, metric, best, combined = FALSE) {
                                                    "minimised" = count.scenario(NTS, 3, combined = FALSE)))
         }
     }
-    return(list("data" = aov_data, "formula" = formula))
+    return(aov_data)
 }
 
 ## Return the right metric from a table
