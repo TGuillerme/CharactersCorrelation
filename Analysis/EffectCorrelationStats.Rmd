@@ -15,19 +15,40 @@ Effect of character correlation
 Loading the functions and the data
 -----------------------------------
 
-Getting the functions and the data
+Getting the functions and the data.
 
 ```{r, eval = TRUE, message = FALSE}
 library(dispRity)
 library(lme4)
 library(lmerTest)
-library(ordinal)
-library(MASS)
 source("functions.R") ; load.functions(test = FALSE)
 dyn.load("../Functions/char.diff.so")
 load("../Data/NTS/matrix.nts.Rda")
 source("../Data/load.data.R")
+
+## Getting the whole data
+whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
 ```
+
+
+Summary statistics
+-----------------------------------
+
+We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations.
+Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1).
+The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
+
+```{r}
+## Running the pairwise Wilcox tests:
+(sum_RF_best <- apply.test(whole_data, "RF", "norm", NULL))
+(sum_Tr_best <- apply.test(whole_data, "Triples", "norm", NULL))
+(sum_RF_null <- apply.test(whole_data, "RF", "null", NULL))
+(sum_Tr_null <- apply.test(whole_data, "Triples", "null", NULL))
+
+```
+
+
+
 
 Nested anova
 -----------------------------------
@@ -36,9 +57,6 @@ Let's analysis the data using a nested anova.
 The models look at the effect of our scenarios ("maximised", "minimised", etc...) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).
 
 ```{r}
-## Getting the whole data
-whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
-
 ## getting the aov data
 aov_data_RF_best <- get.aov.data(whole_data, "RF", "norm", combined = TRUE)
 aov_data_Tr_best <- get.aov.data(whole_data, "Triples", "norm", combined = TRUE)
@@ -92,7 +110,7 @@ validity <- apply(results, 1,
 ```
 
 All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios.
-
+This is due to the fact that the metric is bounded to 1.
 
 Distributions probability overlap (Bhattacharrya Coefficient)
 -----------------------------------
@@ -103,35 +121,37 @@ Conversely, an overlap probability above 0.95 means the two scenario gives the s
 
 ```{r}
 ## Running the pairwise Bhattacharrya Coefficient analysis:
-(bc_RF_best <- run.bhatt.coeff(whole_data, "RF", "norm"))
-(bc_Tr_best <- run.bhatt.coeff(whole_data, "Triples", "norm"))
-(bc_RF_null <- run.bhatt.coeff(whole_data, "RF", "null"))
-(bc_Tr_null <- run.bhatt.coeff(whole_data, "Triples", "null"))
+(bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff))
+(bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff))
+(bc_RF_null <- apply.test(whole_data, "RF", "null", bhatt.coeff))
+(bc_Tr_null <- apply.test(whole_data, "Triples", "null", bhatt.coeff))
 ```
 
 
-
-
-Non-parametric anova
+Non-parametric pairwise comparisons
 -----------------------------------
 
-We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions.
-A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don't overlap (significant effect of one scenario on topology).
-Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).
+We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations.
+Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1).
+The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
 
 ```{r}
-# ## Cumulative Link Mixed Models
-# mm1 <- clmm(NTS ~ scenario + (1|taxa/method) + (1|character/method),
-#             data = aov_data_RF_best)
-# mm1
-# summary(mm1)
+## Running the pairwise Wilcox tests:
+wx_RF_best <- apply.test(whole_data, "RF", "norm", wilcox.test)
+wx_Tr_best <- apply.test(whole_data, "Triples", "norm", wilcox.test)
+wx_RF_null <- apply.test(whole_data, "RF", "null", wilcox.test)
+wx_Tr_null <- apply.test(whole_data, "Triples", "null", wilcox.test)
 
+## Applying Bonferroni correction
+wx_RF_best[,c(2,4,6)] <- p.adjust(wx_RF_best[,c(2,4,6)], method = "bonferroni")
+wx_Tr_best[,c(2,4,6)] <- p.adjust(wx_Tr_best[,c(2,4,6)], method = "bonferroni")
+wx_RF_null[,c(2,4,6)] <- p.adjust(wx_RF_null[,c(2,4,6)], method = "bonferroni")
+wx_Tr_null[,c(2,4,6)] <- p.adjust(wx_Tr_null[,c(2,4,6)], method = "bonferroni")
 
-
-# ## Ordinated logistic regression
-# polr(scenario ~ NTS + (1) ,
-#                       data = aov_data_RF_best)
-
-
+## Print the results
+wx_RF_best
+wx_Tr_best
+wx_RF_null
+wx_Tr_null
 ```
 
