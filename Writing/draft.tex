@@ -320,9 +320,17 @@ We compared the topologies using the same approach as in \cite{Guillerme2016146}
 We ran two types of comparisons, (1) the effect of Character Difference on recovering the ``normal'' topology by comparing the ``maximised'', ``minimised'' and ``randomised'' trees to the ``normal'' tree (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best}); and (2) the signal to noise ratio induced by the simulation protocol by comparing the ``randomised'' trees to the ``normal'', ``maximised'' and ``minimised'' trees (Figs \ref{Fig:RF_results_rand} and \ref{Fig:Tr_results_rand}). 
 
 The metrics scores where obtained using the TreeCmp java script \citep{Bogdanowicz2012}.
-The measurements where then standardised using the Normalised Tree Similarity metric \citep[i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
+The measurements where then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
 When the normalised metric has a score of $1$ it means both trees are identical, when it has a score of $0$ it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
-The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Fould Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
+The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Fould ($NTS_{RF}$)Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity ($NTS_{Tr}$) reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
+
+Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at 1, the resulting residuals distribution of $NTS$ scores was not normal thus preventing the use of parametric nested anova for comparisons (see Supplementary @@@).
+Instead, we used the a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
+We considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
+Comparisons falling within these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
+
+
+% TG: Data not normal so no fancy test yet
 
 \section{Results}
 
