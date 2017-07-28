@@ -28,6 +28,7 @@
 \usepackage{lineno}
 \usepackage{dcolumn}
 \usepackage{mathtools}
+\usepackage{pdflscape}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}%
@@ -235,6 +236,7 @@ Each steps are described below in more details, as well as our proposed definiti
 \end{figure}
 
 \subsection{Measuring differences between characters}
+\label{CD_description}
 We define characters as being correlated if they give the same phylogenetic information.
 In order to measure this similitude in phylogenetic information, we propose a new distance metric to measure the difference between two characters:
 
@@ -317,7 +319,7 @@ The 2880 tree inferences took around 1 CPU century on the Imperial College High 
 
 \subsection{Comparing topologies}
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``randomised'' matrices and the tree inferred from the ``normal'' matrix.
-We ran two types of comparisons, (1) the effect of Character Difference on recovering the ``normal'' topology by comparing the ``maximised'', ``minimised'' and ``randomised'' trees to the ``normal'' tree (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best}); and (2) the signal to noise ratio induced by the simulation protocol by comparing the ``randomised'' trees to the ``normal'', ``maximised'' and ``minimised'' trees (Figs \ref{Fig:RF_results_rand} and \ref{Fig:Tr_results_rand}). 
+We explored the effect of Character Difference on recovering the ``normal'' topology by comparing the ``maximised'', ``minimised'' and ``randomised'' trees to the ``normal'' tree (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best} and Tables @@@).
 
 The metrics scores where obtained using the TreeCmp java script \citep{Bogdanowicz2012}.
 The measurements where then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
@@ -330,14 +332,34 @@ We considered distribution to be significantly similar if they had an overlap pr
 Comparisons falling within these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
 
 
-% TG: Data not normal so no fancy test yet
-
 \section{Results}
+
+@@@ NOTE: THESE RESULTS ARE NOT FINAL - I thus didn't spend too much time describing them @@@
+
+\subsection{Effect of character differences on topology}
+The overall amount of pairwise $CD$ in a matrix has an effect of the ability to recover the correct topology.
+An overall decrease in $CD$ leads to an decrease in $NTS_{RF}$ (as a proxy for clade conservation - Fig. \ref{Fig:RF_results_best}) and in $NTS_{Tr}$ (as a proxy for taxa position - Fig. \ref{Fig:Tr_results_best}).
+Conversely, an increase in $CD$ leads to an increase in in $NTS_{RF}$ (Fig. \ref{Fig:RF_results_best}) and $NTS_{Tr}$ (Fig. \ref{Fig:Tr_results_best}).
+This beneficial effect can be contrasted however with a similar beneficial effect when simply randomising the character differences (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best}).
+
+\subsubsection{Effect of the number of characters}
+This negative effect of decreased $CD$ (and positive of increased $CD$) on topology is increased with the number of characters.
+% Test pulled difference between character numbers.
+
+\subsubsection{Effect of the number of taxa}
+Conversely, the effect of variation in $CD$ doesn't seem to drastically increase with the number of taxa after 75 taxa in our simulations.
+% Test pulled difference between number of taxa.
+
+\subsection{Effect of character differences on the inference method}
+There seems to be a strong effect on the ability to recover the correct topology depending on the tree inference method.
+Parsimony trees seems to be more sensible than Bayesian ones.
+% Test pulled difference between methods.
+
 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Figures/RF_results_best.pdf} %TG: These figures will be cleaned up once I have the final results.
-\caption{Effect of Character Difference on recovering the ``best'' topology. The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different Character Difference scenarios and tree inference method with the Maximised Character Difference in Bayesian (red) and under Maximum Parsimony (orange), the Minimised Character Difference in Bayesian (dark green) and under Maximum Parsimony (light green) and the Randomised Character Difference in Bayesian (dark blue) and under Maximum Parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}
+\caption{\small{Effect of Character Difference on recovering the ``best'' topology. The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different Character Difference scenarios and tree inference method with the Maximised Character Difference in Bayesian (red) and under Maximum Parsimony (orange), the Minimised Character Difference in Bayesian (dark green) and under Maximum Parsimony (light green) and the Randomised Character Difference in Bayesian (dark blue) and under Maximum Parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
 \label{Fig:RF_results_best}
 \end{figure}
 
@@ -350,20 +372,39 @@ Comparisons falling within these range can not be designated as strictly similar
 \end{figure}
 
 
-\begin{figure}[!htbp]
+% latex table generated in R 3.4.0 by xtable 1.8-2 package
+% Fri Jul 28 10:29:26 2017
+\begin{table}[ht]
 \centering
-   \includegraphics[width=1\textwidth]{Figures/RF_results_null.pdf} %TG: These figures will be cleaned up once I have the final results.
-\caption{Effect of Character Difference on recovering the ``random'' topology. The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Ronbinson-Fould distance.}
-\label{Fig:RF_results_rand}
-\end{figure}
+\begin{tabular}{rlllrrrrrrrrr}
+  \hline
+Taxa & Char. & Method & \multicolumn{3}{c}{max \textit{vs}. min} & \multicolumn{3}{c}{max \textit{vs}. rand} & \multicolumn{3}{c}{min \textit{vs}. rand} \\
+ & & & BC & W & p & BC & W & p & BC & W & p \\ 
+  \hline
+25 & 100 & Bay. & 0.67 & 1130.00 & \textbf{0.00} & 0.85 & 856.00 & \textbf{1.00} & 0.74 & 320.00 & \textbf{0.00} \\ 
+   & 350 &   & 0.71 & 1236.50 & \textbf{0.00} & \textbf{0.96} & 844.00 & \textbf{1.00} & 0.73 & 338.00 & \textbf{0.00} \\ 
+   & 1000 &   & 0.71 & 1321.50 & \textbf{0.00} & 0.89 & 802.00 & 1.00 & 0.67 & 226.00 & \textbf{0.00} \\ 
+75 & 100 &   & 0.48 & 1366.50 & \textbf{0.00} & 0.66 & 1134.00 & \textbf{0.01} & 0.69 & 264.00 & \textbf{0.00} \\ 
+   & 350 &   & 0.40 & 999.50 & \textbf{0.00} & 0.59 & 878.50 & \textbf{0.00} & 0.71 & 188.00 & \textbf{0.00} \\ 
+   & 1000 &   & 0.53 & 390.00 & \textbf{0.00} & 0.80 & 341.50 & 0.13 & 0.69 & 100.00 & 0.14 \\ 
+150 & 100 &   & \textbf{0.00} & 256.00 & \textbf{0.00} & \textbf{0.00} & 256.00 & \textbf{0.00} & 0.42 & 24.00 & \textbf{0.01} \\ 
+    & 350 &   & 0.07 & 361.00 & \textbf{0.00} & \textbf{0.05} & 361.00 & \textbf{0.00} & 0.39 & 56.50 & \textbf{0.02} \\ 
+    & 1000 &   & \textbf{0.00} & 121.00 & \textbf{0.00} & 0.13 & 119.00 & \textbf{0.01} & \textbf{0.00} & 0.00 & \textbf{0.00} \\ 
+25 & 100 & Par. & 0.63 & 357.00 & \textbf{0.00} & 0.91 & 234.00 & 1.00 & 0.71 & 85.00 & 0.10 \\ 
+   & 350 &   & 0.34 & 387.00 & \textbf{0.00} & 0.79 & 287.50 & 0.94 & 0.49 & 61.50 & \textbf{0.01} \\ 
+   & 1000 &  & 0.43 & 384.00 & \textbf{0.00} & 0.79 & 289.50 & 0.62 & 0.71 & 65.00 & \textbf{0.01} \\ 
+75 & 100 &   & 0.38 & 379.50 & \textbf{0.00} & 0.40 & 359.00 & \textbf{0.00} & 0.75 & 157.50 & 1.00 \\ 
+   & 350 &   & 0.25 & 393.00 & \textbf{0.00} & 0.76 & 311.00 & 0.13 & 0.65 & 55.50 & \textbf{0.01} \\ 
+   & 1000 &   & 0.15 & 393.00 & \textbf{0.00} & 0.46 & 362.00 & \textbf{0.00} & 0.46 & 58.00 & \textbf{0.01} \\ 
+150 & 100 &   & 0.34 & 357.50 & \textbf{0.00} & 0.49 & 356.50 & \textbf{0.00} & 0.73 & 197.00 & 1.00 \\ 
+    & 350 &   & 0.17 & 390.00 & \textbf{0.00} & 0.60 & 348.00 & \textbf{0.00} & 0.63 & 63.50 & \textbf{0.01} \\ 
+    & 1000 &   & \textbf{0.00} & 400.00 & \textbf{0.00} & 0.71 & 328.50 &\textbf{0.03} & 0.34 & 24.00 & \textbf{0.00} \\ 
+   \hline
+\end{tabular}
+\caption{Example of a result table: BC = Bhattacharyya Coefficient, W = wilcox test statistic and p = associated p-value} 
+\label{LABEL}
+\end{table}
 
-
-\begin{figure}[!htbp]
-\centering
-   \includegraphics[width=1\textwidth]{Figures/Tr_results_null.pdf} %TG: These figures will be cleaned up once I have the final results.
-\caption{Effect of Character Difference on recovering the ``random'' topology. The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Triplets distance.}
-\label{Fig:Tr_results_rand}
-\end{figure}
 
 
 
@@ -372,12 +413,36 @@ Comparisons falling within these range can not be designated as strictly similar
 This goes with former results (see Parins-Fukuchi in review.)
 
 \subsection{Effect of character differences on topology}
-As expected, reducing character difference reduces the ability of recovering the best tree topology since the ``assumption'' of character independence is ``violated''.
-Conversely increasing character difference increases the ability of recover the best tree topology.
-However this has not more effect of topology than simply bootstrapping the matrix.
+One way to look at the $CD$ metric is as a inverse of character correlation (see Methods \ref{CD_description}): a high $CD$ approximates a low level of character correlation and vice versa.
+When characters are correlated, one could expect the matrices to convey a really strong (but probably incorrect) phylogenetic signal (since every characters agrees with each other) and conversely, when characters are uncorrelated, one could expect them to convey a weaker phylogenetic signal with a high amount of homoplasies.
+Intuitively this would lead to badly resolved trees in our scenarios where the $CD$ was high.
+
+One first noteworthy point is that, on average, the matrices with the highest $CD$ where the ones that performed the best at recovering the ``normal'' topology which in turns confirms the intuition that discrete morphological characters should be independent.
+This is also true when the characters are more similar to each other (low $CD$) resulting in worth trees due to the software treating all these characters as correlated.
+
+One second noteworthy point is that compared to simply randomising $CD$ in the matrices (effectively bootstrapping), maximising the $CD$ was, at least in small sized matrices, not more effective to recover the ``normal'' topology.
+Since many matrices are in the range size \citep{guillerme2016assessment} it is actually encouraging that actively coding characters to have high $CD$ values will not significantly improve the quality of the matrix compared to actually randomly coding characters.
+Coding characters with low $CD$ however will decrease the quality of the matrix.
+
+\subsubsection{Effect of the number of characters}
+As expected by the sheer design of this research project, the number of character has a nested effect on character correlation: increasing the number of characters in our simulation scenarios (i.e. ``maximised'', ``minimised'' and ``randomised'') effectively increased the amount of high/low $CD$ values per matrix.
+This increase in character numbers thus increases the effect of $CD$ on tree topology with $CD$
+
+\subsubsection{Effect of the number of taxa}
+Same blabalbal.
 
 \subsection{Effect of character differences on the inference method}
-Scenarios where the characters are most different to each other could favor Bayesian over Parsimony.
+The rather strong nested effect of the method for recovering can be due to the sheer difference in both methods.
+These difference in the ability of both methods in recovering the ``right'' topology has been heavily discussed in the last five years \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted}.
+In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[those resulting in a $CI>0.26$ in a quick parsimony search;]{OReilly20160081} could also favour Parsimony analysis.
+It was however not the purpose of this study to compare the overall performance of both methods but rather to measure the effect of character correlation on each of those methods separately.
+
+That being said, it is interesting to analysis this difference in tree inference method in the light of the effect of high/low $CD$.
+In fact the differences observed here could be due to the inherent mechanisms of each method:
+(1) when many characters are homoplasic (high $CD$) parsimony will cope with this information by generating longer trees (which are in turn disfavoured in the tree search). Conversely Bayesian can cope with homoplasy by making longer branches and also saves sub-optimal trees.
+
+
+Scenarios where the characters are most different to each other could favour Bayesian over Parsimony.
 In fact, the only way to deal with it in parsimony analysis is to generate really homoplasic trees (since most character gives a different signal).
 On the other hand probabilistic methods can better deal with this problem by increasing branch length to accommodate more changes in characters between taxa.
 
