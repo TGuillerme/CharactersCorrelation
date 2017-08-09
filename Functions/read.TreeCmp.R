@@ -4,6 +4,7 @@
 #'
 #' @param chain the general name of the chain (e.g. 25t_100c)
 #' @param path the path to where the files are stored
+#' @param type which type of tree (Bayesian or Parismony)
 #'
 #' @return
 #' A list of metrics for the comparisons.
@@ -64,6 +65,7 @@ read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCor
         names <- colnames(matrices_list[[1]])
             
         flipidy.flop <- function(element, splitted_matrices, nrow, names) {
+            message(".", appendLF = FALSE)
             return(matrix(unlist(lapply(splitted_matrices, `[[`, element)), byrow = TRUE, ncol = nrow, dimnames = list(c(),names)))
         }
 
@@ -73,6 +75,7 @@ read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCor
 
     flipped_matrices_norm <- flip.list(matrices_norm, 5, 4)
     flipped_matrices_rand <- flip.list(matrices_rand, 5, 4)
+    message("Done.\n", appendLF = FALSE)
     names(flipped_matrices_norm) <- names(flipped_matrices_rand) <- c("norm", "maxi", "mini", "rand", "true")
 
     return(list("norm" = flipped_matrices_norm, "rand" = flipped_matrices_rand))
