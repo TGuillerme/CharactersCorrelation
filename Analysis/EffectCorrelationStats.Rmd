@@ -149,9 +149,34 @@ wx_RF_null[,c(2,4,6)] <- p.adjust(wx_RF_null[,c(2,4,6)], method = "bonferroni")
 wx_Tr_null[,c(2,4,6)] <- p.adjust(wx_Tr_null[,c(2,4,6)], method = "bonferroni")
 
 ## Print the results
-wx_RF_best
-wx_Tr_best
-wx_RF_null
-wx_Tr_null
+round(wx_RF_best, digit = 3)
+round(wx_Tr_best, digit = 3)
+round(wx_RF_null, digit = 3)
+round(wx_Tr_null, digit = 3)
+```
+
+
+```{r}
+library(xtable)
+## Combining both tables (for paper)
+col_description <- matrix(ncol = 3,
+    data = c(rep(rep(c("25", "75", "150"), each = 3), 2),
+             rep(c("100", "350", "1000"), 6),
+             rep(c("Bay.", "Par."), each = 9)), dimnames = NULL)
+
+
+matrix_out <- cbind(as.data.frame(col_description), as.data.frame(cbind(bc_RF_best[,1], wx_RF_best[,1:2], bc_RF_best[,2], wx_RF_best[,3:4], bc_RF_best[,3], wx_RF_best[,5:6])))
+
+rownames(matrix_out) <- NULL
+
+xtable(matrix_out, caption = "CAPTION", label = "LABEL", round = 3)
+
+(bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff))
+(bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff))
+(bc_RF_null <- apply.test(whole_data, "RF", "null", bhatt.coeff))
+(bc_Tr_null <- apply.test(whole_data, "Triples", "null", bhatt.coeff))
+
+
+
 ```
 
