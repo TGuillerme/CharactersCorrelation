@@ -123,34 +123,6 @@ blablabla
 
 \newpage 
 
-
-%---------------------------------------------
-% LaTeX tips for modifying/editing the document:
-%---------------------------------------------
-% - You can comment using the percentage sign. I suggest you use the % sign alone for commenting out sections of the text:
-%       e.g. "This is a really long sentence %because this sentence is very long." Here the % is used for ignoring the end of the sentence (but for some reason you want to keep track of it).%
-%       For comments as in verbose comments, I suggest you use "%MB:":
-%       e.g. "This is a really long sentence %because this sentence is very long. %MB: yeah, no shit!" 
-% - For optimal version control, write only one sentence per line (for more precise track changes)
-% - To build the pdf, use command+B in Sublime.
-% - Because of the bibliography, the pdf needs to be build in the same folder that contains "References.bib" and "sysbio.bst"
-% - For citing papers, you must put their bibtex reference in the "References.bib" file and then you can use the following sysbio tags:
-%        \cite{bibtexBob2000} for citing within a sentence: "Bob (2000)"
-%        \citep{bibtexBob2000} for citing within brackets: "(Bob, 2000)"
-%        \citep[Before:][-After]{bibtexBob2000} for citing within brackets with additional text: "(Before: Bob, 2000 -After)"
-%        \citealt{bibtexBob2000} for citing without brackets: "Bob, 2000"
-%        You can put more cites in each \cite tag by separating them with commas.
-% - For equation, find every details here: https://en.wikibooks.org/wiki/LaTeX/Mathematics
-% - For titles and stuff, the hierarchy goes \section{}, \subsection{}, \subsubsection{} and so forth...
-% - For bullet points or enumerations you can use:
-%       \begin{itemize}
-%           \item my first bullet point/enumeration
-%       \end{itemize}
-%       With replacing "itemize" by "enumerate" for enumeration.
-
-
-
-
 %---------------------------------------------
 %
 %       INTRODUCTION
@@ -170,6 +142,9 @@ However - especially for discrete morphological data - this assumption of indepe
 In practice, dependence between characters can be induced in at least three different ways:
 
 \begin{itemize}
+
+    %TG: Change this induced thing
+
     \item \textbf{Biological induce dependence between characters:} this is the result of a link between two characters through development and/or biological function.
     These links are readily understood through developmental biology or understanding of shared function between features \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
     One trivial example would be the link between lower and upper molar characters in mammals: one character describing a feature of a lower molar will be expected to be correlated to another character describing another feature of the associated upper molar.
@@ -179,6 +154,8 @@ In practice, dependence between characters can be induced in at least three diff
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
     For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole sweep of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
 
+
+    %TG: This one can be reworded. Get a dichotomie a priori/a posteriori correlation. + add trade off in coding (more characters = more info but less independence)
     \item \textbf{Coding induced dependence between characters:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     These links can be due to methodological errors: for example one could define a character describing a particular feature on a left molar as well as another character describing the same feature on a right molar.
     It is worth noting, however, that these dependences could also be due to the nature of the available data, especially in palaeontology.
