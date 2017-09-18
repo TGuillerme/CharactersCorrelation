@@ -71,7 +71,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
     
 
     if(what == "null") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), ...,
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), las = 1, ...,
             ## c100
             unlist(taxa_list$c100$bayesian$rand$maxi[,metric]), unlist(taxa_list$c100$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$rand$mini[,metric]), unlist(taxa_list$c100$parsimony$rand$mini[,metric]),
@@ -103,7 +103,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
     }
 
     if(what == "best") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), ...,
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), las = 1, ...,
             ## c100
             unlist(taxa_list$c100$bayesian$norm$maxi[,metric]), unlist(taxa_list$c100$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$norm$mini[,metric]), unlist(taxa_list$c100$parsimony$norm$mini[,metric]),
@@ -135,7 +135,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
     }
 
     if(what == "true") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), ...,
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), las = 1, ...,
             ## c100
             unlist(taxa_list$c100$bayesian$norm$true[,metric]), unlist(taxa_list$c100$parsimony$norm$true[,metric]),
             unlist(taxa_list$c100$bayesian$rand$true[,metric]), unlist(taxa_list$c100$parsimony$rand$true[,metric]),
@@ -163,7 +163,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
     }
 
     if(what == "check") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), ...,
+        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), las = 1, ...,
             ## c100
             unlist(taxa_list$c100$bayesian$norm$rand[,metric]), unlist(taxa_list$c100$parsimony$norm$rand[,metric]),
             unlist(taxa_list$c100$bayesian$rand$norm[,metric]), unlist(taxa_list$c100$parsimony$rand$norm[,metric]),
@@ -203,7 +203,7 @@ plot.results.true.tree <- function(data_list, metric, main, legend = FALSE) {
     par(bty = "n")
 
     ## Boxplots
-    boxplot(xlab = "Characters", ylab = ylab, xaxt = "n", main = main, ylim = ylim,
+    boxplot(xlab = "Characters", ylab = ylab, xaxt = "n", main = main, ylim = ylim, las = 1,
         ## 100c
         unlist(data_list[[1]][[1]]$norm[,metric]), unlist(data_list[[2]][[1]]$norm[,metric]),
         ## 350c
