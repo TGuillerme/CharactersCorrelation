@@ -34,8 +34,68 @@ whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
 Pooled results
 =================
 
+Effect of character correlation per scenario
+-----------------
+
+```{r}
+## Pulling the data per scenario
+max_RF_norm <- pool.distribution(whole_data, param = "maxi", metric = "RF", best = "norm")
+min_RF_norm <- pool.distribution(whole_data, param = "mini", metric = "RF", best = "norm")
+rand_RF_norm <- pool.distribution(whole_data, param = "rand", metric = "RF", best = "norm")
+scenario_RF_norm <- matrix(data = c(max_RF_norm, min_RF_norm, rand_RF_norm),
+                           ncol = 3, dimnames = list(c(), c("max", "min", "rand")))
+
+max_RF_null <- pool.distribution(whole_data, param = "maxi", metric = "RF", best = "rand")
+min_RF_null <- pool.distribution(whole_data, param = "mini", metric = "RF", best = "rand")
+rand_RF_null <- pool.distribution(whole_data, param = "norm", metric = "RF", best = "rand")
+scenario_RF_null <- matrix(data = c(max_RF_null, min_RF_null, rand_RF_null),
+                           ncol = 3, dimnames = list(c(), c("max", "min", "norm")))
+
+max_Tr_norm <- pool.distribution(whole_data, param = "maxi", metric = "Tr", best = "norm")
+min_Tr_norm <- pool.distribution(whole_data, param = "mini", metric = "Tr", best = "norm")
+rand_Tr_norm <- pool.distribution(whole_data, param = "rand", metric = "Tr", best = "norm")
+scenario_Tr_norm <- matrix(data = c(max_Tr_norm, min_Tr_norm, rand_Tr_norm),
+                           ncol = 3, dimnames = list(c(), c("max", "min", "rand")))
+
+max_Tr_null <- pool.distribution(whole_data, param = "maxi", metric = "Tr", best = "rand")
+min_Tr_null <- pool.distribution(whole_data, param = "mini", metric = "Tr", best = "rand")
+rand_Tr_null <- pool.distribution(whole_data, param = "norm", metric = "Tr", best = "rand")
+scenario_Tr_null <- matrix(data = c(max_Tr_null, min_Tr_null, rand_Tr_null),
+                           ncol = 3, dimnames = list(c(), c("max", "min", "norm")))
 
 
+op <- par(mfrow = c(2,2))#, mar = c(2, 4, 1, 2))
+cols <- c("red", "orange", "green3", "lightgreen", "blue", "lightblue")
+
+
+boxplot(scenario_RF_norm, las = 1, horizontal = TRUE, xlab = "")
+
+
+
+plot.results.single(t25_list, metric = 2, what = "best",
+    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 2, what = "best", ylab = "RF for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 2, what = "best",
+    ylab = "RF for 150 taxa", NTS = TRUE)
+par(op)
+
+
+boxplot(scenario_RF_norm, col = )
+```
+
+
+Effect of character correlation per number of character
+-----------------
+
+
+Effect of character correlation per number of taxa
+-----------------
+
+
+Effect of character correlation per methods
+-----------------
 
 
 Individual results
