@@ -25,6 +25,7 @@ load("../Data/NTS/matrix.nts.Rda")
 source("../Data/load.data.R")
 ```
 
+
 Results
 -----------------------------------
 
@@ -42,6 +43,23 @@ plot.results.single(t150_list, metric = 2, what = "best",
 par(op)
 ```
 
+<!-- For generating the figure for the paper (without the legend) -->
+
+```{r, eval = FALSE, echo = FALSE}
+pdf("../Writing/Figures/RF_results_best.pdf",width = 8,height = 8)
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 2, what = "best",
+    legend = FALSE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 2, what = "best", ylab = "RF for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 2, what = "best",
+    ylab = "RF for 150 taxa", NTS = TRUE)
+par(op)
+dev.off()
+```
+
+
 Comparison to 'best' tree (Triplets normalised distance)
 
 ```{r, fig.width=12, fig.height=12}
@@ -55,6 +73,25 @@ plot.results.single(t150_list, metric = 4, what = "best",
     ylab = "Tr for 150 taxa", NTS = TRUE)
 par(op)
 ```
+
+
+<!-- For generating the figure for the paper (without the legend) -->
+
+```{r, eval = FALSE, echo = FALSE}
+pdf("../Writing/Figures/Tr_results_best.pdf", width = 8, height = 8)
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 4, what = "best",
+    legend = FALSE, NTS = TRUE, xlab = "", ylab = "Tr for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 4, what = "best", ylab = "Tr for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 4, what = "best",
+    ylab = "Tr for 150 taxa", NTS = TRUE)
+par(op)
+dev.off()
+```
+
+
 
 
 Comparison to 'null' tree (RF normalised distance)
@@ -71,6 +108,26 @@ plot.results.single(t150_list, metric = 2, what = "null",
 par(op)
 ```
 
+
+<!-- For generating the figure for the paper (without the legend) -->
+
+```{r, eval = FALSE, echo = FALSE}
+pdf("../Writing/Figures/RF_results_null.pdf", width = 8, height = 8)
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 2, what = "null",
+    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 2, what = "null", ylab = "RF for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 2, what = "null",
+    ylab = "RF for 150 taxa", NTS = TRUE)
+par(op)
+dev.off()
+```
+
+
+
+
 Comparison to 'null' tree (Triplets normalised distance)
 
 ```{r, fig.width=12, fig.height=12}
@@ -84,6 +141,28 @@ plot.results.single(t150_list, metric = 4, what = "null",
     ylab = "Tr for 150 taxa", NTS = TRUE)
 par(op)
 ```
+
+
+
+<!-- For generating the figure for the paper (without the legend) -->
+
+```{r, eval = FALSE, echo = FALSE}
+pdf("../Writing/Figures/Tr_results_null.pdf", width = 8, height = 8)
+op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
+plot.results.single(t25_list, metric = 4, what = "null",
+    legend = FALSE, NTS = TRUE, xlab = "", ylab = "Tr for 25 taxa",
+    axislab = FALSE)
+plot.results.single(t75_list, metric = 4, what = "null", ylab = "Tr for 75 taxa",
+    xlab = "", axislab = FALSE, NTS = TRUE)
+plot.results.single(t150_list, metric = 4, what = "null",
+    ylab = "Tr for 150 taxa", NTS = TRUE)
+par(op)
+dev.off()
+```
+
+
+
+
 
 Some stats
 -----------------------------------
