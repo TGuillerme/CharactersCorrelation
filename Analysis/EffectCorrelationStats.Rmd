@@ -18,6 +18,7 @@ Loading the functions and the data
 Getting the functions and the data.
 
 ```{r, eval = TRUE, message = FALSE}
+library(knitr)
 library(dispRity)
 library(lme4)
 library(lmerTest)
@@ -30,9 +31,20 @@ source("../Data/load.data.R")
 whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
 ```
 
+Pooled results
+=================
+
+
+
+
+
+Individual results
+=================
+
+We can also analyse the effect of each parameters combination separately:
 
 Summary statistics
------------------------------------
+-----------------
 
 We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations.
 Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1).
@@ -40,15 +52,48 @@ The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
 
 ```{r}
 ## Running the pairwise Wilcox tests:
-(sum_RF_best <- apply.test(whole_data, "RF", "norm", NULL))
-(sum_Tr_best <- apply.test(whole_data, "Triples", "norm", NULL))
-(sum_RF_null <- apply.test(whole_data, "RF", "null", NULL))
-(sum_Tr_null <- apply.test(whole_data, "Triples", "null", NULL))
-
+sum_RF_best <- apply.test(whole_data, "RF", "norm", NULL)
+sum_Tr_best <- apply.test(whole_data, "Triples", "norm", NULL)
+sum_RF_null <- apply.test(whole_data, "RF", "null", NULL)
+sum_Tr_null <- apply.test(whole_data, "Triples", "null", NULL)
 ```
 
+```{r, echo = FALSE}
+## Setting the table captions
+captions_summary <- paste("Summary statistics of the normalised", rep(c("Robinson-Fould", "Triplets"), 2), "distance to the", c(rep("best", 2), rep("null", 2)), "tree.")
 
+## Printing the tables
+kable(sum_RF_best, row.names = FALSE, caption = captions_summary[1])
+kable(sum_Tr_best, row.names = FALSE, caption = captions_summary[2])
+kable(sum_RF_null, row.names = FALSE, caption = captions_summary[3])
+kable(sum_Tr_null, row.names = FALSE, caption = captions_summary[4])
+```
 
+<!-- Table for publication -->
+
+```{r, echo = FALSE, eval = FALSE}
+library(xtable)
+## Wrapper function
+make.xtable <- function(table, digit = 3, caption, label, longtable = FALSE) {
+  
+  table <- xtable(table, digit = digit, caption = caption, label = label)
+
+  if(longtable == TRUE) {
+    print(table, tabular.environment = 'longtable', floating = FALSE, include.rownames = FALSE)
+  } else {
+    print(table, include.rownames = FALSE)
+  }
+}
+
+## Labels
+labels_summary <- paste0("Tab_Summary", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+
+## Tables
+make.xtable(sum_RF_best, caption = captions_summary[1], label = labels_summary[1])
+make.xtable(sum_Tr_best, caption = captions_summary[2], label = labels_summary[2])
+make.xtable(sum_RF_null, caption = captions_summary[3], label = labels_summary[3])
+make.xtable(sum_Tr_null, caption = captions_summary[4], label = labels_summary[4])
+```
 
 Nested anova
 -----------------------------------
@@ -89,25 +134,32 @@ homo_RF_null <- bartlett.test(NTS ~ scenario, data = aov_data_RF_null)
 homo_Tr_null <- bartlett.test(NTS ~ scenario, data = aov_data_Tr_null)
 homoscedasticity <- list(homo_RF_best, homo_Tr_best, homo_RF_null, homo_Tr_null)
 
-## Summarise the results
-results <- matrix(nrow = 4, data = c(
-                round(unlist(lapply(normality, `[[`, 1)), digit = 3),
-                round(unlist(lapply(normality, `[[`, 2)), digit = 3),
-                round(unlist(lapply(homoscedasticity, `[[`, 1)), digit = 3),
-                round(unlist(lapply(homoscedasticity, `[[`, 2)), digit = 3),
-                round(unlist(lapply(homoscedasticity, `[[`, 3)), digit = 3)),
-            dimnames = list(
-                c("RF best", "Triples best", "RF null", "Triples null"),
-                c("W", "p.value", "Bartlett's K-squared", "df", "p.value")))
+# ## Summarise the results
+results <- t(rbind(sapply(normality, function(x) x[c(1,2)]), 
+                   sapply(homoscedasticity, function(x) x[c(1,2,3)])))
+results <- matrix(as.numeric(results), ncol = 5)
+colnames(results) <- c("W", "p.value", "Bartlett's K^2", "df", "p.value")
+rownames(results) <- c("RF best", "Triples best", "RF null", "Triples null")
+results <- round(results, 3)
 
-## Check assumption's validities
-validity <- apply(results, 1,
-    function(X) ifelse((X[2] >= 0.05 && X[5] >= 0.05), TRUE, FALSE))
+# ## Check assumption's validities
+check.validity <- function(X) {ifelse(X[2] >= 0.05 && X[5] >= 0.05, TRUE, FALSE)}
+validity <- apply(results, 1, check.validity)
 
 ## Report results
-(results <- cbind(as.data.frame(results), validity))
-
+results <- cbind(as.data.frame(results), validity)
 ```
+
+```{r, echo = FALSE}
+kable(results, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
+```
+
+<!-- Table for publication -->
+
+```{r, eval = FALSE, echo = FALSE}
+xtable(results, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```
+
 
 All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios.
 This is due to the fact that the metric is bounded to 1.
@@ -116,15 +168,46 @@ Distributions probability overlap (Bhattacharrya Coefficient)
 -----------------------------------
 
 We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions.
-A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don't overlap (significant effect of one scenario on topology).
+A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don t overlap (significant effect of one scenario on topology).
 Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).
 
 ```{r}
 ## Running the pairwise Bhattacharrya Coefficient analysis:
-(bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff))
-(bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff))
-(bc_RF_null <- apply.test(whole_data, "RF", "null", bhatt.coeff))
-(bc_Tr_null <- apply.test(whole_data, "Triples", "null", bhatt.coeff))
+bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff)
+bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff)
+bc_RF_null <- apply.test(whole_data, "RF", "null", bhatt.coeff)
+bc_Tr_null <- apply.test(whole_data, "Triples", "null", bhatt.coeff)
+
+## Tables
+kable(bc_RF_best, row.names = FALSE, digit = 3)
+kable(bc_RF_best, row.names = FALSE, digit = 3)
+kable(bc_RF_best, row.names = FALSE, digit = 3)
+kable(bc_RF_best, row.names = FALSE, digit = 3)
+```
+
+
+```{r, echo = FALSE}
+## Setting the table captions
+captions_bc <- paste0("Bhattacharrya Coefficient (",rep(c("Robinson-Fould distance", "Triplets distance"), 2) ," from the ",c(rep("best", 2), rep("null", 2)), " tree)" , " between the different scenarios.")
+
+## Printing the tables
+kable(bc_RF_best, row.names = FALSE, caption = captions_bc[1], digit = 3)
+kable(bc_Tr_best, row.names = FALSE, caption = captions_bc[2], digit = 3)
+kable(bc_RF_null, row.names = FALSE, caption = captions_bc[3], digit = 3)
+kable(bc_Tr_null, row.names = FALSE, caption = captions_bc[4], digit = 3)
+```
+
+<!-- Table for publication -->
+
+```{r, echo = FALSE, eval = FALSE}
+## Labels
+labels_bc <- paste0("Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+
+## Tables
+make.xtable(bc_RF_best, caption = captions_bc[1], label = labels_bc[1])
+make.xtable(bc_Tr_best, caption = captions_bc[2], label = labels_bc[2])
+make.xtable(bc_RF_null, caption = captions_bc[3], label = labels_bc[3])
+make.xtable(bc_Tr_null, caption = captions_bc[4], label = labels_bc[4])
 ```
 
 
@@ -135,7 +218,7 @@ We can also apply a non-parametric pairwise comparison between scenarios for eac
 Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1).
 The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
 
-```{r}
+```{r, warning = FALSE}
 ## Running the pairwise Wilcox tests:
 wx_RF_best <- apply.test(whole_data, "RF", "norm", wilcox.test)
 wx_Tr_best <- apply.test(whole_data, "Triples", "norm", wilcox.test)
@@ -143,40 +226,34 @@ wx_RF_null <- apply.test(whole_data, "RF", "null", wilcox.test)
 wx_Tr_null <- apply.test(whole_data, "Triples", "null", wilcox.test)
 
 ## Applying Bonferroni correction
-wx_RF_best[,c(2,4,6)] <- p.adjust(wx_RF_best[,c(2,4,6)], method = "bonferroni")
-wx_Tr_best[,c(2,4,6)] <- p.adjust(wx_Tr_best[,c(2,4,6)], method = "bonferroni")
-wx_RF_null[,c(2,4,6)] <- p.adjust(wx_RF_null[,c(2,4,6)], method = "bonferroni")
-wx_Tr_null[,c(2,4,6)] <- p.adjust(wx_Tr_null[,c(2,4,6)], method = "bonferroni")
-
-## Print the results
-round(wx_RF_best, digit = 3)
-round(wx_Tr_best, digit = 3)
-round(wx_RF_null, digit = 3)
-round(wx_Tr_null, digit = 3)
+for(column in c(5,7,9)) {
+  wx_RF_best[,column] <- p.adjust(wx_RF_best[,column], method = "bonferroni")
+  wx_Tr_best[,column] <- p.adjust(wx_Tr_best[,column], method = "bonferroni")
+  wx_RF_null[,column] <- p.adjust(wx_RF_null[,column], method = "bonferroni")
+  wx_Tr_null[,column] <- p.adjust(wx_Tr_null[,column], method = "bonferroni")
+}
 ```
 
+```{r, echo = FALSE}
+## Setting the table captions
+captions_wx <- paste0("Non-parametric Wilcoxon test (",rep(c("Robinson-Fould distance", "Triplets distance"), 2) ," from the ",c(rep("best", 2), rep("null", 2)), " tree)" , " between the different scenarios (p-values corrected using Bonferroni-Holm correction).")
 
-```{r}
-library(xtable)
-## Combining both tables (for paper)
-col_description <- matrix(ncol = 3,
-    data = c(rep(rep(c("25", "75", "150"), each = 3), 2),
-             rep(c("100", "350", "1000"), 6),
-             rep(c("Bay.", "Par."), each = 9)), dimnames = NULL)
-
-
-matrix_out <- cbind(as.data.frame(col_description), as.data.frame(cbind(bc_RF_best[,1], wx_RF_best[,1:2], bc_RF_best[,2], wx_RF_best[,3:4], bc_RF_best[,3], wx_RF_best[,5:6])))
-
-rownames(matrix_out) <- NULL
-
-xtable(matrix_out, caption = "CAPTION", label = "LABEL", round = 3)
-
-(bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff))
-(bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff))
-(bc_RF_null <- apply.test(whole_data, "RF", "null", bhatt.coeff))
-(bc_Tr_null <- apply.test(whole_data, "Triples", "null", bhatt.coeff))
-
-
-
+## Printing the tables
+kable(wx_RF_best, row.names = FALSE, caption = captions_wx[1], digit = 3)
+kable(wx_Tr_best, row.names = FALSE, caption = captions_wx[2], digit = 3)
+kable(wx_RF_null, row.names = FALSE, caption = captions_wx[3], digit = 3)
+kable(wx_Tr_null, row.names = FALSE, caption = captions_wx[4], digit = 3)
 ```
 
+<!-- Table for publication -->
+
+```{r, echo = FALSE, eval = FALSE}
+## Labels
+labels_wx <- paste0("Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+
+## Tables
+make.xtable(wx_RF_best, caption = captions_wx[1], label = labels_wx[1])
+make.xtable(wx_Tr_best, caption = captions_wx[2], label = labels_wx[2])
+make.xtable(wx_RF_null, caption = captions_wx[3], label = labels_wx[3])
+make.xtable(wx_Tr_null, caption = captions_wx[4], label = labels_wx[4])
+```
