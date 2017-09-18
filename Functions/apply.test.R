@@ -6,6 +6,7 @@
 #' @param metric which metric to use
 #' @param best which best tree (rand or norm)
 #' @param test which test (if NULL, simply summarises the distribution)
+#' @param convert.row.names whether to convert the row names into columns data (TRUE) or not (FALSE)
 #' 
 #' @examples
 #'
@@ -14,7 +15,7 @@
 #' @author Thomas Guillerme
 #' @export
 
-apply.test <- function(data, metric, best, test) {
+apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
 
     ## Combined
     combined <- TRUE
@@ -69,12 +70,30 @@ apply.test <- function(data, metric, best, test) {
         ## Make the names matrix
         names_matrix <- cbind(rep(parameter_names[1:3], each = 18), # taxa
                               rep(rep(parameter_names[4:6], each = 6), 3),  # character
-                              rep(parameter_names[7:8], 27),
-                              rep(parameter_names[9:11], 18)) # method
+                              rep(rep(parameter_names[7:8], each = 3), 9),
+                              rep(parameter_names[9:11], 18)) # scenario
         ## Combine all that
-        return(cbind(as.data.frame(names_matrix), as.data.frame(summary_mat)))
-    }
+        if(convert.row.names) {
+            ## Remove the t/c
+            names_matrix <- gsub("t", "", names_matrix)
+            names_matrix <- gsub("c", "", names_matrix)
+            ## Sorting in the Method/taxa/character/scenario format
+            results_out <- cbind(as.data.frame(names_matrix[,c(3,1,2,4)], stringsAsFactors= FALSE), as.data.frame(summary_mat))
+            ## Sorting the rows by method
+            results_out <- results_out[c(as.vector(combo_list[,1:9]), as.vector(combo_list[,10:18])),]
+            rownames(results_out) <- 1:54
+            ## Remove duplicated names
+            results_out[-c(1,28), 1] <- "" #method
+            results_out[-c(1,10,19,28,37,46), 2] <- "" #taxa
+            results_out[-seq(from = 1, to = 52, by = 3), 3] <- "" #characters
+            ## Adding the column names
+            colnames(results_out)[1:4] <- c("method", "taxa", "characters", "scenario")
 
+            return(results_out)
+        } else {
+            return(cbind(as.data.frame(names_matrix), as.data.frame(summary_mat)))
+        }
+    }
 
     pairwise.test <- function(list, test) {
         ## Apply the bhattacharya to all the pairwise elements of the list
@@ -110,6 +129,36 @@ apply.test <- function(data, metric, best, test) {
         test_results <- cbind(statistic_results[,1], p_value_results[,1], statistic_results[,2], p_value_results[,2], statistic_results[,3], p_value_results[,3])
         colnames(test_results) <- paste(rep(colnames, each = 2), c("W", "p"), sep = ":")
     }
+
+    if(convert.row.names) {
+        ## Convert into a data.frame
+        test_results <- data.frame(test_results, stringsAsFactors = FALSE)
+
+        ## Convert the row names into factors
+        row_names_factors <- as.character(row.names(test_results))
+        row_names_matrix <- t(as.data.frame(sapply(row_names_factors, strsplit, split = "\\."), stringsAsFactors = FALSE))
+
+        ## Remove the t/c
+        row_names_matrix <- gsub("t", "", row_names_matrix)
+        row_names_matrix <- gsub("c", "", row_names_matrix)
+
+        ## Remove the duplicated occurences of parsimony/bayesian
+        row_names_matrix[-c(1,10),3] <- ""
+
+        ## Remove the duplicated occurences of taxa numbers
+        row_names_matrix[-c(1,4,7,10,13,16),1] <- ""
+
+        ## Reorder columns
+        row_names_matrix <- row_names_matrix[,c(3,1,2)]
+
+        ## Combine the data frames
+        test_results <- data.frame(row_names_matrix, test_results, stringsAsFactors = FALSE)
+
+        ## Column names
+        colnames(test_results)[1:3] <- c("method", "taxa", "characters")
+    }
+
+
 
     return(test_results)
 }
