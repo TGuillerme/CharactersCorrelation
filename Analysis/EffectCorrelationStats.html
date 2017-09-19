@@ -165,6 +165,3251 @@ scenario_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;maxi&quot;, &quot;
                                metric = &quot;RF&quot;, best = &quot;norm&quot;)
 scenario_Tr_norm &lt;- multi.pool(whole_data, param = c(&quot;maxi&quot;, &quot;mini&quot;, &quot;rand&quot;),
                                metric = &quot;Tr&quot;, best = &quot;norm&quot;)
+
+## Preparing the table labels
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
+
+## Combining the data into a table
+scenarios &lt;- pool.table(list(scenario_RF_norm, scenario_Tr_norm),  metric.label = metric.labels,
+                        label.param = &quot;scenario&quot;)</code></pre>
+<table>
+<caption>Summary statistics of the normalised distances to the best or null tree for the pooled scenarios.</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">scenario</th>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">maxi</td>
+<td align="right">0.407</td>
+<td align="right">0.790</td>
+<td align="right">0.945</td>
+<td align="right">0.880</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.076</td>
+<td align="right">0.471</td>
+<td align="right">0.601</td>
+<td align="right">0.592</td>
+<td align="right">0.725</td>
+<td align="right">0.956</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.100</td>
+<td align="right">0.665</td>
+<td align="right">0.794</td>
+<td align="right">0.766</td>
+<td align="right">0.897</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">Tr</td>
+<td align="left">maxi</td>
+<td align="right">-0.031</td>
+<td align="right">0.723</td>
+<td align="right">0.959</td>
+<td align="right">0.828</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.473</td>
+<td align="right">0.050</td>
+<td align="right">0.283</td>
+<td align="right">0.301</td>
+<td align="right">0.574</td>
+<td align="right">0.980</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.323</td>
+<td align="right">0.401</td>
+<td align="right">0.725</td>
+<td align="right">0.638</td>
+<td align="right">0.928</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<div id="testing-the-effect-of-the-scenario-on-the-nts" class="section level3">
+<h3>Testing the effect of the scenario on the NTS</h3>
+<pre class="r"><code>## Applying an lm to all the data
+results &lt;- test.effect.aov(whole_data, formula = NTS ~ scenario, fun = lm)
+## Removing the null tests
+results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
+<p>Checking the model assumptions</p>
+<table>
+<caption>Normality and variance homoscedasticity tests for anova.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">W</th>
+<th align="right">p.value</th>
+<th align="right">Bartlett’s K^2</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+<th align="left">validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RF best</td>
+<td align="right">0.962</td>
+<td align="right">0</td>
+<td align="right">92.843</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td>Triples best</td>
+<td align="right">0.967</td>
+<td align="right">0</td>
+<td align="right">147.849</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<p>Applying a Bhattacharrya Coefficient and Wilcoxon test</p>
+<pre class="r"><code>## Summarise into a table
+scenario_list &lt;- list(scenario_RF_norm, scenario_Tr_norm)
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
+test_table &lt;- pair.test.table(scenario_list, metric.label = metric.labels)</code></pre>
+<table>
+<caption>Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">test</th>
+<th align="right">bhatt.coeff</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">maxi:mini</td>
+<td align="right">0.588</td>
+<td align="right">439466.5</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">maxi:rand</td>
+<td align="right">0.894</td>
+<td align="right">347624.5</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">mini:rand</td>
+<td align="right">0.846</td>
+<td align="right">115008.5</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Tr</td>
+<td align="left">maxi:mini</td>
+<td align="right">0.628</td>
+<td align="right">443049.5</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">maxi:rand</td>
+<td align="right">0.921</td>
+<td align="right">348074.0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">mini:rand</td>
+<td align="right">0.825</td>
+<td align="right">113171.5</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+</div>
+<div id="effect-of-character-correlation-per-number-of-character" class="section level2">
+<h2>Effect of character correlation per number of character</h2>
+<pre class="r"><code>## Pooling the data per character
+character_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;c100&quot;, &quot;c350&quot;, &quot;c1000&quot;),
+                               metric = &quot;RF&quot;, best = &quot;norm&quot;)
+character_Tr_norm &lt;- multi.pool(whole_data, param = c(&quot;c100&quot;, &quot;c350&quot;, &quot;c1000&quot;),
+                               metric = &quot;Tr&quot;, best = &quot;norm&quot;)
+
+## Preparing the table labels
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
+
+## Combining the data into a table
+characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm), metric.label = metric.labels,
+                         label.param = &quot;character&quot;)</code></pre>
+<table>
+<caption>Summary statistics of the normalised distances to the best or null tree for the pooled number of characters.</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">character</th>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">c100</td>
+<td align="right">0.107</td>
+<td align="right">0.588</td>
+<td align="right">0.757</td>
+<td align="right">0.729</td>
+<td align="right">0.890</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">c350</td>
+<td align="right">0.077</td>
+<td align="right">0.627</td>
+<td align="right">0.780</td>
+<td align="right">0.750</td>
+<td align="right">0.912</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">c1000</td>
+<td align="right">0.076</td>
+<td align="right">0.611</td>
+<td align="right">0.802</td>
+<td align="right">0.759</td>
+<td align="right">0.958</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Tr</td>
+<td align="left">c100</td>
+<td align="right">-0.473</td>
+<td align="right">0.165</td>
+<td align="right">0.537</td>
+<td align="right">0.491</td>
+<td align="right">0.845</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">c350</td>
+<td align="right">-0.307</td>
+<td align="right">0.353</td>
+<td align="right">0.703</td>
+<td align="right">0.626</td>
+<td align="right">0.943</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">c1000</td>
+<td align="right">-0.213</td>
+<td align="right">0.377</td>
+<td align="right">0.762</td>
+<td align="right">0.651</td>
+<td align="right">0.990</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<div id="testing-the-effect-of-the-number-of-characters-on-the-nts" class="section level3">
+<h3>Testing the effect of the number of characters on the NTS</h3>
+<pre class="r"><code>## Applying an lm to all the data
+results &lt;- test.effect.aov(whole_data, formula = NTS ~ character, fun = lm)
+## Removing the null tests
+results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
+<p>Checking the model assumptions</p>
+<table>
+<caption>Normality and variance homoscedasticity tests for anova.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">W</th>
+<th align="right">p.value</th>
+<th align="right">Bartlett’s K^2</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+<th align="left">validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RF best</td>
+<td align="right">0.946</td>
+<td align="right">0</td>
+<td align="right">92.843</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td>Triples best</td>
+<td align="right">0.934</td>
+<td align="right">0</td>
+<td align="right">147.849</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<p>Applying a Bhattacharrya Coefficient and Wilcoxon test</p>
+<pre class="r"><code>## Summarise into a table
+character_list &lt;- list(character_RF_norm, character_Tr_norm)
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
+test_table &lt;- pair.test.table(character_list, metric.label = metric.labels)</code></pre>
+<table>
+<caption>Difference between the pooled number of characters. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">test</th>
+<th align="right">bhatt.coeff</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">c100:c350</td>
+<td align="right">0.989</td>
+<td align="right">228446.5</td>
+<td align="right">0.171</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">c100:c1000</td>
+<td align="right">0.981</td>
+<td align="right">218014.5</td>
+<td align="right">0.002</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">c350:c1000</td>
+<td align="right">0.988</td>
+<td align="right">232692.0</td>
+<td align="right">0.619</td>
+</tr>
+<tr class="even">
+<td align="left">Tr</td>
+<td align="left">c100:c350</td>
+<td align="right">0.965</td>
+<td align="right">199571.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">c100:c1000</td>
+<td align="right">0.957</td>
+<td align="right">186726.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">c350:c1000</td>
+<td align="right">0.985</td>
+<td align="right">228040.5</td>
+<td align="right">0.149</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+</div>
+<div id="effect-of-character-correlation-per-number-of-taxa" class="section level2">
+<h2>Effect of character correlation per number of taxa</h2>
+<pre class="r"><code>## Pooling the data per taxa
+taxa_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;t25&quot;, &quot;t75&quot;, &quot;t150&quot;),
+                               metric = &quot;RF&quot;, best = &quot;norm&quot;)
+taxa_Tr_norm &lt;- multi.pool(whole_data, param = c(&quot;t25&quot;, &quot;t75&quot;, &quot;t150&quot;),
+                               metric = &quot;Tr&quot;, best = &quot;norm&quot;)
+
+## Preparing the table labels
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
+
+## Combining the data into a table
+taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm), metric.label = metric.labels,
+                   label.param = &quot;taxa&quot;)</code></pre>
+<table>
+<caption>Summary statistics of the normalised distances to the best or null tree for the pooled number of taxa.</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">taxa</th>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">t25</td>
+<td align="right">0.077</td>
+<td align="right">0.648</td>
+<td align="right">0.802</td>
+<td align="right">0.770</td>
+<td align="right">0.934</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">t75</td>
+<td align="right">0.155</td>
+<td align="right">0.601</td>
+<td align="right">0.760</td>
+<td align="right">0.740</td>
+<td align="right">0.904</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">t150</td>
+<td align="right">0.076</td>
+<td align="right">0.570</td>
+<td align="right">0.753</td>
+<td align="right">0.727</td>
+<td align="right">0.915</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Tr</td>
+<td align="left">t25</td>
+<td align="right">-0.436</td>
+<td align="right">0.458</td>
+<td align="right">0.750</td>
+<td align="right">0.664</td>
+<td align="right">0.961</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">t75</td>
+<td align="right">-0.473</td>
+<td align="right">0.241</td>
+<td align="right">0.602</td>
+<td align="right">0.548</td>
+<td align="right">0.917</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">t150</td>
+<td align="right">-0.424</td>
+<td align="right">0.226</td>
+<td align="right">0.590</td>
+<td align="right">0.553</td>
+<td align="right">0.953</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<div id="testing-the-effect-of-the-method-on-the-nts" class="section level3">
+<h3>Testing the effect of the method on the NTS</h3>
+<pre class="r"><code>## Applying an lm to all the data
+results &lt;- test.effect.aov(whole_data, formula = NTS ~ taxa, fun = lm)
+## Removing the null tests
+results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
+<p>Checking the model assumptions</p>
+<table>
+<caption>Normality and variance homoscedasticity tests for anova.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">W</th>
+<th align="right">p.value</th>
+<th align="right">Bartlett’s K^2</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+<th align="left">validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RF best</td>
+<td align="right">0.951</td>
+<td align="right">0</td>
+<td align="right">92.843</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td>Triples best</td>
+<td align="right">0.930</td>
+<td align="right">0</td>
+<td align="right">147.849</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<p>Applying a Bhattacharrya Coefficient and Wilcoxon test</p>
+<pre class="r"><code>## Summarise into a table
+taxa_list &lt;- list(taxa_RF_norm, taxa_Tr_norm)
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
+test_table &lt;- pair.test.table(taxa_list, metric.label = metric.labels)</code></pre>
+<table>
+<caption>Difference between the pooled number of taxa. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">test</th>
+<th align="right">bhatt.coeff</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">t25:t75</td>
+<td align="right">0.986</td>
+<td align="right">263384.0</td>
+<td align="right">0.021</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">t25:t150</td>
+<td align="right">0.979</td>
+<td align="right">269927.0</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">t75:t150</td>
+<td align="right">0.983</td>
+<td align="right">248988.0</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">Tr</td>
+<td align="left">t25:t75</td>
+<td align="right">0.979</td>
+<td align="right">280685.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">t25:t150</td>
+<td align="right">0.971</td>
+<td align="right">279217.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">t75:t150</td>
+<td align="right">0.989</td>
+<td align="right">241406.5</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+</div>
+<div id="effect-of-character-correlation-per-methods" class="section level2">
+<h2>Effect of character correlation per methods</h2>
+<pre class="r"><code>## Pooling the data per taxa
+method_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;bayesian&quot;, &quot;parsimony&quot;),
+                               metric = &quot;RF&quot;, best = &quot;norm&quot;)
+method_Tr_norm &lt;- multi.pool(whole_data, param =c(&quot;bayesian&quot;, &quot;parsimony&quot;),
+                               metric = &quot;Tr&quot;, best = &quot;norm&quot;)
+
+## Preparing the table labels
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;)
+
+## Combining the data into a table
+methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm), metric.label = metric.labels,
+                      label.param = &quot;method&quot;)</code></pre>
+<table>
+<caption>Summary statistics of the normalised distances to the best or null tree for the pooled methods.</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">method</th>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">bayesian</td>
+<td align="right">0.209</td>
+<td align="right">0.714</td>
+<td align="right">0.824</td>
+<td align="right">0.810</td>
+<td align="right">0.934</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">parsimony</td>
+<td align="right">0.076</td>
+<td align="right">0.511</td>
+<td align="right">0.677</td>
+<td align="right">0.685</td>
+<td align="right">0.893</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Tr</td>
+<td align="left">bayesian</td>
+<td align="right">-0.473</td>
+<td align="right">0.345</td>
+<td align="right">0.727</td>
+<td align="right">0.614</td>
+<td align="right">0.946</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">parsimony</td>
+<td align="right">-0.436</td>
+<td align="right">0.264</td>
+<td align="right">0.610</td>
+<td align="right">0.570</td>
+<td align="right">0.944</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<div id="testing-the-effect-of-the-method-on-the-nts-1" class="section level3">
+<h3>Testing the effect of the method on the NTS</h3>
+<pre class="r"><code>## Applying an lm to all the data
+results &lt;- test.effect.aov(whole_data, formula = NTS ~ method, fun = lm)
+## Removing the null tests
+results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
+<p>Checking the model assumptions</p>
+<table>
+<caption>Normality and variance homoscedasticity tests for anova.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">W</th>
+<th align="right">p.value</th>
+<th align="right">Bartlett’s K^2</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+<th align="left">validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RF best</td>
+<td align="right">0.978</td>
+<td align="right">0</td>
+<td align="right">92.843</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td>Triples best</td>
+<td align="right">0.919</td>
+<td align="right">0</td>
+<td align="right">147.849</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<p>Applying a Bhattacharrya Coefficient and Wilcoxon test</p>
+<pre class="r"><code>## Summarise into a table
+methods_list &lt;- list(method_RF_norm, method_Tr_norm)
+metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;)
+test_table &lt;- pair.test.table(methods_list, metric.label = metric.labels)</code></pre>
+<table>
+<caption>Difference between the pooled methods. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)</caption>
+<thead>
+<tr class="header">
+<th align="left">metric</th>
+<th align="left">test</th>
+<th align="right">bhatt.coeff</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RF</td>
+<td align="left">bayesian:parsimony</td>
+<td align="right">0.893</td>
+<td align="right">680920</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">bayesian:parsimony</td>
+<td align="right">0.981</td>
+<td align="right">548055</td>
+<td align="right">0.127</td>
+</tr>
+<tr class="odd">
+<td align="left">Tr</td>
+<td align="left">bayesian:parsimony</td>
+<td align="right">0.893</td>
+<td align="right">680920</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">bayesian:parsimony</td>
+<td align="right">0.981</td>
+<td align="right">548055</td>
+<td align="right">0.127</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+</div>
+</div>
+<div id="combined-results" class="section level1">
+<h1>Combined results</h1>
+<p>We can also analyse the effect of each parameters combination separately:</p>
+<div id="summary-statistics" class="section level2">
+<h2>Summary statistics</h2>
+<p>We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations. Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1). The p-values are adjusted for multiple tests using Bonferroni-Holm correction.</p>
+<pre class="r"><code>## Summarising the data
+sum_RF_best &lt;- apply.test(whole_data, &quot;RF&quot;, &quot;norm&quot;, NULL)
+sum_Tr_best &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;norm&quot;, NULL)</code></pre>
+<table>
+<caption>Summary statistics of the normalised Robinson-Fould distance to the best tree.</caption>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="left">scenario</th>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.561</td>
+<td align="right">0.780</td>
+<td align="right">0.868</td>
+<td align="right">0.858</td>
+<td align="right">0.956</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.451</td>
+<td align="right">0.643</td>
+<td align="right">0.703</td>
+<td align="right">0.718</td>
+<td align="right">0.824</td>
+<td align="right">0.868</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.451</td>
+<td align="right">0.758</td>
+<td align="right">0.791</td>
+<td align="right">0.809</td>
+<td align="right">0.896</td>
+<td align="right">0.978</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.539</td>
+<td align="right">0.742</td>
+<td align="right">0.890</td>
+<td align="right">0.840</td>
+<td align="right">0.978</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.407</td>
+<td align="right">0.561</td>
+<td align="right">0.736</td>
+<td align="right">0.686</td>
+<td align="right">0.786</td>
+<td align="right">0.934</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.561</td>
+<td align="right">0.753</td>
+<td align="right">0.879</td>
+<td align="right">0.839</td>
+<td align="right">0.956</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.407</td>
+<td align="right">0.846</td>
+<td align="right">0.934</td>
+<td align="right">0.892</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.209</td>
+<td align="right">0.561</td>
+<td align="right">0.703</td>
+<td align="right">0.676</td>
+<td align="right">0.786</td>
+<td align="right">0.956</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.627</td>
+<td align="right">0.797</td>
+<td align="right">0.956</td>
+<td align="right">0.892</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.650</td>
+<td align="right">0.849</td>
+<td align="right">0.973</td>
+<td align="right">0.916</td>
+<td align="right">0.993</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.553</td>
+<td align="right">0.629</td>
+<td align="right">0.718</td>
+<td align="right">0.713</td>
+<td align="right">0.775</td>
+<td align="right">0.938</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.663</td>
+<td align="right">0.773</td>
+<td align="right">0.859</td>
+<td align="right">0.844</td>
+<td align="right">0.885</td>
+<td align="right">0.979</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.574</td>
+<td align="right">0.835</td>
+<td align="right">0.928</td>
+<td align="right">0.886</td>
+<td align="right">0.981</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.402</td>
+<td align="right">0.615</td>
+<td align="right">0.701</td>
+<td align="right">0.681</td>
+<td align="right">0.770</td>
+<td align="right">0.856</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.595</td>
+<td align="right">0.770</td>
+<td align="right">0.808</td>
+<td align="right">0.802</td>
+<td align="right">0.844</td>
+<td align="right">0.993</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.574</td>
+<td align="right">0.828</td>
+<td align="right">0.942</td>
+<td align="right">0.904</td>
+<td align="right">0.993</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.430</td>
+<td align="right">0.514</td>
+<td align="right">0.584</td>
+<td align="right">0.614</td>
+<td align="right">0.693</td>
+<td align="right">0.945</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.546</td>
+<td align="right">0.747</td>
+<td align="right">0.828</td>
+<td align="right">0.823</td>
+<td align="right">0.909</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.733</td>
+<td align="right">0.931</td>
+<td align="right">0.985</td>
+<td align="right">0.947</td>
+<td align="right">0.997</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.594</td>
+<td align="right">0.671</td>
+<td align="right">0.745</td>
+<td align="right">0.748</td>
+<td align="right">0.819</td>
+<td align="right">0.942</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.668</td>
+<td align="right">0.811</td>
+<td align="right">0.885</td>
+<td align="right">0.861</td>
+<td align="right">0.921</td>
+<td align="right">0.970</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.672</td>
+<td align="right">0.922</td>
+<td align="right">0.976</td>
+<td align="right">0.938</td>
+<td align="right">0.990</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.459</td>
+<td align="right">0.621</td>
+<td align="right">0.672</td>
+<td align="right">0.685</td>
+<td align="right">0.775</td>
+<td align="right">0.915</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.729</td>
+<td align="right">0.782</td>
+<td align="right">0.838</td>
+<td align="right">0.843</td>
+<td align="right">0.885</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.780</td>
+<td align="right">0.917</td>
+<td align="right">0.983</td>
+<td align="right">0.943</td>
+<td align="right">0.993</td>
+<td align="right">0.997</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.455</td>
+<td align="right">0.580</td>
+<td align="right">0.648</td>
+<td align="right">0.667</td>
+<td align="right">0.735</td>
+<td align="right">0.919</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.729</td>
+<td align="right">0.772</td>
+<td align="right">0.811</td>
+<td align="right">0.827</td>
+<td align="right">0.854</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.517</td>
+<td align="right">0.714</td>
+<td align="right">0.824</td>
+<td align="right">0.828</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.121</td>
+<td align="right">0.489</td>
+<td align="right">0.550</td>
+<td align="right">0.574</td>
+<td align="right">0.670</td>
+<td align="right">0.824</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.253</td>
+<td align="right">0.605</td>
+<td align="right">0.714</td>
+<td align="right">0.703</td>
+<td align="right">0.824</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.648</td>
+<td align="right">0.824</td>
+<td align="right">0.890</td>
+<td align="right">0.887</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.077</td>
+<td align="right">0.473</td>
+<td align="right">0.605</td>
+<td align="right">0.583</td>
+<td align="right">0.698</td>
+<td align="right">0.912</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.187</td>
+<td align="right">0.769</td>
+<td align="right">0.868</td>
+<td align="right">0.811</td>
+<td align="right">0.912</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.605</td>
+<td align="right">0.929</td>
+<td align="right">1.000</td>
+<td align="right">0.934</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.121</td>
+<td align="right">0.374</td>
+<td align="right">0.517</td>
+<td align="right">0.512</td>
+<td align="right">0.692</td>
+<td align="right">0.912</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.121</td>
+<td align="right">0.824</td>
+<td align="right">0.956</td>
+<td align="right">0.854</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.492</td>
+<td align="right">0.711</td>
+<td align="right">0.904</td>
+<td align="right">0.843</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.210</td>
+<td align="right">0.437</td>
+<td align="right">0.478</td>
+<td align="right">0.496</td>
+<td align="right">0.541</td>
+<td align="right">0.876</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.244</td>
+<td align="right">0.476</td>
+<td align="right">0.629</td>
+<td align="right">0.611</td>
+<td align="right">0.734</td>
+<td align="right">0.959</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.608</td>
+<td align="right">0.706</td>
+<td align="right">0.890</td>
+<td align="right">0.855</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.155</td>
+<td align="right">0.332</td>
+<td align="right">0.461</td>
+<td align="right">0.476</td>
+<td align="right">0.610</td>
+<td align="right">0.842</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.368</td>
+<td align="right">0.571</td>
+<td align="right">0.684</td>
+<td align="right">0.695</td>
+<td align="right">0.839</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.546</td>
+<td align="right">0.971</td>
+<td align="right">1.000</td>
+<td align="right">0.938</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.279</td>
+<td align="right">0.413</td>
+<td align="right">0.467</td>
+<td align="right">0.478</td>
+<td align="right">0.510</td>
+<td align="right">0.890</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.409</td>
+<td align="right">0.668</td>
+<td align="right">0.742</td>
+<td align="right">0.762</td>
+<td align="right">0.892</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.479</td>
+<td align="right">0.553</td>
+<td align="right">0.608</td>
+<td align="right">0.735</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.107</td>
+<td align="right">0.353</td>
+<td align="right">0.455</td>
+<td align="right">0.438</td>
+<td align="right">0.524</td>
+<td align="right">0.679</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.117</td>
+<td align="right">0.396</td>
+<td align="right">0.482</td>
+<td align="right">0.468</td>
+<td align="right">0.552</td>
+<td align="right">0.712</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.533</td>
+<td align="right">0.690</td>
+<td align="right">0.809</td>
+<td align="right">0.831</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.141</td>
+<td align="right">0.377</td>
+<td align="right">0.443</td>
+<td align="right">0.460</td>
+<td align="right">0.531</td>
+<td align="right">0.797</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.249</td>
+<td align="right">0.573</td>
+<td align="right">0.660</td>
+<td align="right">0.647</td>
+<td align="right">0.736</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.608</td>
+<td align="right">0.793</td>
+<td align="right">0.924</td>
+<td align="right">0.885</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">0.076</td>
+<td align="right">0.392</td>
+<td align="right">0.447</td>
+<td align="right">0.486</td>
+<td align="right">0.573</td>
+<td align="right">0.861</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.100</td>
+<td align="right">0.634</td>
+<td align="right">0.714</td>
+<td align="right">0.729</td>
+<td align="right">0.895</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Summary statistics of the normalised Triplets distance to the best tree.</caption>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="left">scenario</th>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">-0.014</td>
+<td align="right">0.627</td>
+<td align="right">0.842</td>
+<td align="right">0.768</td>
+<td align="right">0.973</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.389</td>
+<td align="right">0.079</td>
+<td align="right">0.357</td>
+<td align="right">0.330</td>
+<td align="right">0.604</td>
+<td align="right">0.838</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.147</td>
+<td align="right">0.444</td>
+<td align="right">0.673</td>
+<td align="right">0.595</td>
+<td align="right">0.822</td>
+<td align="right">0.998</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.176</td>
+<td align="right">0.732</td>
+<td align="right">0.917</td>
+<td align="right">0.839</td>
+<td align="right">0.981</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.183</td>
+<td align="right">0.075</td>
+<td align="right">0.348</td>
+<td align="right">0.354</td>
+<td align="right">0.600</td>
+<td align="right">0.874</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.288</td>
+<td align="right">0.669</td>
+<td align="right">0.821</td>
+<td align="right">0.778</td>
+<td align="right">0.962</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.199</td>
+<td align="right">0.818</td>
+<td align="right">0.975</td>
+<td align="right">0.878</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.213</td>
+<td align="right">0.191</td>
+<td align="right">0.527</td>
+<td align="right">0.466</td>
+<td align="right">0.722</td>
+<td align="right">0.923</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.142</td>
+<td align="right">0.806</td>
+<td align="right">0.940</td>
+<td align="right">0.814</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.004</td>
+<td align="right">0.612</td>
+<td align="right">0.961</td>
+<td align="right">0.795</td>
+<td align="right">0.998</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.473</td>
+<td align="right">-0.265</td>
+<td align="right">-0.041</td>
+<td align="right">0.067</td>
+<td align="right">0.398</td>
+<td align="right">0.901</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.066</td>
+<td align="right">0.317</td>
+<td align="right">0.693</td>
+<td align="right">0.557</td>
+<td align="right">0.831</td>
+<td align="right">0.981</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.113</td>
+<td align="right">0.741</td>
+<td align="right">0.933</td>
+<td align="right">0.821</td>
+<td align="right">0.989</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.307</td>
+<td align="right">0.225</td>
+<td align="right">0.390</td>
+<td align="right">0.417</td>
+<td align="right">0.691</td>
+<td align="right">0.927</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.042</td>
+<td align="right">0.593</td>
+<td align="right">0.734</td>
+<td align="right">0.667</td>
+<td align="right">0.843</td>
+<td align="right">0.999</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.225</td>
+<td align="right">0.684</td>
+<td align="right">0.927</td>
+<td align="right">0.812</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.203</td>
+<td align="right">0.014</td>
+<td align="right">0.364</td>
+<td align="right">0.312</td>
+<td align="right">0.575</td>
+<td align="right">0.857</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.095</td>
+<td align="right">0.335</td>
+<td align="right">0.787</td>
+<td align="right">0.658</td>
+<td align="right">0.954</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.228</td>
+<td align="right">0.754</td>
+<td align="right">0.989</td>
+<td align="right">0.852</td>
+<td align="right">0.999</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.397</td>
+<td align="right">-0.040</td>
+<td align="right">0.140</td>
+<td align="right">0.224</td>
+<td align="right">0.523</td>
+<td align="right">0.971</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.013</td>
+<td align="right">0.338</td>
+<td align="right">0.576</td>
+<td align="right">0.595</td>
+<td align="right">0.915</td>
+<td align="right">0.990</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.032</td>
+<td align="right">0.950</td>
+<td align="right">0.985</td>
+<td align="right">0.912</td>
+<td align="right">0.999</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.241</td>
+<td align="right">0.127</td>
+<td align="right">0.365</td>
+<td align="right">0.402</td>
+<td align="right">0.765</td>
+<td align="right">0.980</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.086</td>
+<td align="right">0.745</td>
+<td align="right">0.920</td>
+<td align="right">0.820</td>
+<td align="right">0.961</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.048</td>
+<td align="right">0.852</td>
+<td align="right">0.958</td>
+<td align="right">0.832</td>
+<td align="right">0.998</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.208</td>
+<td align="right">0.014</td>
+<td align="right">0.340</td>
+<td align="right">0.383</td>
+<td align="right">0.772</td>
+<td align="right">0.873</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.057</td>
+<td align="right">0.375</td>
+<td align="right">0.799</td>
+<td align="right">0.621</td>
+<td align="right">0.920</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.207</td>
+<td align="right">0.708</td>
+<td align="right">0.925</td>
+<td align="right">0.815</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.436</td>
+<td align="right">0.122</td>
+<td align="right">0.462</td>
+<td align="right">0.372</td>
+<td align="right">0.608</td>
+<td align="right">0.916</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.147</td>
+<td align="right">0.457</td>
+<td align="right">0.663</td>
+<td align="right">0.647</td>
+<td align="right">0.888</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.334</td>
+<td align="right">0.756</td>
+<td align="right">0.934</td>
+<td align="right">0.870</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.011</td>
+<td align="right">0.285</td>
+<td align="right">0.478</td>
+<td align="right">0.473</td>
+<td align="right">0.636</td>
+<td align="right">0.889</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.067</td>
+<td align="right">0.660</td>
+<td align="right">0.856</td>
+<td align="right">0.757</td>
+<td align="right">0.926</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.321</td>
+<td align="right">0.972</td>
+<td align="right">1.000</td>
+<td align="right">0.933</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.093</td>
+<td align="right">0.254</td>
+<td align="right">0.413</td>
+<td align="right">0.428</td>
+<td align="right">0.635</td>
+<td align="right">0.932</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.110</td>
+<td align="right">0.836</td>
+<td align="right">0.985</td>
+<td align="right">0.847</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">0.158</td>
+<td align="right">0.591</td>
+<td align="right">0.927</td>
+<td align="right">0.776</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.335</td>
+<td align="right">-0.101</td>
+<td align="right">-0.020</td>
+<td align="right">0.064</td>
+<td align="right">0.187</td>
+<td align="right">0.833</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.203</td>
+<td align="right">0.191</td>
+<td align="right">0.409</td>
+<td align="right">0.443</td>
+<td align="right">0.747</td>
+<td align="right">0.999</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.226</td>
+<td align="right">0.673</td>
+<td align="right">0.925</td>
+<td align="right">0.817</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.055</td>
+<td align="right">0.107</td>
+<td align="right">0.201</td>
+<td align="right">0.269</td>
+<td align="right">0.429</td>
+<td align="right">0.729</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.025</td>
+<td align="right">0.291</td>
+<td align="right">0.679</td>
+<td align="right">0.592</td>
+<td align="right">0.832</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.356</td>
+<td align="right">0.956</td>
+<td align="right">1.000</td>
+<td align="right">0.928</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.119</td>
+<td align="right">0.126</td>
+<td align="right">0.293</td>
+<td align="right">0.311</td>
+<td align="right">0.471</td>
+<td align="right">0.848</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">0.166</td>
+<td align="right">0.435</td>
+<td align="right">0.576</td>
+<td align="right">0.619</td>
+<td align="right">0.942</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="left">maxi</td>
+<td align="right">-0.031</td>
+<td align="right">0.377</td>
+<td align="right">0.645</td>
+<td align="right">0.638</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.424</td>
+<td align="right">-0.166</td>
+<td align="right">0.015</td>
+<td align="right">0.003</td>
+<td align="right">0.140</td>
+<td align="right">0.475</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.323</td>
+<td align="right">0.116</td>
+<td align="right">0.258</td>
+<td align="right">0.309</td>
+<td align="right">0.535</td>
+<td align="right">0.851</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="left">maxi</td>
+<td align="right">0.047</td>
+<td align="right">0.538</td>
+<td align="right">0.837</td>
+<td align="right">0.760</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.053</td>
+<td align="right">0.035</td>
+<td align="right">0.114</td>
+<td align="right">0.190</td>
+<td align="right">0.374</td>
+<td align="right">0.590</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.009</td>
+<td align="right">0.366</td>
+<td align="right">0.501</td>
+<td align="right">0.502</td>
+<td align="right">0.733</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="left">maxi</td>
+<td align="right">0.103</td>
+<td align="right">0.840</td>
+<td align="right">0.969</td>
+<td align="right">0.853</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">mini</td>
+<td align="right">-0.007</td>
+<td align="right">0.186</td>
+<td align="right">0.405</td>
+<td align="right">0.391</td>
+<td align="right">0.610</td>
+<td align="right">0.766</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">rand</td>
+<td align="right">-0.014</td>
+<td align="right">0.457</td>
+<td align="right">0.772</td>
+<td align="right">0.672</td>
+<td align="right">0.968</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+<div id="nested-anova" class="section level2">
+<h2>Nested anova</h2>
+<p>Let’s analysis the data using a nested anova. The models look at the effect of our scenarios (“maximised”, “minimised”, etc…) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).</p>
+<pre class="r"><code>## Applying an lm to all the data with error
+results &lt;- test.effect.aov(whole_data, fun = lmer,
+                           formula = NTS ~ scenario + (1|method) + (1|taxa) + (1|character))
+## Removing the null tests
+results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
+<p>Checking the model assumptions</p>
+<table>
+<caption>Normality and variance homoscedasticity tests for anova.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">W</th>
+<th align="right">p.value</th>
+<th align="right">Bartlett’s K^2</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+<th align="left">validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RF best</td>
+<td align="right">0.984</td>
+<td align="right">0</td>
+<td align="right">92.843</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td>Triples best</td>
+<td align="right">0.982</td>
+<td align="right">0</td>
+<td align="right">147.849</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+<p>All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios. This is due to the fact that the metric is bounded to 1.</p>
+</div>
+<div id="distributions-probability-overlap-bhattacharrya-coefficient" class="section level2">
+<h2>Distributions probability overlap (Bhattacharrya Coefficient)</h2>
+<p>We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions. A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don t overlap (significant effect of one scenario on topology). Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).</p>
+<pre class="r"><code>## Running the pairwise Bhattacharrya Coefficient analysis:
+bc_RF_best &lt;- apply.test(whole_data, &quot;RF&quot;, &quot;norm&quot;, bhatt.coeff)
+bc_Tr_best &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;norm&quot;, bhatt.coeff)
+
+## Tables
+kable(bc_RF_best, row.names = FALSE, digit = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="right">max.min</th>
+<th align="right">max.rand</th>
+<th align="right">min.rand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.683</td>
+<td align="right">0.861</td>
+<td align="right">0.753</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.707</td>
+<td align="right">0.955</td>
+<td align="right">0.726</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.656</td>
+<td align="right">0.895</td>
+<td align="right">0.609</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.486</td>
+<td align="right">0.632</td>
+<td align="right">0.683</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.445</td>
+<td align="right">0.713</td>
+<td align="right">0.758</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.453</td>
+<td align="right">0.824</td>
+<td align="right">0.647</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.471</td>
+<td align="right">0.608</td>
+<td align="right">0.754</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.398</td>
+<td align="right">0.697</td>
+<td align="right">0.569</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.287</td>
+<td align="right">0.664</td>
+<td align="right">0.440</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.551</td>
+<td align="right">0.878</td>
+<td align="right">0.815</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.448</td>
+<td align="right">0.866</td>
+<td align="right">0.568</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.307</td>
+<td align="right">0.803</td>
+<td align="right">0.574</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.418</td>
+<td align="right">0.685</td>
+<td align="right">0.799</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.383</td>
+<td align="right">0.765</td>
+<td align="right">0.693</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.265</td>
+<td align="right">0.766</td>
+<td align="right">0.555</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.449</td>
+<td align="right">0.554</td>
+<td align="right">0.913</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.383</td>
+<td align="right">0.779</td>
+<td align="right">0.664</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.341</td>
+<td align="right">0.841</td>
+<td align="right">0.574</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(bc_Tr_best, row.names = FALSE, digit = 3)</code></pre>
+<table>
+<caption>Bhattacharrya Coefficient (Robinson-Fould distance from the best tree) between the different scenarios.</caption>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="right">max.min</th>
+<th align="right">max.rand</th>
+<th align="right">min.rand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.576</td>
+<td align="right">0.858</td>
+<td align="right">0.807</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.496</td>
+<td align="right">0.885</td>
+<td align="right">0.552</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.631</td>
+<td align="right">0.791</td>
+<td align="right">0.558</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.535</td>
+<td align="right">0.849</td>
+<td align="right">0.685</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.564</td>
+<td align="right">0.848</td>
+<td align="right">0.890</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.582</td>
+<td align="right">0.866</td>
+<td align="right">0.700</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.540</td>
+<td align="right">0.675</td>
+<td align="right">0.773</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.596</td>
+<td align="right">0.720</td>
+<td align="right">0.698</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.395</td>
+<td align="right">0.834</td>
+<td align="right">0.758</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.641</td>
+<td align="right">0.918</td>
+<td align="right">0.738</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.453</td>
+<td align="right">0.884</td>
+<td align="right">0.712</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.467</td>
+<td align="right">0.872</td>
+<td align="right">0.643</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.396</td>
+<td align="right">0.683</td>
+<td align="right">0.699</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.343</td>
+<td align="right">0.876</td>
+<td align="right">0.737</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.309</td>
+<td align="right">0.755</td>
+<td align="right">0.728</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.458</td>
+<td align="right">0.692</td>
+<td align="right">0.706</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.464</td>
+<td align="right">0.831</td>
+<td align="right">0.752</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.398</td>
+<td align="right">0.817</td>
+<td align="right">0.693</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Bhattacharrya Coefficient (Triplets distance from the best tree) between the different scenarios.</caption>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="right">max.min</th>
+<th align="right">max.rand</th>
+<th align="right">min.rand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.683</td>
+<td align="right">0.861</td>
+<td align="right">0.753</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.707</td>
+<td align="right">0.955</td>
+<td align="right">0.726</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.656</td>
+<td align="right">0.895</td>
+<td align="right">0.609</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.486</td>
+<td align="right">0.632</td>
+<td align="right">0.683</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.445</td>
+<td align="right">0.713</td>
+<td align="right">0.758</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.453</td>
+<td align="right">0.824</td>
+<td align="right">0.647</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.471</td>
+<td align="right">0.608</td>
+<td align="right">0.754</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.398</td>
+<td align="right">0.697</td>
+<td align="right">0.569</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.287</td>
+<td align="right">0.664</td>
+<td align="right">0.440</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.551</td>
+<td align="right">0.878</td>
+<td align="right">0.815</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.448</td>
+<td align="right">0.866</td>
+<td align="right">0.568</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.307</td>
+<td align="right">0.803</td>
+<td align="right">0.574</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.418</td>
+<td align="right">0.685</td>
+<td align="right">0.799</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.383</td>
+<td align="right">0.765</td>
+<td align="right">0.693</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.265</td>
+<td align="right">0.766</td>
+<td align="right">0.555</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.449</td>
+<td align="right">0.554</td>
+<td align="right">0.913</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.383</td>
+<td align="right">0.779</td>
+<td align="right">0.664</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.341</td>
+<td align="right">0.841</td>
+<td align="right">0.574</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="right">max.min</th>
+<th align="right">max.rand</th>
+<th align="right">min.rand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.576</td>
+<td align="right">0.858</td>
+<td align="right">0.807</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.496</td>
+<td align="right">0.885</td>
+<td align="right">0.552</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.631</td>
+<td align="right">0.791</td>
+<td align="right">0.558</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.535</td>
+<td align="right">0.849</td>
+<td align="right">0.685</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.564</td>
+<td align="right">0.848</td>
+<td align="right">0.890</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.582</td>
+<td align="right">0.866</td>
+<td align="right">0.700</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.540</td>
+<td align="right">0.675</td>
+<td align="right">0.773</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.596</td>
+<td align="right">0.720</td>
+<td align="right">0.698</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.395</td>
+<td align="right">0.834</td>
+<td align="right">0.758</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">0.641</td>
+<td align="right">0.918</td>
+<td align="right">0.738</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.453</td>
+<td align="right">0.884</td>
+<td align="right">0.712</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.467</td>
+<td align="right">0.872</td>
+<td align="right">0.643</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">0.396</td>
+<td align="right">0.683</td>
+<td align="right">0.699</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.343</td>
+<td align="right">0.876</td>
+<td align="right">0.737</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.309</td>
+<td align="right">0.755</td>
+<td align="right">0.728</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">0.458</td>
+<td align="right">0.692</td>
+<td align="right">0.706</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">0.464</td>
+<td align="right">0.831</td>
+<td align="right">0.752</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">0.398</td>
+<td align="right">0.817</td>
+<td align="right">0.693</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+<div id="non-parametric-pairwise-comparisons" class="section level2">
+<h2>Non-parametric pairwise comparisons</h2>
+<p>We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations. Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1). The p-values are adjusted for multiple tests using Bonferroni-Holm correction.</p>
+<pre class="r"><code>## Running the pairwise Wilcox tests:
+wx_RF_best &lt;- apply.test(whole_data, &quot;RF&quot;, &quot;norm&quot;, wilcox.test)
+wx_Tr_best &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;norm&quot;, wilcox.test)
+
+## Applying Bonferroni correction
+for(column in c(5,7,9)) {
+  wx_RF_best[,column] &lt;- p.adjust(wx_RF_best[,column], method = &quot;bonferroni&quot;)
+  wx_Tr_best[,column] &lt;- p.adjust(wx_Tr_best[,column], method = &quot;bonferroni&quot;)
+}</code></pre>
+<table>
+<caption>Non-parametric Wilcoxon test (Robinson-Fould distance from the best tree) between the different scenarios (p-values corrected using Bonferroni-Holm correction).</caption>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="right">max.min.W</th>
+<th align="right">max.min.p</th>
+<th align="right">max.rand.W</th>
+<th align="right">max.rand.p</th>
+<th align="right">min.rand.W</th>
+<th align="right">min.rand.p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">1290.0</td>
+<td align="right">0</td>
+<td align="right">1019.5</td>
+<td align="right">0.622</td>
+<td align="right">426.0</td>
+<td align="right">0.006</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1236.5</td>
+<td align="right">0</td>
+<td align="right">844.0</td>
+<td align="right">1.000</td>
+<td align="right">338.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1379.5</td>
+<td align="right">0</td>
+<td align="right">812.0</td>
+<td align="right">1.000</td>
+<td align="right">230.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">1444.5</td>
+<td align="right">0</td>
+<td align="right">1188.5</td>
+<td align="right">0.003</td>
+<td align="right">264.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1412.5</td>
+<td align="right">0</td>
+<td align="right">1200.5</td>
+<td align="right">0.002</td>
+<td align="right">303.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1074.5</td>
+<td align="right">0</td>
+<td align="right">806.0</td>
+<td align="right">0.093</td>
+<td align="right">170.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">1505.5</td>
+<td align="right">0</td>
+<td align="right">1327.0</td>
+<td align="right">0.000</td>
+<td align="right">288.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1451.0</td>
+<td align="right">0</td>
+<td align="right">1226.0</td>
+<td align="right">0.000</td>
+<td align="right">222.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">755.0</td>
+<td align="right">0</td>
+<td align="right">671.0</td>
+<td align="right">0.000</td>
+<td align="right">126.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">1428.5</td>
+<td align="right">0</td>
+<td align="right">1136.0</td>
+<td align="right">0.022</td>
+<td align="right">438.0</td>
+<td align="right">0.009</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1505.0</td>
+<td align="right">0</td>
+<td align="right">1006.5</td>
+<td align="right">0.821</td>
+<td align="right">244.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1533.0</td>
+<td align="right">0</td>
+<td align="right">1034.0</td>
+<td align="right">0.345</td>
+<td align="right">182.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">1488.0</td>
+<td align="right">0</td>
+<td align="right">1323.0</td>
+<td align="right">0.000</td>
+<td align="right">466.5</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1515.5</td>
+<td align="right">0</td>
+<td align="right">1201.0</td>
+<td align="right">0.002</td>
+<td align="right">317.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1574.5</td>
+<td align="right">0</td>
+<td align="right">1278.5</td>
+<td align="right">0.000</td>
+<td align="right">135.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">1419.0</td>
+<td align="right">0</td>
+<td align="right">1351.5</td>
+<td align="right">0.000</td>
+<td align="right">689.5</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1533.5</td>
+<td align="right">0</td>
+<td align="right">1270.5</td>
+<td align="right">0.000</td>
+<td align="right">277.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1537.5</td>
+<td align="right">0</td>
+<td align="right">1215.5</td>
+<td align="right">0.001</td>
+<td align="right">246.5</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Non-parametric Wilcoxon test (Triplets distance from the best tree) between the different scenarios (p-values corrected using Bonferroni-Holm correction).</caption>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">taxa</th>
+<th align="left">characters</th>
+<th align="right">max.min.W</th>
+<th align="right">max.min.p</th>
+<th align="right">max.rand.W</th>
+<th align="right">max.rand.p</th>
+<th align="right">min.rand.W</th>
+<th align="right">min.rand.p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bayesian</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">1387.5</td>
+<td align="right">0</td>
+<td align="right">1101.5</td>
+<td align="right">0.068</td>
+<td align="right">434.0</td>
+<td align="right">0.008</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1488.5</td>
+<td align="right">0</td>
+<td align="right">939.0</td>
+<td align="right">1.000</td>
+<td align="right">184.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1434.0</td>
+<td align="right">0</td>
+<td align="right">807.5</td>
+<td align="right">1.000</td>
+<td align="right">249.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">1479.0</td>
+<td align="right">0</td>
+<td align="right">1200.0</td>
+<td align="right">0.002</td>
+<td align="right">276.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1370.0</td>
+<td align="right">0</td>
+<td align="right">1139.0</td>
+<td align="right">0.020</td>
+<td align="right">446.5</td>
+<td align="right">0.012</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1017.0</td>
+<td align="right">0</td>
+<td align="right">760.5</td>
+<td align="right">0.456</td>
+<td align="right">263.0</td>
+<td align="right">0.002</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">1475.0</td>
+<td align="right">0</td>
+<td align="right">1276.0</td>
+<td align="right">0.000</td>
+<td align="right">362.5</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1389.0</td>
+<td align="right">0</td>
+<td align="right">1151.5</td>
+<td align="right">0.002</td>
+<td align="right">285.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">687.0</td>
+<td align="right">0</td>
+<td align="right">580.0</td>
+<td align="right">0.031</td>
+<td align="right">226.0</td>
+<td align="right">0.108</td>
+</tr>
+<tr class="even">
+<td align="left">parsimony</td>
+<td align="left">25</td>
+<td align="left">100</td>
+<td align="right">1388.0</td>
+<td align="right">0</td>
+<td align="right">1123.5</td>
+<td align="right">0.033</td>
+<td align="right">427.5</td>
+<td align="right">0.006</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1474.0</td>
+<td align="right">0</td>
+<td align="right">1072.5</td>
+<td align="right">0.154</td>
+<td align="right">288.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1527.0</td>
+<td align="right">0</td>
+<td align="right">1031.5</td>
+<td align="right">0.373</td>
+<td align="right">197.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">75</td>
+<td align="left">100</td>
+<td align="right">1528.0</td>
+<td align="right">0</td>
+<td align="right">1275.0</td>
+<td align="right">0.000</td>
+<td align="right">284.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1510.0</td>
+<td align="right">0</td>
+<td align="right">1171.5</td>
+<td align="right">0.006</td>
+<td align="right">337.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1562.0</td>
+<td align="right">0</td>
+<td align="right">1316.0</td>
+<td align="right">0.000</td>
+<td align="right">339.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">150</td>
+<td align="left">100</td>
+<td align="right">1496.0</td>
+<td align="right">0</td>
+<td align="right">1219.0</td>
+<td align="right">0.001</td>
+<td align="right">323.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">350</td>
+<td align="right">1491.0</td>
+<td align="right">0</td>
+<td align="right">1212.0</td>
+<td align="right">0.001</td>
+<td align="right">275.0</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1000</td>
+<td align="right">1461.0</td>
+<td align="right">0</td>
+<td align="right">1153.0</td>
+<td align="right">0.012</td>
+<td align="right">389.0</td>
+<td align="right">0.001</td>
+</tr>
+</tbody>
+</table>
+<!-- Table for publication -->
+</div>
+</div>
+<div id="pooled-results-1" class="section level1">
+<h1>Pooled results</h1>
+<div id="effect-of-character-correlation-per-scenario-1" class="section level2">
+<h2>Effect of character correlation per scenario</h2>
+<pre class="r"><code>## Pooling the data per scenarios
+scenario_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;maxi&quot;, &quot;mini&quot;, &quot;rand&quot;),
+                               metric = &quot;RF&quot;, best = &quot;norm&quot;)
+scenario_Tr_norm &lt;- multi.pool(whole_data, param = c(&quot;maxi&quot;, &quot;mini&quot;, &quot;rand&quot;),
+                               metric = &quot;Tr&quot;, best = &quot;norm&quot;)
 scenario_RF_null &lt;- multi.pool(whole_data, param = c(&quot;maxi&quot;, &quot;mini&quot;, &quot;norm&quot;),
                                metric = &quot;RF&quot;, best = &quot;rand&quot;)
 scenario_Tr_null &lt;- multi.pool(whole_data, param = c(&quot;maxi&quot;, &quot;mini&quot;, &quot;norm&quot;),
@@ -328,7 +3573,7 @@ scenarios &lt;- pool.table(list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_
 </tbody>
 </table>
 <!-- Table for publication -->
-<div id="testing-the-effect-of-the-scenario-on-the-nts" class="section level3">
+<div id="testing-the-effect-of-the-scenario-on-the-nts-1" class="section level3">
 <h3>Testing the effect of the scenario on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
 results &lt;- test.effect.aov(whole_data, formula = NTS ~ scenario, fun = lm)</code></pre>
@@ -506,7 +3751,7 @@ test_table &lt;- pair.test.table(scenario_list, comp.label = comp.labels, metric
 <!-- Table for publication -->
 </div>
 </div>
-<div id="effect-of-character-correlation-per-number-of-character" class="section level2">
+<div id="effect-of-character-correlation-per-number-of-character-1" class="section level2">
 <h2>Effect of character correlation per number of character</h2>
 <pre class="r"><code>## Pooling the data per character
 character_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;c100&quot;, &quot;c350&quot;, &quot;c1000&quot;),
@@ -547,8 +3792,8 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">c100</td>
 <td align="right">0.107</td>
 <td align="right">0.584</td>
-<td align="right">0.751</td>
-<td align="right">0.728</td>
+<td align="right">0.755</td>
+<td align="right">0.729</td>
 <td align="right">0.890</td>
 <td align="right">1</td>
 </tr>
@@ -557,9 +3802,9 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left"></td>
 <td align="left">c350</td>
 <td align="right">0.077</td>
-<td align="right">0.631</td>
+<td align="right">0.629</td>
 <td align="right">0.780</td>
-<td align="right">0.752</td>
+<td align="right">0.750</td>
 <td align="right">0.912</td>
 <td align="right">1</td>
 </tr>
@@ -579,21 +3824,21 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">Tr</td>
 <td align="left">c100</td>
 <td align="right">-0.473</td>
-<td align="right">0.175</td>
-<td align="right">0.542</td>
-<td align="right">0.496</td>
-<td align="right">0.852</td>
+<td align="right">0.161</td>
+<td align="right">0.534</td>
+<td align="right">0.489</td>
+<td align="right">0.847</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350</td>
-<td align="right">-0.330</td>
-<td align="right">0.346</td>
-<td align="right">0.702</td>
-<td align="right">0.623</td>
-<td align="right">0.937</td>
+<td align="right">-0.307</td>
+<td align="right">0.361</td>
+<td align="right">0.703</td>
+<td align="right">0.628</td>
+<td align="right">0.940</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -611,11 +3856,11 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">c100</td>
-<td align="right">0.103</td>
-<td align="right">0.521</td>
+<td align="right">0.117</td>
+<td align="right">0.529</td>
 <td align="right">0.670</td>
-<td align="right">0.660</td>
-<td align="right">0.802</td>
+<td align="right">0.663</td>
+<td align="right">0.814</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -625,8 +3870,8 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="right">0.055</td>
 <td align="right">0.605</td>
 <td align="right">0.732</td>
-<td align="right">0.710</td>
-<td align="right">0.835</td>
+<td align="right">0.707</td>
+<td align="right">0.828</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -645,10 +3890,10 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">Tr</td>
 <td align="left">c100</td>
 <td align="right">-0.427</td>
-<td align="right">0.087</td>
+<td align="right">0.081</td>
 <td align="right">0.375</td>
-<td align="right">0.383</td>
-<td align="right">0.703</td>
+<td align="right">0.381</td>
+<td align="right">0.697</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -656,10 +3901,10 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left"></td>
 <td align="left">c350</td>
 <td align="right">-0.282</td>
-<td align="right">0.319</td>
-<td align="right">0.627</td>
-<td align="right">0.571</td>
-<td align="right">0.852</td>
+<td align="right">0.323</td>
+<td align="right">0.629</td>
+<td align="right">0.574</td>
+<td align="right">0.848</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -676,7 +3921,7 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 </tbody>
 </table>
 <!-- Table for publication -->
-<div id="testing-the-effect-of-the-number-of-characters-on-the-nts" class="section level3">
+<div id="testing-the-effect-of-the-number-of-characters-on-the-nts-1" class="section level3">
 <h3>Testing the effect of the number of characters on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
 results &lt;- test.effect.aov(whole_data, formula = NTS ~ character, fun = lm)</code></pre>
@@ -757,96 +4002,96 @@ test_table &lt;- pair.test.table(character_list, comp.label = comp.labels, metri
 <td align="left">Best</td>
 <td align="left">RF</td>
 <td align="left">c100:c350</td>
-<td align="right">0.987</td>
-<td align="right">226963.0</td>
-<td align="right">0.205</td>
+<td align="right">0.989</td>
+<td align="right">228534.0</td>
+<td align="right">0.353</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
 <td align="right">0.983</td>
-<td align="right">217948.5</td>
-<td align="right">0.004</td>
+<td align="right">218235.5</td>
+<td align="right">0.005</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.986</td>
-<td align="right">233500.5</td>
+<td align="right">0.985</td>
+<td align="right">232564.0</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">c100:c350</td>
-<td align="right">0.968</td>
-<td align="right">203007.5</td>
+<td align="right">0.961</td>
+<td align="right">198760.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.959</td>
-<td align="right">188968.5</td>
+<td align="right">0.957</td>
+<td align="right">186528.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.985</td>
-<td align="right">226591.5</td>
-<td align="right">0.178</td>
+<td align="right">0.984</td>
+<td align="right">228341.5</td>
+<td align="right">0.329</td>
 </tr>
 <tr class="odd">
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">c100:c350</td>
-<td align="right">0.971</td>
-<td align="right">208109.5</td>
+<td align="right">0.972</td>
+<td align="right">211821.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.954</td>
-<td align="right">214230.5</td>
-<td align="right">0.001</td>
+<td align="right">0.953</td>
+<td align="right">216061.0</td>
+<td align="right">0.002</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.967</td>
-<td align="right">247180.5</td>
+<td align="right">0.968</td>
+<td align="right">245856.5</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">c100:c350</td>
-<td align="right">0.950</td>
-<td align="right">171615.5</td>
+<td align="right">0.941</td>
+<td align="right">169926.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.948</td>
-<td align="right">174807.0</td>
+<td align="right">0.943</td>
+<td align="right">174235.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.979</td>
-<td align="right">241560.0</td>
+<td align="right">0.978</td>
+<td align="right">242421.0</td>
 <td align="right">1.000</td>
 </tr>
 </tbody>
@@ -854,7 +4099,7 @@ test_table &lt;- pair.test.table(character_list, comp.label = comp.labels, metri
 <!-- Table for publication -->
 </div>
 </div>
-<div id="effect-of-character-correlation-per-number-of-taxa" class="section level2">
+<div id="effect-of-character-correlation-per-number-of-taxa-1" class="section level2">
 <h2>Effect of character correlation per number of taxa</h2>
 <pre class="r"><code>## Pooling the data per taxa
 taxa_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;t25&quot;, &quot;t75&quot;, &quot;t150&quot;),
@@ -896,7 +4141,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="right">0.077</td>
 <td align="right">0.648</td>
 <td align="right">0.802</td>
-<td align="right">0.770</td>
+<td align="right">0.771</td>
 <td align="right">0.934</td>
 <td align="right">1</td>
 </tr>
@@ -907,7 +4152,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="right">0.155</td>
 <td align="right">0.601</td>
 <td align="right">0.760</td>
-<td align="right">0.740</td>
+<td align="right">0.739</td>
 <td align="right">0.904</td>
 <td align="right">1</td>
 </tr>
@@ -927,10 +4172,10 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left">Tr</td>
 <td align="left">t25</td>
 <td align="right">-0.436</td>
-<td align="right">0.448</td>
-<td align="right">0.750</td>
-<td align="right">0.665</td>
-<td align="right">0.963</td>
+<td align="right">0.458</td>
+<td align="right">0.745</td>
+<td align="right">0.663</td>
+<td align="right">0.962</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -938,9 +4183,9 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left"></td>
 <td align="left">t75</td>
 <td align="right">-0.473</td>
-<td align="right">0.239</td>
-<td align="right">0.600</td>
-<td align="right">0.546</td>
+<td align="right">0.241</td>
+<td align="right">0.602</td>
+<td align="right">0.550</td>
 <td align="right">0.917</td>
 <td align="right">1</td>
 </tr>
@@ -962,7 +4207,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="right">0.055</td>
 <td align="right">0.605</td>
 <td align="right">0.758</td>
-<td align="right">0.732</td>
+<td align="right">0.729</td>
 <td align="right">0.890</td>
 <td align="right">1</td>
 </tr>
@@ -993,10 +4238,10 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left">Tr</td>
 <td align="left">t25</td>
 <td align="right">-0.343</td>
-<td align="right">0.368</td>
-<td align="right">0.660</td>
-<td align="right">0.601</td>
-<td align="right">0.899</td>
+<td align="right">0.370</td>
+<td align="right">0.663</td>
+<td align="right">0.604</td>
+<td align="right">0.900</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -1004,10 +4249,10 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left"></td>
 <td align="left">t75</td>
 <td align="right">-0.395</td>
-<td align="right">0.195</td>
-<td align="right">0.462</td>
-<td align="right">0.457</td>
-<td align="right">0.768</td>
+<td align="right">0.193</td>
+<td align="right">0.456</td>
+<td align="right">0.454</td>
+<td align="right">0.762</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -1024,7 +4269,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 </tbody>
 </table>
 <!-- Table for publication -->
-<div id="testing-the-effect-of-the-method-on-the-nts" class="section level3">
+<div id="testing-the-effect-of-the-method-on-the-nts-2" class="section level3">
 <h3>Testing the effect of the method on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
 results &lt;- test.effect.aov(whole_data, formula = NTS ~ taxa, fun = lm)</code></pre>
@@ -1106,15 +4351,15 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left">RF</td>
 <td align="left">t25:t75</td>
 <td align="right">0.986</td>
-<td align="right">264037.0</td>
-<td align="right">0.031</td>
+<td align="right">265195.5</td>
+<td align="right">0.018</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
 <td align="right">0.978</td>
-<td align="right">270396.5</td>
+<td align="right">270601.5</td>
 <td align="right">0.001</td>
 </tr>
 <tr class="odd">
@@ -1122,15 +4367,15 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left"></td>
 <td align="left">t75:t150</td>
 <td align="right">0.984</td>
-<td align="right">248777.5</td>
+<td align="right">248033.0</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">t25:t75</td>
-<td align="right">0.977</td>
-<td align="right">281143.5</td>
+<td align="right">0.978</td>
+<td align="right">279849.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
@@ -1138,55 +4383,55 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left"></td>
 <td align="left">t25:t150</td>
 <td align="right">0.972</td>
-<td align="right">279873.5</td>
+<td align="right">279493.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t75:t150</td>
-<td align="right">0.987</td>
-<td align="right">241132.0</td>
+<td align="right">0.988</td>
+<td align="right">242020.0</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="odd">
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">t25:t75</td>
-<td align="right">0.959</td>
-<td align="right">283837.0</td>
+<td align="right">0.961</td>
+<td align="right">281031.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.958</td>
-<td align="right">294761.5</td>
+<td align="right">0.961</td>
+<td align="right">292173.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t75:t150</td>
-<td align="right">0.977</td>
-<td align="right">254849.0</td>
-<td align="right">0.896</td>
+<td align="right">0.978</td>
+<td align="right">254772.0</td>
+<td align="right">0.917</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">t25:t75</td>
-<td align="right">0.970</td>
-<td align="right">299345.0</td>
+<td align="right">0.969</td>
+<td align="right">301410.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.958</td>
-<td align="right">298371.5</td>
+<td align="right">0.961</td>
+<td align="right">299434.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -1194,7 +4439,7 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left"></td>
 <td align="left">t75:t150</td>
 <td align="right">0.989</td>
-<td align="right">242018.5</td>
+<td align="right">241117.5</td>
 <td align="right">1.000</td>
 </tr>
 </tbody>
@@ -1202,7 +4447,7 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <!-- Table for publication -->
 </div>
 </div>
-<div id="effect-of-character-correlation-per-methods" class="section level2">
+<div id="effect-of-character-correlation-per-methods-1" class="section level2">
 <h2>Effect of character correlation per methods</h2>
 <pre class="r"><code>## Pooling the data per taxa
 method_RF_norm &lt;- multi.pool(whole_data, param = c(&quot;bayesian&quot;, &quot;parsimony&quot;),
@@ -1253,10 +4498,10 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left">parsimony</td>
 <td align="right">0.076</td>
-<td align="right">0.509</td>
-<td align="right">0.677</td>
-<td align="right">0.686</td>
-<td align="right">0.897</td>
+<td align="right">0.513</td>
+<td align="right">0.682</td>
+<td align="right">0.688</td>
+<td align="right">0.903</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -1274,11 +4519,11 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">parsimony</td>
-<td align="right">-0.424</td>
+<td align="right">-0.436</td>
 <td align="right">0.259</td>
 <td align="right">0.597</td>
-<td align="right">0.564</td>
-<td align="right">0.941</td>
+<td align="right">0.566</td>
+<td align="right">0.936</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -1297,10 +4542,10 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left">parsimony</td>
 <td align="right">0.049</td>
-<td align="right">0.464</td>
+<td align="right">0.463</td>
 <td align="right">0.605</td>
-<td align="right">0.612</td>
-<td align="right">0.763</td>
+<td align="right">0.613</td>
+<td align="right">0.761</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -1318,17 +4563,17 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">parsimony</td>
-<td align="right">-0.361</td>
-<td align="right">0.196</td>
-<td align="right">0.480</td>
+<td align="right">-0.427</td>
+<td align="right">0.194</td>
 <td align="right">0.474</td>
-<td align="right">0.754</td>
+<td align="right">0.470</td>
+<td align="right">0.750</td>
 <td align="right">1</td>
 </tr>
 </tbody>
 </table>
 <!-- Table for publication -->
-<div id="testing-the-effect-of-the-method-on-the-nts-1" class="section level3">
+<div id="testing-the-effect-of-the-method-on-the-nts-3" class="section level3">
 <h3>Testing the effect of the method on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
 results &lt;- test.effect.aov(whole_data, formula = NTS ~ method, fun = lm)</code></pre>
@@ -1409,8 +4654,8 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <td align="left">Best</td>
 <td align="left">RF</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.889</td>
-<td align="right">678368.5</td>
+<td align="right">0.892</td>
+<td align="right">676480</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -1418,31 +4663,31 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
 <td align="right">0.980</td>
-<td align="right">553408.0</td>
-<td align="right">0.096</td>
+<td align="right">553068</td>
+<td align="right">0.102</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.857</td>
-<td align="right">764745.0</td>
+<td align="right">0.855</td>
+<td align="right">763778</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.974</td>
-<td align="right">582784.0</td>
+<td align="right">0.976</td>
+<td align="right">586079</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.889</td>
-<td align="right">678368.5</td>
+<td align="right">0.892</td>
+<td align="right">676480</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -1450,23 +4695,23 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
 <td align="right">0.980</td>
-<td align="right">553408.0</td>
-<td align="right">0.096</td>
+<td align="right">553068</td>
+<td align="right">0.102</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.857</td>
-<td align="right">764745.0</td>
+<td align="right">0.855</td>
+<td align="right">763778</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.974</td>
-<td align="right">582784.0</td>
+<td align="right">0.976</td>
+<td align="right">586079</td>
 <td align="right">0.000</td>
 </tr>
 </tbody>
@@ -1478,7 +4723,7 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <div id="individual-results" class="section level1">
 <h1>Individual results</h1>
 <p>We can also analyse the effect of each parameters combination separately:</p>
-<div id="summary-statistics" class="section level2">
+<div id="summary-statistics-1" class="section level2">
 <h2>Summary statistics</h2>
 <p>We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations. Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1). The p-values are adjusted for multiple tests using Bonferroni-Holm correction.</p>
 <pre class="r"><code>## Summarising the data
@@ -4156,7 +7401,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 </table>
 <!-- Table for publication -->
 </div>
-<div id="nested-anova" class="section level2">
+<div id="nested-anova-1" class="section level2">
 <h2>Nested anova</h2>
 <p>Let’s analysis the data using a nested anova. The models look at the effect of our scenarios (“maximised”, “minimised”, etc…) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).</p>
 <pre class="r"><code>## Applying an lm to all the data with error
@@ -4218,7 +7463,7 @@ results &lt;- test.effect.aov(whole_data,
 <!-- Table for publication -->
 <p>All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios. This is due to the fact that the metric is bounded to 1.</p>
 </div>
-<div id="distributions-probability-overlap-bhattacharrya-coefficient" class="section level2">
+<div id="distributions-probability-overlap-bhattacharrya-coefficient-1" class="section level2">
 <h2>Distributions probability overlap (Bhattacharrya Coefficient)</h2>
 <p>We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions. A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don t overlap (significant effect of one scenario on topology). Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).</p>
 <pre class="r"><code>## Running the pairwise Bhattacharrya Coefficient analysis:
@@ -5502,7 +8747,7 @@ kable(bc_RF_best, row.names = FALSE, digit = 3)</code></pre>
 </table>
 <!-- Table for publication -->
 </div>
-<div id="non-parametric-pairwise-comparisons" class="section level2">
+<div id="non-parametric-pairwise-comparisons-1" class="section level2">
 <h2>Non-parametric pairwise comparisons</h2>
 <p>We can also apply a non-parametric pairwise comparison between scenarios for each parameters combinations. Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1). The p-values are adjusted for multiple tests using Bonferroni-Holm correction.</p>
 <pre class="r"><code>## Running the pairwise Wilcox tests:
