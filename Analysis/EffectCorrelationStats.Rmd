@@ -18,7 +18,6 @@ Loading the functions and the data
 Getting the functions and the data.
 
 ```{r, eval = TRUE, message = FALSE}
-library(knitr)
 library(dispRity)
 library(lme4)
 library(lmerTest)
@@ -37,58 +36,87 @@ Pooled results
 Effect of character correlation per scenario
 -----------------
 
-```{r}
-## Pulling the data per scenario
-max_RF_norm <- pool.distribution(whole_data, param = "maxi", metric = "RF", best = "norm")
-min_RF_norm <- pool.distribution(whole_data, param = "mini", metric = "RF", best = "norm")
-rand_RF_norm <- pool.distribution(whole_data, param = "rand", metric = "RF", best = "norm")
-scenario_RF_norm <- matrix(data = c(max_RF_norm, min_RF_norm, rand_RF_norm),
-                           ncol = 3, dimnames = list(c(), c("max", "min", "rand")))
+```{r, warning = FALSE}
+## Pooling the data per scenarios
+scenario_RF_norm <- multi.pool(whole_data, param = c("maxi", "mini", "rand"),
+                               metric = "RF", best = "norm")
+scenario_Tr_norm <- multi.pool(whole_data, param = c("maxi", "mini", "rand"),
+                               metric = "Tr", best = "norm")
+scenario_RF_null <- multi.pool(whole_data, param = c("maxi", "mini", "norm"),
+                               metric = "RF", best = "rand")
+scenario_Tr_null <- multi.pool(whole_data, param = c("maxi", "mini", "norm"),
+                               metric = "Tr", best = "rand")
 
-max_RF_null <- pool.distribution(whole_data, param = "maxi", metric = "RF", best = "rand")
-min_RF_null <- pool.distribution(whole_data, param = "mini", metric = "RF", best = "rand")
-rand_RF_null <- pool.distribution(whole_data, param = "norm", metric = "RF", best = "rand")
-scenario_RF_null <- matrix(data = c(max_RF_null, min_RF_null, rand_RF_null),
-                           ncol = 3, dimnames = list(c(), c("max", "min", "norm")))
+## Preparing the table labels
+comp.labels <- c("Best", rep("", 5), "Null", rep("", 5))
+metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 
-max_Tr_norm <- pool.distribution(whole_data, param = "maxi", metric = "Tr", best = "norm")
-min_Tr_norm <- pool.distribution(whole_data, param = "mini", metric = "Tr", best = "norm")
-rand_Tr_norm <- pool.distribution(whole_data, param = "rand", metric = "Tr", best = "norm")
-scenario_Tr_norm <- matrix(data = c(max_Tr_norm, min_Tr_norm, rand_Tr_norm),
-                           ncol = 3, dimnames = list(c(), c("max", "min", "rand")))
-
-max_Tr_null <- pool.distribution(whole_data, param = "maxi", metric = "Tr", best = "rand")
-min_Tr_null <- pool.distribution(whole_data, param = "mini", metric = "Tr", best = "rand")
-rand_Tr_null <- pool.distribution(whole_data, param = "norm", metric = "Tr", best = "rand")
-scenario_Tr_null <- matrix(data = c(max_Tr_null, min_Tr_null, rand_Tr_null),
-                           ncol = 3, dimnames = list(c(), c("max", "min", "norm")))
-
-
-op <- par(mfrow = c(2,2))#, mar = c(2, 4, 1, 2))
-cols <- c("red", "orange", "green3", "lightgreen", "blue", "lightblue")
-
-
-boxplot(scenario_RF_norm, las = 1, horizontal = TRUE, xlab = "")
-
-
-
-plot.results.single(t25_list, metric = 2, what = "best",
-    legend = TRUE, NTS = TRUE, xlab = "", ylab = "RF for 25 taxa",
-    axislab = FALSE)
-plot.results.single(t75_list, metric = 2, what = "best", ylab = "RF for 75 taxa",
-    xlab = "", axislab = FALSE, NTS = TRUE)
-plot.results.single(t150_list, metric = 2, what = "best",
-    ylab = "RF for 150 taxa", NTS = TRUE)
-par(op)
-
-
-boxplot(scenario_RF_norm, col = )
+## Combining the data into a table
+scenarios <- pool.table(list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_null, scenario_Tr_null),
+                    comp.label = comp.labels, metric.label = metric.labels, label.param = "scenario")
 ```
 
+```{r, echo = FALSE}
+library(knitr)
+## Setting the table captions
+captions_pooled_scenarios <- paste("Summary statistics of the normalised distances to the best or null tree for the pooled scenarios.")
+
+## Printing the tables
+kable(scenarios, row.names = FALSE, caption = captions_pooled_scenarios)
+```
+
+<!-- Table for publication -->
+
+```{r, eval = FALSE, echo = FALSE}
+library(xtable)
+make.xtable(scenarios, caption = captions_pooled_scenarios, label = "Tab_pooledscenarios")
+```
+
+### Testing the effect of the scenario on the NTS
+
+```{r}
+## Applying an lm to all the data
+results <- test.effect.aov(whole_data, formula = NTS ~ scenario, fun = lm)
+```
+
+Checking the model assumptions
+
+```{r, echo = FALSE}
+kable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
+```
+
+<!-- Table for publication -->
+
+```{r, eval = FALSE, echo = FALSE}
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```
+
+Applying a Bhattacharrya Coefficient and Wilcoxon test
+
+```{r, warning = FALSE}
+## Summarise into a table
+scenario_list <- list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_null, scenario_Tr_null)
+comp.labels <- c("Best", rep("", 5), "Null", rep("", 5))
+metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
+test_table <- pair.test.table(scenario_list, comp.label = comp.labels, metric.label = metric.labels)
+```
+
+```{r, echo = FALSE}
+## Caption
+cap_pool_scen_test <- paste("Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
+
+## Printing the tables
+kable(test_table, row.names = FALSE, caption = cap_pool_scen_test)
+```
+
+<!-- Table for publication -->
+
+```{r, eval = FALSE, echo = FALSE}
+make.xtable(test_table, caption = cap_pool_scen_test, label = "Tab_pooledscenarios_test")
+```
 
 Effect of character correlation per number of character
 -----------------
-
 
 Effect of character correlation per number of taxa
 -----------------
@@ -111,7 +139,7 @@ Note however that the resulting p-values are not always exact due to ties in the
 The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
 
 ```{r}
-## Running the pairwise Wilcox tests:
+## Summarising the data
 sum_RF_best <- apply.test(whole_data, "RF", "norm", NULL)
 sum_Tr_best <- apply.test(whole_data, "Triples", "norm", NULL)
 sum_RF_null <- apply.test(whole_data, "RF", "null", NULL)
@@ -132,19 +160,6 @@ kable(sum_Tr_null, row.names = FALSE, caption = captions_summary[4])
 <!-- Table for publication -->
 
 ```{r, echo = FALSE, eval = FALSE}
-library(xtable)
-## Wrapper function
-make.xtable <- function(table, digit = 3, caption, label, longtable = FALSE) {
-  
-  table <- xtable(table, digit = digit, caption = caption, label = label)
-
-  if(longtable == TRUE) {
-    print(table, tabular.environment = 'longtable', floating = FALSE, include.rownames = FALSE)
-  } else {
-    print(table, include.rownames = FALSE)
-  }
-}
-
 ## Labels
 labels_summary <- paste0("Tab_Summary", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
@@ -162,64 +177,22 @@ Let's analysis the data using a nested anova.
 The models look at the effect of our scenarios ("maximised", "minimised", etc...) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).
 
 ```{r}
-## getting the aov data
-aov_data_RF_best <- get.aov.data(whole_data, "RF", "norm", combined = TRUE)
-aov_data_Tr_best <- get.aov.data(whole_data, "Triples", "norm", combined = TRUE)
-aov_data_RF_null <- get.aov.data(whole_data, "RF", "null", combined = TRUE)
-aov_data_Tr_null <- get.aov.data(whole_data, "Triples", "null", combined = TRUE)
-
-
-## Models with normalised tree score function of scenario (with nestedness)
-model_RF_best <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
-                      data = aov_data_RF_best)
-model_Tr_best <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
-                      data = aov_data_Tr_best)
-model_RF_null <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
-                      data = aov_data_RF_null)
-model_Tr_null <- lmer(NTS ~ scenario + (1|method) + (1|taxa) + (1|character),
-                      data = aov_data_Tr_null)
-
-## Testing model assumptions
-## Normality of the residuals
-norm_RF_best <- shapiro.test(residuals(model_RF_best))
-norm_Tr_best <- shapiro.test(residuals(model_Tr_best))
-norm_RF_null <- shapiro.test(residuals(model_RF_null))
-norm_Tr_null <- shapiro.test(residuals(model_Tr_null))
-normality <- list(norm_RF_best, norm_Tr_best, norm_RF_null, norm_Tr_null)
-
-## Variance homoscedasticity
-homo_RF_best <- bartlett.test(NTS ~ scenario, data = aov_data_RF_best)
-homo_Tr_best <- bartlett.test(NTS ~ scenario, data = aov_data_Tr_best)
-homo_RF_null <- bartlett.test(NTS ~ scenario, data = aov_data_RF_null)
-homo_Tr_null <- bartlett.test(NTS ~ scenario, data = aov_data_Tr_null)
-homoscedasticity <- list(homo_RF_best, homo_Tr_best, homo_RF_null, homo_Tr_null)
-
-# ## Summarise the results
-results <- t(rbind(sapply(normality, function(x) x[c(1,2)]), 
-                   sapply(homoscedasticity, function(x) x[c(1,2,3)])))
-results <- matrix(as.numeric(results), ncol = 5)
-colnames(results) <- c("W", "p.value", "Bartlett's K^2", "df", "p.value")
-rownames(results) <- c("RF best", "Triples best", "RF null", "Triples null")
-results <- round(results, 3)
-
-# ## Check assumption's validities
-check.validity <- function(X) {ifelse(X[2] >= 0.05 && X[5] >= 0.05, TRUE, FALSE)}
-validity <- apply(results, 1, check.validity)
-
-## Report results
-results <- cbind(as.data.frame(results), validity)
+## Applying an lm to all the data with error
+results <- test.effect.aov(whole_data,
+  formula = NTS ~ scenario + (1|method) + (1|taxa) + (1|character), fun = lmer)
 ```
 
+Checking the model assumptions
+
 ```{r, echo = FALSE}
-kable(results, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
+kable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
 ```
 
 <!-- Table for publication -->
 
 ```{r, eval = FALSE, echo = FALSE}
-xtable(results, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
 ```
-
 
 All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios.
 This is due to the fact that the metric is bounded to 1.
