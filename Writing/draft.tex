@@ -143,47 +143,44 @@ However, encouragingly, they also suggest that, unless correlation is effectivel
 \section{Introduction}
 
 The last six years have seen a fantastic expansion of the use of discrete morphological data in macroevolutionary studies.
-Traditionally confined to ``classic'' cladistic studies, these methods have recently been widely expanded and improved whether based on the models and methods for inferring phylogenies \citep[e.g.][]{heath2014fossilized,Wright01072016} or to combine them with molecular data \citep[e.g.][]{pyrondivergence2011,ronquista2012}.
-In parallel, much development has also been done on pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic ones \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
-Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011,simoes2017giant}; the inference method \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
+Traditionally confined to ``classic'' cladistic studies in palaeontology, these methods have recently been widely expanded and improved whether based on the models and methods for inferring phylogenies \citep[e.g.][]{heath2014fossilized,Wright01072016} or to combine them with molecular data \citep[e.g.][]{pyrondivergence2011,ronquista2012}.
+In parallel, much development has also been done on the pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic ones \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
+Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011,simoes2017giant}; the topology inference method \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
 
-One aspect of the data, however, is often neglected: the correlation between morphological characters.
-In fact, the assumption of character independence is at the base of phylogenetic inference and as been mentioned or implied throughout the history of phylogenetic methods \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-Nowadays, this assumption of character independence is nearly always accepted as a fact and rarely tested or questioned in empirical datasets.
-However - especially for discrete morphological data - this assumption of independence is probably violated more often than not due to the sheer nature of phylogenetic data.
-In practice, dependence between characters can be induced in at least three different ways:
+One of such caveats, however, is often neglected: the correlation between morphological characters.
+The assumption of character independence is at the base of phylogenetic inference and as been mentioned or implied throughout the history of phylogenetic methods \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
+Nowadays, this assumption of character independence is nearly always accepted as a fact and rarely tested or even questioned in empirical datasets.
+However - especially for discrete morphological data - this assumption of independence is probably violated more often than not due to the sheer nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
+In practice, characters dependence can come from at least three different ways:
 
 \begin{itemize}
 
-    %TG: Change this induced thing
-
-    \item \textbf{Biological induce dependence between characters:} this is the result of a link between two characters through development and/or biological function.
-    These links are readily understood through developmental biology or understanding of shared function between features \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
+    \item \textbf{Biological dependence:} this is the result of a link between two characters through their development and/or biological function.
+    These links are readily studied through developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
     One trivial example would be the link between lower and upper molar characters in mammals: one character describing a feature of a lower molar will be expected to be correlated to another character describing another feature of the associated upper molar.
 
-    \item \textbf{Evolutionary induced dependence between characters:} this is the result of sets of characters co-evolving along branches in the phylogeny.
-    The character's correlation is thus due to shared evolutionary history of these characters.
+    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving along the same branch in a phylogeny: the character's correlation is thus due to their shared evolutionary history.
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
     For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole sweep of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
 
-
-    %TG: This one can be reworded. Get a dichotomie a priori/a posteriori correlation. + add trade off in coding (more characters = more info but less independence)
-    \item \textbf{Coding induced dependence between characters:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
-    These links can be due to methodological errors: for example one could define a character describing a particular feature on a left molar as well as another character describing the same feature on a right molar.
-    It is worth noting, however, that these dependences could also be due to the nature of the available data, especially in palaeontology.
+    \item \textbf{Coding dependence:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
+    One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
+    It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
 \end{itemize}
 
 \noindent Of course, the three sources of dependences can also be correlated to each other: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding!
+The three types sources are however dissociated by later (coding dependence) being detected prior to phylogenetic inference and the two other ones (biological and evolutionary) being only detected and/or tested \textit{a posteriori} based on a phylogenetic hypothesis.
 
-As mentioned above, these sources of dependence between characters are well studied in biology.
+These sources of dependence between characters are well studied in biology.
 Biological and evolutionary dependences are inherent parts to evo-devo and maroevolution and best practices to avoid coding induced dependences are commonly known and applied.
-However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences softwares that are blind to these distinctions.
+However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences software that are blind to these distinctions.
 This introduces a new, less studied, source of character dependence:
 
-\noindent \textbf{Software induced correlation between characters:} this is the result how software actually interprets the differences between characters.
-I.e. the vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treating them as different/similar tokens) leading to dependence between characters.
-For example, consider the following matrix containing four cetartiodactyles - say a pig (e.g. \textit{Sus}), a deer (\textit{Cervus}), a hippo (\textit{Hippopotamus}) and a whale (\textit{Balaenoptera}) - and four characters - say (\textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragal with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley:
+\noindent \textbf{Correlation between characters detected by the software}: this is the result how software actually interprets the differences between characters.
+The vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treating them as different/similar tokens).
+Therefore a great number of characters and - traditionally - a few number of tokens can easily lead to dependence between characters.
+For example, if we consider the following matrix containing four cetartiodactyles - say a pig (e.g. \textit{Sus}), a deer (\textit{Cervus}), a hippo (\textit{Hippopotamus}) and a whale (\textit{Balaenoptera}) - and four binary characters - say (\textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragal with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley:
 
 \begin{table}
 \center
@@ -203,26 +200,23 @@ In the example in Table \ref{Tab:example_matrix}, the characters \textbf{C1} and
 Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the different character states tokens will be used in order to infer a phylogenetic tree.
 It is thus still unclear what will be the effect of characters correlation on phylogenetic inference: how does these correlation really affect topology?
 
-If the three induced sources of correlation are fairly well studied, their actual interpretation in phylogenetic inference, has, to our knowledge, never been studied through a simulation protocol.
-In this study, we formally assess the effect of discrete character's correlation using simulated and empirical data.
-We propose a new metric to measure the difference between characters (as a proxy for these three sources of correlation) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences/similarities between characters.
-We found that @@@
-
-
-% However, only several attempts have been made on the actual effect of characters correlation on phylogenetic inference with two notable exceptions of \cite{Davalos01072014} on empirical data and \cite{ZouConvergence} on molecular data. %TG: put that somwhere
-
+If the three induced sources of correlation are fairly well studied, their actual interpretation by phylogenetic inference software, has, to our knowledge, never been studied through a simulation protocol (although they have been explored empirically for morphological data; \citealt{Davalos01072014}; or molecular data; \citealt{ZouConvergence}).
+In this study, we formally assess the effect of discrete character's correlation using simulated data.
+We propose a new metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences/similarities between characters.
+We found that overall, there is a detectable effect of character correlation on topology where an increase in character dependence results in a decrease in the ability to recover the correct topology.
+These results, however, vary in magnitude depending on the size of matrix and the inference method used.
 
 \section{Methods}
 
 We applied the following simulation protocol to assess the effect of characters correlation (Fig.\ref{Fig:outline}):
 \begin{enumerate}
-    \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices.
-    \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by duplicating characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least or most different characters and replacing them randomly by the remaining characters.
-    We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximising or minimising character difference to create randomised matrices (hereafter called the ``randomised'' matrices - equivalent to a null expectancy).
-    \item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both Maximum Parsimony and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees).
+    \item \textbf{Simulating matrices}: we simulated a discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices. This step resulted in 9 matrices.
+    \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by modified the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least or most different characters and replacing them randomly by the remaining characters.
+    We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximising or minimising character difference to create randomised matrices (hereafter called the ``randomised'' matrices - equivalent to a null expectancy). This step resulted in 36 matrices.
+    \item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both Maximum Parsimony and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
     \item \textbf{Comparing topologies}: finally, we compared the ``normal'' to the ``maximised'', ``minimised'' and ``randomised'' trees to measure the effect of character correlation on topology.
 \end{enumerate}
-Each steps are described below in more details, as well as our proposed definition of the Character Difference metric.
+Each step was replicated 40 times and are described below in more details, as well as our proposed definition for measuring the difference between characters.
 
 \begin{figure}[!htbp]
 \centering
@@ -233,8 +227,8 @@ Each steps are described below in more details, as well as our proposed definiti
 
 \subsection{Measuring differences between characters}
 \label{CD_description}
-We define characters as being correlated if they give the same phylogenetic information.
-In order to measure this similitude in phylogenetic information, we propose a new distance metric to measure the difference between two characters:
+To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
+In order to measure this, we propose a new distance metric to measure the difference between two characters:
 
 \subsubsection{Characters Difference ($CD$)}
 \begin{equation}
@@ -242,28 +236,30 @@ In order to measure this similitude in phylogenetic information, we propose a ne
 \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
-$CD$ is a continuous distance metric valid in a mathematical sense (see Supplementary Material 1).
+$CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration Supplementary Material 1).
 Since we are considering differences as being only Fitch-like (i.e. non-weighted and non-ordinate), we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of $0$ and two different ones have a difference of $1$ (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
-We standardised each characters by arbitrarily modifying their character states tokens by order of appearance.
+We standardised each character by arbitrarily modifying their character state tokens by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
 
-When the character difference is equal to $0$, it means that characters convey the same phylogenetic signal.
-When the character difference is equal to $1$ it means it conveys the most different signal.
+When the character difference null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
+When the character difference maximal ($1$) it means it conveys the most different signal (i.e. characters are uncorrelated).
+It is important to stress that a character difference of $0$ (i.e. the same phylogenetic signal) does not mean the opposite of $1$ (i.e. \textit{not} the opposite phylogenetic signal) .
 For example with three characters \texttt{A = \{0,1,1,1\}}, \texttt{B = \{1,0,0,0\}} and \texttt{C = \{0,1,2,3\}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$.
+Because the character is continuous and bounded between $(0,1)$, it can be interpreted as the probability of two characters leading to a different phylogenetic interpretation.
 
 \subsection{Simulating discrete morphological matrices}
 To simulate the matrices we applied a protocol very similar to \citep{Guillerme2016146}.
-First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform ($0$,$1$) distribution maintaining $\lambda$ $>$ $\mu$ using the diversitree \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
+First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution maintaining $\lambda$ $>$ $\mu$ using the \texttt{diversitree} \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
 For each tree, we arbitrarily set the outgroup to be the first taxa (alphabetically) thus effectively rooting the trees on this taxa.
 These trees are hereafter called the ``true'' trees.
 We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
 \begin{itemize}
     \item The morphological HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution $(0,1)$ and scaled to sum to $1$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
-    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][; see below]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
+    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][; see discussion]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
     \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
     We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146}.
     This model assumes a equal transition rate between character states that might seem overly simplifying and excludes other observed transition patterns \citep[e.g. Dollo characters;][]{Dollo,wright2015came}.
@@ -280,12 +276,13 @@ The matrices where generated using the \texttt{dispRity R} package \citep{thomas
 To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 40 times resulting in 360 ``normal'' morphological matrices.
 
 \subsection{Modifying the matrices}
-We calculated the pairwise Character Differences for each generated matrices using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}. %TG: TO IMPLEMENT! 
+We calculated the pairwise character differences ($CD$) for each generated matrices using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
 We then modified the matrices to either maximise or minimise the pairwise character differences for each matrices using three different algorithms.
-For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<$$0.25$) and replaced them randomly by any of the remaining characters.
+For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<0.25$) and replaced them randomly by any of the remaining characters.
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
-Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<$$0.75$) and randomly replaced them with the remaining ones.
-Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<$$0.25$ or $>$$0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
+Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<0.75$) and randomly replaced them with the remaining ones.
+Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
+Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
 This step resulted in a total of 1440 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub@@@. %(Modifying_matrices.html) %TG: "@@@" is my "to replace" sign.
 
@@ -309,22 +306,22 @@ In practice, these few MCMC got stuck at an ASDSF around (but not below) 0.01.
 
 A strict majority rule tree was then calculated for both Bayesian an Maximum Parsimony trees.
 For the Bayesian consensus trees, the 25\% first trees of the posterior tree distribution were excluded as a burnin.
-The 2880 tree inferences took around 1 CPU century on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC}.
+The 2880 tree inferences took around 1 CPU century (@@@ current: 83 CPU years) on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC}.
 
 \subsection{Comparing topologies}
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Fould distance \citep{RF1981} and the Triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``randomised'' matrices and the tree inferred from the ``normal'' matrix.
 We explored the effect of Character Difference on recovering the ``normal'' topology by comparing the ``maximised'', ``minimised'' and ``randomised'' trees to the ``normal'' tree (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best} and Tables @@@).
 
-The metrics scores where obtained using the TreeCmp java script \citep{Bogdanowicz2012}.
+The metrics scores where calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
 The measurements where then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
 When the normalised metric has a score of $1$ it means both trees are identical, when it has a score of $0$ it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
 The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Fould ($NTS_{RF}$) Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity ($NTS_{Tr}$) reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
 
-Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at 1, the resulting residuals distribution of $NTS$ scores was not normal thus preventing the use of parametric nested anova for comparisons (see Supplementary @@@).
-Instead, we used the a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
-We considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
+Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at $1$, the resulting in the residuals of any model based on the $NTS$ scores were not normal thus preventing the use of parametric tests for comparisons (see Supplementary @@@). %TG: TODO: residual normality + homscedasticity tests supp.
+Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric} would be biased in their p-value calculation due to the presence of equal values in the $NTS$ distributions (e.g. when multiple trees are equal to the ``normal'' tree).
+Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
+Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
 Comparisons falling within these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
-
 
 \section{Results}
 
@@ -448,6 +445,15 @@ Additionally, the two types of correlations that most evolutionary biologists ar
 In fact, the links between specific characters should studied explicitly through hypothesis testing based on an underlying phylogenetic framework - for example in evo-devo \citep[e.g.][]{goswami2006morphological} or in macroevolution \citep[e.g.][]{fitzjohn2014much} - and should thus be independent of the phylogenetic inference itself.
 
 
+%TG: This one can be reworded. Get a dichotomie a priori/a posteriori correlation. + add trade off in coding (more characters = more info but less independence)
+Furthermore it is important to distinguish how researchers can tackle these correlations: the coding dependence is by essence an \textit{a priori} source of correlation: the correlation is induced before the phylogenetic analysis.
+On the other hand Biological and Evolutionary dependences can only be determined \textit{a posteriori}: the correlation must be based on a phylogenetic hypothesis.
+Additionally there seem to be a trade in coding fewer characters (reducing \textit{a priori} dependence) but making the \textit{a posteriori} correlation more dependent on the coding.
+On the other hand, coding more characters increases \textit{a priori} dependence but will lead to the \textit{a posteriori} correlation being less dependent on it.
+
+
+
+
 \subsection{Conclusion}
 As we presented in the introduction, dependence between characters can be induced through three main phenomenon: the biological, evolutionary or coding induced correlation between characters.
 Although one could argue (righteously!) that coding induced correlation is easily avoidable and that biological and evolutionary correlations are actually at the core of evolutionary biology, in the age of ever expanding morphological matrices \citep[e.g.][with more than 1000 characters each]{nithe2013,O'Leary08022013}, we can expect the dependence between characters to increase stochastically.
@@ -457,10 +463,10 @@ We found that Character Differences as a proxy for character correlation is not 
 On the other hand, actively selecting characters based to favour independence does not highly increase the ability of recovering tree topology (compared to simply bootstrapping a matrix - at least for modest size matrices).
 We hope that these results will encourage researchers working on discrete morphological characters to continue exploring morphology through discrete characters to better understand the Tree of Life.
 
-\section{Data availability and repeatability}
+\section{Data availability, repeatability and reproducibility}
 The consensus trees are available on figshare at \url{@@@}.
-The code for reproducing the simulation is available and explained at \url{https://github.com/TGuillerme/CharactersCorrelation}.
-The vignette for reproducing the analysis and the figure is available at \url{http://htmlpreview.github.io/?https://github.com/TGuillerme/CharactersCorrelation/Analysis/EffectCorrelation.html}.
+The simulations are fully replicable following the explanations at \url{https://github.com/TGuillerme/CharactersCorrelation}.
+The post-simulation analysis, tables and figures (reported in this manuscript) are fully reproducible see (\url{https://github.com/TGuillerme/CharactersCorrelation}).
 
 \section{Funding}
 European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
