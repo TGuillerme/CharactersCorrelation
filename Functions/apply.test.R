@@ -162,3 +162,118 @@ apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
 
     return(test_results)
 }
+
+
+#' @title Applies a pairwise test to a (pooled) table or a list
+#'
+#' @description Applies a pairwise test to a (pooled) table or a list
+#'
+#' @param table a table or a list
+#' @param test the test to apply
+#' 
+#' @examples
+#'
+#' @seealso
+#' 
+#' @author Thomas Guillerme
+#' @export
+
+apply.pair.test <- function(table, test) {
+    ## Check if table is a table or a list
+    if(class(table) == "matrix" || class(table) == "data.frame") {
+        data_list <- unlist(apply(table, 2, list), recursive = FALSE)
+    } else {
+        data_list <- table
+    }
+
+    ## Get the pairwise combinations
+    combinations <- combn(1:length(data_list), 2)
+    combo_names <- apply(combinations, 2, function(X, data_list) return(paste(names(data_list)[X[1]], names(data_list)[X[2]], sep = ":")), data_list)
+
+    ## Run the pairwise test
+    apply.test <- function(combn_col, data_list, test) {
+        return(test(data_list[[combn_col[1]]], data_list[[combn_col[2]]]))
+    }
+    results <- apply(combinations, 2, apply.test, data_list, test)
+
+    ## Output the results
+    if(class(results) == "numeric") {
+        names(results) <- combo_names
+        return(results)
+    } else {
+        remove.names <- function(X) {names(X) <- NULL; return(X)}
+        results <- lapply(results, lapply, remove.names)
+        names(results) <- combo_names
+        return(list("statistic" = unlist(lapply(results, `[[`, 1)), "p.value" = unlist(lapply(results, `[[`, 3))))
+    }
+}
+
+
+#' @title Applies a bhatt.coeff and a wilcox.test to a list of distributions and outputs a table
+#'
+#' @description Applies bhatt.coeff and a wilcox.test to a list of distributions and outputs a table
+#'
+#' @param distributions a list of distribution tables
+#' @param digit how many digits to display
+#' @param metric.label the metrics labels (can be missing)
+#' @param comp.label the comparisons labels (can be missing)
+#' @param correction which correction to apply
+#' 
+#' @examples
+#'
+#' @seealso
+#' 
+#' @author Thomas Guillerme
+#' @export
+#' 
+pair.test.table <- function(distributions, digit = 3, metric.label, comp.label, correction = "bonferroni") {
+
+    tests <- c(bhatt.coeff, wilcox.test)
+
+    ## Applying the tests
+    results <- list()
+    for(one_test in 1:length(tests)) {
+        results[[one_test]] <- lapply(distributions, apply.pair.test, tests[[one_test]])
+    }
+
+    ## Summarizing the results
+    table <- matrix(unlist(results[[1]]), ncol = 1)
+    table <- cbind(table, matrix(c(unlist(sapply(results[[2]], function(X) X[[1]], simplify = FALSE)), unlist(sapply(results[[2]], function(X) X[[2]], simplify = FALSE))), ncol = 2))
+
+    ## Adding the col/row names
+    rownames(table) <- unlist(lapply(results[[1]], names))
+    colnames(table) <- c("bhatt.coeff", "statistic", "p.value")
+
+    ## Correcting the p.value
+    table[,3] <- p.adjust(table[,3], method = correction)
+
+    ## Rounding
+    table <- round(table, digit = digit)
+
+    ## Adding the metrics and comp (if not missing)
+    if(!missing(metric.label) && !missing(comp.label)) {
+        labels <- data.frame("comp" = comp.label, "metric" = metric.label, rownames(table))
+        colnames(labels)[length(labels)] <- "test"
+        table_out <- cbind(labels, as.data.frame(table))
+    }
+
+    ## Adding the metrics (if not missing)
+    if(!missing(metric.label) && missing(comp.label)) {
+        labels <- data.frame("metric" = metric.label, rownames(table))
+        colnames(labels)[length(labels)] <- "test"
+        table_out <- cbind(labels, as.data.frame(table))
+    }
+
+    ## Adding the comp (if not missing)
+    if(missing(metric.label) && !missing(comp.label)) {
+        labels <- data.frame("comp" = comp.label, rownames(table))
+        colnames(labels)[length(labels)] <- "test"
+        table_out <- cbind(labels, as.data.frame(table))
+    }
+
+    if(missing(metric.label) && missing(comp.label)) {
+        table_out <- table
+    }
+
+    return(table_out)
+}
