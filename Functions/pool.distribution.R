@@ -94,6 +94,15 @@ multi.pool <- function(data, param, metric, best) {
     for(one_param in 1:length(param)) {
         distributions[[one_param]] <- pool.distribution(data, param = param[[one_param]], metric = metric, best = best)
     }
+
+    ## Checking if all distributions are the same length (are some simulations missing?)
+    lengths <- unlist(lapply(distributions, length))
+    if(length(unique(lengths)) != 1) {
+        ## Randomly remove the missing ones in the longer distribution for now
+        resample <- abs(diff(lengths))
+        distributions[[which(lengths == max(lengths))]] <- sample(distributions[[which(lengths == max(lengths))]], (length(distributions[[which(lengths == max(lengths))]])-resample))
+    }
+
     ## Transform it into a dataframe
     return(matrix(data = unlist(distributions), ncol = length(param), dimnames = list(c(), param)))
 }
