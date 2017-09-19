@@ -71,3 +71,81 @@ pool.distribution <- function(data, param, metric, best) {
         }
     }
 }
+
+#' @title Pool multiple distributions for multiple parameters
+#'
+#' @description Pool multiple distributions for multiple parameters
+#'
+#' @param data the whole data
+#' @param param which parameters
+#' @param metric which metrics
+#' @param best which comparison
+#' 
+#' @examples
+#'
+#' @seealso
+#' 
+#' @author Thomas Guillerme
+#' @export
+#' 
+multi.pool <- function(data, param, metric, best) {
+    ## Get the distributions for multiple parameters
+    distributions <- list()
+    for(one_param in 1:length(param)) {
+        distributions[[one_param]] <- pool.distribution(data, param = param[[one_param]], metric = metric, best = best)
+    }
+    ## Transform it into a dataframe
+    return(matrix(data = unlist(distributions), ncol = length(param), dimnames = list(c(), param)))
+}
+
+#' @title Pooled distribution summary table
+#'
+#' @description Pooled distribution summary table
+#'
+#' @param distributions a list of distribution tables
+#' @param digit how many digits to display
+#' @param metric.label the metrics labels (can be missing)
+#' @param comp.label the comparisons labels (can be missing)
+#' @param label.param the label of the parameter pooled
+#' 
+#' @examples
+#'
+#' @seealso
+#' 
+#' @author Thomas Guillerme
+#' @export
+#' 
+pool.table <- function(distributions, digit = 3, metric.label, comp.label, label.param) {
+
+    ## Summarising the data for each distribution
+    scenarios <- do.call(rbind, lapply(distributions, function(x) t(apply(x, 2, summary))))
+    ## Rounding
+    scenarios <- round(scenarios, digit = digit)
+
+    ## Adding the metrics and comp (if not missing)
+    if(!missing(metric.label) && !missing(comp.label)) {
+        labels <- data.frame("comp" = comp.label, "metric" = metric.label, unlist(lapply(distributions, colnames)))
+        colnames(labels)[length(labels)] <- label.param
+        scenarios_table <- cbind(labels, as.data.frame(scenarios))
+    }
+
+    ## Adding the metrics (if not missing)
+    if(!missing(metric.label) && missing(comp.label)) {
+        labels <- data.frame("metric" = metric.label, unlist(lapply(distributions, colnames)))
+        colnames(labels)[length(labels)] <- label.param
+        scenarios_table <- cbind(labels, as.data.frame(scenarios))
+    }
+
+    ## Adding the comp (if not missing)
+    if(missing(metric.label) && !missing(comp.label)) {
+        labels <- data.frame("comp" = comp.label, unlist(lapply(distributions, colnames)))
+        colnames(labels)[length(labels)] <- label.param
+        scenarios_table <- cbind(labels, as.data.frame(scenarios))
+    }
+
+    if(missing(metric.label) && missing(comp.label)) {
+        scenarios_table <- scenarios
+    }
+
+    return(scenarios_table)
+}
