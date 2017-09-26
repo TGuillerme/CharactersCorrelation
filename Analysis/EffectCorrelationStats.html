@@ -11,7 +11,7 @@
 
 <meta name="author" content="Thomas Guillerme" />
 
-<meta name="date" content="2017-09-19" />
+<meta name="date" content="2017-09-21" />
 
 <title>Effect of character correlation</title>
 
@@ -119,7 +119,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Effect of character correlation</h1>
 <h4 class="author"><em>Thomas Guillerme</em></h4>
-<h4 class="date"><em>2017-09-19</em></h4>
+<h4 class="date"><em>2017-09-21</em></h4>
 
 </div>
 
@@ -298,7 +298,7 @@ scenario_list &lt;- list(scenario_RF_norm, scenario_Tr_norm)
 metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;, &quot;&quot;)
 test_table &lt;- pair.test.table(scenario_list, metric.label = metric.labels)</code></pre>
 <table>
-<caption>Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)</caption>
+<caption>Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correction)</caption>
 <thead>
 <tr class="header">
 <th align="left">metric</th>
@@ -389,9 +389,9 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm), metric.l
 <td align="left">RF</td>
 <td align="left">c100</td>
 <td align="right">0.107</td>
-<td align="right">0.588</td>
-<td align="right">0.757</td>
-<td align="right">0.729</td>
+<td align="right">0.583</td>
+<td align="right">0.748</td>
+<td align="right">0.727</td>
 <td align="right">0.890</td>
 <td align="right">1</td>
 </tr>
@@ -399,9 +399,9 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm), metric.l
 <td align="left"></td>
 <td align="left">c350</td>
 <td align="right">0.077</td>
-<td align="right">0.627</td>
+<td align="right">0.631</td>
 <td align="right">0.780</td>
-<td align="right">0.750</td>
+<td align="right">0.752</td>
 <td align="right">0.912</td>
 <td align="right">1</td>
 </tr>
@@ -419,20 +419,20 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm), metric.l
 <td align="left">Tr</td>
 <td align="left">c100</td>
 <td align="right">-0.473</td>
-<td align="right">0.165</td>
-<td align="right">0.537</td>
-<td align="right">0.491</td>
-<td align="right">0.845</td>
+<td align="right">0.159</td>
+<td align="right">0.528</td>
+<td align="right">0.486</td>
+<td align="right">0.848</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">c350</td>
 <td align="right">-0.307</td>
-<td align="right">0.353</td>
-<td align="right">0.703</td>
-<td align="right">0.626</td>
-<td align="right">0.943</td>
+<td align="right">0.369</td>
+<td align="right">0.718</td>
+<td align="right">0.631</td>
+<td align="right">0.942</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -510,44 +510,44 @@ test_table &lt;- pair.test.table(character_list, metric.label = metric.labels)</
 <tr class="odd">
 <td align="left">RF</td>
 <td align="left">c100:c350</td>
-<td align="right">0.989</td>
-<td align="right">228446.5</td>
-<td align="right">0.171</td>
+<td align="right">0.988</td>
+<td align="right">225875.5</td>
+<td align="right">0.069</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.981</td>
-<td align="right">218014.5</td>
-<td align="right">0.002</td>
+<td align="right">0.983</td>
+<td align="right">216988.0</td>
+<td align="right">0.001</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.988</td>
-<td align="right">232692.0</td>
-<td align="right">0.619</td>
+<td align="right">0.986</td>
+<td align="right">233770.0</td>
+<td align="right">0.822</td>
 </tr>
 <tr class="even">
 <td align="left">Tr</td>
 <td align="left">c100:c350</td>
-<td align="right">0.965</td>
-<td align="right">199571.5</td>
+<td align="right">0.960</td>
+<td align="right">196671.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.957</td>
-<td align="right">186726.5</td>
+<td align="right">0.956</td>
+<td align="right">185621.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.985</td>
-<td align="right">228040.5</td>
-<td align="right">0.149</td>
+<td align="right">0.984</td>
+<td align="right">229438.5</td>
+<td align="right">0.236</td>
 </tr>
 </tbody>
 </table>
@@ -589,7 +589,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm), metric.label = metric.la
 <td align="right">0.077</td>
 <td align="right">0.648</td>
 <td align="right">0.802</td>
-<td align="right">0.770</td>
+<td align="right">0.771</td>
 <td align="right">0.934</td>
 <td align="right">1</td>
 </tr>
@@ -599,8 +599,8 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm), metric.label = metric.la
 <td align="right">0.155</td>
 <td align="right">0.601</td>
 <td align="right">0.760</td>
-<td align="right">0.740</td>
-<td align="right">0.904</td>
+<td align="right">0.738</td>
+<td align="right">0.897</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -618,8 +618,8 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm), metric.label = metric.la
 <td align="left">t25</td>
 <td align="right">-0.436</td>
 <td align="right">0.458</td>
-<td align="right">0.750</td>
-<td align="right">0.664</td>
+<td align="right">0.746</td>
+<td align="right">0.665</td>
 <td align="right">0.961</td>
 <td align="right">1</td>
 </tr>
@@ -627,9 +627,9 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm), metric.label = metric.la
 <td align="left"></td>
 <td align="left">t75</td>
 <td align="right">-0.473</td>
-<td align="right">0.241</td>
-<td align="right">0.602</td>
-<td align="right">0.548</td>
+<td align="right">0.239</td>
+<td align="right">0.597</td>
+<td align="right">0.547</td>
 <td align="right">0.917</td>
 <td align="right">1</td>
 </tr>
@@ -709,42 +709,42 @@ test_table &lt;- pair.test.table(taxa_list, metric.label = metric.labels)</code>
 <td align="left">RF</td>
 <td align="left">t25:t75</td>
 <td align="right">0.986</td>
-<td align="right">263384.0</td>
-<td align="right">0.021</td>
+<td align="right">265736.0</td>
+<td align="right">0.007</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.979</td>
-<td align="right">269927.0</td>
+<td align="right">0.977</td>
+<td align="right">270691.5</td>
 <td align="right">0.001</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">t75:t150</td>
 <td align="right">0.983</td>
-<td align="right">248988.0</td>
+<td align="right">247603.5</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left">Tr</td>
 <td align="left">t25:t75</td>
-<td align="right">0.979</td>
-<td align="right">280685.5</td>
+<td align="right">0.977</td>
+<td align="right">281088.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">t25:t150</td>
 <td align="right">0.971</td>
-<td align="right">279217.0</td>
+<td align="right">279788.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">t75:t150</td>
 <td align="right">0.989</td>
-<td align="right">241406.5</td>
+<td align="right">241267.5</td>
 <td align="right">1.000</td>
 </tr>
 </tbody>
@@ -794,11 +794,11 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm), metric.label = me
 <tr class="even">
 <td align="left"></td>
 <td align="left">parsimony</td>
-<td align="right">0.076</td>
-<td align="right">0.511</td>
+<td align="right">0.077</td>
+<td align="right">0.503</td>
 <td align="right">0.677</td>
-<td align="right">0.685</td>
-<td align="right">0.893</td>
+<td align="right">0.684</td>
+<td align="right">0.895</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -815,10 +815,10 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm), metric.label = me
 <td align="left"></td>
 <td align="left">parsimony</td>
 <td align="right">-0.436</td>
-<td align="right">0.264</td>
-<td align="right">0.610</td>
-<td align="right">0.570</td>
-<td align="right">0.944</td>
+<td align="right">0.259</td>
+<td align="right">0.600</td>
+<td align="right">0.566</td>
+<td align="right">0.941</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -869,7 +869,7 @@ results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
 <p>Applying a Bhattacharrya Coefficient and Wilcoxon test</p>
 <pre class="r"><code>## Summarise into a table
 methods_list &lt;- list(method_RF_norm, method_Tr_norm)
-metric.labels &lt;- c(&quot;RF&quot;, &quot;&quot;, &quot;Tr&quot;, &quot;&quot;)
+metric.labels &lt;- c(&quot;RF&quot;, &quot;Tr&quot;)
 test_table &lt;- pair.test.table(methods_list, metric.label = metric.labels)</code></pre>
 <table>
 <caption>Difference between the pooled methods. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)</caption>
@@ -886,30 +886,16 @@ test_table &lt;- pair.test.table(methods_list, metric.label = metric.labels)</co
 <tr class="odd">
 <td align="left">RF</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.893</td>
-<td align="right">680920</td>
+<td align="right">0.886</td>
+<td align="right">681334</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
-<td align="left"></td>
-<td align="left">bayesian:parsimony</td>
-<td align="right">0.981</td>
-<td align="right">548055</td>
-<td align="right">0.127</td>
-</tr>
-<tr class="odd">
 <td align="left">Tr</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.893</td>
-<td align="right">680920</td>
-<td align="right">0.000</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">bayesian:parsimony</td>
 <td align="right">0.981</td>
-<td align="right">548055</td>
-<td align="right">0.127</td>
+<td align="right">551967</td>
+<td align="right">0.063</td>
 </tr>
 </tbody>
 </table>
@@ -2313,169 +2299,7 @@ results[[1]] &lt;- results[[1]][-c(3,4),]</code></pre>
 <p>We can also look at the effect of each scenario within each parameter setting (e.g. 25 taxa, 100 characters and Bayesian trees) by measuring the probability of overlap between both distributions. A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don t overlap (significant effect of one scenario on topology). Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).</p>
 <pre class="r"><code>## Running the pairwise Bhattacharrya Coefficient analysis:
 bc_RF_best &lt;- apply.test(whole_data, &quot;RF&quot;, &quot;norm&quot;, bhatt.coeff)
-bc_Tr_best &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;norm&quot;, bhatt.coeff)
-
-## Tables
-kable(bc_RF_best, row.names = FALSE, digit = 3)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">method</th>
-<th align="left">taxa</th>
-<th align="left">characters</th>
-<th align="right">max.min</th>
-<th align="right">max.rand</th>
-<th align="right">min.rand</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">bayesian</td>
-<td align="left">25</td>
-<td align="left">100</td>
-<td align="right">0.683</td>
-<td align="right">0.861</td>
-<td align="right">0.753</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.707</td>
-<td align="right">0.955</td>
-<td align="right">0.726</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.656</td>
-<td align="right">0.895</td>
-<td align="right">0.609</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">75</td>
-<td align="left">100</td>
-<td align="right">0.486</td>
-<td align="right">0.632</td>
-<td align="right">0.683</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.445</td>
-<td align="right">0.713</td>
-<td align="right">0.758</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.453</td>
-<td align="right">0.824</td>
-<td align="right">0.647</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">150</td>
-<td align="left">100</td>
-<td align="right">0.471</td>
-<td align="right">0.608</td>
-<td align="right">0.754</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.398</td>
-<td align="right">0.697</td>
-<td align="right">0.569</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.287</td>
-<td align="right">0.664</td>
-<td align="right">0.440</td>
-</tr>
-<tr class="even">
-<td align="left">parsimony</td>
-<td align="left">25</td>
-<td align="left">100</td>
-<td align="right">0.551</td>
-<td align="right">0.878</td>
-<td align="right">0.815</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.448</td>
-<td align="right">0.866</td>
-<td align="right">0.568</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.307</td>
-<td align="right">0.803</td>
-<td align="right">0.574</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">75</td>
-<td align="left">100</td>
-<td align="right">0.418</td>
-<td align="right">0.685</td>
-<td align="right">0.799</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.383</td>
-<td align="right">0.765</td>
-<td align="right">0.693</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.265</td>
-<td align="right">0.766</td>
-<td align="right">0.555</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">150</td>
-<td align="left">100</td>
-<td align="right">0.449</td>
-<td align="right">0.554</td>
-<td align="right">0.913</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.383</td>
-<td align="right">0.779</td>
-<td align="right">0.664</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.341</td>
-<td align="right">0.841</td>
-<td align="right">0.574</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>kable(bc_Tr_best, row.names = FALSE, digit = 3)</code></pre>
+bc_Tr_best &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;norm&quot;, bhatt.coeff)</code></pre>
 <table>
 <caption>Bhattacharrya Coefficient (Robinson-Fould distance from the best tree) between the different scenarios.</caption>
 <thead>
@@ -2493,165 +2317,6 @@ kable(bc_RF_best, row.names = FALSE, digit = 3)</code></pre>
 <td align="left">bayesian</td>
 <td align="left">25</td>
 <td align="left">100</td>
-<td align="right">0.576</td>
-<td align="right">0.858</td>
-<td align="right">0.807</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.496</td>
-<td align="right">0.885</td>
-<td align="right">0.552</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.631</td>
-<td align="right">0.791</td>
-<td align="right">0.558</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">75</td>
-<td align="left">100</td>
-<td align="right">0.535</td>
-<td align="right">0.849</td>
-<td align="right">0.685</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.564</td>
-<td align="right">0.848</td>
-<td align="right">0.890</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.582</td>
-<td align="right">0.866</td>
-<td align="right">0.700</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">150</td>
-<td align="left">100</td>
-<td align="right">0.540</td>
-<td align="right">0.675</td>
-<td align="right">0.773</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.596</td>
-<td align="right">0.720</td>
-<td align="right">0.698</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.395</td>
-<td align="right">0.834</td>
-<td align="right">0.758</td>
-</tr>
-<tr class="even">
-<td align="left">parsimony</td>
-<td align="left">25</td>
-<td align="left">100</td>
-<td align="right">0.641</td>
-<td align="right">0.918</td>
-<td align="right">0.738</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.453</td>
-<td align="right">0.884</td>
-<td align="right">0.712</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.467</td>
-<td align="right">0.872</td>
-<td align="right">0.643</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">75</td>
-<td align="left">100</td>
-<td align="right">0.396</td>
-<td align="right">0.683</td>
-<td align="right">0.699</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.343</td>
-<td align="right">0.876</td>
-<td align="right">0.737</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.309</td>
-<td align="right">0.755</td>
-<td align="right">0.728</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">150</td>
-<td align="left">100</td>
-<td align="right">0.458</td>
-<td align="right">0.692</td>
-<td align="right">0.706</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">350</td>
-<td align="right">0.464</td>
-<td align="right">0.831</td>
-<td align="right">0.752</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">1000</td>
-<td align="right">0.398</td>
-<td align="right">0.817</td>
-<td align="right">0.693</td>
-</tr>
-</tbody>
-</table>
-<table>
-<caption>Bhattacharrya Coefficient (Triplets distance from the best tree) between the different scenarios.</caption>
-<thead>
-<tr class="header">
-<th align="left">method</th>
-<th align="left">taxa</th>
-<th align="left">characters</th>
-<th align="right">max.min</th>
-<th align="right">max.rand</th>
-<th align="right">min.rand</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">bayesian</td>
-<td align="left">25</td>
-<td align="left">100</td>
 <td align="right">0.683</td>
 <td align="right">0.861</td>
 <td align="right">0.753</td>
@@ -2795,6 +2460,7 @@ kable(bc_RF_best, row.names = FALSE, digit = 3)</code></pre>
 </tbody>
 </table>
 <table>
+<caption>Bhattacharrya Coefficient (Triplets distance from the best tree) between the different scenarios.</caption>
 <thead>
 <tr class="header">
 <th align="left">method</th>
@@ -3791,9 +3457,9 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">RF</td>
 <td align="left">c100</td>
 <td align="right">0.107</td>
-<td align="right">0.584</td>
-<td align="right">0.755</td>
-<td align="right">0.729</td>
+<td align="right">0.583</td>
+<td align="right">0.751</td>
+<td align="right">0.727</td>
 <td align="right">0.890</td>
 <td align="right">1</td>
 </tr>
@@ -3804,7 +3470,7 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="right">0.077</td>
 <td align="right">0.629</td>
 <td align="right">0.780</td>
-<td align="right">0.750</td>
+<td align="right">0.751</td>
 <td align="right">0.912</td>
 <td align="right">1</td>
 </tr>
@@ -3824,10 +3490,10 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">Tr</td>
 <td align="left">c100</td>
 <td align="right">-0.473</td>
-<td align="right">0.161</td>
+<td align="right">0.157</td>
 <td align="right">0.534</td>
-<td align="right">0.489</td>
-<td align="right">0.847</td>
+<td align="right">0.488</td>
+<td align="right">0.845</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -3835,10 +3501,10 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left"></td>
 <td align="left">c350</td>
 <td align="right">-0.307</td>
-<td align="right">0.361</td>
-<td align="right">0.703</td>
-<td align="right">0.628</td>
-<td align="right">0.940</td>
+<td align="right">0.362</td>
+<td align="right">0.706</td>
+<td align="right">0.630</td>
+<td align="right">0.943</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -3856,9 +3522,9 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">c100</td>
-<td align="right">0.117</td>
+<td align="right">0.103</td>
 <td align="right">0.529</td>
-<td align="right">0.670</td>
+<td align="right">0.671</td>
 <td align="right">0.663</td>
 <td align="right">0.814</td>
 <td align="right">1</td>
@@ -3890,9 +3556,9 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left">Tr</td>
 <td align="left">c100</td>
 <td align="right">-0.427</td>
-<td align="right">0.081</td>
-<td align="right">0.375</td>
-<td align="right">0.381</td>
+<td align="right">0.087</td>
+<td align="right">0.380</td>
+<td align="right">0.385</td>
 <td align="right">0.697</td>
 <td align="right">1</td>
 </tr>
@@ -3900,11 +3566,11 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350</td>
-<td align="right">-0.282</td>
-<td align="right">0.323</td>
+<td align="right">-0.301</td>
+<td align="right">0.314</td>
 <td align="right">0.629</td>
-<td align="right">0.574</td>
-<td align="right">0.848</td>
+<td align="right">0.570</td>
+<td align="right">0.849</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -4003,95 +3669,95 @@ test_table &lt;- pair.test.table(character_list, comp.label = comp.labels, metri
 <td align="left">RF</td>
 <td align="left">c100:c350</td>
 <td align="right">0.989</td>
-<td align="right">228534.0</td>
-<td align="right">0.353</td>
+<td align="right">226836.5</td>
+<td align="right">0.195</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.983</td>
-<td align="right">218235.5</td>
-<td align="right">0.005</td>
+<td align="right">0.982</td>
+<td align="right">217287.5</td>
+<td align="right">0.003</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.985</td>
-<td align="right">232564.0</td>
+<td align="right">0.987</td>
+<td align="right">233192.5</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">c100:c350</td>
-<td align="right">0.961</td>
-<td align="right">198760.0</td>
+<td align="right">0.960</td>
+<td align="right">197531.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.957</td>
-<td align="right">186528.5</td>
+<td align="right">0.956</td>
+<td align="right">185991.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.984</td>
-<td align="right">228341.5</td>
-<td align="right">0.329</td>
+<td align="right">0.983</td>
+<td align="right">228900.0</td>
+<td align="right">0.397</td>
 </tr>
 <tr class="odd">
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">c100:c350</td>
-<td align="right">0.972</td>
-<td align="right">211821.5</td>
+<td align="right">0.974</td>
+<td align="right">212513.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.953</td>
-<td align="right">216061.0</td>
+<td align="right">0.955</td>
+<td align="right">216159.0</td>
 <td align="right">0.002</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.968</td>
-<td align="right">245856.5</td>
+<td align="right">0.969</td>
+<td align="right">245426.5</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">c100:c350</td>
-<td align="right">0.941</td>
-<td align="right">169926.0</td>
+<td align="right">0.952</td>
+<td align="right">172987.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c100:c1000</td>
-<td align="right">0.943</td>
-<td align="right">174235.0</td>
+<td align="right">0.950</td>
+<td align="right">175421.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">c350:c1000</td>
-<td align="right">0.978</td>
-<td align="right">242421.0</td>
+<td align="right">0.980</td>
+<td align="right">240959.0</td>
 <td align="right">1.000</td>
 </tr>
 </tbody>
@@ -4141,7 +3807,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="right">0.077</td>
 <td align="right">0.648</td>
 <td align="right">0.802</td>
-<td align="right">0.771</td>
+<td align="right">0.769</td>
 <td align="right">0.934</td>
 <td align="right">1</td>
 </tr>
@@ -4173,9 +3839,9 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left">t25</td>
 <td align="right">-0.436</td>
 <td align="right">0.458</td>
-<td align="right">0.745</td>
-<td align="right">0.663</td>
-<td align="right">0.962</td>
+<td align="right">0.747</td>
+<td align="right">0.664</td>
+<td align="right">0.961</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -4184,8 +3850,8 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left">t75</td>
 <td align="right">-0.473</td>
 <td align="right">0.241</td>
-<td align="right">0.602</td>
-<td align="right">0.550</td>
+<td align="right">0.600</td>
+<td align="right">0.548</td>
 <td align="right">0.917</td>
 <td align="right">1</td>
 </tr>
@@ -4207,7 +3873,7 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="right">0.055</td>
 <td align="right">0.605</td>
 <td align="right">0.758</td>
-<td align="right">0.729</td>
+<td align="right">0.732</td>
 <td align="right">0.890</td>
 <td align="right">1</td>
 </tr>
@@ -4216,9 +3882,9 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left"></td>
 <td align="left">t75</td>
 <td align="right">0.141</td>
-<td align="right">0.564</td>
+<td align="right">0.560</td>
 <td align="right">0.698</td>
-<td align="right">0.682</td>
+<td align="right">0.681</td>
 <td align="right">0.814</td>
 <td align="right">1</td>
 </tr>
@@ -4238,10 +3904,10 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left">Tr</td>
 <td align="left">t25</td>
 <td align="right">-0.343</td>
-<td align="right">0.370</td>
+<td align="right">0.368</td>
 <td align="right">0.663</td>
-<td align="right">0.604</td>
-<td align="right">0.900</td>
+<td align="right">0.602</td>
+<td align="right">0.899</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -4249,10 +3915,10 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 <td align="left"></td>
 <td align="left">t75</td>
 <td align="right">-0.395</td>
-<td align="right">0.193</td>
+<td align="right">0.194</td>
+<td align="right">0.462</td>
 <td align="right">0.456</td>
-<td align="right">0.454</td>
-<td align="right">0.762</td>
+<td align="right">0.768</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -4351,23 +4017,23 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left">RF</td>
 <td align="left">t25:t75</td>
 <td align="right">0.986</td>
-<td align="right">265195.5</td>
-<td align="right">0.018</td>
+<td align="right">263633.0</td>
+<td align="right">0.037</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.978</td>
-<td align="right">270601.5</td>
-<td align="right">0.001</td>
+<td align="right">0.979</td>
+<td align="right">269545.0</td>
+<td align="right">0.002</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t75:t150</td>
-<td align="right">0.984</td>
-<td align="right">248033.0</td>
+<td align="right">0.983</td>
+<td align="right">248428.0</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="even">
@@ -4375,15 +4041,15 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left">Tr</td>
 <td align="left">t25:t75</td>
 <td align="right">0.978</td>
-<td align="right">279849.5</td>
+<td align="right">280752.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.972</td>
-<td align="right">279493.5</td>
+<td align="right">0.971</td>
+<td align="right">279659.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -4391,47 +4057,47 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left"></td>
 <td align="left">t75:t150</td>
 <td align="right">0.988</td>
-<td align="right">242020.0</td>
+<td align="right">241586.5</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="odd">
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">t25:t75</td>
-<td align="right">0.961</td>
-<td align="right">281031.0</td>
+<td align="right">0.957</td>
+<td align="right">284483.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.961</td>
-<td align="right">292173.5</td>
+<td align="right">0.959</td>
+<td align="right">294454.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t75:t150</td>
-<td align="right">0.978</td>
-<td align="right">254772.0</td>
-<td align="right">0.917</td>
+<td align="right">0.979</td>
+<td align="right">254127.0</td>
+<td align="right">1.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">t25:t75</td>
-<td align="right">0.969</td>
-<td align="right">301410.0</td>
+<td align="right">0.970</td>
+<td align="right">300126.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">t25:t150</td>
-<td align="right">0.961</td>
-<td align="right">299434.5</td>
+<td align="right">0.958</td>
+<td align="right">298795.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -4439,7 +4105,7 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 <td align="left"></td>
 <td align="left">t75:t150</td>
 <td align="right">0.989</td>
-<td align="right">241117.5</td>
+<td align="right">241788.5</td>
 <td align="right">1.000</td>
 </tr>
 </tbody>
@@ -4498,10 +4164,10 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left">parsimony</td>
 <td align="right">0.076</td>
-<td align="right">0.513</td>
-<td align="right">0.682</td>
-<td align="right">0.688</td>
-<td align="right">0.903</td>
+<td align="right">0.505</td>
+<td align="right">0.677</td>
+<td align="right">0.685</td>
+<td align="right">0.899</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -4519,11 +4185,11 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">parsimony</td>
-<td align="right">-0.436</td>
-<td align="right">0.259</td>
-<td align="right">0.597</td>
-<td align="right">0.566</td>
-<td align="right">0.936</td>
+<td align="right">-0.424</td>
+<td align="right">0.258</td>
+<td align="right">0.590</td>
+<td align="right">0.559</td>
+<td align="right">0.931</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -4542,10 +4208,10 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left">parsimony</td>
 <td align="right">0.049</td>
-<td align="right">0.463</td>
+<td align="right">0.464</td>
 <td align="right">0.605</td>
 <td align="right">0.613</td>
-<td align="right">0.761</td>
+<td align="right">0.760</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -4564,9 +4230,9 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 <td align="left"></td>
 <td align="left">parsimony</td>
 <td align="right">-0.427</td>
-<td align="right">0.194</td>
+<td align="right">0.196</td>
+<td align="right">0.483</td>
 <td align="right">0.474</td>
-<td align="right">0.470</td>
 <td align="right">0.750</td>
 <td align="right">1</td>
 </tr>
@@ -4654,8 +4320,8 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <td align="left">Best</td>
 <td align="left">RF</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.892</td>
-<td align="right">676480</td>
+<td align="right">0.885</td>
+<td align="right">680148.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -4663,31 +4329,31 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
 <td align="right">0.980</td>
-<td align="right">553068</td>
-<td align="right">0.102</td>
+<td align="right">559106.5</td>
+<td align="right">0.029</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.855</td>
-<td align="right">763778</td>
+<td align="right">0.856</td>
+<td align="right">764503.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.976</td>
-<td align="right">586079</td>
+<td align="right">0.977</td>
+<td align="right">583687.0</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">Null</td>
 <td align="left">RF</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.892</td>
-<td align="right">676480</td>
+<td align="right">0.885</td>
+<td align="right">680148.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
@@ -4695,23 +4361,23 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
 <td align="right">0.980</td>
-<td align="right">553068</td>
-<td align="right">0.102</td>
+<td align="right">559106.5</td>
+<td align="right">0.029</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">Tr</td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.855</td>
-<td align="right">763778</td>
+<td align="right">0.856</td>
+<td align="right">764503.5</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">bayesian:parsimony</td>
-<td align="right">0.976</td>
-<td align="right">586079</td>
+<td align="right">0.977</td>
+<td align="right">583687.0</td>
 <td align="right">0.000</td>
 </tr>
 </tbody>

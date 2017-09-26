@@ -97,7 +97,7 @@ test_table <- pair.test.table(scenario_list, metric.label = metric.labels)
 
 ```{r, echo = FALSE}
 ## Caption
-cap_pool_scen_test <- paste("Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
+cap_pool_scen_test <- paste("Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correction)")
 
 ## Printing the tables
 kable(test_table, row.names = FALSE, caption = cap_pool_scen_test)
@@ -317,7 +317,7 @@ Applying a Bhattacharrya Coefficient and Wilcoxon test
 ```{r, warning = FALSE}
 ## Summarise into a table
 methods_list <- list(method_RF_norm, method_Tr_norm)
-metric.labels <- c("RF", "", "Tr", "")
+metric.labels <- c("RF", "Tr")
 test_table <- pair.test.table(methods_list, metric.label = metric.labels)
 ```
 
@@ -409,10 +409,6 @@ Conversely, an overlap probability above 0.95 means the two scenario gives the s
 ## Running the pairwise Bhattacharrya Coefficient analysis:
 bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff)
 bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff)
-
-## Tables
-kable(bc_RF_best, row.names = FALSE, digit = 3)
-kable(bc_Tr_best, row.names = FALSE, digit = 3)
 ```
 
 
