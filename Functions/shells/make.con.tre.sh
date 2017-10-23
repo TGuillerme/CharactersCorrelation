@@ -111,6 +111,7 @@ else
     ## Remove all the MrBayes commands and replace by sumt
     mbcmd_start=$(grep -n "begin mrbayes;" ${chain}_${tree} | sed 's/:begin mrbayes;//g')
     sed ''"$mbcmd_start"',$d' ${chain}_${tree} > tmp
+    cp ${chain}_${tree} ${chain}_${tree}.bkp
     mv tmp ${chain}_${tree}
     echo "begin mrbayes;" >> ${chain}_${tree}
     echo "set autoclose=yes nowarn=yes;" >> ${chain}_${tree}
