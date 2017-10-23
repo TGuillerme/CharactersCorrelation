@@ -253,7 +253,7 @@ For example with three characters \texttt{A = \{0,1,1,1\}}, \texttt{B = \{1,0,0,
 Because the character is continuous and bounded between $(0,1)$, it can be interpreted as the probability of two characters leading to a different phylogenetic interpretation.
 
 \subsection{Simulating discrete morphological matrices}
-To simulate the matrices we applied a protocol very similar to \citep{Guillerme2016146}.
+To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146}.
 First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution maintaining $\lambda$ $>$ $\mu$ using the \texttt{diversitree} \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
 For each tree, we arbitrarily set the outgroup to be the first taxa (alphabetically) thus effectively rooting the trees on this taxa.
 These trees are hereafter called the ``true'' trees.
@@ -278,14 +278,14 @@ To estimate the variance of our simulations and assess the effect of our random 
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrices using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-We then modified the matrices to either maximise or minimise the pairwise character Differences for each matrices using three different algorithms.
+We then modified the matrices to either maximise or minimise the pairwise character differences for each matrices using three different algorithms.
 For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<0.25$) and replaced them randomly by any of the remaining characters.
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
 This step resulted in a total of 1440 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
-The algorithms for the three modifications are available on GitHub@@@. %(Modifying_matrices.html) %TG: "@@@" is my "to replace" sign.
+The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})
 
 \begin{figure}[!htbp]
 \centering
@@ -318,20 +318,18 @@ The measurements where then standardised using the Normalised Tree Similarity me
 When the normalised metric has a score of one it means both trees are identical, when it has a score of zero it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
 The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Fould ($NTS_{RF}$) Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity ($NTS_{Tr}$) reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
 
-Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at one, the resulting in the residuals of any model based on the $NTS$ scores were not normal thus preventing the use of parametric tests for comparisons (see Supplementary @@@). %TG: TODO: residual normality + homscedasticity tests supp.
+Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at one, the resulting in the residuals of any model based on the $NTS$ scores were not normal thus preventing the use of parametric tests for comparisons (see Supplementary material 3).
 Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric} would be biased in their p-value calculation due to the presence of equal values in the $NTS$ distributions (e.g. when multiple trees are equal to the ``normal'' tree).
 Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
 Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
-Comparisons falling within these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
+Comparisons falling between these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
 
 \section{Results}
-
-%TG: @@@ NOTE: THESE RESULTS ARE NOT FINAL - I thus didn't spend too much time describing them @@@
 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Figures/RF_results_best.pdf}
-\caption{\small{Effect of character difference on recovering the ``normal'' topology. The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the maximised character difference in Bayesian (red) and under Maximum Parsimony (orange), the Minimised character difference in Bayesian (dark green) and under Maximum Parsimony (light green) and the Randomised character difference in Bayesian (dark blue) and under Maximum Parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
+\caption{\small{Effect of character difference on recovering the ``normal'' topology. The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the ``maximised'' character difference in Bayesian (red) and under Maximum Parsimony (orange), the ``minimised'' character difference in Bayesian (dark green) and under Maximum Parsimony (light green) and the ``randomised'' character difference in Bayesian (dark blue) and under Maximum Parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
 \label{Fig:RF_results_best}
 \end{figure}
 
@@ -344,8 +342,8 @@ Comparisons falling within these range can not be designated as strictly similar
 
 \subsection{Effect of character differences on topology}
 
-The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology with maximising the character difference leading to the less loss in phylogenetic information (median $NTS_{RF}$ = 0.95 and median $NTS_{Tr}$ = 0.96) followed by simply randomising the characters (median $NTS_{RF}$ = 0.79 and median $NTS_{Tr}$ = 0.72) and minimising the character difference (median $NTS_{RF}$ = 0.6 and median $NTS_{Tr}$ = 0.28 - see supplementary material 3 for the full summary statistics).
-There is a significant difference between all scenarios (maximising, minimising and randomising) with the highest probability of overlap being between maximising and randomising the character difference (Bhattacharrya coefficient of 0.89 for the $NTS_{RF}$ and 0.92 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (Bhattacharrya coefficient of 0.59 for the $NTS_{RF}$ and 0.63 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test})
+The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology with maximising the character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.95 and median $NTS_{Tr}$ = 0.96) followed by simply randomising the characters (median $NTS_{RF}$ = 0.79 and median $NTS_{Tr}$ = 0.72) and minimising the character difference (median $NTS_{RF}$ = 0.6 and median $NTS_{Tr}$ = 0.28 - see Supplementary material 3 for the full summary statistics).
+There is a significant difference between all scenarios (maximising, minimising and randomising) with the highest probability of overlap being between maximising and randomising the character difference (Bhattacharrya Coefficient of 0.89 for the $NTS_{RF}$ and 0.92 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (Bhattacharrya coefficient of 0.59 for the $NTS_{RF}$ and 0.63 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test})
 
 \begin{table}[ht]
 \centering
@@ -385,7 +383,7 @@ RF & c100:c350 & \textbf{0.989} & 228495.000 & 0.174 \\
    & c350:c1000 & \textbf{0.983} & 226472.000 & 0.085 \\ 
    \hline
 \end{tabular}
-\caption{Difference between the pooled number of characters. See Table \ref{Tab_pooledscenarios_test} for caption.} 
+\caption{Difference between the pooled number of characters. See Table \ref{Tab_pooledscenarios_test} for full caption.} 
 \label{Tab_pooledscharacters_test}
 \end{table}
 
@@ -409,7 +407,7 @@ Tr & t25:t75 & \textbf{0.975} & 282017.500 & \textbf{0.000} \\
    & t75:t150 & \textbf{0.989} & 240414.500 & 1.000 \\ 
    \hline
 \end{tabular}
-\caption{Difference between the pooled number of taxa. See Table \ref{Tab_pooledscenarios_test} for caption.} 
+\caption{Difference between the pooled number of taxa. See Table \ref{Tab_pooledscenarios_test} for full caption.} 
 \label{Tab_pooledstaxa_test}
 \end{table}
 
@@ -427,7 +425,7 @@ RF & bayesian:parsimony & 0.893 & 676940.500 & \textbf{0.000} \\
 Tr & bayesian:parsimony & \textbf{0.982} & 547140.000 & 0.147 \\ 
    \hline
 \end{tabular}
-\caption{Difference between the pooled methods. See Table \ref{Tab_pooledscenarios_test} for caption.} 
+\caption{Difference between the pooled methods. See Table \ref{Tab_pooledscenarios_test} for full caption.} 
 \label{Tab_pooledsmethods_test}
 \end{table}
 
@@ -462,19 +460,19 @@ Similarly, using the a Normalised Tree Similarity metric ($NTS$) allows to accou
 
 \subsection{Effect of character differences on the inference method}
 When considering the pooled effect of the tree inference method, we only detected a significant difference between the Bayesian and the Maximum Parsimony trees in terms of clade conservation but none in terms of taxa placement (both using a Wilcoxon test and the Bhattacharrya Coefficient; Table \ref{Tab_pooledsmethods_test}).
-The difference in the ability of both methods in recovering the ``right'' topology has been heavily discussed in the last five years with some indications that Bayesian inference will more readily recover the ``right'' topology when analysing discrete morphological alone (\citealt{wrightbayesian2014,OReilly20160081,puttick2017uncertain}; although some critics have been made in favour of parsimony: \citealt{spencerefficacy2013,goloboff2017weighted}).
-In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI>0.26$ in a quick parsimony search;]{OReilly20160081} could also favour Parsimony analysis.
+The difference in the ability of both methods in recovering the ``right'' topology has been heavily discussed in the last five years with some indications that Bayesian inference will more readily recover the ``right'' topology when analysing discrete morphological characters alone (\citealt{wrightbayesian2014,OReilly20160081,puttick2017uncertain}; although some critics have been made in favour of parsimony: \citealt{spencerefficacy2013,goloboff2017weighted}).
+In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI>0.26$ in a quick preliminary parsimony search;][]{OReilly20160081} could also favour Parsimony analysis.
 It was however not the purpose of this study to compare the overall performance of both methods but rather to measure the effect of character correlation on each of those methods separately.
 
 This being said, it is interesting to analysis this difference in tree inference method in the light of the effect of high/low character differences.
 In fact the differences observed here could be due to the inherent mechanisms of each method.
 When many characters are homoplasic (high character difference) parsimony will cope with this information by generating longer trees (which will be more likely to be discarded in the tree search).
 Conversely, Bayesian analysis can (1) cope with homoplasy more easily by increasing branch length to accommodate more changes and (2) will also incorporate sub-optimal trees in the final results.
-These two points can explain the fact that the effect of character correlation seems less important in Bayesian inference, especially in terms of clade conservation.
+These two points could explain the fact that the effect of character correlation seems less important in Bayesian inference, especially in terms of clade conservation.
 
 \subsection{Distinction between different character correlations}
 The two types of correlations that most evolutionary biologists are genuinely interested in (biological and evolutionary) can only be studied \textit{a posteriori} using phylogenetic trees and should not be used as an \textit{a priori} criterion to validate/invalidate characters.
-The links between specific characters should studied explicitly through hypothesis testing based on an underlying phylogenetic framework - for example in evo-devo \citep[e.g.][]{goswami2006morphological} or in macroevolution \citep[e.g.][]{fitzjohn2014much} - and should thus be independent of the phylogenetic inference itself.
+The links between specific characters should be studied explicitly through hypothesis testing based on an underlying phylogenetic framework - for example in evo-devo \citep[e.g.][]{goswami2006morphological} or in macroevolution \citep[e.g.][]{fitzjohn2014much} - and should thus be independent of the phylogenetic inference itself.
 In practice, therefore, only the correlation induced by data collection (i.e. coding correlation) can really affect the phylogeny \textit{a priori}.
 
 This dichotomy thus creates a trade of between: (1) coding fewer characters (stochastically reducing \textit{a priori} correlation) but making the \textit{a posteriori} correlation more dependent on the coding; and (2) coding more characters (increasing \textit{a priori} dependence) but allowing the \textit{a posteriori} correlation being less dependent on the coding correlations.
