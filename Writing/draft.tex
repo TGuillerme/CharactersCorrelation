@@ -83,7 +83,7 @@ Version dated: \today
 \medskip
 \begin{center}
 
-\noindent{\Large \bf Effect of discrete morphological character independence on tree topology}
+\noindent{\Large \bf Influence of different modes of morphological character correlation on tree inference}
 \bigskip
 
 \noindent {\normalsize \sc Thomas Guillerme$^1$$^2$$^*$, and Martin D. Brazeau$^2$$^3$}\\
@@ -146,17 +146,24 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 %---------------------------------------------
 \section{Introduction}
 
-Since less than a decade, there has been a fantastic expansion of the use of discrete morphological data in macroevolutionary studies.
-Traditionally confined to ``classic'' cladistic studies in palaeontology, these methods have recently been widely expanded and improved whether based on the models and methods for inferring phylogenies \citep[e.g.][]{heath2014fossilized,Wright01072016} or to combine them with molecular data \citep[e.g.][]{pyrondivergence2011,ronquista2012}.
-In parallel, much development has also been done on the pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic ones \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
-Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011,simoes2017giant}; the topology inference method \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
+The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
+This owes in large part to the use of fossils to untertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary. 
+Morphological character data are often considered inferior to molecular sequence data, but are often the only source of data---especially for fossils.
+While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any empirical investigations into their statistical properties.
+As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to 'misbehave'.
+This opens up possibilities for predicting problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
+%The last decade has witnessed a resurgence of use of discrete morphological data in macroevolutionary studies.
+%Traditionally confined to ``classic'' cladistic studies in palaeontology, these methods have recently been widely expanded and improved whether based on the models and methods for inferring phylogenies \citep[e.g.][]{heath2014fossilized,Wright01072016} or to combine them with molecular data \citep[e.g.][]{pyrondivergence2011,ronquista2012}.
+%In parallel, much development has also been done on the pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic ones \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
+%Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011,simoes2017giant}; the topology inference method \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
 
-One of such caveats, however, is often neglected: the correlation between morphological characters.
-The assumption of character independence is at the base of phylogenetic inference and as been mentioned or implied throughout the history of phylogenetic methods \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-Nowadays, this assumption of character independence is nearly always accepted as a fact and rarely tested or even questioned in empirical datasets.
-However - especially for discrete morphological data - this assumption of independence is probably violated more often than not due to the sheer nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
+%One such caveat, however, is often neglected: the correlation between morphological characters.
+The non-independence of large numbers of morphological characters is often called upon in anticipation of problems with morphological data.
+The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony. \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
+%Nowadays, this assumption of character independence is nearly always accepted as a fact and rarely tested or even questioned in empirical datasets.
+Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the sheer nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
 % TG: add Brazeau et al. 201X somewhere?
-In practice, characters dependence can come from at least three different ways:
+Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
 
 \begin{itemize}
 
