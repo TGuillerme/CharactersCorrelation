@@ -158,7 +158,7 @@ This opens up possibilities for predicting problematic datasets and possibly pro
 %Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011,simoes2017giant}; the topology inference method \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
 
 %One such caveat, however, is often neglected: the correlation between morphological characters.
-The non-independence of large numbers of morphological characters is often called upon in anticipation of problems with morphological data.
+The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data.
 The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony. \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
 %Nowadays, this assumption of character independence is nearly always accepted as a fact and rarely tested or even questioned in empirical datasets.
 Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the sheer nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
@@ -167,13 +167,21 @@ Before discussing character correlation further, it is important to understand t
 
 \begin{itemize}
 
-    \item \textbf{Biological dependence:} this is the result of a link between two characters through their development and/or biological function.
-    These links are readily studied through developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
-    One trivial example would be the link between lower and upper molar characters in mammals: one character describing a feature of a lower molar will be expected to be correlated to another character describing another feature of the associated upper molar.
+    \item \textbf{Biological dependence:} this is the result of an intrinsic biological link between two characters through development, pleiotropy, and/or biological function.
+    %If it's a trivial example, then why use it? That said, it's unclear that this example would be genetic/developmental, and not fall under the second category. We should actually reconsider this example and how we express the difference between this and the next type of correlation.
+    %One trivial 
+    For example the lower and upper molar characters in mammals generally occlude one another. 
+    Therefore, one character describing a feature of a lower molar will be expected to be complemented by the surface of the occluding upper molar.
+    This will therefore provide a source of characters that would be expected to directly co-vary.
+     %They're not readily studied. They're actually quite difficult to study.
+    These links are usually the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
 
-    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving along the same branch in a phylogeny: the character's correlation is thus due to their shared evolutionary history.
+    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving: the character's correlation is thus due to their shared evolutionary history.
+% MDB: Does the above really describe this correctly. This actually sounds a lot more like genuine synapomorphy than potentially problematic correlation. 
+
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
-    For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole sweep of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
+    For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole suite of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
+%MDB: The above is really coding dependence that you describe below, in a way. It's a character hierarchy. What we would like to discuss here is probably something more like limb reduction and axial elongation, for instance. These two things seem to co-vary extensively in tetrapods, with snake-like body forms evolving multiple times in numerous tetrapod lineages.
 
     \item \textbf{Coding dependence:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
