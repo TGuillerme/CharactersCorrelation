@@ -147,8 +147,8 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 \section{Introduction}
 
 The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
-This owes in large part to the use of fossils to untertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary. 
-Morphological character data are often considered inferior to molecular sequence data, but are often the only source of data---especially for fossils.
+This owes in large part to the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary. 
+Morphological character data are often considered inferior to molecular sequence data (due to their inherent biases), but are often the only source of data---especially for fossils.
 While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any empirical investigations into their statistical properties.
 As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to 'misbehave'.
 This opens up possibilities for predicting problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
@@ -177,11 +177,13 @@ Before discussing character correlation further, it is important to understand t
     These links are usually the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
 
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving: the character's correlation is thus due to their shared evolutionary history.
-% MDB: Does the above really describe this correctly. This actually sounds a lot more like genuine synapomorphy than potentially problematic correlation. 
-
+% MDB: Does the above really describe this correctly. This actually sounds a lot more like genuine synapomorphy than potentially problematic correlation.
+%TG: Yep, totally synapormophies. Although there is a subtle nuance in the way they are studied. In pure phylo approach (i.e. matrix -> tree), the synapomorphic characters are participating to the topology inference and are thus impossible to distinguish (i.e. the synapomorphies make the trees and the trees make the synapomorphies). In the papers cited just below they have a different approach. They assume a phylogeny and then "map" characters on to it. In this later case, the synapomorphies are effectively decoupled from the topology.
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
-    For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole suite of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
+    % For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole suite of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
 %MDB: The above is really coding dependence that you describe below, in a way. It's a character hierarchy. What we would like to discuss here is probably something more like limb reduction and axial elongation, for instance. These two things seem to co-vary extensively in tetrapods, with snake-like body forms evolving multiple times in numerous tetrapod lineages.
+%TG: good call, I've changed the example.
+    For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
 
     \item \textbf{Coding dependence:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
@@ -262,7 +264,7 @@ Two same character states tokens have a difference of zero and two different one
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
 We standardised each character by arbitrarily modifying their character state tokens by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
-This way, a character \texttt{A = \{2,2,3,0,0,3\}} would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
+This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
 
 When the character difference null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
@@ -278,7 +280,9 @@ For each tree, we arbitrarily set the outgroup to be the first taxa (alphabetica
 These trees are hereafter called the ``true'' trees.
 We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
 \begin{itemize}
-    \item The morphological HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution $(0,1)$ and scaled to sum to $1$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
+    \item The morphological HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution $(0,1)$ and scaled to sum to $1$)
+    %TG: is that not a random Dirichlet? D(A,G,C,T)?
+     and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
     This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][; see discussion]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
     \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
     We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146,ZouConvergence}.
@@ -483,7 +487,7 @@ The difference in the ability of both methods in recovering the ``right'' topolo
 In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI>0.26$ in a quick preliminary parsimony search;][]{OReilly20160081} could also favour Parsimony analysis.
 It was however not the purpose of this study to compare the overall performance of both methods but rather to measure the effect of character correlation on each of those methods separately.
 
-This being said, it is interesting to analysis this difference in tree inference method in the light of the effect of high/low character differences.
+This being said, it is interesting to analyse this difference in tree inference method in the light of the effect of high/low character differences.
 In fact the differences observed here could be due to the inherent mechanisms of each method.
 When many characters are homoplasic (high character difference) parsimony will cope with this information by generating longer trees (which will be more likely to be discarded in the tree search).
 Conversely, Bayesian analysis can (1) cope with homoplasy more easily by increasing branch length to accommodate more changes and (2) will also incorporate sub-optimal trees in the final results.
