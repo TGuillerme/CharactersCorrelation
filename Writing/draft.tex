@@ -166,15 +166,19 @@ Especially for discrete morphological data, this assumption of independence is p
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
 
 \begin{itemize}
-
-    \item \textbf{Biological dependence:} this is the result of an intrinsic biological link between two characters through development, pleiotropy, and/or biological function.
+%TODO: Change biological throughout
+    \item \textbf{Intra-organismal dependence:} this is the result of an intrinsic biological link between two characters through development, pleiotropy, and/or biological function.
     %If it's a trivial example, then why use it? That said, it's unclear that this example would be genetic/developmental, and not fall under the second category. We should actually reconsider this example and how we express the difference between this and the next type of correlation.
     %One trivial 
     For example the lower and upper molar characters in mammals generally occlude one another. 
     Therefore, one character describing a feature of a lower molar will be expected to be complemented by the surface of the occluding upper molar.
     This will therefore provide a source of characters that would be expected to directly co-vary.
      %They're not readily studied. They're actually quite difficult to study.
-    These links are usually the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
+    These links can be the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
+
+
+%TODO: add somewhere the problem that we use model organisms for comparative developmental bio which is shit. We may never be in a realistic position to actually know these interactions.
+
 
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving: the character's correlation is thus due to their shared evolutionary history.
 % MDB: Does the above really describe this correctly. This actually sounds a lot more like genuine synapomorphy than potentially problematic correlation.
@@ -189,20 +193,32 @@ Before discussing character correlation further, it is important to understand t
     One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
+
+    %TODO: hierachical (logical dependency) problem (Wilkinson's papers 93-95 - Inapplicability).
+    %atomization: necessary evil; dataset size needed to overcome missing data
+    %biased density: e.g. skull: because they're complex, but localise information so high likelihood of type-1 correlation (cf a finite state space)
+    %                     things with high preservation potential (a finite state space, but also functional auto-correlation because the cause of high preservation potential can be e.g. biomechanical)
 \end{itemize}
 
-\noindent Of course, the three sources of dependences can also be correlated to each other: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding!
-The three types sources are however dissociated by the later (coding dependence) being detected prior to phylogenetic inference and the two other ones (biological and evolutionary) being only detected and/or tested \textit{a posteriori} based on a phylogenetic hypothesis.
+\noindent Of course, the three sources of dependence have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
+Logical dependence, however, is easily distinguished prior to phylogenetic inference, while the two other ones (biological and evolutionary) are much harder.
+Intra-organismal dependence requires more detailed, often extremely time-consuming studies (and possibly beyond the limits of available technology).
+Even after all of the effort is expended, the results might then only be known for a single (model) species.
+Evolutionary dependence itself requires the resolution of a phylogenetic tree, and is best determined by independent character sets. 
+This is frequently accomplished by mapping morphological traits on molecular phylogenetic trees.
 
 These sources of dependence between characters are well studied in biology.
-Biological and evolutionary dependences are inherent parts to evo-devo and maroevolution and best practices to avoid coding induced dependences are commonly known and applied.
+Biological and evolutionary dependences are inherent parts to evo-devo and macroevolution and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences software that are blind to these distinctions.
 This introduces a new, less studied, source of character dependence:
+
+
+%What the softwares are confronted with. Two dimensional matrix problem (renders the subtilties opac). The correlations are not distinguishable anymore.
 
 \noindent \textbf{Correlation between characters detected by the software}: this is the result how software actually interprets the differences between characters.
 The vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treating them as different/similar tokens).
 Therefore a great number of characters and - traditionally - a few number of tokens can easily lead to dependence between characters.
-For example, if we consider the following matrix containing four cetartiodactyles - say a pig (e.g. \textit{Sus}), a deer (\textit{Cervus}), a hippo (\textit{Hippopotamus}) and a whale (\textit{Balaenoptera}) - and four binary characters - say (\textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragal with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley:
+For example, if we consider the following matrix containing four cetartiodactyls - say a pig (e.g. \textit{Sus}), a deer (\textit{Cervus}), a hippo (\textit{Hippopotamus}) and a whale (\textit{Balaenoptera}) - and four binary characters - say (\textbf{C1}: presence (1) or absence (0) of an astragalus; \textbf{C2}: presence (0) or absence (1) of baleen; \textbf{C3}: presence (0) or absence (1) of a left astragalus with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragalus with a double pulley:
 
 \begin{table}
 \center
@@ -214,7 +230,7 @@ For example, if we consider the following matrix containing four cetartiodactyle
         \textit{Hippopotamus} & 1 & 1 & 1 & 1\\
         \textit{Balaenoptera} & 0 & 0 & 0 & 0\\
     \end{tabular}
-    \caption{Example of a matrix with software induced character correlation. \textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragal with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley.}
+    \caption{Example of a matrix with software induced character correlation. \textbf{C1}: presence (1) or absence (0) of an astragal; \textbf{C2}: presence (0) or absence (1) of baleens; \textbf{C3}: presence (0) or absence (1) of a left astragalus with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragal with a double pulley.}
     \label{Tab:example_matrix}
 \end{table}
 
@@ -484,7 +500,7 @@ Similarly, using the a Normalised Tree Similarity metric ($NTS$) allows to accou
 \subsection{Effect of character differences on the inference method}
 When considering the pooled effect of the tree inference method, we only detected a significant difference between the Bayesian and the Maximum Parsimony trees in terms of clade conservation but none in terms of taxa placement (both using a Wilcoxon test and the Bhattacharrya Coefficient; Table \ref{Tab_pooledsmethods_test}).
 The difference in the ability of both methods in recovering the ``right'' topology has been heavily discussed in the last five years with some indications that Bayesian inference will more readily recover the ``right'' topology when analysing discrete morphological characters alone (\citealt{wrightbayesian2014,OReilly20160081,puttick2017uncertain}; although some critics have been made in favour of parsimony: \citealt{spencerefficacy2013,goloboff2017weighted}).
-In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI>0.26$ in a quick preliminary parsimony search;][]{OReilly20160081} could also favour Parsimony analysis.
+In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI<0.26$ in a quick preliminary parsimony search;][]{OReilly20160081} could also favour Parsimony analysis.
 It was however not the purpose of this study to compare the overall performance of both methods but rather to measure the effect of character correlation on each of those methods separately.
 
 This being said, it is interesting to analyse this difference in tree inference method in the light of the effect of high/low character differences.
