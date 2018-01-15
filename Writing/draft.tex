@@ -86,7 +86,7 @@ Version dated: \today
 \noindent{\Large \bf Influence of different modes of morphological character correlation on tree inference}
 \bigskip
 
-\noindent {\normalsize \sc Thomas Guillerme$^1$$^2$$^*$, and Martin D. Brazeau$^2$$^3$}\\
+\noindent {\normalsize \sc Thomas Guillerme$^{1,2,*}$, and Martin D. Brazeau$^{2,3}$}\\
 \noindent {\small \it 
 $^1$School of Biological Sciences, University of Queensland, St. Lucia, Queensland, Australia.\\
 $^2$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\
@@ -119,7 +119,7 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 \begin{abstract}
 Morphological characters for building phylogenies are assumed to be independent.
 However, this assumption is nearly always wrong simply because of the nature of morphological integration of organisms.
-Correlation between characters can originate from biological features, shared phylogenetic history or errors when coding or defining morphological characters.
+Correlation between characters can originate from intra-organismal features, shared phylogenetic history or errors when coding or defining morphological characters.
 Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be avoided \textit{a priori} with good practices, phylogenetic software do not distinguish between any of them.
 
 In this study, we propose a new metric of raw character difference as a proxy for character correlation.
@@ -157,51 +157,35 @@ This opens up possibilities for predicting problematic datasets and possibly pro
 %In parallel, much development has also been done on the pre-phylogenetic analysis \citep[e.g. data collection;][]{morphobank} as well as on post-phylogenetic ones \citep[e.g. morphological disparity analysis;][]{Close2015,Claddis}.
 %Nonetheless, using discrete morphological data in macroevolutionary studies comes with several caveats based to the nature of data used \citep{Guillerme2016146,bapst2017combined}; the coding of this data \citep{Brazeau2011,simoes2017giant}; the topology inference method \citep{spencerefficacy2013,wrightbayesian2014,OReilly20160081,puttick2017uncertain,goloboff2017weighted} or the dating methods \citep{Arcila2015131,o2016tips}.
 
-%One such caveat, however, is often neglected: the correlation between morphological characters.
 The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data.
 The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony. \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-%Nowadays, this assumption of character independence is nearly always accepted as a fact and rarely tested or even questioned in empirical datasets.
 Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the sheer nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
 % TG: add Brazeau et al. 201X somewhere?
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
 
 \begin{itemize}
-%TODO: Change biological throughout
     \item \textbf{Intra-organismal dependence:} this is the result of an intrinsic biological link between two characters through development, pleiotropy, and/or biological function.
-    %If it's a trivial example, then why use it? That said, it's unclear that this example would be genetic/developmental, and not fall under the second category. We should actually reconsider this example and how we express the difference between this and the next type of correlation.
-    %One trivial 
     For example the lower and upper molar characters in mammals generally occlude one another. 
     Therefore, one character describing a feature of a lower molar will be expected to be complemented by the surface of the occluding upper molar.
     This will therefore provide a source of characters that would be expected to directly co-vary.
-     %They're not readily studied. They're actually quite difficult to study.
     These links can be the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
 
 
-%TODO: add somewhere the problem that we use model organisms for comparative developmental bio which is shit. We may never be in a realistic position to actually know these interactions.
-
-
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving: the character's correlation is thus due to their shared evolutionary history.
-% MDB: Does the above really describe this correctly. This actually sounds a lot more like genuine synapomorphy than potentially problematic correlation.
-%TG: Yep, totally synapormophies. Although there is a subtle nuance in the way they are studied. In pure phylo approach (i.e. matrix -> tree), the synapomorphic characters are participating to the topology inference and are thus impossible to distinguish (i.e. the synapomorphies make the trees and the trees make the synapomorphies). In the papers cited just below they have a different approach. They assume a phylogeny and then "map" characters on to it. In this later case, the synapomorphies are effectively decoupled from the topology.
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
-    % For example, the apparition of the jaw as a character in gnatosthomes correlates with a whole suite of characters present in modern gnatosthomes (e.g. beaks, tribosphenic molars, jaw protrusion, etc.). %TG: this links to inapplicable data!
-%MDB: The above is really coding dependence that you describe below, in a way. It's a character hierarchy. What we would like to discuss here is probably something more like limb reduction and axial elongation, for instance. These two things seem to co-vary extensively in tetrapods, with snake-like body forms evolving multiple times in numerous tetrapod lineages.
-%TG: good call, I've changed the example.
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
 
     \item \textbf{Coding dependence:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
-
-    %TODO: hierachical (logical dependency) problem (Wilkinson's papers 93-95 - Inapplicability).
-    %atomization: necessary evil; dataset size needed to overcome missing data
-    %biased density: e.g. skull: because they're complex, but localise information so high likelihood of type-1 correlation (cf a finite state space)
-    %                     things with high preservation potential (a finite state space, but also functional auto-correlation because the cause of high preservation potential can be e.g. biomechanical)
+    This coding dependency is linked to hierarchical dependency between characters [TODO: cite Wilkinson on inapplicability].
+    Finally this can also be due to a bias in the amount of characters available.
+    For example, in a skull, because of their complexity, there is a high likelihood of inducing correlation (by effectively reducing structural complexity).
 \end{itemize}
 
 \noindent Of course, the three sources of dependence have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
-Logical dependence, however, is easily distinguished prior to phylogenetic inference, while the two other ones (biological and evolutionary) are much harder.
+Logical dependence, however, is easily distinguished prior to phylogenetic inference, while the two other ones (intra-organismal and evolutionary) are much harder.
 Intra-organismal dependence requires more detailed, often extremely time-consuming studies (and possibly beyond the limits of available technology).
 Even after all of the effort is expended, the results might then only be known for a single (model) species.
 Evolutionary dependence itself requires the resolution of a phylogenetic tree, and is best determined by independent character sets. 
@@ -210,10 +194,8 @@ This is frequently accomplished by mapping morphological traits on molecular phy
 These sources of dependence between characters are well studied in biology.
 Biological and evolutionary dependences are inherent parts to evo-devo and macroevolution and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences software that are blind to these distinctions.
+If fact, what the software are confronted with is a two dimensional matrix problem that renders the morphological subtleties described opaque.
 This introduces a new, less studied, source of character dependence:
-
-
-%What the softwares are confronted with. Two dimensional matrix problem (renders the subtilties opac). The correlations are not distinguishable anymore.
 
 \noindent \textbf{Correlation between characters detected by the software}: this is the result how software actually interprets the differences between characters.
 The vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treating them as different/similar tokens).
@@ -510,7 +492,7 @@ Conversely, Bayesian analysis can (1) cope with homoplasy more easily by increas
 These two points could explain the fact that the effect of character correlation seems less important in Bayesian inference, especially in terms of clade conservation.
 
 \subsection{Distinction between different character correlations}
-The two types of correlations that most evolutionary biologists are genuinely interested in (biological and evolutionary) can only be studied \textit{a posteriori} using phylogenetic trees and should not be used as an \textit{a priori} criterion to validate/invalidate characters.
+The two types of correlations that most evolutionary biologists are genuinely interested in (intra-organismal and evolutionary) can only be studied \textit{a posteriori} using phylogenetic trees and should not be used as an \textit{a priori} criterion to validate/invalidate characters.
 The links between specific characters should be studied explicitly through hypothesis testing based on an underlying phylogenetic framework - for example in evo-devo \citep[e.g.][]{goswami2006morphological} or in macroevolution \citep[e.g.][]{fitzjohn2014much} - and should thus be independent of the phylogenetic inference itself.
 In practice, therefore, only the correlation induced by data collection (i.e. coding correlation) can really affect the phylogeny \textit{a priori}.
 
@@ -518,12 +500,12 @@ This dichotomy thus creates a trade of between: (1) coding fewer characters (sto
 
 Effectively, this study focuses on the effect of coding induced correlation since our scenarios to maximise/minimise character difference are equivalent to actively choosing characters that are the most different/similar \textit{prior} to any phylogenetic analysis.
 The evolutionary correlation is also present in this simulations since the characters are modelled on Birth-Death trees.
-Similarly, biological induced correlation (i.e. modularity) can be present in the matrices for those characters randomly simulated with similar evolutionary simulation regimes.
+Similarly, intra-organismal induced correlation (i.e. modularity) can be present in the matrices for those characters randomly simulated with similar evolutionary simulation regimes.
 However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest.
 
 \subsection{Conclusion}
-Correlation between characters can be induced through three main phenomenon: biological features, evolutionary history or biases in coding the characters.
-Although one could argue (righteously!) that coding induced correlation is easily avoidable and that biological and evolutionary correlations are actually at the core of evolutionary biology, in the age of ever expanding morphological matrices \citep[e.g.][with more than 1000 characters each]{nithe2013,O'Leary08022013}, we can expect the dependence between characters to increase stochastically.
+Correlation between characters can be induced through three main phenomenon: intra-organismal features, evolutionary history or biases in coding the characters.
+Although one could argue (righteously!) that coding induced correlation is easily avoidable and that intra-organismal and evolutionary correlations are actually at the core of evolutionary biology, in the age of ever expanding morphological matrices \citep[e.g.][with more than 1000 characters each]{nithe2013,O'Leary08022013}, we can expect the dependence between characters to increase stochastically.
 Moreover, because phylogenetic inference software are unable to \textit{a priori} differentiate these difference correlations, it is important to understand to what extant topologies can be induced by such bias.
 
 We found that character differences as a proxy for character correlation have a strong effect on the recovering the ``normal'' topology: when character correlation was high (low character differences), the topology was always the furthest away from the ``normal'' topology.
