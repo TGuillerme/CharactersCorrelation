@@ -220,7 +220,14 @@ For example, if we consider the following matrix containing four cetartiodactyls
 
 In the example in Table \ref{Tab:example_matrix}, the characters \textbf{C1} and \textbf{C2} are the most likely to be truly independent; characters \textbf{C3} and \textbf{C4} suffer from a a coding induced dependency; characters \textbf{C1} and \textbf{C3}/\textbf{C4} have an evolutionary induce dependency and again, characters \textbf{C2} and \textbf{C3}/\textbf{C4} are likely to be independent.
 Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the different character states tokens will be used in order to infer a phylogenetic tree.
-It is thus still unclear what will be the effect of characters correlation on phylogenetic inference: how does these correlation really affect topology?
+% I'm unsure what point this introduction serves. It somehow doesn't quite connect with what you say next. I think we can simply focus on the fact that the phenomenon hasn't been empirically explored. 
+% I think the point in this manuscript should be: OK, we believe two reasonable things: some characters will be expected to covary in a non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis. 
+% The question then becomes: how bad does it have to be to be a real effect?
+% Along with this are subquestions:
+% If you've got intrinsic correlations, then those correlations could occur across anatomical systems. Would their effects cancel each other out?
+% Will "noisier" characters accurately cancel out the effects of correlation?
+
+It is thus still unclear what will be the effect of character correlation on phylogenetic inference: how does these correlation really affect topology?
 
 If the three sources of correlation are fairly well studied, their actual interpretation by phylogenetic inference software, has, to our knowledge, never been studied through a simulation protocol (although they have been explored empirically for morphological data; \citealt{Davalos01072014}; or molecular data; \citealt{ZouConvergence}).
 In this study, we formally assess the effect of discrete character's correlation using simulated data.
@@ -230,15 +237,21 @@ These results, however, vary in magnitude depending on the size of matrix and th
 
 \section{Methods}
 
-We applied the following simulation protocol to assess the effect of character correlation on the accuracy of tree inference (Fig.\ref{Fig:outline}):
+To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different levels of correlation between some characters (Fig.\ref{Fig:outline}):
 \begin{enumerate}
     \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices. This step resulted in 9 matrices.
-    \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by modified the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least or most different characters and replacing them randomly by the remaining characters.
+% HOW do you simulate them? What models do you use? What protocol? Are the simulated matrices expected to recover the correct topology in the absence of ourmanipulations? 
+    \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by modifying the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least or most different characters and replacing them randomly by the remaining characters.
+% I don't understand this. Would a matrix with a "maximised" level of correlation simply be a uniform matrix?
+% What do you mean by "least" and "most different"? What is the measure of similarity? 
+% What do you mean "replacing them randomly by the remaining characters? Also: won't that simply create a correlation with another character in the dataset?
+
     We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximising or minimising character differences to create randomised matrices (hereafter called the ``randomised'' matrices - equivalent to a null expectancy). This step resulted in 36 matrices.
-    \item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both Maximum Parsimony and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
+
+\item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both maximum parsimony (MP) and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
     \item \textbf{Comparing topologies}: finally, we compared the ``normal'' to the ``maximised'', ``minimised'' and ``randomised'' trees to measure the effect of character correlation on topology.
 \end{enumerate}
-Each step was replicated 40 times and are described below in more details, along with our proposed definition for measuring the difference between characters.
+Each step was replicated 40 times and are described below in more detail, along with our proposed definition for measuring the difference between characters.
 
 \begin{figure}[!htbp]
 \centering
