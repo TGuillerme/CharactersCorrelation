@@ -167,15 +167,17 @@ Before discussing character correlation further, it is important to understand t
     \item \textbf{Intra-organismal dependence:} this is the result of an intrinsic biological link between two characters through development, pleiotropy, and/or biological function.
     For example the lower and upper molar characters in mammals generally occlude one another. 
     Therefore, one character describing a feature of a lower molar will be expected to be complemented by the surface of the occluding upper molar.
-    This will therefore provide a source of characters that would be expected to directly co-vary.
-    These links can be the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary}.
+	Characters of the occlusal surface of two opposing molars will be expected to directly covary.
+    These links can be the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary} or functional investigations. 
 
 
-    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving: the character's correlation is thus due to their shared evolutionary history.
+    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving due to selection: the character's correlation is thus due to their shared evolutionary history.
+	Unlike the case of intra-organismal dependence, there is no intrinsic constraint that causes these traits to covary.
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
+	Such covariances are generally studied in the context of a given phylogeny.
 
-    \item \textbf{Coding dependence:} this is the results of researchers methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
+    \item \textbf{Coding dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
@@ -228,9 +230,9 @@ These results, however, vary in magnitude depending on the size of matrix and th
 
 \section{Methods}
 
-We applied the following simulation protocol to assess the effect of characters correlation (Fig.\ref{Fig:outline}):
+We applied the following simulation protocol to assess the effect of character correlation on the accuracy of tree inference (Fig.\ref{Fig:outline}):
 \begin{enumerate}
-    \item \textbf{Simulating matrices}: we simulated a discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices. This step resulted in 9 matrices.
+    \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices. This step resulted in 9 matrices.
     \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by modified the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least or most different characters and replacing them randomly by the remaining characters.
     We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximising or minimising character differences to create randomised matrices (hereafter called the ``randomised'' matrices - equivalent to a null expectancy). This step resulted in 36 matrices.
     \item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both Maximum Parsimony and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
