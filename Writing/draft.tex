@@ -248,7 +248,8 @@ To assess the effects of character correlation on the accuracy of phylogenetic i
 
     We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximising or minimising character differences to create randomised matrices (hereafter called the ``randomised'' matrices - equivalent to a null expectancy). This step resulted in 36 matrices.
 
-\item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both maximum parsimony (MP) and Bayesian inference (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
+\item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both maximum parsimony (MP) and Bayesian inference (BPP). 
+Hereafter, the resultant topologies are called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
     \item \textbf{Comparing topologies}: finally, we compared the ``normal'' to the ``maximised'', ``minimised'' and ``randomised'' trees to measure the effect of character correlation on topology.
 \end{enumerate}
 Each step was replicated 40 times and are described below in more detail, along with our proposed definition for measuring the difference between characters.
@@ -256,7 +257,7 @@ Each step was replicated 40 times and are described below in more detail, along 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=0.9\textwidth]{Figures/outline.pdf}
-\caption{Outline of the simulation protocol: the first step includes both the simulation and the modification of the matrices (thin solid lines); the second step includes tree inference using Maximum Parsimony and Bayesian inference (thick solid lines); the third step includes comparing the resulting tree topologies (dashed lines). $n$ and $m$ corresponds to the number of characters with a character difference $<0.25$ and $>0.75$ respectively.}
+\caption{Outline of the simulation protocol: the first step includes both the simulation and the modification of the matrices (thin solid lines); the second step includes tree inference using MP and BPP methods (thick solid lines); the third step includes comparing the resulting tree topologies (dashed lines). $n$ and $m$ corresponds to the number of characters with a character difference $<0.25$ and $>0.75$ respectively.}
 \label{Fig:outline}
 \end{figure}
 
@@ -264,20 +265,24 @@ Each step was replicated 40 times and are described below in more detail, along 
 \label{CD_description}
 To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
 In order to measure this, we propose a new distance metric to measure the difference between two characters:
+% Are you sure this is new? I can't read the formula because it's in LaTeX gobbledygook but there exist methods for measuring character similarity,
+% I can't be sure, but this could as well be Farris's (1970) advancement index as applied to characters rather than taxa?
 
-\subsubsection{Characters Difference ($CD$)}
+\subsubsection{Character Difference ($CD$)}
 \begin{equation}
     CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
 \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
+% What?
 $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration in the Supplementary Material 1).
-Since we are considering differences as being only Fitch-like (i.e. non-weighted and non-ordinate), we calculated the difference between character states in a qualitative way.
+Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
 We standardised each character by arbitrarily modifying their character state tokens by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
+% I don't get this part. What do you mean by standardized? And why are you doing this? Are you just editing the symbols?
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
 
 When the character difference null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
@@ -289,36 +294,39 @@ Because the character is continuous and bounded between $(0,1)$, it can be inter
 \subsection{Simulating discrete morphological matrices}
 To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146}.
 First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution maintaining $\lambda$ $>$ $\mu$ using the \texttt{diversitree} \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
-For each tree, we arbitrarily set the outgroup to be the first taxa (alphabetically) thus effectively rooting the trees on this taxa.
+For each tree, we arbitrarily set the outgroup to be the first taxon (alphabetically) thus effectively rooting the trees on this taxon.
+% If we are using undirected characters, does it matter what the rooting is?
 These trees are hereafter called the ``true'' trees.
+% Yay! The Truth! Stop sciencing!
 We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
 \begin{itemize}
     \item The morphological HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a uniform distribution $(0,1)$ and scaled to sum to $1$)
     %TG: is that not a random Dirichlet? D(A,G,C,T)?
      and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
-    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use a M$k$ model;][; see discussion]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
+    This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use an M$k$ model;][; see discussion]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
     \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
     We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146,ZouConvergence}.
-    This model assumes a equal transition rate between character states that might seem overly simplifying and excludes other observed transition patterns \citep[e.g. Dollo characters;][]{Dollo,wright2015came}.
+    This model assumes a equal transition rate between character states which might seem overly simplistic, excluding other observed transition patterns \citep[e.g. Dollo characters;][]{Dollo,wright2015came}.
     Recently however, \cite{Wright01072016} have shown that an equal rate transition is still the most present in empirical data.
 \end{itemize}
 
-\noindent For each character, both models (morphological HKY-binary or M$k$) where chosen randomly and ran with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
-This low evolutionary rate values allowed to reduce the number of homoplasic character changes and thus reinforce the phylogenetic information in the matrices.
-We re-simulated every invariant characters to obtain a matrix with no invariant characters.
-To ensure that our simulation where reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{OReilly20160081}.
+\noindent For each character, both models (morphological HKY-binary or M$k$) where chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
+These low evolutionary rate values allowed reduction in the number of homoplasic character changes, thus reinforcing the phylogenetic information in the matrices.
+We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.
+To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{OReilly20160081}.
 
-For each trees with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
-The matrices where generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
+For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
+The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
 To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 40 times resulting in 360 ``normal'' morphological matrices.
 
 \subsection{Modifying the matrices}
-We calculated the pairwise character differences for each generated matrices using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-We then modified the matrices to either maximise or minimise the pairwise character differences for each matrices using three different algorithms.
-For maximising the pairwise differences between characters, we selected the characters that where the most similar to all the others (i.e. with an average character difference $<0.25$) and replaced them randomly by any of the remaining characters.
+We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
+We then modified the matrices to either maximise or minimise the pairwise character differences for each matrix using three different algorithms.
+For maximising the pairwise differences between characters, we selected the characters that were the most similar to all the others (i.e. with an average character difference $<0.25$) and replaced them randomly by any of the remaining characters.
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
+% Clever.
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
 This step resulted in a total of 1440 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})
@@ -331,11 +339,12 @@ The algorithms for the three modifications are available on GitHub (\url{https:/
 \end{figure}
 
 \subsection{Inferring topologies}
-We inferred the topologies in both Bayesian and Maximum Parsimony using MrBayes \citep[v3.2.6;][]{Ronquist2012mrbayes} and PAUP* \citep[v4.0a151;][]{swofford2001paup} respectively.
+We inferred the topologies with both BPP and MP using MrBayes \citep[v3.2.6;][]{Ronquist2012mrbayes} and PAUP* \citep[v4.0a151;][]{swofford2001paup} respectively.
 For both methods, we used the arbitrarily chosen outgroup in the simulations to root our trees.
 The Maximum Parsimony inference was run using a heuristic search with random sequence addition replicate 100 times with a limit of $5\times10^6$ rearrangements per replicates (\texttt{hsearch addseq=random nreps=100 rearrlimit=5000000 limitperrep=yes}).
+% I'm not going to change all these, but "maximum parsimony" isn't a proper noun, so I wouldn't capitalise it.
 
-The Bayesian inference was run using an M\textit{k} model with ascertainment bias and four discrete gamma rate categories (M\textit{kv} $4\Gamma$ - \texttt{lset nst=1 rates=gamma Ngammacat=4}) with an variable rate prior an exponential (0.5) shape (\texttt{prset ratepr=variable Shapepr=Exponential(0.5)}).
+Bayesian inference was run using an M\textit{k} model with ascertainment bias and four discrete gamma rate categories (M\textit{kv} $4\Gamma$ - \texttt{lset nst=1 rates=gamma Ngammacat=4}) with an variable rate prior an exponential (0.5) shape (\texttt{prset ratepr=variable Shapepr=Exponential(0.5)}).
 We ran two runs of 6 chains each (2 hot, 4 cold) for a maximum of $1\times10^9$ generations with a sampling every 200 generations.
 We automatically stopped the MCMC when the average standard deviation of split frequencies (ASDSF) between both runs fell below 0.01 (with a diagnosis every $1\times10^4$ generations - \texttt{mcmc nruns=2 Nchains=6 ngen=1000000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES}).
 Due to cluster hardware requirements an to save some time, when chains didn't converged and the runs exceeded 5GB each, we aborted the MCMC and computed the consensus tree from the unconverged chains.
