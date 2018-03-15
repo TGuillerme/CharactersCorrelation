@@ -1,0 +1,37 @@
+\documentclass[11pt]{letter}
+\usepackage[a4paper,left=2.5cm, right=2.5cm, top=1cm, bottom=1cm]{geometry}
+\usepackage[osf]{mathpazo}
+\signature{Thomas Guillerme \\ Martin Brazeau}
+\address{The University of Queensland \\School of Biological Sciences \\St Lucia QLD 4067, Australia \\guillert@tcd.ie}
+\longindentation=0pt
+\begin{document}
+
+\begin{letter}{}
+\opening{Dear Editors,}
+
+Despite being at the base of almost every endeavour in modern Biology, the assumption made in tree inference that phylogenetic data is independent is probably mostly erroneous.
+In fact, since the advent of Cladistics in the 1950s, evolutionary biologists have made the assumption that characters used to build a phylogeny are independent despite the fact that we are looking at their variance-covariance to build phylogenetic hypothesis.
+This effect is somewhat negligible in molecular phylogenetics because the huge amount of available data is thought to temper down the correlation effect.
+However, in smaller morphological datasets, this can lead to pretty big biases and can easily favour on topology from another simply with a ``judicious'' choice of characters.
+
+Our research article, entitled ``Influence of different modes of morphological character correlation on tree inference'', is - to our knowledge - the first to thoroughly test the effect of character correlation on tree topology using a thorough simulation framework ($>$ 100 CPU years worth).
+Using a novel metric to measure the amount of phylogenetic correlation in a matrix, we tested different scenario that either increase or decrease the amount of correlation of characters generated from a known ``true'' tree and compare how these levels of correlation affect our ability to recover this topology using both Maximum Parsimony and Bayesian inference.
+
+Our results suggests that strong levels of correlation can negatively impact our ability to recover the correct tree topology and more so in Maximum Parsimony than in Baysian.
+However, it is encouraging to see that low levels of correlation do not especially impact the topology, at least not to the extant where researchers should specifically collect only uncorrelated characters.
+Finally, we show that, for smaller datasets, Maximum Parsimony and Bayesian inference are both pretty efficient to recover the correct topology, regardless of the amount of correlation
+
+We look forward to hearing from you soon,
+
+\closing{Yours sincerely,}
+
+
+\end{letter}
+\end{document}
+
+
+%Editors:
+%Sam Price, Daniele Silvestro
+
+%Reviewers
+%Graeme Lloyd, Dave Bapst, Emma Sherratt 
