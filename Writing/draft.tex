@@ -567,6 +567,26 @@ It is important to note that the two other sources of character correlation coul
 and (2) intra-organismal correlation could also be present in the matrices for those characters randomly simulated but sharing similar evolutionary simulation regimes (i.e. creating ``modules'' of characters).
 However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest.
 
+\subsection{Limitations}
+First, simulating evolutionary history is complex.
+Not only because the models we're using to infer phylogenies are ever improving \citep[e.g.][]{heath2014fossilized,Wright01072016} but also because generalising morphological evolution across vastly different organisms is probably impossible.
+This can lead to spuriously generated discrete morphological matrices
+However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree.
+This allows us to reduce the caveats from our simulations on the effect of character correlation since we only compare the simulation end products to each other (the outputs) rather than to the simulation inputs.
+
+Second, measuring and modifying character correlation is difficult. 
+Increasing overall characters difference so that each pairwise differences is equal to 1 becomes more and more impossible with a large number of characters.
+In our algorithm, we maximised characters difference by replacing a characters $A$ highly correlated to another other character $B$ by a randomly chosen character $X$.
+This reduces the correlation between $A$ and $B$ but increases the correlation between $A$ and $X$!
+Additionally, when minimising $n$ character differences, the matrix will end containing only one character duplicated $n$ times (which will generate a unresolved tree by definition).
+Therefore we used an algorithm that only ``maximises'' or ``minimises'' character differences on average (see Fig. \ref{Fig:modif_matrix}).
+Although this was sufficient to generate detectable differences in topologies, it is not excluded that some randomly ``maximised'' or ``minimised'' matrices were actually not different than the ``randomised'' ones.
+
+Third, comparing phylogenetic inference methods is not trivial.
+As mentioned above, both maximum parsimony and Bayesian inference, although aiming (and often achieving) to infer evolutionary history only have similar outputs and vastly differ in how optimality is measured.
+But there are also difficulties in summarising both methods with consensus trees \cite{oReilly2017efficacy}.
+However, we want to point out again that here we're no comparing the methods to each other \textit{per se} but rather how they both, individually, react to an increase or decrease of correlated characters.
+
 \subsection{Conclusion}
 Correlation between characters can be induced through three main phenomena: intra-organismal relationships, selection-driven covariation or biases in coding the characters yet only the latter can be improved upon to investigate phylogenetic relationships.
 Useful best practices guidelines \citep[e.g.][]{Brazeau2011,simoes2017giant} and algorithms for dealing with different types of character correlations \citep[e.g. for characters hierarchy][]{deLaet2015,BrazeauNA} already exist.
