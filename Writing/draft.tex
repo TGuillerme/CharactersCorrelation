@@ -220,17 +220,16 @@ For example, if we consider the following matrix containing four cetartiodactyls
 
 In the example in Table \ref{Tab:example_matrix}, the characters \textbf{C1} and \textbf{C2} are the most likely to be truly independent; characters \textbf{C3} and \textbf{C4} suffer from a a coding induced dependency; characters \textbf{C1} and \textbf{C3}/\textbf{C4} have an evolutionary induce dependency and again, characters \textbf{C2} and \textbf{C3}/\textbf{C4} are likely to be independent.
 Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the different character states tokens will be used in order to infer a phylogenetic tree.
-%MB: I'm unsure what point this introduction serves. It somehow doesn't quite connect with what you say next. I think we can simply focus on the fact that the phenomenon hasn't been empirically explored. 
-%MB: I think the point in this manuscript should be: OK, we believe two reasonable things: some characters will be expected to covary in a non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis. 
-%MB: The question then becomes: how bad does it have to be to be a real effect?
-%MB: Along with this are subquestions:
+%MB: We believe two reasonable things: some characters will be expected to covary in a non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis. 
+Some character will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
+%MB: How bad does it have to be to be a real effect?
+Yet the question has never been explored through a thorough simulation framework (although it has been tackled empirically for morphological data \citealt{Davalos01072014} or molecular data \citealt{ZouConvergence})
+How does these correlation really affect topology?
 %MB: If you've got intrinsic correlations, then those correlations could occur across anatomical systems. Would their effects cancel each other out?
+%TG: Actually not sure what you mean by this one and whether this is something we can test with this paper?
 %MB: Will "noisier" characters accurately cancel out the effects of correlation?
+Furthermore, we expect matrices with a high level of correlation to recover precise but inaccurate topologies but will matrices with low level of correlation (i.e. with high levels of homoplasy) actual cancel out the effects of correlation?
 
-It is thus still unclear what will be the effect of character correlation on phylogenetic inference: how does these correlation really affect topology?
-
-If the three sources of correlation are fairly well studied, their actual interpretation by phylogenetic inference software, has, to our knowledge, never been studied through a simulation protocol (although they have been explored empirically for morphological data; \citealt{Davalos01072014}; or molecular data; \citealt{ZouConvergence}).
-Effectively, this study focuses on the effect of coding induced correlation since our scenarios to maximise/minimise character difference are equivalent to actively choosing characters that are the most different/similar \textit{prior} to any phylogenetic analysis.
 We formally assess the effect of discrete character's correlation using simulated data.
 We propose a new metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences/similarities between characters.
 We found that overall, there is a detectable effect of character correlation on topology where an increase in character dependence results in a decrease in the ability to recover the correct topology.
