@@ -275,8 +275,9 @@ In order to measure this, we propose a new distance metric to measure the differ
 \begin{equation}
     CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
 \end{equation}
+%Why divide by 1/2 when you can just multiply by 2?
 
-\noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each characters states for the each $i^{th}$ taxon.
+\noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration in the Supplementary Material 1).
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
@@ -290,6 +291,7 @@ It also greatly improved the speed of our algorithm implementation to compare th
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
 %MB: I don't get this part. What do you mean by standardized? And why are you doing this? Are you just editing the symbols?
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
+%MB: Splits rather than groups, really. Since, in a rooted tree, at most one symbol will need to define a clade. All others could be plesiomorphic states.
 
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
 When the character difference is maximal ($1$) it means it conveys the greatest difference in phylogenetic signal (i.e. characters are uncorrelated).
@@ -514,6 +516,7 @@ Although the expected results appear to be true for a low character difference s
 % %MB: Making these kinds of recommendations leads to the risk that all you do is introduce biases into the dataset in another way.
 % %TG: Fair enough, I'm happy to drop this whole paragraph.
 % However, it is noteworthy to point that in rather small matrices, there was no significant difference in terms of recovering the right topology when maximising or randomising the character differences.
+%MB: Agreed that that is noteworthy. I suspect I know why this happens (and you might have explained it earlier). It might actually be a statistical problem with our approach. When character similaritiy is maximized, how well resolved are the trees? 
 % %MB: How small? Be specific.
 % Since many matrices are in this size range \citep{guillerme2016assessment} a simple bootstrap analysis (i.e. as an equivalent of randomising the character differences) can be sufficient to obtain good results (\textit{cf.} actively collecting different characters).
 
@@ -567,6 +570,7 @@ and (2) intra-organismal correlation could also be present in the matrices for t
 However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest.
 
 \subsection{Limitations}
+%MB: I think what this section _really_ needs is an assessment of the method used to simulate correlations. It was basically accomplished by duplicating characters. It wasn't accomplished by evolving some characters with a particular covariance model (which probably would've been better). We kind of faked-up that model. 
 First, simulating evolutionary history is complex.
 Not only because the models we're using to infer phylogenies are ever improving \citep[e.g.][]{heath2014fossilized,Wright01072016} but also because generalising morphological evolution across vastly different organisms is probably impossible.
 This can lead to spuriously generated discrete morphological matrices
@@ -602,6 +606,7 @@ However, in modest size matrices (25 taxa; 100 to 350 characters), the effect of
 For such matrices, minimising the character correlation (resampling characters $<25$\% different) or maximising it ($>75$\%) respectively significantly decreased and increased correct topological recovery compared to randomly resample matrices.
 %MB: But at what point? How much correlation is needed to affect it? TG: added values.
 %TG: do we want to suggest something here to close the conclusion? I agree we don't wanna be presecriptive Bristolians but it'll be nice to finsh with something like: "we're not saying it's a problem per se but maybe check your data?"
+%MB: Part of it is: we expect it to be a problem, but _when_ do we expect it to be a problem. There's the issue of "check your data", but it only raises the question: how? I think this is where we suggest avenues for future research (either here or move it up to the discussion). For instance, the simulations could be run in a way that more 'intelligently' places correlations in different parts of the tree. So, correlations are specifically modeled in an underlying stochastic process, for instance. We also don't really explore character congruence, that correlations can be ranked and spread over multiple internodes. We didn't look at ranking and we didn't look at competing correlations. There's a lot more that could be done here so, we might talk about that. Then we could talk about intelligent resampling measures, such as a targeted jackknifing that preferentially resamples characters that are highly similar to other characters etc. 
 
 
 \section{Data availability, repeatability and reproducibility}
