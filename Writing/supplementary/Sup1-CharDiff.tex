@@ -99,9 +99,14 @@ $^1$Imperial College London, Silwood Park Campus, Department of Life Sciences, B
 
 \section{Definition}
 
+% \begin{equation}
+%     CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+% \end{equation}
+
 \begin{equation}
-    CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+    CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
 \end{equation}
+
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
 
 \newpage
@@ -129,7 +134,7 @@ The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarro
 
 \subsection{Character difference positivity}
 
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ (because the difference between character states is considered as Fitch-like, i.e. the difference between two characters states \texttt{0} and \texttt{8} is equal to $1$ and the difference between two identical character states is equal to $0$):
+For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ because the difference between character states is considered as Fitch-like (unordered; i.e. the difference between two different characters states is equal to $1$ and the difference between two identical character states is equal to $0$):
 
 \begin{equation}
     \label{positive_demo}
@@ -138,8 +143,8 @@ For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ (because the differ
     0 \leq  \sum_{i=1}^{n}\abs{x_{i}-y_{i}} \leq n\\
     0 \leq  \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} \leq 1\\
     0 \leq  \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} \leq \frac{1}{2}\\
-    0 \leq  \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} \leq 1\\
-    0 \leq  1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) \leq 1\\
+    0 \leq  2\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} \leq 1\\
+    0 \leq  1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right) \leq 1\\
     \end{gathered}
 \end{equation}
 
@@ -156,8 +161,8 @@ For any $n \in [1;\infty)$ and $x_{n} = y_{n}$ then:
     \sum_{i}^{n}\abs{x_{i}-y_{i}} &= 0\\
     \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= 0\\
     \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \frac{1}{2}\\
-    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= 1\\
-    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 0\\
+    2\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= 1\\
+    1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right) &= 0\\
     \end{aligned}
 \end{equation}
 
@@ -174,8 +179,8 @@ For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$, similarly to equat
     \sum_{i}^{n}\abs{x_{i}-y_{i}} &= \sum_{i}^{n}\abs{y_{i}-x_{i}}\\
     \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= \frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}\\
     \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\\
-    \frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}} &= \frac{\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\\
-    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right) &= 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)\\
+    2\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= 2\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\\
+    1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right) &= 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\right)\\
     \end{aligned}
 \end{equation}
 
@@ -190,13 +195,13 @@ For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{j}$, $z_{b}$ $\in (0,1)$:
     \begin{aligned}
     CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
     \text{if:}\\
-    1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+     1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right)
      &\leq 
-     1 - \left(\frac{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-z_{k}}}{j}-\frac{1}{2}}}{\frac{1}{2}}\right) 
+     1 - 2\left(\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-z_{k}}}{j}-\frac{1}{2}}\right) 
      +
-     1 - \left(\frac{\abs*{\frac{\sum_{a}^{b}\abs{z_{a}-y_{a}}}{b}-\frac{1}{2}}}{\frac{1}{2}}\right) \\
+     1 - 2\left(\abs*{\frac{\sum_{a}^{b}\abs{z_{a}-y_{a}}}{b}-\frac{1}{2}}\right) \\
      \text{then, the opposite is:}\\
-    \underbrace{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} }_{\in[0,1/2]}
+     \underbrace{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} }_{\in[0,1/2]}
      &\geq 
      \underbrace{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-z_{k}}}{j}-\frac{1}{2}} }_{\in[0,1/2]}
      +

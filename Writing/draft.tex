@@ -273,9 +273,11 @@ In order to measure this, we propose a new distance metric to measure the differ
 
 \subsubsection{Character Difference ($CD$)}
 \begin{equation}
-    CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
+    CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
 \end{equation}
-%Why divide by 1/2 when you can just multiply by 2?
+
+%MB: Why divide by 1/2 when you can just multiply by 2?
+%TG: fair point. I've fixed it in the demonstration as well (supplementaries)
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration in the Supplementary Material 1).
@@ -289,9 +291,7 @@ In other words, we replaced all the occurrences of the first token to be $1$, th
 This procedure was used to treat all the characters are unordered with no assumption on the meaning of the character state (e.g. in a binary character $0$ is not necessary ancestral to $1$).
 It also greatly improved the speed of our algorithm implementation to compare the characters.
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
-%MB: I don't get this part. What do you mean by standardized? And why are you doing this? Are you just editing the symbols?
-Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct groups).
-%MB: Splits rather than groups, really. Since, in a rooted tree, at most one symbol will need to define a clade. All others could be plesiomorphic states.
+Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct splits in the tree inference process).
 
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
 When the character difference is maximal ($1$) it means it conveys the greatest difference in phylogenetic signal (i.e. characters are uncorrelated).
@@ -571,6 +571,12 @@ However, the effect of these sources of correlation was out of the scope of this
 
 \subsection{Limitations}
 %MB: I think what this section _really_ needs is an assessment of the method used to simulate correlations. It was basically accomplished by duplicating characters. It wasn't accomplished by evolving some characters with a particular covariance model (which probably would've been better). We kind of faked-up that model. 
+%TG: agree.
+
+
+TODO
+
+
 First, simulating evolutionary history is complex.
 Not only because the models we're using to infer phylogenies are ever improving \citep[e.g.][]{heath2014fossilized,Wright01072016} but also because generalising morphological evolution across vastly different organisms is probably impossible.
 This can lead to spuriously generated discrete morphological matrices
