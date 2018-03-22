@@ -201,3 +201,27 @@ plot.results.single(t150_list, metric = 2, what = "true",
 plot.results.single(t150_list, metric = 4, what = "true",
     main = "comparison to 'true' tree (150 taxa)", legend = TRUE, NTS = TRUE)
 ```
+
+
+
+## Resolution
+
+How well resolved are the trees?
+These graphs represent the number of nodes (i.e. the tree resolution) in the consensus trees for 25, 75 or 50 taxa and 100, 350 or 1000 characters (c).
+The solid and dashed lines are respectively the 50% and 95% confidence intervals.
+The black dot is the median.
+
+```{r, fig.width=12, fig.height=6}
+## Nodes for the trees with 25 taxa
+plot.tree.resolution("../Data/Trees_out/Consensus_trees/", ntaxa = 25, col = c("darkgrey", "red", "green3", "blue", "grey", "orange", "lightgreen", "lightblue"))
+```
+
+```{r, fig.width=12, fig.height=6}
+## Nodes for the trees with 75 taxa
+plot.tree.resolution("../Data/Trees_out/Consensus_trees/", ntaxa = 75, col = c("darkgrey", "red", "green3", "blue", "grey", "orange", "lightgreen", "lightblue"))
+```
+
+```{r, fig.width=12, fig.height=6}
+## Nodes for the trees with 150 taxa
+plot.tree.resolution("../Data/Trees_out/Consensus_trees/", ntaxa = 150, col = c("darkgrey", "red", "green3", "blue", "grey", "orange", "lightgreen", "lightblue"))
+```
