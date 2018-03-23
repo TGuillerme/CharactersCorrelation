@@ -511,14 +511,10 @@ When characters are correlated, one could expect the matrices to convey a really
 Intuitively, this would lead the ``minimised'' character difference scenario to lead to incorrect but consistent trees, the ``maximised'' scenario to lead to poorly resolved once (really homoplasic trees) and the ``randomised'' scenario to perform the best at recovering the correct topology.
 Although the expected results appear to be true for a low character difference scenario, increasing the character difference surprisingly improves the ability to recover the ``normal'' topology both in terms of clade conservation ($NTS_{RF}$) and taxa placement ($NTS_{Tr}$) for both inference methods (especially in bigger matrices; Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best}).
 
-% Following these results, we encourage researchers to code characters that appear to be the most un-correlated \textit{a priori}.
-% %MB: Do we? I'm not sure that I would. In practice, this would probably force morphologists to remove most of their characters.
-% %MB: Making these kinds of recommendations leads to the risk that all you do is introduce biases into the dataset in another way.
-% %TG: Fair enough, I'm happy to drop this whole paragraph.
 % However, it is noteworthy to point that in rather small matrices, there was no significant difference in terms of recovering the right topology when maximising or randomising the character differences.
-%MB: Agreed that that is noteworthy. I suspect I know why this happens (and you might have explained it earlier). It might actually be a statistical problem with our approach. When character similaritiy is maximized, how well resolved are the trees? 
-% %MB: How small? Be specific.
 % Since many matrices are in this size range \citep{guillerme2016assessment} a simple bootstrap analysis (i.e. as an equivalent of randomising the character differences) can be sufficient to obtain good results (\textit{cf.} actively collecting different characters).
+%MB: Agreed that that is noteworthy. I suspect I know why this happens (and you might have explained it earlier). It might actually be a statistical problem with our approach. When character similaritiy is maximized, how well resolved are the trees? 
+%TG: I've moved that to a "potential application" paragraph in the discussion (please change the title of it, I had zero inspiration and find it ugly as feck!)
 
 \subsubsection{Number of characters and taxa}
 Because of the nature of our simulation protocol, one could expect that the effect of character correlation would have increased with the number of characters (i.e. the more characters available, the more characters are modified in each scenario).
@@ -535,14 +531,6 @@ The difference in the ability of each method to recover the ``correct'' topology
 In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over Parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI<0.26$ in a quick preliminary parsimony search;][]{OReilly20160081} could also favour Parsimony analysis.
 It was however not the purpose of this study to compare the overall performance of both methods but rather to measure the effect of character correlation on each of those methods separately.
 
-% This being said, it is interesting to analyse this difference in tree inference method in the light of the effect of high/low character differences.
-%MB: This is serious hedging ("we're not going to... but we're going to"). Could probably skip the above line.
-%TG: fair point
-% The differences in performance of the two methods observed here could be due to the inherent mechanisms of each method.
-% When many characters are homoplasic (high character difference) parsimony will deal with this information by generating longer trees (i.e. ) (which will be more likely to be discarded in the tree search).
-%MB: This doesn't make sense. Longer than one? How is generating longer trees coping? What do you mean by "coping"? 
-% Conversely, Bayesian analysis can (1) cope with homoplasy more easily by increasing branch length to accommodate more changes and (2) will also incorporate sub-optimal trees in the final results.
-% These two points could explain the fact that the effect of character correlation seems less important in Bayesian inference, especially in terms of clade conservation.
 %MB: I'm not sure I'm convinced by this paragraph. Perhaps we should have a chat about it.
 %TG: I've rephrased the parargaph below. This is the idea (a bit arms waving, I agree): for a given topology, when there is high homoplasy, parsimony will give the tree a high score (may changes per branches - even though branch length is not a parsimony parameter) and probably discard the topology. For the same topologyn and high homoplasy, Bayesian will stretch the branches (accounting for the many changes per branches) which will decrease the likelihood score but less fast than MP (because branch length is only *one* of the parameters accounting for the likelihood score). Also, in Bayesian, an decrease in likelihood score does not necessary mean that the tree will be discarded.
 The differences in performance of the two methods observed here could be due to the inherent mechanisms of each method.
@@ -562,8 +550,6 @@ In other words, intra-organisaml and evolutionary correlation should be studied 
 This dichotomy thus creates a trade of between: (1) coding fewer characters (stochastically reducing \textit{a priori} correlation) but making the \textit{a posteriori} correlation more dependent on the coding;
 and (2) coding more characters (increasing \textit{a priori} dependence) but allowing the \textit{a posteriori} correlation being less dependent on the coding correlations.
 
-% Effectively, this study focuses on the effect of coding induced correlation since our scenarios to maximise/minimise character difference are equivalent to actively choosing characters that are the most different/similar \textit{prior} to any phylogenetic analysis. TG: moved to intro.
-%MB: From a structural point of view, this line is out of place even. It makes a general point, but deep in the subsection. Such statements are better made earlier so a reader knows what the point of the section is.
 It is important to note that the two other sources of character correlation could also be present in our simulations although they were not explicitly modelled:
 (1) evolutionary correlation is implied by simulating the characters based on Birth-Death trees;
 and (2) intra-organismal correlation could also be present in the matrices for those characters randomly simulated but sharing similar evolutionary simulation regimes (i.e. creating ``modules'' of characters).
@@ -583,18 +569,36 @@ This can lead to spuriously generated discrete morphological matrices
 However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree.
 This allows us to reduce the caveats from our simulations on the effect of character correlation since we only compare the simulation end products to each other (the outputs) rather than to the simulation inputs.
 
+%TG: insisting on the shittiness of generatin correlation
 Second, measuring and modifying character correlation is difficult. 
-Increasing overall characters difference so that each pairwise differences is equal to 1 becomes more and more impossible with a large number of characters.
-In our algorithm, we maximised characters difference by replacing a characters $A$ highly correlated to another other character $B$ by a randomly chosen character $X$.
-This reduces the correlation between $A$ and $B$ but increases the correlation between $A$ and $X$!
-Additionally, when minimising $n$ character differences, the matrix will end containing only one character duplicated $n$ times (which will generate a unresolved tree by definition).
-Therefore we used an algorithm that only ``maximises'' or ``minimises'' character differences on average (see Fig. \ref{Fig:modif_matrix}).
-Although this was sufficient to generate detectable differences in topologies, it is not excluded that some randomly ``maximised'' or ``minimised'' matrices were actually not different than the ``randomised'' ones.
+In our simulation protocol we chose to create simulation by duplicating characters in a matrix to maximise or minimise correlation.
+In biology, this correlation arises from either intra-organismal or evolutionary mechanisms.
+This could lead to correlations between characters to be more present in some parts of the trees that other \citep[e.g. in the case of inapplicable data ][]{BrazeauNA}.
+%MB: We also don't really explore character congruence, that correlations can be ranked and spread over multiple internodes.
+%MB: We didn't look at ranking and we didn't look at competing correlations. There's a lot more that could be done here so, we might talk about that.
+%TG: not sure what you mean by the ranking stuff but it could definitely fit here.
+However, because of the number of characters, it is actually complex to actually measure their correlation in a biological sense and is still actively discussed in the literature \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,goswami2006morphological,goswami2010,goswami2014macroevolutionary,Grabowski2016}.
+Additionally, as discussed in the introduction, character correlation can also simply arise by chance due to the discrete coding scheme (i.e. some sets of characters can be highly correlated but effectively describe independent information).
+Therefore, we made the choice to simplify our simulations by generating character correlation as a stochastic process rather than a biological one.
 
 Third, comparing phylogenetic inference methods is not trivial.
 As mentioned above, both maximum parsimony and Bayesian inference, although aiming (and often achieving) to infer evolutionary history only have similar outputs and vastly differ in how optimality is measured.
 But there are also difficulties in summarising both methods with consensus trees \cite{oReilly2017efficacy}.
 However, we want to point out again that here we're no comparing the methods to each other \textit{per se} but rather how they both, individually, react to an increase or decrease of correlated characters.
+
+
+\subsection{Potential applications}
+%TG: explaining that our "scenarios" are biased bootstraps
+Effectively, our simulation protocol bootstraps our data ``with bias''.
+In the ``randomised'' scenarios the data is simply randomly bootstrapped simply we randomly remove and resample characters (i.e. giving the weight of $0$ to some and $>1$ to other).
+However, in the ``minimised'' and ``maximised'' scenario, the bootstrapping we remove the characters with the lowest/highest overall character difference.
+For example, in the ``maximised'' scenario, we randomly remove some characters that are strongly correlated with other and randomly resample from the left characters.
+
+%TG: explaining that we could use it for "clever" bootstrapping in big matrices
+It is noteworthy to point that in rather small matrices (25 $\times$ 100), there was no significant difference in terms of recovering the right topology when maximising or randomising the character differences.
+Since many discrete morphological matrices are of similar size \citep{guillerme2016assessment} a simple bootstrap re-sampling (i.e. the equivalent of randomising the character differences in our analysis) will be sufficient to obtain a robust topology (\textit{cf.} actively collecting different characters).
+In matrices with more taxa, however, the ``maximised'' scenario resulted in better topological recovery than any other scenarios.
+Applying this kind of bootstraps that maximises character difference by biasing the random sampling could thus results in better resolved trees.
 
 \subsection{Conclusion}
 Correlation between characters can be induced through three main phenomena: intra-organismal relationships, selection-driven covariation or biases in coding the characters yet only the latter can be improved upon to investigate phylogenetic relationships.
@@ -611,8 +615,15 @@ These results seem independent on the size of the matrix (number of taxa and/or 
 However, in modest size matrices (25 taxa; 100 to 350 characters), the effect of actively choosing to minimise character correlation was not more significant than simply bootstrapping the matrix, suggesting that character correlation is more a problem in large discrete morphological matrices.
 For such matrices, minimising the character correlation (resampling characters $<25$\% different) or maximising it ($>75$\%) respectively significantly decreased and increased correct topological recovery compared to randomly resample matrices.
 %MB: But at what point? How much correlation is needed to affect it? TG: added values.
-%TG: do we want to suggest something here to close the conclusion? I agree we don't wanna be presecriptive Bristolians but it'll be nice to finsh with something like: "we're not saying it's a problem per se but maybe check your data?"
-%MB: Part of it is: we expect it to be a problem, but _when_ do we expect it to be a problem. There's the issue of "check your data", but it only raises the question: how? I think this is where we suggest avenues for future research (either here or move it up to the discussion). For instance, the simulations could be run in a way that more 'intelligently' places correlations in different parts of the tree. So, correlations are specifically modeled in an underlying stochastic process, for instance. We also don't really explore character congruence, that correlations can be ranked and spread over multiple internodes. We didn't look at ranking and we didn't look at competing correlations. There's a lot more that could be done here so, we might talk about that. Then we could talk about intelligent resampling measures, such as a targeted jackknifing that preferentially resamples characters that are highly similar to other characters etc. 
+
+
+
+
+%MB: Part of it is: we expect it to be a problem, but _when_ do we expect it to be a problem. There's the issue of "check your data", but it only raises the question: how? I think this is where we suggest avenues for future research (either here or move it up to the discussion).
+
+
+
+
 
 
 \section{Data availability, repeatability and reproducibility}
