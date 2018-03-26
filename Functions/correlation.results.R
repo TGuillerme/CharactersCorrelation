@@ -39,9 +39,11 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
     ## Get the method
     if(method == "Bayesian") {
         method_value <- 1
+        ylim <- c(0,1)
     } else {
-        if(metric == "Parsimony") {
+        if(method == "Parsimony") {
             method_value <- 2
+            ylim <- c(-0.5,1)
         } else {
             stop("metric must be \"Bayesian\" or \"Parsimony\".")
         }
@@ -91,7 +93,7 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
         length.out <- length_whole_data
     }
 
-    plot(NULL, xlab = xlab, ylab = ylab, ylim = c(0,1), xlim = c(0,1), main = main, ...)
+    plot(NULL, xlab = xlab, ylab = ylab, ylim = ylim, xlim = c(0,1), main = main, ...)
     if(!is.null(cent.tend)) {
         points(unlist(lapply(matrices_cd$mini, cent.tend))[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$mini[, metric_value][1:length.out], pch = 19, col = col[1], ...)
         points(unlist(lapply(matrices_cd$maxi, cent.tend))[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$maxi[, metric_value][1:length.out], pch = 19, col = col[2], ...)
@@ -156,10 +158,10 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
 
 all.correlation.plot <- function(all_matrices_cd, whole_data, metric, method, models, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL, ...) {
     
-    # ## Chain names
-    # taxa <- paste0(c(25, 75, 150), "t")
-    # characters <- paste0(c(100, 350, 1000), "c")
-    # all_chains <- lapply(as.list(taxa), function(taxa, characters) return(as.list(paste(taxa, characters, sep = "_"))), characters)
+    ## Chain names
+    taxa <- paste0(c(25, 75, 150), "t")
+    characters <- paste0(c(100, 350, 1000), "c")
+    all_chains <- lapply(as.list(taxa), function(taxa, characters) return(as.list(paste(taxa, characters, sep = "_"))), characters)
 
 
     par(bty = "n", mfrow = c(3, 3))
@@ -169,12 +171,12 @@ all.correlation.plot <- function(all_matrices_cd, whole_data, metric, method, mo
     one.correlation.plot(all_matrices_cd[[1]][[3]], whole_data, chain = all_chains[[1]][[3]], metric = metric, method = method, model = models[[1]][[3]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "", ylab = "", main = "", ...)
 
     ## Second row
-    one.correlation.plot(all_matrices_cd[[2]][[1]], whole_data, chain = all_chains[[2]][[1]], metric = metric, method = method, model = models[[2]][[1]], col = col, rounding = rounding, cent.tend = cent.tend, legend = TRUE, xlab = "", ylab = paste0("75t - ", metric), main = "", ...)
+    one.correlation.plot(all_matrices_cd[[2]][[1]], whole_data, chain = all_chains[[2]][[1]], metric = metric, method = method, model = models[[2]][[1]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "", ylab = paste0("75t - ", metric), main = "", ...)
     one.correlation.plot(all_matrices_cd[[2]][[2]], whole_data, chain = all_chains[[2]][[2]], metric = metric, method = method, model = models[[2]][[2]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "", ylab = "", main = "", ...)
     one.correlation.plot(all_matrices_cd[[2]][[3]], whole_data, chain = all_chains[[2]][[3]], metric = metric, method = method, model = models[[2]][[3]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "", ylab = "", main = "", ...)
 
     ## Third row
-    one.correlation.plot(all_matrices_cd[[3]][[1]], whole_data, chain = all_chains[[3]][[1]], metric = metric, method = method, model = models[[3]][[1]], col = col, rounding = rounding, cent.tend = cent.tend, legend = TRUE, xlab = "100c - CD", ylab = paste0("150t - ", metric), main = "", ...)
+    one.correlation.plot(all_matrices_cd[[3]][[1]], whole_data, chain = all_chains[[3]][[1]], metric = metric, method = method, model = models[[3]][[1]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "100c - CD", ylab = paste0("150t - ", metric), main = "", ...)
     one.correlation.plot(all_matrices_cd[[3]][[2]], whole_data, chain = all_chains[[3]][[2]], metric = metric, method = method, model = models[[3]][[2]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "350c - CD", ylab = "", main = "", ...)
     one.correlation.plot(all_matrices_cd[[3]][[3]], whole_data, chain = all_chains[[3]][[3]], metric = metric, method = method, model = models[[3]][[3]], col = col, rounding = rounding, cent.tend = cent.tend, legend = FALSE, xlab = "1000c - CD", ylab = "", main = "", ...)
 

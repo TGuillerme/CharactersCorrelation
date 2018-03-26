@@ -126,10 +126,10 @@ run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = N
     if(method == "Bayesian") {
         method_value <- 1
     } else {
-        if(metric == "Parsimony") {
+        if(method == "Parsimony") {
             method_value <- 2
         } else {
-            stop("metric must be \"Bayesian\" or \"Parsimony\".")
+            stop("method must be \"Bayesian\" or \"Parsimony\".")
         }
     }
 
