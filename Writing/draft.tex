@@ -254,7 +254,7 @@ To assess the effects of character correlation on the accuracy of phylogenetic i
 Hereafter, the resultant topologies are called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
     \item \textbf{Comparing topologies}: finally, we compared the ``normal'' to the ``maximised'', ``minimised'' and ``randomised'' trees to measure the effect of character correlation on topology.
 \end{enumerate}
-Each step was replicated 40 times and are described below in more detail, along with our proposed definition for measuring the difference between characters.
+Each step was replicated 35 times and are described below in more detail, along with our proposed definition for measuring the difference between characters.
 
 \begin{figure}[!htbp]
 \centering
@@ -326,7 +326,7 @@ To ensure that our simulations were reflecting realistic observed parameters, we
 
 For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
 The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 40 times resulting in 360 ``normal'' morphological matrices.
+To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 35 times resulting in 315 ``normal'' morphological matrices.
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
@@ -337,7 +337,7 @@ Conversely, for minimising the pairwise character differences, we selected the m
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
 % Clever.
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
-This step resulted in a total of 1440 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
+This step resulted in a total of 1260 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})
 
 \begin{figure}[!htbp]
