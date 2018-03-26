@@ -60,25 +60,36 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
         }
     }
 
+    ## Length of matrices_cd
+    length.out <- length(matrices_cd[[1]])
+
     ## Get the chain values
-    chain_values <- strsplit(chain, split = "_")[[1]]
-    taxa_number <- as.numeric(strsplit(chain_values[1], split = "t")[[1]])
-    if(!taxa_number %in% c(25, 75, 150)) {
-        stop(paste0("In ", chain, " taxa number (#t) must be 25, 75 or 150."))
-    }
-    if(taxa_number == 25) {
-        taxa_value <- 1
-    } else {
-        taxa_value <- ifelse(taxa_number == 75, 2, 3)
-    }
-    character_number <- as.numeric(strsplit(chain_values[2], split = "c")[[1]])
-    if(!character_number %in% c(100, 350, 1000)) {
-        stop(paste0("In ", chain, " character number (#c) must be 100, 350 or 1000."))
-    }
-    if(character_number == 100) {
-        character_value <- 1
-    } else {
-        character_value <- ifelse(taxa_number == 350, 2, 3)
+    if(chain != "pool") {
+        chain_values <- strsplit(chain, split = "_")[[1]]
+        taxa_number <- as.numeric(strsplit(chain_values[1], split = "t")[[1]])
+        if(!taxa_number %in% c(25, 75, 150)) {
+            stop(paste0("In ", chain, " taxa number (#t) must be 25, 75 or 150."))
+        }
+        if(taxa_number == 25) {
+            taxa_value <- 1
+        } else {
+            taxa_value <- ifelse(taxa_number == 75, 2, 3)
+        }
+        character_number <- as.numeric(strsplit(chain_values[2], split = "c")[[1]])
+        if(!character_number %in% c(100, 350, 1000)) {
+            stop(paste0("In ", chain, " character number (#c) must be 100, 350 or 1000."))
+        }
+        if(character_number == 100) {
+            character_value <- 1
+        } else {
+            character_value <- ifelse(taxa_number == 350, 2, 3)
+        }
+
+        ## Double check length.out
+        length_whole_data <- length(whole_data[[taxa_value]][[character_value]][[method_value]]$norm$mini[, metric_value])
+        if(length.out > length_whole_data) {
+            length.out <- length_whole_data
+        }
     }
 
     ## Get the default main
@@ -86,24 +97,36 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
         main <- paste0("Correlation between character difference and ", metric, " (", method, ")")
     }
 
+
     ## Length of matrices_cd
-    length.out <- length(matrices_cd[[1]])
-    length_whole_data <- length(whole_data[[taxa_value]][[character_value]][[method_value]]$norm$mini[, metric_value])
-    if(length.out > length_whole_data) {
-        length.out <- length_whole_data
-    }
-
     plot(NULL, xlab = xlab, ylab = ylab, ylim = ylim, xlim = c(0,1), main = main, ...)
-    if(!is.null(cent.tend)) {
-        points(unlist(lapply(matrices_cd$mini, cent.tend))[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$mini[, metric_value][1:length.out], pch = 19, col = col[1], ...)
-        points(unlist(lapply(matrices_cd$maxi, cent.tend))[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$maxi[, metric_value][1:length.out], pch = 19, col = col[2], ...)
-        points(unlist(lapply(matrices_cd$rand, cent.tend))[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$rand[, metric_value][1:length.out], pch = 19, col = col[3], ...)
-    } else {
-        points(unlist(matrices_cd$mini)[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$mini[, metric_value][1:length.out], pch = 19, col = col[1], ...)
-        points(unlist(matrices_cd$maxi)[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$maxi[, metric_value][1:length.out], pch = 19, col = col[2], ...)
-        points(unlist(matrices_cd$rand)[1:length.out], whole_data[[taxa_value]][[character_value]][[method_value]]$norm$rand[, metric_value][1:length.out], pch = 19, col = col[3], ...)
 
+
+    if(!is.null(cent.tend)) {
+        x_mini <- unlist(lapply(matrices_cd$mini, cent.tend))[1:length.out]
+        x_maxi <- unlist(lapply(matrices_cd$maxi, cent.tend))[1:length.out]
+        x_rand <- unlist(lapply(matrices_cd$rand, cent.tend))[1:length.out]
+    } else {
+        x_mini <- unlist(matrices_cd$mini)[1:length.out]
+        x_maxi <- unlist(matrices_cd$maxi)[1:length.out]
+        x_rand <- unlist(matrices_cd$rand)[1:length.out]
     }
+
+    if(chain != "pool") {
+        y_mini <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$mini[, metric_value][1:length.out]
+        y_maxi <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$maxi[, metric_value][1:length.out]
+        y_rand <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$rand[, metric_value][1:length.out]
+    } else {
+        y_mini <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
+        y_maxi <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$maxi[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
+        y_rand <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$rand[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
+    }
+
+    ## Add the data points
+    points(x_mini, y_mini, pch = 19, col = col[1], ...)
+    points(x_maxi, y_maxi, pch = 19, col = col[2], ...)
+    points(x_rand, y_rand, pch = 19, col = col[3], ...)
+
 
     ## Adding the legend
     if(legend) {
