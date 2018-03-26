@@ -19,7 +19,6 @@ library(dispRity)
 library(lme4)
 library(lmerTest)
 source("functions.R") ; load.functions(test = FALSE)
-dyn.load("../Functions/char.diff.so")
 load("../Data/NTS/matrix.nts.Rda")
 source("../Data/load.data.R")
 

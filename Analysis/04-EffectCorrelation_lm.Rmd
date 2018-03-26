@@ -1,0 +1,150 @@
+---
+title: "Effect of character correlation"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 6
+---
+
+# Effect of character correlation
+
+## Loading the functions and the data
+
+Getting the functions and the data.
+
+```{r, eval = TRUE, message = FALSE}
+library(dispRity)
+library(lme4)
+library(lmerTest)
+source("functions.R") ; load.functions(test = FALSE)
+load("../Data/NTS/matrix.nts.Rda")
+source("../Data/load.data.R")
+
+## Getting the whole data
+whole_data <- list("t25" = t25_list, "t75" = t75_list, "t150" = t150_list)
+```
+
+```{r, echo = FALSE}
+library(knitr)
+library(xtable)
+```
+
+# One single model example
+
+Here we measure the eventual correlation between a low/high character correlation and a low/high RF or Triplets score.
+
+```{r, fig.width=6, fig.height=6, message = FALSE}
+## Loading the matrices CD
+matrices_cd <- get.matrix.CD(path = "../Data/Simulations/Matrices", "25t_100c", verbose = TRUE, length.out = 35, cent.tend = mean)
+
+## Running the model
+model_out <- run.lm(matrices_cd, whole_data, chain = "25t_100c", method = "Bayesian", metric = "RF", cent.tend = NULL)
+
+## Plotting the output
+par(bty = "n")
+one.correlation.plot(matrices_cd, whole_data, chain = "25t_100c", method = "Bayesian", metric = "RF", model_out, cent.tend = NULL, legend = TRUE)
+```
+
+# Running all the models
+
+## Getting all matrices CD
+
+```{r, message = FALSE}
+## Loading and calculating all the matrices CDs
+all_matrices_cd <- get.all.matrix.CD(path = "../Data/Simulations/Matrices", verbose = TRUE, length.out = 35, cent.tend = mean)
+save(all_matrices_cd, file = "../Data/matrices_cd.Rda")
+# load("../Data/matrices_cd.Rda")
+```
+
+# Pooled models
+
+```{r}
+## Pool all the results into one list
+pooled_results <- pool.matrix.cd(all_matrices_cd)
+
+## Running the model
+model_out_bay_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", cent.tend = NULL)
+model_out_bay_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "Triplets", cent.tend = NULL)
+model_out_par_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "RF", cent.tend = NULL)
+model_out_par_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", cent.tend = NULL)
+
+## Plotting the output
+par(bty = "n", mfrow = c(2,2))
+one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", model_out_bay_RF, cent.tend = NULL, legend = TRUE, main = "Bayesian", xlab = "RF")
+one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", model_out_bay_Tr, cent.tend = NULL, legend = FALSE, main = "Bayesian", xlab = "RF")
+one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", model_out_par_RF, cent.tend = NULL, legend = FALSE, main = "Parsimony", xlab = "Triplets")
+one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", model_out_par_Tr, cent.tend = NULL, legend = FALSE, main = "Parsimony", xlab = "Triplets")
+```
+
+# Individual models
+
+## Bayesian
+
+### Robinson-Foulds
+
+```{r}
+## Running all the models
+all_models_out <- run.all.lm(all_matrices_cd, whole_data, method = "Bayesian", metric = "RF")
+
+## Getting the table
+kable(correlation.table(all_models_out), digits = 3, caption = "Linear model results for the Bayesian trees and RF metric.")
+```
+
+```{r, fig.width=12, fig.height=12}
+## Plotting the results
+all.correlation.plot(all_matrices_cd, whole_data, metric = "RF", method = "Bayesian", models = all_models_out, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL)
+```
+
+### Triplets
+
+```{r}
+## Running all the models
+all_models_out <- run.all.lm(all_matrices_cd, whole_data, method = "Bayesian", metric = "Triplets")
+
+## Getting the table
+kable(correlation.table(all_models_out), digits = 3, caption = "Linear model results for the Bayesian trees and Triples metric.")
+
+```
+
+```{r, fig.width=12, fig.height=12}
+## Plotting the results
+all.correlation.plot(all_matrices_cd, whole_data, metric = "Triplets", method = "Bayesian", models = all_models_out, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL)
+```
+
+## Parsimony
+
+### Robinson-Foulds
+
+```{r}
+## Running all the models
+all_models_out <- run.all.lm(all_matrices_cd, whole_data, method = "Parsimony", metric = "RF")
+
+## Getting the table
+kable(correlation.table(all_models_out), digits = 3, caption = "Linear model results for the Parsimony trees and RF metric.")
+
+```
+
+```{r, fig.width=12, fig.height=12}
+## Plotting the results
+all.correlation.plot(all_matrices_cd, whole_data, metric = "RF", method = "Parsimony", models = all_models_out, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL)
+```
+
+### Triplets
+
+
+```{r}
+## Running all the models
+all_models_out <- run.all.lm(all_matrices_cd, whole_data, method = "Parsimony", metric = "Triplets")
+
+## Getting the table
+kable(correlation.table(all_models_out), digits = 3, caption = "Linear model results for the Parsimony trees and Triples metric.")
+
+```
+
+```{r, fig.width=12, fig.height=12}
+## Plotting the results
+all.correlation.plot(all_matrices_cd, whole_data, metric = "Triplets", method = "Parsimony", models = all_models_out, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL)
+```
+
