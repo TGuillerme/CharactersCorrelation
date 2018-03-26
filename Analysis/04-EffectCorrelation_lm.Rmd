@@ -53,18 +53,18 @@ one.correlation.plot(matrices_cd, whole_data, chain = "25t_100c", method = "Baye
 
 ```{r, message = FALSE}
 ## Loading and calculating all the matrices CDs
-all_matrices_cd <- get.all.matrix.CD(path = "../Data/Simulations/Matrices", verbose = TRUE, length.out = 35, cent.tend = mean)
-save(all_matrices_cd, file = "../Data/matrices_cd.Rda")
-# load("../Data/matrices_cd.Rda")
+# all_matrices_cd <- get.all.matrix.CD(path = "../Data/Simulations/Matrices", verbose = TRUE, length.out = 35, cent.tend = mean)
+# save(all_matrices_cd, file = "../Data/matrices_cd.Rda")
+load("../Data/matrices_cd.Rda")
 ```
 
 # Pooled models
 
-```{r}
+```{r, fig.width=12, fig.height=12, warnings = FALSE}
 ## Pool all the results into one list
-pooled_results <- pool.matrix.cd(all_matrices_cd)
+pooled_results <- pool.matrix.cd(all_matrices_cd, length.out = 28)
 
-## Running the model
+# ## Running the model
 model_out_bay_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", cent.tend = NULL)
 model_out_bay_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "Triplets", cent.tend = NULL)
 model_out_par_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "RF", cent.tend = NULL)
