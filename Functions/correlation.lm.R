@@ -109,13 +109,13 @@ get.all.matrix.CD <- function(path, verbose = FALSE, length.out, cent.tend = NUL
 #' @author Thomas Guillerme
 #' @export
 
-pool.matrix.cd <- function(list) {
+pool.matrix.cd <- function(list, length.out) {
 
     ## The results are a list from get.matrix.CDs
-    norm <- unlist(lapply(list, lapply, function(X) return(X$norm)))
-    mini <- unlist(lapply(list, lapply, function(X) return(X$mini)))
-    maxi <- unlist(lapply(list, lapply, function(X) return(X$maxi)))
-    rand <- unlist(lapply(list, lapply, function(X) return(X$rand)))
+    norm <- unlist(lapply(list, lapply, function(X) return(X$norm[1:length.out])))
+    mini <- unlist(lapply(list, lapply, function(X) return(X$mini[1:length.out])))
+    maxi <- unlist(lapply(list, lapply, function(X) return(X$maxi[1:length.out])))
+    rand <- unlist(lapply(list, lapply, function(X) return(X$rand[1:length.out])))
 
     return(list("norm" = norm, "mini" = mini, "maxi" = maxi, "rand" = rand))
 }
@@ -164,6 +164,9 @@ run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = N
 
     ## Length of matrices_cd
     length.out <- length(matrices_cd[[1]])
+    # if(chain == "pool") {
+    #     length.out <- length(matrices_cd[[1]])
+    # }
 
     ## Get the chain values
     if(chain != "pool") {
@@ -203,11 +206,13 @@ run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = N
                         )
                     )
     } else {
+        warning("DEBUG: Change length.out value in run.lm and one.correlation.plot")
+        length.out <- 28
         data_metric <- data.frame(
             "Metric" = c(
-                unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[, metric_value][1:length.out/9]), method_value, metric_value, length.out)),
-                unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$maxi[, metric_value][1:length.out/9]), method_value, metric_value, length.out)),
-                unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$rand[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
+                unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[1:length.out, metric_value]), method_value, metric_value, length.out)),
+                unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$maxi[1:length.out, metric_value]), method_value, metric_value, length.out)),
+                unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$rand[1:length.out, metric_value]), method_value, metric_value, length.out))
                 )
             )
     }

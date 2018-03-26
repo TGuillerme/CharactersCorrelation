@@ -28,9 +28,13 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
     ## Get the metric
     if(metric == "RF") {
         metric_value <- 2
+        ylim <- c(0,1)
+        y_legend <- c(0.2, 0.15, 0.1, 0.05)
     } else {
         if(metric == "Triplets") {
             metric_value <- 4
+            ylim <- c(-0.5,1)
+            y_legend <- c(-0.3, -0.35, -0.4, -0.45)
         } else {
             stop("metric must be \"RF\" or \"Triplets\".")
         }
@@ -39,11 +43,9 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
     ## Get the method
     if(method == "Bayesian") {
         method_value <- 1
-        ylim <- c(0,1)
     } else {
         if(method == "Parsimony") {
             method_value <- 2
-            ylim <- c(-0.5,1)
         } else {
             stop("metric must be \"Bayesian\" or \"Parsimony\".")
         }
@@ -117,10 +119,13 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
         y_maxi <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$maxi[, metric_value][1:length.out]
         y_rand <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$rand[, metric_value][1:length.out]
     } else {
-        y_mini <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
-        y_maxi <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$maxi[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
-        y_rand <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$rand[, metric_value][1:length.out/9]), method_value, metric_value, length.out))
+        warning("DEBUG: Change length.out value in run.lm and one.correlation.plot")
+        length.out <- 28
+        y_mini <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[1:length.out, metric_value]), method_value, metric_value, length.out))
+        y_maxi <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$maxi[1:length.out, metric_value]), method_value, metric_value, length.out))
+        y_rand <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$rand[1:length.out, metric_value]), method_value, metric_value, length.out))
     }
+
 
     ## Add the data points
     points(x_mini, y_mini, pch = 19, col = col[1], ...)
@@ -138,25 +143,22 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
         ## Adding the model line
         abline(model)
         ## Adding the model values
-        text(0, 0.2, "Metric ~ Character difference", pos = 4, ...)
-        text(0, 0.15, paste0("Intercept = ",
+        text(0, y_legend[1], "Metric ~ Character difference", pos = 4, ...)
+        text(0, y_legend[2], paste0("Intercept = ",
                              round(summary_model$coefficients[1,1], digit = rounding),
                              " (p = ",
                              round(summary_model$coefficients[1,4], digit = rounding),
                              ")"), pos = 4, ...)
-        text(0, 0.10, paste0("Slope = ",
+        text(0, y_legend[3], paste0("Slope = ",
                              round(summary_model$coefficients[2,1], digit = rounding),
                              " (p = ",
                              round(summary_model$coefficients[2,4], digit = rounding),
                              ")"), pos = 4, ...)
-        text(0, 0.05, paste0("R^2 (adj) = ",
+        text(0, y_legend[4], paste0("R^2 (adj) = ",
                              round(summary_model$adj.r.squared, digit = rounding)
                              ), pos = 4, ...)
     }
 }
-
-
-
 
 #' @title Plots all correlation results
 #'
