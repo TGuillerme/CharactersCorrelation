@@ -118,10 +118,9 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 \newpage
 \begin{abstract}
 Phylogenetic analysis algorithms require the assumption of character independence---a condition generally acknowledged to be violated by morphological data.
-However, this assumption is nearly always wrong simply because of the nature of morphological integration of organisms.
-Correlation between characters can originate from intra-organismal features, shared phylogenetic history or errors when coding or defining morphological characters.
+%However, this assumption is nearly always wrong simply because of the nature of morphological integration of organisms.
+Correlation between characters can originate from intra-organismal features, shared phylogenetic history or forced by particular character-state coding schemes. 
 Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be avoided \textit{a priori} with good practices, phylogenetic software do not distinguish between any of them.
-
 In this study, we propose a new metric of raw character difference as a proxy for character correlation.
 Using thorough simulations, we test the effect of increasing or decreasing character differences on tree topology.
 Overall, we found an expected positive effect of reducing character correlations on recovering the correct topology.
@@ -148,7 +147,7 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 
 The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
 This owes in large part to the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary. 
-Morphological character data are often considered inferior to molecular sequence data (due to their inherent biases), but are often the only source of data---especially for fossils.
+Morphological character data are often considered inferior to molecular sequence data, but are often the only source of phylogenetic data for extinct species. 
 While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any empirical investigations into their statistical properties.
 As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to 'misbehave'.
 This opens up possibilities for predicting problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
@@ -159,7 +158,7 @@ This opens up possibilities for predicting problematic datasets and possibly pro
 
 The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data.
 The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony . \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the sheer nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
+Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the very nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
 % TG: add Brazeau et al. 201X somewhere?
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
 
@@ -168,26 +167,34 @@ Before discussing character correlation further, it is important to understand t
     For example the lower and upper molar characters in mammals generally occlude one another. 
     Therefore, one character describing a feature of a lower molar will be expected to be complemented by the surface of the occluding upper molar.
 	Characters of the occlusal surface of two opposing molars will be expected to directly covary.
-    These links can be the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary} or functional investigations. 
+	% We should probably cite some "Gunterology" here.
+	Pleiotropy also results in covariation between different aspects of phenotype. 
+	From a phylogenetic perspective, it can be especially pernicious because the relationship between the traits in question may have no obvious link from a morphological or functional comparison alone. 
+    Intra-organismal links can be the targets of comparative developmental biology \citep{goswami2006morphological,goswami2010,goswami2014macroevolutionary} or functional investigations. 
 
-
-    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving due to selection: the character's correlation is thus due to their shared evolutionary history.
-	Unlike the case of intra-organismal dependence, there is no intrinsic constraint that causes these traits to covary.
-    Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait. 
+	Unlike the case of intra-organismal dependence, there need not be an intrinsic constraint that causes these traits to covary.
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
-	Such covariances are generally studied in the context of a given phylogeny.
+	This is thought to correspond to adaptations for fossoriality or acquatic lifestyles.
+	Such covariances are generally studied in the context of a given phylogeny, often one derived from molecular data with morphological traits mapped on.
+    Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
+	However, these methods do not give us a means to objectively control correlations that might adversely affect phylogenetic inference.
 
     \item \textbf{Coding dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
-    One such source of correlation could be due to methodological errors: for example by defining a character describing a particular feature on a left and right molar.
+	Coding dependence manifests itself in several ways, particularly in coding redundant information.
+	For instance, coding for the same absence in different characters creates state transformations associated with the loss or gain of a particular character.
+	This occurs when a number of multistate characters include two variable feature states (e.g. large, small; red, blue etc.) in conjunction with absense.
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
     This coding dependency is linked to hierarchical dependency between characters [TODO: cite Wilkinson on inapplicability].
     Finally this can also be due to a bias in the amount of characters available.
-    For example, in a skull, because of their complexity, there is a high likelihood of inducing correlation (by effectively reducing structural complexity).
+    For example, in skulls, because of their complexity, there is a high likelihood of inducing correlation (by effectively reducing structural complexity).
 \end{itemize}
 
 \noindent Of course, the three sources of dependence have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
 Logical dependence, however, is easily distinguished prior to phylogenetic inference, while the two other ones (intra-organismal and evolutionary) are much harder.
+However, the development of algorithms and software has not yet caught up with the need to deal with these interdependencies.
+% Of course, at this point we could probably self-cite and cite De Laet.
 Intra-organismal dependence requires more detailed, often extremely time-consuming studies (and possibly beyond the limits of available technology).
 Even after all of the effort is expended, the results might then only be known for a single (model) species.
 Evolutionary dependence itself requires the resolution of a phylogenetic tree, and is best determined by independent character sets. 
