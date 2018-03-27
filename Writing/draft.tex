@@ -2,7 +2,6 @@
 \usepackage{natbib}
 
 %Packages
-\usepackage{pdflscape}
 \usepackage{fixltx2e}
 \usepackage{textcomp}
 \usepackage{fullpage}
@@ -26,8 +25,6 @@
 \usepackage[osf]{mathpazo}
 \usepackage{dcolumn}
 \usepackage{lineno}
-\usepackage{dcolumn}
-\usepackage{mathtools}
 \usepackage{pdflscape}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
@@ -283,8 +280,6 @@ In order to measure this, we propose a new distance metric to measure the differ
     CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
 \end{equation}
 
-%MB: Why divide by 1/2 when you can just multiply by 2?
-%TG: fair point. I've fixed it in the demonstration as well (supplementaries)
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration in the Supplementary Material 1).
@@ -413,23 +408,25 @@ Comparisons falling between these range can not be designated as strictly simila
 The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology with maximising character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.95 and median $NTS_{Tr}$ = 0.96) followed by simply randomising the characters (median $NTS_{RF}$ = 0.79 and median $NTS_{Tr}$ = 0.72) and minimising the character difference (median $NTS_{RF}$ = 0.6 and median $NTS_{Tr}$ = 0.28 - see Supplementary material 3 for the full summary statistics).
 There is a significant difference between all scenarios (maximising, minimising and randomising) with the highest probability of overlap being between maximising and randomising the character difference (Bhattacharrya Coefficient of 0.89 for the $NTS_{RF}$ and 0.92 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (Bhattacharrya coefficient of 0.59 for the $NTS_{RF}$ and 0.63 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test})
 
-\begin{table}[ht]
-\centering
-\begin{tabular}{ll|r|rr}
-  \hline
-metric & test & bhatt.coeff & statistic & p.value \\ 
-  \hline
-RF & maxi:mini & 0.588 & 439466.500 & \textbf{0.000} \\ 
-   & maxi:rand & 0.894 & 347624.500 & \textbf{0.000} \\ 
-   & mini:rand & 0.846 & 115008.500 & \textbf{0.000} \\ 
-Tr & maxi:mini & 0.628 & 443049.500 & \textbf{0.000} \\ 
-   & maxi:rand & 0.921 & 348074.000 & \textbf{0.000} \\ 
-   & mini:rand & 0.825 & 113171.500 & \textbf{0.000} \\ 
-   \hline
-\end{tabular}
-\caption{Difference between the pooled scenarios. bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction), significant values are in bold.} 
-\label{Tab_pooledscenarios_test}
-\end{table}
+\input{Tables/Tab_pooledscenarios_test.tex}
+
+% \begin{table}[ht]
+% \centering
+% \begin{tabular}{ll|r|rr}
+%   \hline
+% metric & test & bhatt.coeff & statistic & p.value \\ 
+%   \hline
+% RF & maxi:mini & 0.588 & 439466.500 & \textbf{0.000} \\ 
+%    & maxi:rand & 0.894 & 347624.500 & \textbf{0.000} \\ 
+%    & mini:rand & 0.846 & 115008.500 & \textbf{0.000} \\ 
+% Tr & maxi:mini & 0.628 & 443049.500 & \textbf{0.000} \\ 
+%    & maxi:rand & 0.921 & 348074.000 & \textbf{0.000} \\ 
+%    & mini:rand & 0.825 & 113171.500 & \textbf{0.000} \\ 
+%    \hline
+% \end{tabular}
+% \caption{Difference between the pooled scenarios. bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction), significant values are in bold.} 
+% \label{Tab_pooledscenarios_test}
+% \end{table}
 
 \subsubsection{Number of characters}
 %MB: Here and other similar subsection headings: the effect on what?
@@ -442,23 +439,7 @@ The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.76, 0.78, 
 The number of characters affects the character difference more in terms of taxon placement for a low number of characters (median $NTS_{RF}$ for 100, 350 and 1000 characters equals 0.54, 0.70, 0.76 respectively - see supplementary materials 3) with a significant difference between 100 and 350 or 1000 characters (Table \ref{Tab_pooledscharacters_test}).
 However, these differences have to be contrasted by a very high probability of overlap between each number of characters and metrics (Bhattacharrya Coefficient always $>0.95$) suggesting that the significant effects of the number of characters still leads to really similar distributions.
 
-\begin{table}[ht]
-\centering
-\begin{tabular}{ll|r|rr}
-  \hline
-metric & test & bhatt.coeff & statistic & p.value \\ 
-  \hline
-RF & c100:c350 & \textbf{0.989} & 228495.000 & 0.174 \\ 
-   & c100:c1000 & \textbf{0.983} & 218305.500 & \textbf{0.002} \\ 
-   & c350:c1000 & \textbf{0.988} & 232832.500 & 0.643 \\ 
-  Tr & c100:c350 & \textbf{0.965} & 203355.500 & \textbf{0.000} \\ 
-   & c100:c1000 & \textbf{0.959} & 189064.000 & \textbf{0.000} \\ 
-   & c350:c1000 & \textbf{0.983} & 226472.000 & 0.085 \\ 
-   \hline
-\end{tabular}
-\caption{Difference between the pooled number of characters. See Table \ref{Tab_pooledscenarios_test} for full caption.} 
-\label{Tab_pooledscharacters_test}
-\end{table}
+\input{Tables/Tab_pooledscharacters_test.tex}
 
 \subsubsection{Number of taxa}
 
@@ -466,41 +447,13 @@ Similar to the effect of number of characters on character difference, the numbe
 A low number of taxa (25) resulted in significant differences in both $NTS_{RF}$ and $NTS_{Tr}$ (medians for 25, 75 and 150 taxa equals 0.8, 0.76, 0.75 $NTS_{RF}$ and 0.75, 0.59 and 0.59 $NTS_{Tr}$respectively - Table \ref{Tab_pooledstaxa_test} and see supplementary materials 3).
 Again, however, the significant differences have to be contrasted with still high probabilities of overlaps for each $NTS_{RF}$ and $NTS_{Tr}$ distributions for every number of taxa (Table \ref{Tab_pooledstaxa_test}).
 
-\begin{table}[ht]
-\centering
-\begin{tabular}{ll|r|rr}
-  \hline
-metric & test & bhatt.coeff & statistic & p.value \\ 
-  \hline
-RF & t25:t75 & \textbf{0.987} & 267274.500 & \textbf{0.003} \\ 
-   & t25:t150 &\textbf{0.979} & 272359.500 & \textbf{0.000} \\ 
-   & t75:t150 & \textbf{0.988} & 247619.500 & 1.000 \\ 
-Tr & t25:t75 & \textbf{0.975} & 282017.500 & \textbf{0.000} \\ 
-   & t25:t150 & \textbf{0.970} & 279730.000 & \textbf{0.000} \\ 
-   & t75:t150 & \textbf{0.989} & 240414.500 & 1.000 \\ 
-   \hline
-\end{tabular}
-\caption{Difference between the pooled number of taxa. See Table \ref{Tab_pooledscenarios_test} for full caption.} 
-\label{Tab_pooledstaxa_test}
-\end{table}
+\input{Tables/Tab_pooledstaxa_test.tex}
 
 \subsection{Effect of character differences on the inference method}
 
 Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (Table \ref{Tab_pooledsmethods_test} - median $NTS_{RF}$ of 0.82 and 0.68 respectively) but not in terms of individual taxon placements (Table \ref{Tab_pooledsmethods_test} - median $NTS_{Tr}$ of 0.72 and 0.61 respectively).
 
-\begin{table}[ht]
-\centering
-\begin{tabular}{llrrr}
-  \hline
-metric & test & bhatt.coeff & statistic & p.value \\ 
-  \hline
-RF & bayesian:parsimony & 0.893 & 676940.500 & \textbf{0.000} \\ 
-Tr & bayesian:parsimony & \textbf{0.982} & 547140.000 & 0.147 \\ 
-   \hline
-\end{tabular}
-\caption{Difference between the pooled methods. See Table \ref{Tab_pooledscenarios_test} for full caption.} 
-\label{Tab_pooledsmethods_test}
-\end{table}
+\input{Tables/Tab_pooledsmethods_test.tex}
 
 \subsection{Combined effects of taxa, characters and correlation on topology}
 

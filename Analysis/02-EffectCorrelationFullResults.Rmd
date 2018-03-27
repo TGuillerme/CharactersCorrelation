@@ -19,7 +19,6 @@ library(dispRity)
 library(lme4)
 library(lmerTest)
 source("functions.R") ; load.functions(test = FALSE)
-dyn.load("../Functions/char.diff.so")
 load("../Data/NTS/matrix.nts.Rda")
 source("../Data/load.data.R")
 
@@ -67,9 +66,9 @@ kable(scenarios, row.names = FALSE, caption = captions_pooled_scenarios)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
 library(xtable)
-make.xtable(scenarios, caption = captions_pooled_scenarios, label = "Tab_pooledscenarios")
+make.xtable(scenarios, caption = captions_pooled_scenarios, label = "Full_Tab_pooledscenarios", path = "../Writing/Tables/")
 ```
 
 ### Testing the effect of the scenario on the NTS
@@ -87,8 +86,8 @@ kable(results$validity, caption = "Normality and variance homoscedasticity tests
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif", path = "../Writing/Tables/")
 ```
 
 Applying a Bhattacharrya Coefficient and Wilcoxon test
@@ -111,8 +110,8 @@ kable(test_table, row.names = FALSE, caption = cap_pool_scen_test)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(test_table, caption = cap_pool_scen_test, label = "Tab_pooledscenarios_test")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(test_table, caption = cap_pool_scen_test, label = "Full_Tab_pooledscenarios_test", path = "../Writing/Tables/")
 ```
 
 ## Effect of character correlation per number of character
@@ -147,8 +146,8 @@ kable(characters, row.names = FALSE, caption = captions_pooled_characters)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(characters, caption = captions_pooled_characters, label = "Tab_pooledcharacters")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(characters, caption = captions_pooled_characters, label = "Full_Tab_pooledcharacters", path = "../Writing/Tables/")
 ```
 
 ### Testing the effect of the number of characters on the NTS
@@ -166,8 +165,8 @@ kable(results$validity, caption = "Normality and variance homoscedasticity tests
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
 Applying a Bhattacharrya Coefficient and Wilcoxon test
@@ -190,8 +189,8 @@ kable(test_table, row.names = FALSE, caption = cap_pool_char_test)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(test_table, caption = cap_pool_char_test, label = "Tab_pooledscharacters_test")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(test_table, caption = cap_pool_char_test, label = "Full_Tab_pooledscharacters_test", path = "../Writing/Tables/")
 ```
 
 ## Effect of character correlation per number of taxa
@@ -226,8 +225,8 @@ kable(taxa, row.names = FALSE, caption = captions_pooled_taxa)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(taxas, caption = captions_pooled_taxas, label = "Tab_pooledtaxa")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(taxa, caption = captions_pooled_taxa, label = "Full_Tab_pooledtaxa", path = "../Writing/Tables/")
 ```
 
 ### Testing the effect of the method on the NTS
@@ -245,8 +244,8 @@ kable(results$validity, caption = "Normality and variance homoscedasticity tests
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
 Applying a Bhattacharrya Coefficient and Wilcoxon test
@@ -269,8 +268,8 @@ kable(test_table, row.names = FALSE, caption = cap_pool_tax_test)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(test_table, caption = cap_pool_tax_test, label = "Tab_pooledstaxa_test")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(test_table, caption = cap_pool_tax_test, label = "Full_Tab_pooledstaxa_test", path = "../Writing/Tables/")
 ```
 
 ## Effect of character correlation per methods
@@ -306,8 +305,8 @@ kable(methods, row.names = FALSE, caption = captions_pooled_methods)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(methods, caption = captions_pooled_methods, label = "Tab_pooledmethod")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(methods, caption = captions_pooled_methods, label = "Full_Tab_pooledmethod", path = "../Writing/Tables/")
 ```
 
 ### Testing the effect of the method on the NTS
@@ -325,8 +324,8 @@ kable(results$validity, caption = "Normality and variance homoscedasticity tests
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
 Applying a Bhattacharrya Coefficient and Wilcoxon test
@@ -349,8 +348,8 @@ kable(test_table, row.names = FALSE, caption = cap_pool_met_test)
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-make.xtable(test_table, caption = cap_pool_met_test, label = "Tab_pooledsmethods_test")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+make.xtable(test_table, caption = cap_pool_met_test, label = "Full_Tab_pooledsmethods_test", path = "../Writing/Tables/")
 ```
 
 # Individual results
@@ -387,13 +386,13 @@ kable(sum_Tr_null, row.names = FALSE, caption = captions_summary[4])
 
 ```{r, echo = FALSE, eval = FALSE}
 ## Labels
-labels_summary <- paste0("Tab_Summary", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+labels_summary <- paste0("Full_Tab_Summary", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
 ## Tables
-make.xtable(sum_RF_best, caption = captions_summary[1], label = labels_summary[1])
-make.xtable(sum_Tr_best, caption = captions_summary[2], label = labels_summary[2])
-make.xtable(sum_RF_null, caption = captions_summary[3], label = labels_summary[3])
-make.xtable(sum_Tr_null, caption = captions_summary[4], label = labels_summary[4])
+make.xtable(sum_RF_best, caption = captions_summary[1], label = labels_summary[1], path = "../Writing/Tables/")
+make.xtable(sum_Tr_best, caption = captions_summary[2], label = labels_summary[2], path = "../Writing/Tables/")
+make.xtable(sum_RF_null, caption = captions_summary[3], label = labels_summary[3], path = "../Writing/Tables/")
+make.xtable(sum_Tr_null, caption = captions_summary[4], label = labels_summary[4], path = "../Writing/Tables/")
 ```
 
 ## Nested anova
@@ -415,8 +414,8 @@ kable(results$validity, caption = "Normality and variance homoscedasticity tests
 
 <!-- Table for publication -->
 
-```{r, eval = FALSE, echo = FALSE}
-xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Tab_signif")
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
 All our models violate a least one of the two models assumptions (normality of the residuals and homoscedasticity of variance) and thus cannot be used to compare the scenarios.
@@ -460,13 +459,13 @@ kable(bc_Tr_null, row.names = FALSE, caption = captions_bc[4], digit = 3)
 
 ```{r, echo = FALSE, eval = FALSE}
 ## Labels
-labels_bc <- paste0("Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+labels_bc <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
 ## Tables
-make.xtable(bc_RF_best, caption = captions_bc[1], label = labels_bc[1])
-make.xtable(bc_Tr_best, caption = captions_bc[2], label = labels_bc[2])
-make.xtable(bc_RF_null, caption = captions_bc[3], label = labels_bc[3])
-make.xtable(bc_Tr_null, caption = captions_bc[4], label = labels_bc[4])
+make.xtable(bc_RF_best, caption = captions_bc[1], label = labels_bc[1], path = "../Writing/Tables/")
+make.xtable(bc_Tr_best, caption = captions_bc[2], label = labels_bc[2], path = "../Writing/Tables/")
+make.xtable(bc_RF_null, caption = captions_bc[3], label = labels_bc[3], path = "../Writing/Tables/")
+make.xtable(bc_Tr_null, caption = captions_bc[4], label = labels_bc[4], path = "../Writing/Tables/")
 ```
 
 
@@ -507,11 +506,11 @@ kable(wx_Tr_null, row.names = FALSE, caption = captions_wx[4], digit = 3)
 
 ```{r, echo = FALSE, eval = FALSE}
 ## Labels
-labels_wx <- paste0("Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+labels_wx <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
 ## Tables
-make.xtable(wx_RF_best, caption = captions_wx[1], label = labels_wx[1])
-make.xtable(wx_Tr_best, caption = captions_wx[2], label = labels_wx[2])
-make.xtable(wx_RF_null, caption = captions_wx[3], label = labels_wx[3])
-make.xtable(wx_Tr_null, caption = captions_wx[4], label = labels_wx[4])
+make.xtable(wx_RF_best, caption = captions_wx[1], label = labels_wx[1], path = "../Writing/Tables/")
+make.xtable(wx_Tr_best, caption = captions_wx[2], label = labels_wx[2], path = "../Writing/Tables/")
+make.xtable(wx_RF_null, caption = captions_wx[3], label = labels_wx[3], path = "../Writing/Tables/")
+make.xtable(wx_Tr_null, caption = captions_wx[4], label = labels_wx[4], path = "../Writing/Tables/")
 ```

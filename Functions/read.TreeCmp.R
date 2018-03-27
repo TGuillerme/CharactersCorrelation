@@ -5,6 +5,7 @@
 #' @param chain the general name of the chain (e.g. 25t_100c)
 #' @param path the path to where the files are stored
 #' @param type which type of tree (Bayesian or Parismony)
+#' @param length.in how many chains to read (e.g. 35)
 #'
 #' @return
 #' A list of metrics for the comparisons.
@@ -18,7 +19,7 @@
 
 #path_alt <- "/Users/TGuillerme/Projects/CharactersCorrelation/Data/Trees_out/Consensus_trees/Parsimony"
 
-read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCorrelation/Data/Trees_out/Consensus_trees", type = "Bayesian") {
+read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCorrelation/Data/Trees_out/Consensus_trees", type = "Bayesian", length.in) {
 
     path <- paste(path, type, sep = "/")
 
@@ -38,6 +39,10 @@ read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCor
         stop('No files for rand has been found within the given chain name.')
     }
 
+    if(!missing(length.in)) {
+        files_norm <- files_norm[1:length.in]
+        files_rand <- files_rand[1:length.in]
+    }
 
     ## Load all the files
     matrices_norm <- list()
