@@ -345,7 +345,7 @@ The algorithms for the three modifications are available on GitHub (\url{https:/
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Figures/Modif_matrix.pdf}
-\caption{Example illustration of the protocol for modifying matrices. The matrices represent the pairwise character differences for 100 characters. Blue colours correspond to low character differences and orange colours correspond to high character differences. \textbf{A} - a random Birth-Death tree is simulated and used for generating the ``normal'' matrix (\textbf{B}), characters in this matrix are then removed or duplicated to favour maximised character difference (\textbf{C}), minimised it (\textbf{D}) or randomise it (\textbf{E}).}
+\caption{Example illustration of the protocol for modifying matrices. The matrices represent the pairwise character differences for 100 characters. Blue colours correspond to low character differences and orange colours correspond to high character differences. \textbf{A} - a random Birth-Death tree is simulated and used for generating the ``normal'' matrix (\textbf{B}), characters in this matrix are then removed or duplicated to favour maximised character difference (\textbf{C}), minimised it (\textbf{D}) or randomise it (\textbf{E}). The differences between the characters is low in \textbf{C} (minimised compared to \textbf{A}) implying a high correlation between the characters. Conversely, the character differences is high in \textbf{D} (maximised compared to \textbf{A}) implying a high correlation between the characters.}
 \label{Fig:modif_matrix}
 \end{figure}
 
@@ -410,28 +410,7 @@ There is a significant difference between all scenarios (maximising, minimising 
 
 \input{Tables/Tab_pooledscenarios_test.tex}
 
-% \begin{table}[ht]
-% \centering
-% \begin{tabular}{ll|r|rr}
-%   \hline
-% metric & test & bhatt.coeff & statistic & p.value \\ 
-%   \hline
-% RF & maxi:mini & 0.588 & 439466.500 & \textbf{0.000} \\ 
-%    & maxi:rand & 0.894 & 347624.500 & \textbf{0.000} \\ 
-%    & mini:rand & 0.846 & 115008.500 & \textbf{0.000} \\ 
-% Tr & maxi:mini & 0.628 & 443049.500 & \textbf{0.000} \\ 
-%    & maxi:rand & 0.921 & 348074.000 & \textbf{0.000} \\ 
-%    & mini:rand & 0.825 & 113171.500 & \textbf{0.000} \\ 
-%    \hline
-% \end{tabular}
-% \caption{Difference between the pooled scenarios. bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction), significant values are in bold.} 
-% \label{Tab_pooledscenarios_test}
-% \end{table}
-
 \subsubsection{Number of characters}
-%MB: Here and other similar subsection headings: the effect on what?
-%TG: quick fix!
-
 This effect of the character difference is not dependent on the number of characters when looking at clade conservation (i.e. $NTS_{RF}$).
 The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.76, 0.78, 0.8 respectively - see supplementary materials 3) with a significant difference only between 100 and 1000 characters (Table \ref{Tab_pooledscharacters_test}).
 %MB: The above sentence has too many "for"s. It's too long and needs to be split to be intelligible.
@@ -518,11 +497,6 @@ However, the effect of these sources of correlation was out of the scope of this
 \subsection{Limitations}
 %MB: I think what this section _really_ needs is an assessment of the method used to simulate correlations. It was basically accomplished by duplicating characters. It wasn't accomplished by evolving some characters with a particular covariance model (which probably would've been better). We kind of faked-up that model. 
 %TG: agree.
-
-
-TODO
-
-
 First, simulating evolutionary history is complex.
 Not only because the models we're using to infer phylogenies are ever improving \citep[e.g.][]{heath2014fossilized,Wright01072016} but also because generalising morphological evolution across vastly different organisms is probably impossible.
 This can lead to spuriously generated discrete morphological matrices
@@ -574,6 +548,7 @@ These results seem independent on the size of the matrix (number of taxa and/or 
 
 However, in modest size matrices (25 taxa; 100 to 350 characters), the effect of actively choosing to minimise character correlation was not more significant than simply bootstrapping the matrix, suggesting that character correlation is more a problem in large discrete morphological matrices.
 For such matrices, minimising the character correlation (resampling characters $<25$\% different) or maximising it ($>75$\%) respectively significantly decreased and increased correct topological recovery compared to randomly resample matrices.
+%TODO
 %MB: But at what point? How much correlation is needed to affect it? TG: added values.
 
 
