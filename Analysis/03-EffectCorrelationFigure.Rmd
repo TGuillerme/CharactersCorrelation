@@ -20,7 +20,6 @@ Getting the functions and the data
 ```{r, eval = TRUE, message = FALSE}
 library(dispRity)
 source("functions.R") ; load.functions(test = FALSE)
-dyn.load("../Functions/char.diff.so")
 load("../Data/NTS/matrix.nts.Rda")
 source("../Data/load.data.R")
 ```
