@@ -11,7 +11,7 @@
 #' @author Thomas Guillerme
 #' @export
 
-# path = "../Data/Trees_out/Consensus_trees/Bayesian/Done/25t_100c/"
+# path = "../Data/Trees_out/Consensus_trees/Bayesian/Trees/25t_100c/"
 # suffix = "con.tre"
 
 tree.resolution <- function(path, suffix) {
@@ -55,12 +55,12 @@ plot.tree.resolution <- function(path, ntaxa, col, type = "line") {
     bayesian_path <- parsimon_path <- list()
 
     ## Get the full path for both methods
-    bayesian_path[[1]] <- paste0(path, "Bayesian/Done/", ntaxa, "t_100c/")
-    parsimon_path[[1]] <- paste0(path, "Parsimony/Done/", ntaxa, "t_100c/")
-    bayesian_path[[2]] <- paste0(path, "Bayesian/Done/", ntaxa, "t_350c/")
-    parsimon_path[[2]] <- paste0(path, "Parsimony/Done/", ntaxa, "t_350c/")
-    bayesian_path[[3]] <- paste0(path, "Bayesian/Done/", ntaxa, "t_1000c/")
-    parsimon_path[[3]] <- paste0(path, "Parsimony/Done/", ntaxa, "t_1000c/")
+    bayesian_path[[1]] <- paste0(path, "Bayesian/Trees/", ntaxa, "t_100c/")
+    parsimon_path[[1]] <- paste0(path, "Parsimony/Trees/", ntaxa, "t_100c/")
+    bayesian_path[[2]] <- paste0(path, "Bayesian/Trees/", ntaxa, "t_350c/")
+    parsimon_path[[2]] <- paste0(path, "Parsimony/Trees/", ntaxa, "t_350c/")
+    bayesian_path[[3]] <- paste0(path, "Bayesian/Trees/", ntaxa, "t_1000c/")
+    parsimon_path[[3]] <- paste0(path, "Parsimony/Trees/", ntaxa, "t_1000c/")
 
 
     ## Get the trees

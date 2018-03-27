@@ -45,7 +45,7 @@ par(op)
 
 <!-- For generating the figure for the paper (without the legend) -->
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
 pdf("../Writing/Figures/RF_results_best.pdf",width = 8,height = 8)
 op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
 plot.results.single(t25_list, metric = 2, what = "best",
@@ -56,7 +56,7 @@ plot.results.single(t75_list, metric = 2, what = "best", ylab = "RF for 75 taxa"
 plot.results.single(t150_list, metric = 2, what = "best",
     ylab = "RF for 150 taxa", NTS = TRUE)
 par(op)
-dev.off()
+# dev.off()
 ```
 
 
@@ -77,7 +77,7 @@ par(op)
 
 <!-- For generating the figure for the paper (without the legend) -->
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
 pdf("../Writing/Figures/Tr_results_best.pdf", width = 8, height = 8)
 op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
 plot.results.single(t25_list, metric = 4, what = "best",
@@ -88,7 +88,7 @@ plot.results.single(t75_list, metric = 4, what = "best", ylab = "Tr for 75 taxa"
 plot.results.single(t150_list, metric = 4, what = "best",
     ylab = "Tr for 150 taxa", NTS = TRUE)
 par(op)
-dev.off()
+# dev.off()
 ```
 
 
@@ -112,7 +112,7 @@ par(op)
 
 <!-- For generating the figure for the paper (without the legend) -->
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
 pdf("../Writing/Figures/RF_results_null.pdf", width = 8, height = 8)
 op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
 plot.results.single(t25_list, metric = 2, what = "null",
@@ -123,7 +123,7 @@ plot.results.single(t75_list, metric = 2, what = "null", ylab = "RF for 75 taxa"
 plot.results.single(t150_list, metric = 2, what = "null",
     ylab = "RF for 150 taxa", NTS = TRUE)
 par(op)
-dev.off()
+# dev.off()
 ```
 
 Comparison to 'null' tree (Triplets normalised distance)
@@ -142,7 +142,7 @@ par(op)
 
 <!-- For generating the figure for the paper (without the legend) -->
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
 pdf("../Writing/Figures/Tr_results_null.pdf", width = 8, height = 8)
 op <- par(mfrow=c(3,1), mar = c(2, 4, 1, 2))
 plot.results.single(t25_list, metric = 4, what = "null",
@@ -153,7 +153,7 @@ plot.results.single(t75_list, metric = 4, what = "null", ylab = "Tr for 75 taxa"
 plot.results.single(t150_list, metric = 4, what = "null",
     ylab = "Tr for 150 taxa", NTS = TRUE)
 par(op)
-dev.off()
+# dev.off()
 ```
 
 ## Ability to recover the "true" tree
