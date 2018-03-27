@@ -384,15 +384,15 @@ kable(sum_Tr_null, row.names = FALSE, caption = captions_summary[4])
 
 <!-- Table for publication -->
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide'}
 ## Labels
 labels_summary <- paste0("Full_Tab_Summary", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
 ## Tables
-make.xtable(sum_RF_best, caption = captions_summary[1], label = labels_summary[1], path = "../Writing/Tables/")
-make.xtable(sum_Tr_best, caption = captions_summary[2], label = labels_summary[2], path = "../Writing/Tables/")
-make.xtable(sum_RF_null, caption = captions_summary[3], label = labels_summary[3], path = "../Writing/Tables/")
-make.xtable(sum_Tr_null, caption = captions_summary[4], label = labels_summary[4], path = "../Writing/Tables/")
+make.xtable(sum_RF_best, caption = captions_summary[1], label = labels_summary[1], path = "../Writing/Tables/", longtable = TRUE)
+make.xtable(sum_Tr_best, caption = captions_summary[2], label = labels_summary[2], path = "../Writing/Tables/", longtable = TRUE)
+make.xtable(sum_RF_null, caption = captions_summary[3], label = labels_summary[3], path = "../Writing/Tables/", longtable = TRUE)
+make.xtable(sum_Tr_null, caption = captions_summary[4], label = labels_summary[4], path = "../Writing/Tables/", longtable = TRUE)
 ```
 
 ## Nested anova
@@ -457,7 +457,7 @@ kable(bc_Tr_null, row.names = FALSE, caption = captions_bc[4], digit = 3)
 
 <!-- Table for publication -->
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide'}
 ## Labels
 labels_bc <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
@@ -504,7 +504,7 @@ kable(wx_Tr_null, row.names = FALSE, caption = captions_wx[4], digit = 3)
 
 <!-- Table for publication -->
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide'}
 ## Labels
 labels_wx <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
