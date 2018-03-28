@@ -41,6 +41,7 @@ matrices_cd <- get.matrix.CD(path = "../Data/Simulations/Matrices", "25t_100c", 
 
 ## Running the model
 model_out <- run.lm(matrices_cd, whole_data, chain = "25t_100c", method = "Bayesian", metric = "RF", cent.tend = NULL)
+model_beta <- run.lm(matrices_cd, whole_data, chain = "25t_100c", method = "Bayesian", metric = "RF", cent.tend = NULL, type = "beta")
 
 ## Plotting the output
 par(bty = "n")
@@ -61,21 +62,21 @@ load("../Data/matrices_cd.Rda")
 # Pooled models
 
 ```{r, fig.width=12, fig.height=12, warnings = FALSE}
-## Pool all the results into one list
-pooled_results <- pool.matrix.cd(all_matrices_cd, length.out = 28)
+# ## Pool all the results into one list
+# pooled_results <- pool.matrix.cd(all_matrices_cd, length.out = 28)
 
-# ## Running the model
-model_out_bay_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", cent.tend = NULL)
-model_out_bay_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "Triplets", cent.tend = NULL)
-model_out_par_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "RF", cent.tend = NULL)
-model_out_par_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", cent.tend = NULL)
+# # ## Running the model
+# model_out_bay_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", cent.tend = NULL)
+# model_out_bay_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "Triplets", cent.tend = NULL)
+# model_out_par_RF <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "RF", cent.tend = NULL)
+# model_out_par_Tr <- run.lm(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", cent.tend = NULL)
 
-## Plotting the output
-par(bty = "n", mfrow = c(2,2))
-one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", model_out_bay_RF, cent.tend = NULL, legend = TRUE, main = "Bayesian", xlab = "RF")
-one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", model_out_bay_Tr, cent.tend = NULL, legend = FALSE, main = "Bayesian", xlab = "RF")
-one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", model_out_par_RF, cent.tend = NULL, legend = FALSE, main = "Parsimony", xlab = "Triplets")
-one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", model_out_par_Tr, cent.tend = NULL, legend = FALSE, main = "Parsimony", xlab = "Triplets")
+# ## Plotting the output
+# par(bty = "n", mfrow = c(2,2))
+# one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", model_out_bay_RF, cent.tend = NULL, legend = TRUE, main = "Bayesian", xlab = "RF")
+# one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Bayesian", metric = "RF", model_out_bay_Tr, cent.tend = NULL, legend = FALSE, main = "Bayesian", xlab = "RF")
+# one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", model_out_par_RF, cent.tend = NULL, legend = FALSE, main = "Parsimony", xlab = "Triplets")
+# one.correlation.plot(pooled_results, whole_data, chain = "pool", method = "Parsimony", metric = "Triplets", model_out_par_Tr, cent.tend = NULL, legend = FALSE, main = "Parsimony", xlab = "Triplets")
 ```
 
 # Individual models
@@ -108,6 +109,8 @@ kable(correlation.table(all_models_out), digits = 3, caption = "Linear model res
 
 ```
 
+<!-- only 75t_100c correctly passes the lm assumptions -->
+
 ```{r, fig.width=12, fig.height=12}
 ## Plotting the results
 all.correlation.plot(all_matrices_cd, whole_data, metric = "Triplets", method = "Bayesian", models = all_models_out, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL)
@@ -126,6 +129,9 @@ kable(correlation.table(all_models_out), digits = 3, caption = "Linear model res
 
 ```
 
+<!-- only 75t_100c and 150t_100c correctly passes the lm assumptions -->
+
+
 ```{r, fig.width=12, fig.height=12}
 ## Plotting the results
 all.correlation.plot(all_matrices_cd, whole_data, metric = "RF", method = "Parsimony", models = all_models_out, col = c("blue", "orange", "green"), rounding = 3, cent.tend = NULL)
@@ -142,6 +148,10 @@ all_models_out <- run.all.lm(all_matrices_cd, whole_data, method = "Parsimony", 
 kable(correlation.table(all_models_out), digits = 3, caption = "Linear model results for the Parsimony trees and Triples metric.")
 
 ```
+
+<!-- only 150t_100c correctly passes the lm assumptions -->
+
+
 
 ```{r, fig.width=12, fig.height=12}
 ## Plotting the results

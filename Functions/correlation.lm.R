@@ -130,7 +130,8 @@ pool.matrix.cd <- function(list, length.out) {
 #' @param metric which metric to plot (\code{"RF"} or \code{"Triplets"})
 #' @param method which method to plot (\code{"Bayesian"} or \code{"Parsimony"}) 
 #' @param cent.tend the central tendency to plot for matrix_cd (\code{default = mean})
-#' 
+#' @param type which type of model to use: simple "linear" or "beta" regression?
+#'  
 #' @examples
 #'
 #' @seealso
@@ -138,7 +139,7 @@ pool.matrix.cd <- function(list, length.out) {
 #' @author Thomas Guillerme
 #' @export
 
-run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = NULL) {
+run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = NULL, type = "linear") {
 
     ## Get the metric
     if(metric == "RF") {
@@ -206,8 +207,8 @@ run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = N
                         )
                     )
     } else {
-        warning("DEBUG: Change length.out value in run.lm and one.correlation.plot")
-        length.out <- 28
+        # TODO: change
+        length.out <- 35
         data_metric <- data.frame(
             "Metric" = c(
                 unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[1:length.out, metric_value]), method_value, metric_value, length.out)),
@@ -236,7 +237,11 @@ run.lm <- function(matrices_cd, whole_data, chain, metric, method, cent.tend = N
 
 
     ## Running the model
-    return(lm(Metric ~ CD, data = data_table))
+    if(type != "beta") {
+        return(lm(Metric ~ CD, data = data_table))
+    } else {
+        return(betareg::betareg(Metric ~ CD, data = data_table))
+    }
 }
 
 

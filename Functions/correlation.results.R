@@ -119,8 +119,10 @@ one.correlation.plot <- function(matrices_cd, whole_data, chain, metric, method,
         y_maxi <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$maxi[, metric_value][1:length.out]
         y_rand <- whole_data[[taxa_value]][[character_value]][[method_value]]$norm$rand[, metric_value][1:length.out]
     } else {
-        warning("DEBUG: Change length.out value in run.lm and one.correlation.plot")
-        length.out <- 28
+        
+        ## TODO change
+        length.out <- 35
+
         y_mini <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$mini[1:length.out, metric_value]), method_value, metric_value, length.out))
         y_maxi <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$maxi[1:length.out, metric_value]), method_value, metric_value, length.out))
         y_rand <- unlist(lapply(whole_data, lapply, function(X, method_value, metric_value, length.out) return(X[[method_value]]$norm$rand[1:length.out, metric_value]), method_value, metric_value, length.out))
