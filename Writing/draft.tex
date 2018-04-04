@@ -320,7 +320,6 @@ For maximising the pairwise differences between characters, we selected the char
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
-% Clever.
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
 This step resulted in a total of 1260 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})
@@ -328,7 +327,7 @@ The algorithms for the three modifications are available on GitHub (\url{https:/
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Figures/Modif_matrix.pdf}
-\caption{Example illustration of the protocol for modifying matrices. The matrices represent the pairwise character differences for 100 characters. Blue colours correspond to low character differences and orange colours correspond to high character differences. \textbf{A} - a random Birth-Death tree is simulated and used for generating the ``normal'' matrix (\textbf{B}), characters in this matrix are then removed or duplicated to favour maximised character difference (\textbf{C}), minimised it (\textbf{D}) or randomise it (\textbf{E}). The differences between the characters is low in \textbf{C} (minimised compared to \textbf{A}) implying a high correlation between the characters. Conversely, the character differences is high in \textbf{D} (maximised compared to \textbf{A}) implying a high correlation between the characters.}
+\caption{Example illustration of the protocol for modifying matrices. The matrices represent the pairwise character differences for 100 characters. Blue colours correspond to low character differences and orange colours correspond to high character differences. \textbf{A} - a random Birth-Death tree is simulated and used for generating the ``normal'' matrix (\textbf{B}), characters in this matrix are then removed or duplicated to favour maximised (\textbf{C}), minimised (\textbf{D}) or randomise character difference (\textbf{E}). The differences between the characters is low in \textbf{C} (minimised compared to \textbf{A}) implying a high correlation between the characters. Conversely, the character differences is high in \textbf{D} (maximised compared to \textbf{A}) implying a low correlation between the characters.}
 \label{Fig:modif_matrix}
 \end{figure}
 
@@ -350,11 +349,10 @@ The 2880 tree inferences took around one CPU century on the Imperial College Hig
 \subsection{Comparing topologies}
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Foulds distance \citep{RF1981} and the triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``randomised'' matrices and the tree inferred from the ``normal'' matrix.
 We explored the effect of character difference on recovering the ``normal'' topology by comparing the ``maximised'', ``minimised'' and ``randomised'' trees to the ``normal'' tree (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best} and Supplementary materials 3).]
-%TG: True tree comparison stuff:
 Note that we are not comparing the trees to the ``true'' tree used to simulate the matrices.
-First, in biology, this tree is by definition unknown.
+First, in biology, this tree is always unknown.
 Second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the ``normal'', ``maximised'' and ``minimised'' trees.
-When measuring the difference between these trees and the ``true'' tree, we would also confound the effect of simulating birth-death trees simulating discrete morphological matrices from there.
+When measuring the difference between these trees and the ``true'' tree, we would also confound the effect of simulating a birth-death tree and simulating a discrete morphological matrices from it.
 
 The metric scores where calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
 The measurements where then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
@@ -363,8 +361,6 @@ The normalised score for both metrics thus reflects two distinct aspects of tree
 
 Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at one.
 The residuals of any model based on the $NTS$ scores were not normal thus preventing the use of parametric tests for comparisons (see Supplementary material 3).
-%MB: "the resulting in residuals..." I'm not sure what this sentence is supposed to say, so I can't suggest an edit.
-%TG: Probably a typo. Basically the residuals of lm or anovas cannot be normal because of this hard bound so we can't use parametric stats.
 Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric} would be biased in its p-value calculation due to the presence of equal values in the $NTS$ distributions (e.g. when multiple trees are equal to the ``normal'' tree).
 Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
 Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
