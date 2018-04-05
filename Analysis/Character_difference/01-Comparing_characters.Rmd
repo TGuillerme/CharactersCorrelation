@@ -269,7 +269,7 @@ make.a.matrix <- function(taxa = 80, characters = 400) {
 }
 ```
 
-```{r}
+```{r, eval = FALSE}
 # Number of replicates:
 replicates = 100
 # Generate the matrices
@@ -306,7 +306,7 @@ median_first_character_correlation <- apply(first_character_correlation, 1, medi
 
 Now let's plot all these results:
 
-```{r, fig.width = 12, fig.height = 12}
+```{r, fig.width = 12, fig.height = 12, eval = FALSE}
 op <- par(mfrow = c(2,2), bty = "n")
 hist(characters_differences_distribution, breaks = 40, main = "Characters Difference distribution",
     xlab = "Characters Differences")
@@ -319,7 +319,7 @@ par(op)
 
 And finally the example for the first character again:
 
-```{r, fig.width = 10, fig.height = 10}
+```{r, fig.width = 10, fig.height = 10, eval = FALSE}
 plot(first_character_differences[,1], type = "l", col = "lightblue", ylim = c(0,1), xlab = "",
     ylab = "", main = "Characters comparison (matrix 80x400)")
 lines(first_character_correlation[,1], col = "yellow", lty = 3)
