@@ -1,5 +1,6 @@
 \documentclass[11pt]{letter}
 \usepackage[a4paper,left=2.5cm, right=2.5cm, top=1cm, bottom=1cm]{geometry}
+\usepackage{hyperref}
 \usepackage[osf]{mathpazo}
 \signature{Thomas Guillerme \\ Martin Brazeau}
 \address{The University of Queensland \\School of Biological Sciences \\St Lucia QLD 4067, Australia \\guillert@tcd.ie}
@@ -23,6 +24,7 @@ Our results suggest that datasets that have higher levels of internal correlatio
 This is too be contrasted with datasets that have low levels of correlation (i.e. more noisy) which can still recover the correct topology, depending on the amount of data and the inference method used.
 These results, although non-surprising to researchers in the field, are the first - to our knowledge - to actually quantify the effect of character correlation and provides practical data and reusable code allowing researcher to effectively measure the limitations of their datasets.
 Furthermore, we suggest that using our proposed new metric, it would be able to ``bias'' bootstrap pseudo-replications in phylogenetic analysis by favouring character with high or low correlation, depending on the purpose of the phylogenetic search.
+Finally, the code and data for this whole analysis is entirely repeatable through \url{https://github.com/TGuillerme/CharactersCorrelation/}.
 
 We look forward to hearing from you soon,
 
