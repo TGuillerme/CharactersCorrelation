@@ -117,6 +117,7 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 Phylogenetic analysis algorithms require the assumption of character independence - a condition generally acknowledged to be violated by morphological data.
 Correlation between characters can originate from intra-organismal features, shared phylogenetic history or forced by particular character-state coding schemes. 
 Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be avoided \textit{a priori} with good practices, phylogenetic software do not distinguish between any of them.
+
 In this study, we propose a new metric of raw character difference as a proxy for character correlation.
 Using thorough simulations, we test the effect of increasing or decreasing character differences on tree topology.
 Overall, we found an expected positive effect of reducing character correlations on recovering the correct topology.
@@ -128,7 +129,7 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 
 \end{abstract}
 
-\noindent (Keywords: Character difference, correlation, topology, Bayesian, Maximum Parsimony)\\
+\noindent (Keywords: Character difference, correlation, topology, Bayesian, maximum parsimony)\\
 
 \vspace{1.5in}
 
@@ -141,11 +142,11 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 %---------------------------------------------
 \section{Introduction}
 
-The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
+The last two decades have witnessed a ``resurgence'' of interest in the use of morphological character data in phylogenetic studies.
 This owes in large part to the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary. 
 Morphological character data are often considered inferior to molecular sequence data, but are often the only source of phylogenetic data for extinct species. 
 While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any empirical investigations into their statistical properties.
-As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to 'misbehave'.
+As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to ``misbehave''.
 This opens up possibilities for predicting problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
 
 The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data.
@@ -158,7 +159,6 @@ Before discussing character correlation further, it is important to understand t
     For example the lower and upper molar characters in mammals generally occlude one another. 
     Therefore, one character describing a feature of a lower molar will be expected to be complemented by the surface of the occluding upper molar.
     Characters of the occlusal surface of two opposing molars will be expected to directly covary.
-    %MB: We should probably cite some "Gunterology" here.
     Pleiotropy also results in covariation between different aspects of phenotype. 
     From a phylogenetic perspective, it can be especially pernicious because the relationship between the traits in question may have no obvious link from a morphological or functional comparison alone. 
     Intra-organismal links can be the targets of comparative developmental biology \citep{goswami2010,kelly2010reduced,stoessel2013morphological,goswami2014macroevolutionary} or functional investigations. 
@@ -166,20 +166,20 @@ Before discussing character correlation further, it is important to understand t
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait. 
     Unlike the case of intra-organismal dependence, there need not be an intrinsic constraint that causes these traits to covary.
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
-    This is thought to correspond to adaptations for fossoriality or acquatic lifestyles.
-    Such covariances are generally studied in the context of a given phylogeny, often one derived from molecular data with morphological traits mapped on.
+    This is thought to correspond to adaptations for fossoriality or aquatic lifestyles.
+    Such covariances are generally studied in the context of a given phylogeny, often one derived from molecular data with the morphological traits of interest mapped on it.
     Many methods have been developed to study these correlations, especially since they can provide us with a lot of information on how specific groups acquired specific characteristics \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,Grabowski2016}.
     However, these methods do not give us a means to objectively control correlations that might adversely affect phylogenetic inference.
 
     \item \textbf{Coding dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     Coding dependence manifests itself in several ways, particularly in coding redundant information.
     For instance, coding for the same absence in different characters creates state transformations associated with the loss or gain of a particular character.
-    This occurs when a number of multistate characters include two variable feature states (e.g. large, small; red, blue etc.) in conjunction with absense.
+    This occurs when a number of multistate characters include two variable feature states (e.g. large, small; red, blue etc.) in conjunction with absence.
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
     This coding dependency is linked to hierarchical dependency between characters \citep{wilkinson1995coping,BrazeauNA}.
     Finally this can also be due to a bias in the amount of characters available.
-    For example, in skulls, because of their complexity, there is a high likelihood of inducing correlation (by effectively reducing structural complexity).
+    For example, in skulls, because of their complexity, there is a high likelihood of inducing correlation (by effectively reducing structural complexity to discrete characters).
 \end{itemize}
 
 \noindent Of course, the three sources of dependence have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
@@ -191,13 +191,13 @@ Evolutionary dependence itself requires the resolution of a phylogenetic tree, a
 This is frequently accomplished by mapping morphological traits on molecular phylogenetic trees.
 
 These sources of dependence between characters are well studied in biology.
-Biological and evolutionary dependences are inherent parts to evo-devo and macroevolution and best practices to avoid coding-induced dependences are commonly known and applied.
+Biological and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences software that are blind to these distinctions.
 If fact, what the software are confronted with is a two dimensional matrix problem that renders the morphological subtleties described opaque.
 This introduces a new, less studied, source of character dependence:
 
 \noindent \textbf{Correlation between characters detected by the software}: this is the result how software actually interprets the differences between characters.
-The vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treating them as different/similar tokens).
+The vast majority of phylogenetic software ignores both the character's definition and the different states signification (simply treating them as different or similar tokens).
 Therefore a great number of characters and - traditionally - a few number of tokens can easily lead to dependence between characters.
 For example, if we consider the following matrix containing four cetartiodactyls - say a pig (e.g. \textit{Sus}), a deer (\textit{Cervus}), a hippo (\textit{Hippopotamus}) and a whale (\textit{Balaenoptera}) - and four binary characters - say (\textbf{C1}: presence (1) or absence (0) of an astragalus; \textbf{C2}: presence (0) or absence (1) of baleen; \textbf{C3}: presence (0) or absence (1) of a left astragalus with a double pulley; \textbf{C4}: presence (0) or absence (1) of a right astragalus with a double pulley:
 
@@ -216,19 +216,16 @@ For example, if we consider the following matrix containing four cetartiodactyls
 \end{table}
 
 In the example in Table \ref{Tab:example_matrix}, the characters \textbf{C1} and \textbf{C2} are the most likely to be truly independent; characters \textbf{C3} and \textbf{C4} suffer from a a coding induced dependency; characters \textbf{C1} and \textbf{C3}/\textbf{C4} have an evolutionary induce dependency and again, characters \textbf{C2} and \textbf{C3}/\textbf{C4} are likely to be independent.
-Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the different character states tokens will be used in order to infer a phylogenetic tree.
-Some character will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
+Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the character states tokens will be used in order to infer the tree.
+Some characters will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
 Yet the question has never been explored through a thorough simulation framework (although it has been tackled empirically for morphological data \citealt{Davalos01072014} or molecular data \citealt{ZouConvergence}).
 
 How does these correlation really affect topology?
-%MB: If you've got intrinsic correlations, then those correlations could occur across anatomical systems. Would their effects cancel each other out?
-%TG: Actually not sure what you mean by this one and whether this is something we can test with this paper?
-%MB: Will "noisier" characters accurately cancel out the effects of correlation?
-Furthermore, we expect matrices with a high level of correlation to recover precise but inaccurate topologies but will matrices with low level of correlation (i.e. with high levels of homoplasy) actual cancel out the effects of correlation?
-We formally assess the effect of discrete character's correlation using simulated data.
-We propose a new metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences/similarities between characters.
+We expect matrices with a high level of correlation to recover precise but inaccurate topologies but will matrices with low level of correlation (i.e. with high levels of homoplasy) actual cancel out the effects of correlation?
+Here we formally assess the effect of discrete character's correlation using simulated data.
+We propose a new distance metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences or similarities between characters.
 We found that overall, there is a detectable effect of character correlation on topology where an increase in character dependence results in a decrease in the ability to recover the correct topology.
-These results, however, vary in magnitude depending on the size of matrix and the inference method used.
+These results, however, vary greatly in magnitude depending on the size of matrix and the inference method used.
 
 \section{Methods}
 
@@ -236,13 +233,13 @@ To assess the effects of character correlation on the accuracy of phylogenetic i
 \begin{enumerate}
     \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 and 150 taxa for 100, 350 and 1000 characters, hereafter called the ``normal'' matrices. This step resulted in 9 matrices.
 
-    \item \textbf{Modifying matrices}: we modified the ``normal'' matrices by modifying the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least different or most different characters and replacing them randomly by the remaining characters. Our protocol for measuring character difference is detailed below.
+    \item \textbf{Modifying matrices}: we changed the ``normal'' matrices by modifying the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least different or most different characters and replacing them randomly by the remaining characters. Our protocol for measuring character difference is detailed below.
  
     We also randomly duplicated characters from the ``normal'' matrices without biasing towards maximising or minimising character differences to create randomised matrices (hereafter called the ``randomised'' matrices - equivalent to a null expectancy). This step resulted in 36 matrices.
 
-\item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both maximum parsimony % (MP) %TG: not a big fan of the abbreviations - however if you think they're necessary, we can always add them.
- and Bayesian inference.% (BPP). 
-Hereafter, the resultant topologies are called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees). This step resulted in 72 topologies.
+\item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both maximum parsimony and Bayesian inference.
+Hereafter, the resultant topologies are called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees).
+This step resulted in 72 topologies.
     \item \textbf{Comparing topologies}: finally, we compared the ``normal'' to the ``maximised'', ``minimised'' and ``randomised'' trees to measure the effect of character correlation on topology.
 \end{enumerate}
 Each step was replicated 35 times and are described below in more detail, along with our proposed definition for measuring the difference between characters.
@@ -258,8 +255,6 @@ Each step was replicated 35 times and are described below in more detail, along 
 \label{CD_description}
 To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
 In order to measure this, we propose a new distance metric to measure the difference between two characters:
-%MB: Are you sure this is new? I can't read the formula because it's in LaTeX gobbledygook but there exist methods for measuring character similarity,
-%MB: I can't be sure, but this could as well be Farris's (1970) advancement index as applied to characters rather than taxa?
 %TG: OK, I've checked Farris' stuff. Despite not beeing described (at least not the in 1970 Syst Biol paper), it seems that the advancement index is just the distance between two taxa. Appart from the taxa/character difference, it's kind of similar but (1) it's not ponderated (divided by n), centered (-1/2) and reversed (1-2(...)); so I'm not sure if we need to say it's similar. In the end it's a distance metric and it can be pretty similar to *any* distance metric. I think we can leave as it is (plus, I've reinvented the wheel by mathematicallty demonstrating it's a distance - my first only real math in a draft).
 
 \subsubsection{Character Difference ($CD$)}
@@ -291,8 +286,6 @@ Because the character is continuous and bounded between $(0,1)$, it can be inter
 To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146}.
 First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution maintaining $\lambda$ $>$ $\mu$ using the \texttt{diversitree} \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
 For each tree, we arbitrarily set the outgroup to be the first taxon (alphabetically) thus effectively rooting the trees on this taxon.
-%MB: If we are using undirected characters, does it matter what the rooting is?
-%TG: Not at all but it speeds up the MCMC
 These trees are hereafter called the ``true'' trees (see distinction below).
 We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
 \begin{itemize}
@@ -365,6 +358,9 @@ Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric
 Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
 Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
 Comparisons falling between these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
+
+The resulting full simulation was 4TB @@@ big so is not shared here (though the parameters are).
+However, the resulting consensus trees on which the topological differences are calculated are available at @@@.
 
 \section{Results}
 
