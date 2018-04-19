@@ -55,7 +55,7 @@ scenarios <- pool.table(list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_nul
                     comp.label = comp.labels, metric.label = metric.labels, label.param = "scenario")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 library(knitr)
 ## Setting the table captions
 captions_pooled_scenarios <- paste("Summary statistics of the normalised distances to the best or null tree for the pooled scenarios.")
@@ -66,7 +66,7 @@ kable(scenarios, row.names = FALSE, caption = captions_pooled_scenarios)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 library(xtable)
 make.xtable(scenarios, caption = captions_pooled_scenarios, label = "Full_Tab_pooledscenarios", path = "../Writing/Tables/")
 ```
@@ -80,19 +80,19 @@ results <- test.effect.aov(whole_data, formula = NTS ~ scenario, fun = lm)
 
 Checking the model assumptions
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 kable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
 ```
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif", path = "../Writing/Tables/")
 ```
 
 Applying a Bhattacharrya Coefficient and Wilcoxon test
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, warning = FALSE}
 ## Summarise into a table
 scenario_list <- list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_null, scenario_Tr_null)
 comp.labels <- c("Best", rep("", 5), "Null", rep("", 5))
@@ -100,7 +100,7 @@ metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 test_table <- pair.test.table(scenario_list, comp.label = comp.labels, metric.label = metric.labels)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Caption
 cap_pool_scen_test <- paste("Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
 
@@ -110,13 +110,13 @@ kable(test_table, row.names = FALSE, caption = cap_pool_scen_test)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(test_table, caption = cap_pool_scen_test, label = "Full_Tab_pooledscenarios_test", path = "../Writing/Tables/")
 ```
 
 ## Effect of character correlation per number of character
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, warning = FALSE}
 ## Pooling the data per character
 character_RF_norm <- multi.pool(whole_data, param = c("c100", "c350", "c1000"),
                                metric = "RF", best = "norm")
@@ -136,7 +136,7 @@ characters <- pool.table(list(character_RF_norm, character_Tr_norm, character_RF
                     comp.label = comp.labels, metric.label = metric.labels, label.param = "character")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Setting the table captions
 captions_pooled_characters <- paste("Summary statistics of the normalised distances to the best or null tree for the pooled number of characters.")
 
@@ -146,7 +146,7 @@ kable(characters, row.names = FALSE, caption = captions_pooled_characters)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(characters, caption = captions_pooled_characters, label = "Full_Tab_pooledcharacters", path = "../Writing/Tables/")
 ```
 
@@ -159,13 +159,13 @@ results <- test.effect.aov(whole_data, formula = NTS ~ character, fun = lm)
 
 Checking the model assumptions
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 kable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
 ```
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
@@ -179,7 +179,7 @@ metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 test_table <- pair.test.table(character_list, comp.label = comp.labels, metric.label = metric.labels)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Caption
 cap_pool_char_test <- paste("Difference between the pooled number of characters. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
 
@@ -189,7 +189,7 @@ kable(test_table, row.names = FALSE, caption = cap_pool_char_test)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(test_table, caption = cap_pool_char_test, label = "Full_Tab_pooledscharacters_test", path = "../Writing/Tables/")
 ```
 
@@ -215,7 +215,7 @@ taxa <- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_null),
                     comp.label = comp.labels, metric.label = metric.labels, label.param = "taxa")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Setting the table captions
 captions_pooled_taxa <- paste("Summary statistics of the normalised distances to the best or null tree for the pooled number of taxa.")
 
@@ -225,7 +225,7 @@ kable(taxa, row.names = FALSE, caption = captions_pooled_taxa)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(taxa, caption = captions_pooled_taxa, label = "Full_Tab_pooledtaxa", path = "../Writing/Tables/")
 ```
 
@@ -238,13 +238,13 @@ results <- test.effect.aov(whole_data, formula = NTS ~ taxa, fun = lm)
 
 Checking the model assumptions
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 kable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
 ```
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
@@ -258,7 +258,7 @@ metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 test_table <- pair.test.table(taxa_list, comp.label = comp.labels, metric.label = metric.labels)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Caption
 cap_pool_tax_test <- paste("Difference between the pooled number of taxa. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
 
@@ -268,7 +268,7 @@ kable(test_table, row.names = FALSE, caption = cap_pool_tax_test)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(test_table, caption = cap_pool_tax_test, label = "Full_Tab_pooledstaxa_test", path = "../Writing/Tables/")
 ```
 
@@ -295,7 +295,7 @@ methods <- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, metho
                     comp.label = comp.labels, metric.label = metric.labels, label.param = "method")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Setting the table captions
 captions_pooled_methods <- paste("Summary statistics of the normalised distances to the best or null tree for the pooled methods.")
 
@@ -305,7 +305,7 @@ kable(methods, row.names = FALSE, caption = captions_pooled_methods)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(methods, caption = captions_pooled_methods, label = "Full_Tab_pooledmethod", path = "../Writing/Tables/")
 ```
 
@@ -324,13 +324,13 @@ kable(results$validity, caption = "Normality and variance homoscedasticity tests
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
 Applying a Bhattacharrya Coefficient and Wilcoxon test
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, warning = FALSE}
 ## Summarise into a table
 methods_list <- list(method_RF_norm, method_Tr_norm, method_RF_null, method_Tr_null)
 comp.labels <- c("Best", rep("", 3), "Null", rep("", 3))
@@ -338,7 +338,7 @@ metric.labels <- rep(c("RF", "", "Tr", ""), 2)
 test_table <- pair.test.table(methods_list, comp.label = comp.labels, metric.label = metric.labels)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Caption
 cap_pool_met_test <- paste("Difference between the pooled methods. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
 
@@ -348,7 +348,7 @@ kable(test_table, row.names = FALSE, caption = cap_pool_met_test)
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 make.xtable(test_table, caption = cap_pool_met_test, label = "Full_Tab_pooledsmethods_test", path = "../Writing/Tables/")
 ```
 
@@ -363,7 +363,7 @@ We can also apply a non-parametric pairwise comparison between scenarios for eac
 Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1).
 The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
 
-```{r}
+```{r, warning = FALSE}
 ## Summarising the data
 sum_RF_best <- apply.test(whole_data, "RF", "norm", NULL)
 sum_Tr_best <- apply.test(whole_data, "Triples", "norm", NULL)
@@ -371,7 +371,7 @@ sum_RF_null <- apply.test(whole_data, "RF", "null", NULL)
 sum_Tr_null <- apply.test(whole_data, "Triples", "null", NULL)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Setting the table captions
 captions_summary <- paste("Summary statistics of the normalised", rep(c("Robinson-Fould", "Triplets"), 2), "distance to the", c(rep("best", 2), rep("null", 2)), "tree.")
 
@@ -384,7 +384,7 @@ kable(sum_Tr_null, row.names = FALSE, caption = captions_summary[4])
 
 <!-- Table for publication -->
 
-```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide'}
+```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide', warning = FALSE}
 ## Labels
 labels_summary <- paste0("Full_Tab_Summary", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
@@ -400,7 +400,7 @@ make.xtable(sum_Tr_null, caption = captions_summary[4], label = labels_summary[4
 Let's analysis the data using a nested anova.
 The models look at the effect of our scenarios ("maximised", "minimised", etc...) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).
 
-```{r}
+```{r, warning = FALSE}
 ## Applying an lm to all the data with error
 results <- test.effect.aov(whole_data,
   formula = NTS ~ scenario + (1|method) + (1|taxa) + (1|character), fun = lmer)
@@ -408,13 +408,13 @@ results <- test.effect.aov(whole_data,
 
 Checking the model assumptions
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 kable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 3)
 ```
 
 <!-- Table for publication -->
 
-```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide'}
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 xtable(results$validity, caption = "Normality and variance homoscedasticity tests for anova.", digit = 2, label = "Full_Tab_signif")
 ```
 
@@ -427,7 +427,7 @@ We can also look at the effect of each scenario within each parameter setting (e
 A probability of overlap probability below 0.05 means the two scenario gives a distribution of tree scores that don t overlap (significant effect of one scenario on topology).
 Conversely, an overlap probability above 0.95 means the two scenario gives the same tree scores (significant no effect of one scenario on topology).
 
-```{r}
+```{r, warning = FALSE}
 ## Running the pairwise Bhattacharrya Coefficient analysis:
 bc_RF_best <- apply.test(whole_data, "RF", "norm", bhatt.coeff)
 bc_Tr_best <- apply.test(whole_data, "Triples", "norm", bhatt.coeff)
@@ -435,7 +435,7 @@ bc_RF_null <- apply.test(whole_data, "RF", "null", bhatt.coeff)
 bc_Tr_null <- apply.test(whole_data, "Triples", "null", bhatt.coeff)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Tables
 kable(bc_RF_best, row.names = FALSE, digit = 3)
 kable(bc_RF_best, row.names = FALSE, digit = 3)
@@ -444,7 +444,7 @@ kable(bc_RF_best, row.names = FALSE, digit = 3)
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Setting the table captions
 captions_bc <- paste0("Bhattacharrya Coefficient (",rep(c("Robinson-Fould distance", "Triplets distance"), 2) ," from the ",c(rep("best", 2), rep("null", 2)), " tree)" , " between the different scenarios.")
 
@@ -457,7 +457,7 @@ kable(bc_Tr_null, row.names = FALSE, caption = captions_bc[4], digit = 3)
 
 <!-- Table for publication -->
 
-```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide'}
+```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide', warning = FALSE}
 ## Labels
 labels_bc <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
@@ -475,7 +475,7 @@ We can also apply a non-parametric pairwise comparison between scenarios for eac
 Note however that the resulting p-values are not always exact due to ties in the results (again, due to the metric being bounded to 1).
 The p-values are adjusted for multiple tests using Bonferroni-Holm correction.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, warning = FALSE}
 ## Running the pairwise Wilcox tests:
 wx_RF_best <- apply.test(whole_data, "RF", "norm", wilcox.test)
 wx_Tr_best <- apply.test(whole_data, "Triples", "norm", wilcox.test)
@@ -491,7 +491,7 @@ for(column in c(5,7,9)) {
 }
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 ## Setting the table captions
 captions_wx <- paste0("Non-parametric Wilcoxon test (",rep(c("Robinson-Fould distance", "Triplets distance"), 2) ," from the ",c(rep("best", 2), rep("null", 2)), " tree)" , " between the different scenarios (p-values corrected using Bonferroni-Holm correction).")
 
@@ -504,7 +504,7 @@ kable(wx_Tr_null, row.names = FALSE, caption = captions_wx[4], digit = 3)
 
 <!-- Table for publication -->
 
-```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide'}
+```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide', warning = FALSE}
 ## Labels
 labels_wx <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
