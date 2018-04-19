@@ -11,7 +11,7 @@
 
 <meta name="author" content="Thomas Guillerme" />
 
-<meta name="date" content="2018-03-27" />
+<meta name="date" content="2018-04-19" />
 
 <title>Effect of character correlation</title>
 
@@ -119,7 +119,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Effect of character correlation</h1>
 <h4 class="author"><em>Thomas Guillerme</em></h4>
-<h4 class="date"><em>2018-03-27</em></h4>
+<h4 class="date"><em>2018-04-19</em></h4>
 
 </div>
 
@@ -330,13 +330,6 @@ scenarios &lt;- pool.table(list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <div id="testing-the-effect-of-the-scenario-on-the-nts" class="section level3">
 <h3>Testing the effect of the scenario on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
@@ -513,13 +506,6 @@ test_table &lt;- pair.test.table(scenario_list, comp.label = comp.labels, metric
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 </div>
 </div>
 <div id="effect-of-character-correlation-per-number-of-character" class="section level2">
@@ -692,13 +678,6 @@ characters &lt;- pool.table(list(character_RF_norm, character_Tr_norm, character
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <div id="testing-the-effect-of-the-number-of-characters-on-the-nts" class="section level3">
 <h3>Testing the effect of the number of characters on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
@@ -875,13 +854,6 @@ test_table &lt;- pair.test.table(character_list, comp.label = comp.labels, metri
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 </div>
 </div>
 <div id="effect-of-character-correlation-per-number-of-taxa" class="section level2">
@@ -1054,13 +1026,6 @@ taxa &lt;- pool.table(list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_nul
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <div id="testing-the-effect-of-the-method-on-the-nts" class="section level3">
 <h3>Testing the effect of the method on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
@@ -1237,13 +1202,6 @@ test_table &lt;- pair.test.table(taxa_list, comp.label = comp.labels, metric.lab
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 </div>
 </div>
 <div id="effect-of-character-correlation-per-methods" class="section level2">
@@ -1372,13 +1330,6 @@ methods &lt;- pool.table(list(method_RF_norm, method_Tr_norm, method_RF_null, me
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <div id="testing-the-effect-of-the-method-on-the-nts-1" class="section level3">
 <h3>Testing the effect of the method on the NTS</h3>
 <pre class="r"><code>## Applying an lm to all the data
@@ -1523,13 +1474,6 @@ test_table &lt;- pair.test.table(methods_list, comp.label = comp.labels, metric.
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 </div>
 </div>
 </div>
@@ -4214,7 +4158,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 </table>
 <!-- Table for publication -->
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4279,7 +4223,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryRFbest}
 ## \end{longtable}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4344,7 +4288,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryRFbest}
 ## \end{longtable}</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4409,7 +4353,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryTrbest}
 ## \end{longtable}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4474,7 +4418,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryTrbest}
 ## \end{longtable}</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4539,7 +4483,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryRFnull}
 ## \end{longtable}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4604,7 +4548,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryRFnull}
 ## \end{longtable}</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -4669,7 +4613,7 @@ sum_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, 
 ## \label{Full_Tab_SummaryTrnull}
 ## \end{longtable}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:16 2018
+## % Thu Apr 19 15:31:55 2018
 ## \begin{longtable}{llllrrrrrr}
 ##   \hline
 ## method &amp; taxa &amp; characters &amp; scenario &amp; Min. &amp; 1st Qu. &amp; Median &amp; Mean &amp; 3rd Qu. &amp; Max. \\ 
@@ -6073,15 +6017,8 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6112,7 +6049,7 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \label{Full_Tab_BCRFbest}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6142,15 +6079,8 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \caption{Bhattacharrya Coefficient (Robinson-Fould distance from the best tree) between the different scenarios.} 
 ## \label{Full_Tab_BCRFbest}
 ## \end{table}</code></pre>
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6181,7 +6111,7 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \label{Full_Tab_BCTrbest}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6211,15 +6141,8 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \caption{Bhattacharrya Coefficient (Triplets distance from the best tree) between the different scenarios.} 
 ## \label{Full_Tab_BCTrbest}
 ## \end{table}</code></pre>
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6250,7 +6173,7 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \label{Full_Tab_BCRFnull}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6280,15 +6203,8 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \caption{Bhattacharrya Coefficient (Robinson-Fould distance from the null tree) between the different scenarios.} 
 ## \label{Full_Tab_BCRFnull}
 ## \end{table}</code></pre>
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -6319,7 +6235,7 @@ bc_Tr_null &lt;- apply.test(whole_data, &quot;Triples&quot;, &quot;null&quot;, b
 ## \label{Full_Tab_BCTrnull}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrr}
@@ -7231,15 +7147,8 @@ for(column in c(5,7,9)) {
 </tbody>
 </table>
 <!-- Table for publication -->
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7270,7 +7179,7 @@ for(column in c(5,7,9)) {
 ## \label{Full_Tab_BCRFbest}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7300,15 +7209,8 @@ for(column in c(5,7,9)) {
 ## \caption{Non-parametric Wilcoxon test (Robinson-Fould distance from the best tree) between the different scenarios (p-values corrected using Bonferroni-Holm correction).} 
 ## \label{Full_Tab_BCRFbest}
 ## \end{table}</code></pre>
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7339,7 +7241,7 @@ for(column in c(5,7,9)) {
 ## \label{Full_Tab_BCTrbest}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7369,15 +7271,8 @@ for(column in c(5,7,9)) {
 ## \caption{Non-parametric Wilcoxon test (Triplets distance from the best tree) between the different scenarios (p-values corrected using Bonferroni-Holm correction).} 
 ## \label{Full_Tab_BCTrbest}
 ## \end{table}</code></pre>
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7408,7 +7303,7 @@ for(column in c(5,7,9)) {
 ## \label{Full_Tab_BCRFnull}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7438,15 +7333,8 @@ for(column in c(5,7,9)) {
 ## \caption{Non-parametric Wilcoxon test (Robinson-Fould distance from the null tree) between the different scenarios (p-values corrected using Bonferroni-Holm correction).} 
 ## \label{Full_Tab_BCRFnull}
 ## \end{table}</code></pre>
-<pre><code>## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length
-
-## Warning in names(table) == c(&quot;metric&quot;, &quot;test&quot;, &quot;bhatt.coeff&quot;,
-## &quot;statistic&quot;, : longer object length is not a multiple of shorter object
-## length</code></pre>
 <pre><code>## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}
@@ -7477,7 +7365,7 @@ for(column in c(5,7,9)) {
 ## \label{Full_Tab_BCTrnull}
 ## \end{table}
 ## % latex table generated in R 3.4.4 by xtable 1.8-2 package
-## % Tue Mar 27 15:27:21 2018
+## % Thu Apr 19 15:32:00 2018
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{lllrrrrrr}

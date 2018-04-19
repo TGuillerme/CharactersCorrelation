@@ -64,14 +64,14 @@ The folder contains:
 The tables and figures present in the manuscript are all reproducible through the following scripts:
 
 
-## 01 - Statistics on the effect of character correlation
+## 01 - Effect of character correlation
 
-This script contains all the statistical analysis (including the assumptions tests of the anovas not used in the manuscript - because of the assumptions not being validated).
+This script contains all the statistical analysis and results presented in the manuscript.
 This script is available [here in Rmd](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/01-EffectCorrelationStats.Rmd) or [here in html](https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/01-EffectCorrelationStats.html).
 
 ## 02 - Full comparisons results
 
-This script contains all the statistical analysis present in the manuscript (identical as in the one above) but allows to generate all the tables from the manuscript (including the descriptive tables in the supplementary materials).
+This script contains all the statistical analysis present in the manuscript (identical as in the one above) but allows to generate all the tables from the manuscript (including the descriptive tables in the supplementary materials and the testing of anova assumptions).
 This script is available [here in Rmd](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/02-EffectCorrelationFullResults.Rmd) or [here in html](https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/02-EffectCorrelationFullResults.html).
 
 ## 03 - Figures
