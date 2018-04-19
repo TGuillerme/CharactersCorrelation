@@ -104,6 +104,7 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 %Line numbering
 % \modulolinenumbers[1]
 % \linenumbers
+\newpage
 
 \section{Definition}
 
@@ -117,7 +118,6 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
 
-\newpage
 \section{Distance metric proof}
 
 The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarrow [0;\infty)$ with any character $x$, $y$ and $z$ $\in CD$ if an only if the followings are satisfied:
@@ -139,6 +139,7 @@ The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarro
     CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}
 \end{equation}
 
+\newpage
 
 \subsection{Character difference positivity}
 
@@ -157,6 +158,8 @@ For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ because the differe
 \end{equation}
 
 Thus equation \ref{Positivity} is true.
+
+\newpage
 
 \subsection{Character difference identity}
 
@@ -221,5 +224,6 @@ For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{j}$, $z_{b}$ $\in (0,1)$:
 \end{equation}
 
 Thus equation \ref{Subadditivity} is true.
+
 
 \end{document}
