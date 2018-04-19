@@ -1,7 +1,7 @@
 ##########################
 # Script for using TreeCmp between trees for Character Correlation
 ##########################
-#SYNTAX: TreeCmp -c <chain> -o <output> -f <treeformat> -d <draws> -r <rooted>
+#SYNTAX: sh CC_TreeCmp -c <chain> -r <ref> -o <output> -f <treeformat> -d <draws> -r <rooted>
 #with:
 #-c <chain> the name of the chain
 #-r <ref> the reference tree number (1 = normal, 2 = maximum, 3 = minimum, 4 = null)
