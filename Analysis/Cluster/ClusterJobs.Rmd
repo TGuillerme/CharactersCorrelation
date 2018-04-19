@@ -1,0 +1,231 @@
+---
+title: "Cluster Jobs"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 6
+---
+
+# Cluster Jobs
+
+A quick 'n' dirty tutorial for (re)running jobs on the cluster.
+The idea here is to get the missing consensus trees to finish the goddamn paper.
+Here's a tutorial for doing so.
+The data needed for that and the list of trees to rerun will be sent separately.
+
+## What's in there?
+
+### `/home/`
+
+Once you log in, you automatically get redirected to `/home/`.
+If I remember well, the absolute path is something like `/home/tguiller/`.
+Once in there, you can navigate using the usual `ls`  and `cd`.
+The folder of interest here should be somewhere like:
+
+```
+cd Charsim/Bayesian/
+```
+
+Not entirely sure about the spelling here since I'm doing this from the to of my head (though you'll figure it out easily, it's not like there's a shit ton of stuff on there).
+Anyways, in there, you should find a tonne of files with ugly names.
+The way the names work is pretty easy first set of digits with `t` is the number of taxa, second with `c` is the number of character, third is the chain number (starting with `0`) and then it's either the matrix, the job, the output, etc...
+For example:
+
+```
+150t_1000c_0440.mbjob-bis.e268333
+```
+
+is the error output (`.e...`) of the 440st matrix with 150 taxa and 1000 characters for the MrBayes job (bis) (`.mbjob-bis`) that got assigned the cluster ID `268333`.
+
+This folder will be for launching jobs and retrieving error messages.
+If they don't fuck around with the cluster, you can ignore the error logs (it nearly always generate some anyways, sometimes the error being: "Error: you're using the cluster").
+
+### `/work/`
+
+This is where the stuff gets real.
+The absolute path should be something like `/work/tguiller/` and then `Charsim/Bayesian/` (the same as for `/home/`).
+This is where you can retrieve the jobs which is way more important/useful: it contains folders on the same chain name model as explained above (e.g. `25t_100c_0001/`).
+
+These folders contain the MrBayes files produced by the job and the "scenario" considered.
+I.e. how is the correlation modified:
+
+ * `_norm` for the normal (base) scenarios
+ * `_maxi` for the maximised differences scenarios
+ * `_mini` for the minimised differences scenarios
+ * `_rand` for the randomised differences scenarios 
+
+Usually the randomised and minimised are a pain to run (i.e. don't converge easily) but the other ones should be fine.
+The file suffixes are the following
+
+* `.ckp` or `.ckp~`: the checkpoint files for restarting the MCMC
+* `.con.tre`: pretty critical, the consensus tree!
+* `.log`: the log file (probably won't need to dwelve in there unless some huge crap happens)
+* `.lstat`, `.pstat`, `vstat`, `tstat` and `.parts`: likelihood, posterior probabilities and partition files (ignore - but download!)
+* `.run1.p` and `.run2.p` the posterior probabilities parameters (pretty critical!)
+* `.run1.t` and `.run2.t` the posterior tree distribution (pretty critical!)
+
+The `~` is for "previous" file.
+For example if you have a `.ckp` file, it will rename it `.ckp~` before creating the new `.ckp` file.
+This way if everything goes wrong, you can simply remove the corrupted file (e.g. the new `.ckp`) and rename the previous one by removing the `~` (e.g. `mv my_file.ckp~ my_file.ckp`).
+Good guy Fred Ronquist to implement this!
+
+> Note that the `~` will appear for unfinished chains (e.g. `my_file.run1.p~` and `my_file.run1.t~`); more about that later.
+
+## Downloading stuff
+
+For downloading the jobs and stuff you can either use the `ssh` with your normal `cp` and `mv` but I'll advice you to use a drag and drop client.
+It's actually way more reliable looking at the structure of their fucking cluster (i.e. if you loose connection, it keeps track of what happened and what needs to be done).
+Personally I use the [CyberDuck](https://cyberduck.io/) GUI which is safe, free, small and open.
+
+## The drill
+
+Here's what needs to be done:
+
+  * checking the jobs status
+  * checking finished jobs
+  * Downloading the finished jobs
+  * reruning eventual jobs
+
+### Checking the job status
+
+Easy one, once you're logged in, you can go with
+
+```
+qstat -a
+```
+
+That should give you info on the jobs running or pending (it can be completely empty of course).
+Not much to do here but it's important to make sure that you don't download/modify folders of jobs that are running.
+
+### Checking the finished jobs
+
+For the list of jobs to check (see in the attached email) you have to check whether:
+
+ * The job has produced a `.con.tre` file;   
+ * Or, if not, whether the two associated `.run1.t` and `.run2.t` are past 5GB each
+
+If it's any of these two conditions, we consider the job as finished and the files needs to be downloaded (see below).
+Else, the jobs need to be rerun (see below).
+In either case, you need to manual remove the temporary `~` files if they have been created for the five `.ckp`, `.run1.p`, `.run2.p`, `.run1.t` and `.run2.t` files.
+
+### Downloading the finished jobs
+
+Once the jobs are either done (`.con.tre` computed) or past 5GB per posterior tree file (`.run1.t`/`.run2.t`), download all the files for the concerned chain (e.g. `chainname_norm.*`).
+For the jobs that reached >5GB per chain but without a consensus tree, you will need to compute the consensus tree via MrBayes (no rush on this step but I write the details down here anyways).
+
+#### Computing the consensus trees
+
+**This step is not priority**
+
+If you have two posterior tree distributions that are > 5GB and still didn't converge, you'll need to manually compute the consensus tree.
+To do so, you need to have MrBayes installed at the user level.
+
+> To check if you have MrBayes at the user level, simply type `mb` in the terminal. If it runs MrBayes, simply quit (`q`), you're good. Else, [download/install MrBayes](https://sourceforge.net/projects/mrbayes/files/mrbayes/3.2.6/MrBayes-3.2.6_MACx64.zip/download?use_mirror=nchc) and move the executable from where you downloaded it into your user folder: `sudo mv MrBayes/mb /usr/local/bin/` (and `sudo mv MrBayes/mb-mpi /usr/local/bin/` if you want the mpi version there as well). Now you can call `mb` from wherever (check if it worked).
+
+From the folder where you downloaded your chain results (e.g. say you've put that in `~/Downloads/Thomasshit/` where you'd have `~/Downloads/Thomasshit/150t_1000c_0440/` with all the downloaded files related to this chain within), you can copy/paste the [`make.con.tre.sh` script](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Functions/shells/make.con.tre.sh) at the folder level (e.g.`~/Downloads/Thomasshit/`) and run it as follow:
+
+```
+sh make.con.tre.sh <chain> <tree>
+```
+
+With:
+
+ * `<chain>` being the chain name (e.g. `150t_1000c_0440`)
+ * `<tree>` being the tree "name" (either `norm`, `maxi`, `mini` or `rand` - without the `_`).
+
+For example, for computing the `150t_1000c_0440_rand.con.tre` tree, you'd go:
+
+```
+sh make.con.tre.sh 150t_1000c_0440 rand
+```
+
+This takes couple of hours for a reasonable sized chain (e.g. ~ 5GB) so be sure to do it when you're not gonna move your machin.
+
+### Reruning eventual jobs
+
+For the jobs that are not finished, you need to re-generate a `.mbjob-bis` file and then submitting it.
+
+#### Regenerating the `.mjob-bis` file
+
+For that, navigate from the terminal into the `Jobs_in/` folder on your machine (from the zip I've sent you by email) and you can simply re-generate the `.mbjob` files by using:
+
+```
+sh rerun.missing.sh <chain> <broken> <missing>
+```
+
+With:
+
+ * `<chain>` being the chain name (e.g. `150t_1000c_0440`)
+ * `<broken>` being the number of the aborted (unfinished) chains (1 = norm, 2 = maxi, 3 = mini, 4 = rand)
+ * `<missing>` being the chains that still needs to be ran (1 = missing rand, 2 = missing rand+mini, 3 = missing rand+mini+maxi, 4 = missing all)
+
+For example, for the chain `150t_1000c_0440`, if you have the `_norm` tree computed (`150t_1000c_0440_norm.con.tre` present), the `150t_1000c_0440_maxi` and `150t_1000c_0440_mini` aborted (i.e. the `run1.p`, etc. files are present but not the consensus tree - and they didn't exceed 5GB), you'll need to rerun the `_maxi` and `_mini` chains and run the `_rand` one:
+
+```
+sh rerun.missing.sh 150t_1000c_0440 2,3 3
+```
+
+This will create the files for reruning `_maxi` and `_mini` and for running `_rand` (all in one job).
+Concretely, this should generate three files:
+
+ * `150t_1000c_0440_maxi.append` that's the matrix for appending the `_maxi` tree
+ * `150t_1000c_0440_mini.append` same for the `_mini` tree
+ * `150t_1000c_0440.mbjob-bis` the job file
+
+Ignore the content of the `.append` files since it's generated automatically and should not be changed.
+For the `150t_1000c_0440.mbjob-bis` file, the content should be pretty straightforwardly commented.
+If you need to modify it for some reason (e.g. the missing chains are only `_maxi` and `_mini`), you can activate/deactivate some chains by commenting out the 4 associated lines (**DON'T DELETE ANY LINES**, the line numbering matters).
+For example, for commenting out the `_rand` chain you can change the lines
+
+```
+pbsexec mpiexec mb $HOME/CharSim/Bayesian/150t_1000c_0440_rand.mbcmd
+if [ -f "150t_1000c_0440_rand.con.tre" ] ; then echo "rand time out" ; else echo "rand aborted" ; fi
+date
+pbsdsh2 "cp $TMPDIR/* $WORK/CharSim/Bayesian/150t_1000c_0440/"
+```
+
+to
+
+```
+# pbsexec mpiexec mb $HOME/CharSim/Bayesian/150t_1000c_0440_rand.mbcmd
+# if [ -f "150t_1000c_0440_rand.con.tre" ] ; then echo "rand time out" ; else echo "rand aborted" ; fi
+# date
+# pbsdsh2 "cp $TMPDIR/* $WORK/CharSim/Bayesian/150t_1000c_0440/"
+```
+
+Pretty straightforward.
+
+> For jobs that don't need reruning (e.g. where the full MCMC is needed), you can still apply the same procedure but replacing `<broken>` by `0`. E.g. if you need to run the `_rand` tree, (not rerun) just go `sh rerun.missing.sh 150t_1000c_0440 1`
+
+
+#### Resubmitting the job.
+
+Once that's done, you'll need to transfer **all** the newly generated files (here the 3 ones listed above) on the server in `/home/tguiller/Charsim/Bayesian` (again not entirely sure about the path but you should be able to figure it out).
+Overwrite any eventual file (that's the point of updating these fellows)!
+
+After transferring the files, you can finally resubmit the jobs using the following (make sure you're in the right repo - `/home/tguiller/Charsim/Bayesian` - otherwise the cluster will do stupid things):
+
+```
+qsub <chain>.mbjob-bis
+```
+
+From the example above that'll be:
+
+```
+qsub 150t_1000c_0440.mbjob-bis
+```
+
+The cluster should then assign you a job ID number that you should keep track of it (an excel file would do the job) so you know where you job is.
+
+And that's pretty much it, the jobs should be resubmitted like that until we get all consensus trees.
+The jobs are set to run for 72 hours and can take some time in the queue so in an ideal world, you'll submit them on Monday and on Thursdays.
+
+## Important stuff/tips
+
+The cluster is an asshole so here are a couple of tips to double check or common mistakes:
+
+ * Make sure to do the things in the right order (i.e. 1- retrieve/delete jobs; 2- write/upload new jobs; 3- submit new jobs). I often forgot to re-upload the jobs before submitting, best case it reran the same job up to the same point (loosing 72h) and worst case it decide to delete my stuff (again, the cluster is a douche!).
+ * Make sure you delete the temporary jobs (`~`): MrBayes can deal with them no problems but they take space on the cluster and there's a space limit. Once you pass the limit, jobs results stay in the void and won't end up in your `work/` directory.
+
