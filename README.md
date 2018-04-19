@@ -11,9 +11,9 @@ This repository contains all the code and data used in the manuscript [Link to f
 
 # Data
 
-This article was based entirely on simulated data.
+This manuscript was based entirely on simulated data.
 Below are the procedures to repeat the data simulation.
-All the simulated data used in the article is archive on [Figshare](https://figshare.com/s/7a8fde8eaa39a3d3cf56) (see below).
+All the simulated data used in the manuscript is archive on [Figshare](https://figshare.com/s/7a8fde8eaa39a3d3cf56) (see below).
 
 ## Simulating the data
 
@@ -59,8 +59,31 @@ The folder contains:
  * `Comparisons/` containing the tree comparison scores:
     Containing again both `Bayesian/` and `Parsimony/` folders with their subfolders per taxa and characters for the comparisons to the normal tree (e.g. `25t_100c_cmp_norm`) or to the randomised tree (e.g. `25t_100c_cmp_rand`).
 
-## Analyses
+# Analyses
 
-## Other folders
+The tables and figures present in the manuscript are all reproducible through the following scripts:
 
-## Checkpoint for reproducibility
+
+## 01 - Statistics on the effect of character correlation
+
+This script contains all the statistical analysis (including the assumptions tests of the anovas not used in the manuscript - because of the assumptions not being validated).
+This script is available [here in Rmd](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/01-EffectCorrelationStats.Rmd) or [here in html](https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/01-EffectCorrelationStats.html).
+
+## 02 - Full comparisons results
+
+This script contains all the statistical analysis present in the manuscript (identical as in the one above) but allows to generate all the tables from the manuscript (including the descriptive tables in the supplementary materials).
+This script is available [here in Rmd](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/02-EffectCorrelationFullResults.Rmd) or [here in html](https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/02-EffectCorrelationFullResults.html).
+
+## 03 - Figures
+
+This script contains all the code to generate the figures that are in the manuscript or in the supplementary materials.
+This script is available [here in Rmd](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/03-EffectCorrelationFigure.Rmd) or [here in html](https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/03-EffectCorrelationFigure.html).
+
+# Checkpoint for reproducibility
+To rerun all the code with packages as they existed on CRAN at time of our analyses we recommend using the `checkpoint` package, and running this code prior to the analysis:
+
+```{r}
+checkpoint("2018-04-19")
+```
+
+For reproducibility purposes, the output of `devtools::session_info()` used to perform the analyses in the publication is available [here](https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/Session_info-2018-04-19.txt).
