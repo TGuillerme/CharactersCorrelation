@@ -13,7 +13,7 @@ This repository contains all the code and data used in the manuscript [Link to f
 
 This article was based entirely on simulated data.
 Below are the procedures to repeat the data simulation.
-All the simulated data used in the article is archive on [Figshare](@@@) (see below).
+All the simulated data used in the article is archive on [Figshare](https://figshare.com/s/7a8fde8eaa39a3d3cf56) (see below).
 
 ## Simulating the data
 
@@ -48,7 +48,7 @@ For comparing the minimised, maximised and randomised tree from the chain 25t_10
 
 ## Archived data
 
-The data used for the subsequent analysis is available on [Figshare](@@@).
+The data used for the subsequent analysis is available on [Figshare](https://figshare.com/s/7a8fde8eaa39a3d3cf56).
 The folder contains:
 
  * `Matrices` containing all 1260 matrices for all number of taxa (25, 75, 150), all numbers of characters (100, 350, 1000) and all modifications (normal, minimised, maximised, randomised) replicated 35 times each. This folder also contains the "true" trees used to generate the matrices.
