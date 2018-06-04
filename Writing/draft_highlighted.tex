@@ -146,14 +146,14 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 
 The last two decades have witnessed a ``resurgence'' of interest in the use of morphological character data in phylogenetic studies.
 This owes in large part to the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary. 
-Morphological character data are often considered inferior to molecular sequence data, but are often the only source of phylogenetic data for extinct species. 
+\hl{Although morphological character data are sometimes considered inferior to molecular sequence data due to the difficulties of collected them and their sometimes subjectivity, they are often the only source of phylogenetic data for extinct species.}
 While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any empirical investigations into their statistical properties.
 As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to ``misbehave''.
 This opens up possibilities for predicting problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
 
 The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data.
 The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the very nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other.
+Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the very nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are \hl{dependent} on each other.
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
 
 \begin{itemize}
@@ -195,7 +195,7 @@ This is frequently accomplished by mapping morphological traits on molecular phy
 
 These sources of dependence between characters are well studied in biology.
 Biological and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
-However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inferences software that are blind to these distinctions.
+However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inference software that are blind to these distinctions.
 If fact, what the software are confronted with is a two dimensional matrix problem that renders the morphological subtleties described opaque.
 This introduces a new, less studied, source of character dependence:
 
@@ -223,7 +223,7 @@ Yet a phylogenetic software will treat all these four characters in exactly the 
 Some characters will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
 Yet the question has never been explored through a thorough simulation framework (although it has been tackled empirically for morphological data \citealt{Davalos01072014} or molecular data \citealt{ZouConvergence}).
 
-How does these correlation really affect topology?
+How \hl{do} these correlation really affect topology?
 We expect matrices with a high level of correlation to recover precise but inaccurate topologies but will matrices with low level of correlation (i.e. with high levels of homoplasy) actual cancel out the effects of correlation?
 Here we formally assess the effect of discrete character's correlation using simulated data.
 We propose a new distance metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences or similarities between characters.
@@ -275,7 +275,7 @@ Additionally, we only consider differences for taxa with shared information \cit
 
 We standardised each character by arbitrarily modifying their character state tokens (or symbols) by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
-This procedure was used to treat all the characters are unordered with no assumption on the meaning of the character state (e.g. in a binary character $0$ is not necessary ancestral to $1$).
+This procedure was used to treat all the characters \hl{as} unordered with no assumption on the meaning of the character state (e.g. in a binary character $0$ is not necessary ancestral to $1$).
 It also greatly improved the speed of our algorithm implementation to compare the characters.
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct splits in the tree inference process).
@@ -304,7 +304,7 @@ We then simulated discrete morphological characters on the topology of these tre
 \noindent For each character, both models (``morphological HKY-binary'' or M$k$) where chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
 These low evolutionary rate values allowed reduction in the number of homoplasic character changes, thus reinforcing the phylogenetic information in the matrices.
 We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.
-To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{OReilly20160081}.
+To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{sanderson1989patterns,OReilly20160081}.
 \hl{Note that both models (``morphological HKY-binary' and Mk) are both based on a Markovian model and only differ in the number of states generated and transformed.
 However, the ``morphological HKY model'' is not the one \textit{directly}estimated in the phylogenetic software used in this protocol (MrBayes, see below).}
 
@@ -339,10 +339,10 @@ The maximum parsimony inference was run using a heuristic search with random seq
 Bayesian inference was run using an M\textit{k} model with ascertainment bias and four discrete gamma rate categories (M\textit{kv} $4\Gamma$ - \texttt{lset nst=1 rates=gamma Ngammacat=4}) with an variable rate prior an exponential (0.5) shape (\texttt{prset ratepr=variable Shapepr=Exponential(0.5)}).
 We ran two runs of 6 chains each (2 hot, 4 cold) for a maximum of $1\times10^9$ generations with a sampling every 200 generations.
 We automatically stopped the MCMC when the average standard deviation of split frequencies (ASDSF) between both runs fell below 0.01 (with a diagnosis every $1\times10^4$ generations - \texttt{mcmc nruns=2 Nchains=6 ngen=1000000000 samplefreq=200 printfreq=2000 diagnfreq=10000 Stoprule=YES stopval=0.01 mcmcdiagn=YES}).
-Due to cluster hardware requirements an to save some time, when chains didn't converged and the runs exceeded 5GB each, we aborted the MCMC and computed the consensus tree from the unconverged chains.
+Due to cluster hardware requirements \hl{and} to save some time, when chains didn't \hl{converge} and the runs exceeded 5GB each, we aborted the MCMC and computed the consensus tree from the unconverged chains.
 In practice, these few MCMC got stuck at an ASDSF around (but not below) 0.01.
 
-A strict majority rule tree was then calculated for both Bayesian an maximum parsimony trees.
+A majority rule tree was then calculated for both Bayesian an maximum parsimony trees.
 For the Bayesian consensus trees, the 25\% first trees of the posterior tree distribution were excluded as a burnin.
 The 2880 tree inferences took around one CPU century on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC}.
 
@@ -354,8 +354,8 @@ First, in biology, this tree is always unknown.
 Second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the ``normal'', ``maximised'' and ``minimised'' trees.
 When measuring the difference between these trees and the ``true'' tree, we would also confound the effect of simulating a birth-death tree and simulating a discrete morphological matrices from it.
 
-The metric scores where calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
-The measurements where then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
+The metric scores were calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
+The measurements were then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
 When the normalised metric has a score of one it means both trees are identical, when it has a score of zero it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
 The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Foulds ($NTS_{RF}$) Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity ($NTS_{Tr}$) reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
 
@@ -396,7 +396,7 @@ There is a significant difference between all scenarios (maximising, minimising 
 This effect of the character difference is not dependent on the number of characters when looking at clade conservation (i.e. $NTS_{RF}$).
 The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.730, 0.745, 0.767 respectively - see supplementary materials 3) with a significant difference only between 100 and 1000 and 350 and 1000 characters (Table \ref{Tab_pooledscharacters_test}).
 The number of characters affects the character difference more in terms of taxon placement for a low number of characters (median $NTS_{Tr}$ for 100, 350 and 1000 characters equals 0.544, 0.693, 0.799 respectively - see supplementary materials 3) with a significant difference between 100 and 350 or 1000 characters (Table \ref{Tab_pooledscharacters_test}).
-However, these differences have to be contrasted by a very high probability of overlap between each number of characters and metrics (Bhattacharrya Coefficient always $>0.95$) suggesting that the significant effects of the number of characters still leads to really similar distributions.
+However, these differences have to be contrasted by a very high probability of overlap between each number of characters and metrics (Bhattacharrya Coefficient always $>0.95$) suggesting that the significant effects of the number of characters still leads to \hl{very} similar distributions.
 
 \input{Tables/Tab_pooledscharacters_test.tex}
 
@@ -466,7 +466,7 @@ and (2) coding more characters (increasing \textit{a priori} dependence) but all
 It is important to note that the two other sources of character correlation could also be present in our simulations although they were not explicitly modelled:
 (1) evolutionary correlation is implied by simulating the characters based on Birth-Death trees;
 and (2) intra-organismal correlation could also be present in the matrices for those characters randomly simulated but sharing similar evolutionary simulation regimes (i.e. creating ``modules'' of characters).
-However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest.
+However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices.% which are - when using empirical data - at best bad practice and at worth dishonest.
 
 \subsection{Limitations}
 First, simulating evolutionary history is complex.

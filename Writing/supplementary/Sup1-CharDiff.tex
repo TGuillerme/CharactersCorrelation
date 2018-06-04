@@ -108,19 +108,46 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 
 \section{Definition}
 
-% \begin{equation}
-%     CD_{(x,y)} = 1 - \left(\frac{\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}}{\frac{1}{2}}\right)
-% \end{equation}
+$CD$, the Character Difference metric, is a distance that measures the difference between two characters in terms of shared phylogenetic splits.
+For two characters $x$ and $y$, $CD=0$ implies that the characters are identical, i.e. they convey the same phylogenetic signal in term of splits; $CD=1$ implies that the characters are the most different, i.e. they convey the most different phylogenetic signal in terms of splits.
+
 
 \begin{equation}
     CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
 \end{equation}
 
-\noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each characters states for the characters $x$ and $y$ and the taxa $i$.
+\noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each transformed characters states for the characters $x$ and $y$ and the taxa $i$.
+The characters are transformed following \cite{felsenstein2004inferring}'s \textit{xyz} notation where characters states are reorder so that:
+
+\begin{equation}
+x'_1 = 1 \text{ and } y'_1 = 1
+\end{equation}
+
+\noindent the following character states are then either translated using the same notation for each $i^{th}$ taxa where the state integer is incremented by $+1$ for each new encountered state:
+
+\begin{equation}
+\text{If } x_i = x_1 \text{ then } x'_i = 1 \text{; else } x'_i = x'_1 + 1
+\end{equation}
+
+\begin{equation}
+\text{If } y_i = y_1 \text{ then } y'_i = 1 \text{; else } y'_i = y'_1 + 1
+\end{equation}
+
+\noindent For example if:
+
+\texttt{x = {0,0,2,2,1,1}} and \texttt{y = {8,8,0,0,3,3}}
+
+\noindent then:
+
+\texttt{x' = {1,1,2,2,3,3}} and \texttt{y' = {1,2,2,2,3,3}}
+
+
+\indent The following proofs consider that the \textit{xyz} notation was applied.
+
 
 \section{Distance metric proof}
 
-The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarrow [0;\infty)$ with any character $x$, $y$ and $z$ $\in CD$ if an only if the followings are satisfied:
+The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarrow [0;\infty)$ with any character $x$, $y$ and $z$ (using the \textit{xyz} notation) $\in CD$ if an only if the followings are satisfied:
 
 \begin{equation}
     \label{Positivity}
@@ -226,4 +253,8 @@ For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{j}$, $z_{b}$ $\in (0,1)$:
 Thus equation \ref{Subadditivity} is true.
 
 
+\bibliographystyle{sysbio}
+\bibliography{References}
+
 \end{document}
+
