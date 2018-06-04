@@ -189,14 +189,20 @@ We've changed the sentence as suggest by the reviewer (lines @@@).
 
 We fixed this typo.
 
-\item{\textcolor{blue}{Most of the time when RF is normalized, it's done so so that low scores are better - i.e. a low RF score indicates less distance to the true tree. I was very confused looking at the figures, until I realized this was not how normalizing had been performed.  "However, the effect of these sources of correlation was out of the scope of this study and would have required a posteriori changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest."\\
+\item{\textcolor{blue}{Most of the time when RF is normalized, it's done so that low scores are better - i.e. a low RF score indicates less distance to the true tree. I was very confused looking at the figures, until I realized this was not how normalizing had been performed. }}
+
+%TG: not sure what to answer to this one. Yeah we've normalised using a different method that. Should I just insit on that in the text?
+
+\item{\textcolor{blue}{"However, the effect of these sources of correlation was out of the scope of this study and would have required a posteriori changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest."\\
 I'm not sure I follow this.}}
 
-
-
+We meant that modifying phylogenetic matrices after the phylogenetic inference is a way to test the effect of the sources of correlation but is not at all a good practice in systematics (it can be seen as dishonest to simply remove characters because they ``don't give the right signal''). We've removed the end of this sentence however to avoid any further confusion.
 
 \item{\textcolor{blue}{"However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree. "\\
 I understand why you did this, but I think you should also compare normal to true. That will give us some idea of the scope of how close we can get to true, under these conditions, and will help contextualize the results.}}
+
+%TG: add this to the supplementatries
+
 
 \end{enumerate}
 
@@ -222,6 +228,28 @@ I understand why you did this, but I think you should also compare normal to tru
 
 \item{\textcolor{blue}{1. To be a metric, there are several properties that need to be satisfied. The proposed function
 is positively valued and symmetric (copied below from line 178): [...] But, the following metric property does not hold for all x; y:}}
+
+We are really grateful that this reviewer picked up this flow in our mathematical demonstration of CD metric.
+This problem is due to a lack of indications from our side and we apologise for this.
+
+\subsubsection{Character states translation}
+In fact, before being plugged into the CD equation, characters needs to be modified following Felsenstein's \textit{xyz} notation.
+In other words, because the character states tokens are not representing any meaningful numerical value if the characters are unordered (e.g. there is no assumption that state 0 should come before state 1), they need to be reordered in a standard way so that the first token in the character is renamed to ``1'', the second to ``2'' etc.
+For example, in a 3 state character for four taxa: \texttt{X = {1, 0, 2, 1}}, the character tokens that are integers representing the states could equally have been \texttt{X = {E, A, I, E}} or \texttt{X = {blue, red, absent, blue}}.
+Therefore, to compare characters fairly, the tokens needs to be translated in a standard way such as the first token is replaced by the symbol ``1'', etc.
+In this example \texttt{X = {1, 0, 2, 1}} becomes \texttt{X' = {1, 2, 3, 1}}
+In the reviewer's demonstration, \texttt{x  = {1}} and \texttt{y  = {0}} thus become \texttt{x'  = {1}} and \texttt{y'  = {1}}.
+Hence $CD_{(x',y')} = 0 \Leftrightarrow x' = y'$.
+
+\subsubsection{CD as a metric to compare the splits between characters}
+Furthermore, the CD metric, used in this manuscript as a proxy for character correlation actually measures the difference between in characters in terms of phylogenetic signal.
+The character \texttt{X} described above implies 3 splits for four taxa (and of course, the character \texttt{X'} implies the exact same splits).
+Another character \texttt{Y = {1, 1, 1, 2}} will imply only two splits, non shared with \texttt{X} and a character \texttt{Z = {0, 2, 1, 0}} (\texttt{Z' = {1, 2, 3, 1}}) would imply the same splits as \texttt{X} (hence, $CD_{(X',Z')} = 0$ and $CD_{(X',Y')} = 0.5$).
+
+Following these two points, the reviewer counter example $CD_{(x,y)} = 0$ means that 1) $x'$ and $y'$ are identical and the characters $x$ and $y$ imply the same number of splits in a tree (here no splits since only one taxon is used - however, this would hold for any $n$ number of taxa).
+We have clarified these two points in the manuscript and in the mathematical demonstration.
+
+%TG: TODO: add the stuff to the manuscript
 
 \item{\textcolor{blue}{While some details of the simulation study are included, some important ones are missing. In particular, in the design of the study, how did you avoid or mitigate errors introduced by the programs simulating data? All of the programs use random-number generators and have their own biases. How have you accounted for this in the study of design to conclude that your results are due to signal, and not bias from the programs used?}}
 
@@ -279,31 +307,60 @@ is positively valued and symmetric (copied below from line 178): [...] But, the 
 
 \item{\textcolor{blue}{3:25 – I think that resurgence should be taken out of quotation marks, as no reference is supplied for the use of the phrase}}
 
+We've removed the quotes.
+
 \item{\textcolor{blue}{3:29 – In what ways are morphological data inferior? I think this needs to be qualified.}}
+
+We've added the following justification (and toned down the sentence):
+\textit{Although morphological character data are sometimes considered inferior to molecular sequence data due to the difficulties of collected them and their sometimes subjectivity, they are often the only source of phylogenetic data for extinct species.}
 
 \item{\textcolor{blue}{4:45 – depend $->$ dependent}}
 
+We fixed this typo.
+
 \item{\textcolor{blue}{7:108 – inferences $->$ inference}}
+
+We fixed this typo.
 
 \item{\textcolor{blue}{8:134 – does $->$ do}}
 
+We fixed this typo.
+
 \item{\textcolor{blue}{8:135 – Do we actually expect high levels of correlation to lead to inaccurate phylogenies? I think this depends on what is considered to be a high level of correlation and how that correlation is structured. Imagine 100 characters covarying strongly with each other in blocks of 10, but no constraint on the level of correlation across all 10 blocks. This would provide an ``effective'' character number of ~ 10, which could be enough to resolve a small tree.}}
+
+%TG: need a way to phrase this but totally agree, in the reviewer's example, the matrix would look "honets" (lots of characters) but the results would be actually based on way fewer.
 
 \item{\textcolor{blue}{12:190 – are $->$ as}}
 
+We fixed this typo.
+
 \item{\textcolor{blue}{15:240 – The reference for the 0.26 cut off used by these authors should also be cited}}
+
+We've added the reference Sanderson \& Donoghue 1989.
 
 \item{\textcolor{blue}{18:286 – an $->$ and}}
 
+We fixed this typo.
+
 \item{\textcolor{blue}{18:286 – converged $->$ converge}}
+
+We fixed this typo.
 
 \item{\textcolor{blue}{18:298 – Surely strict isn't correct here as you are summarising a posterior sample? Is it not just a Majority rule tree?}}
 
+We removed the term ``strict''.
+
 \item{\textcolor{blue}{19:310 – where $->$ were}}
+
+We fixed this typo.
 
 \item{\textcolor{blue}{19:311 – where $->$ were}}
 
+We fixed this typo.
+
 \item{\textcolor{blue}{20:341 – big $->$ in size}}
+
+We fixed this typo.
 
 \item{\textcolor{blue}{29:428 – really $->$ very}}
 
