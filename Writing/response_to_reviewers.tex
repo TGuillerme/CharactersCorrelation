@@ -1,0 +1,337 @@
+\documentclass[12pt,letterpaper]{article}
+
+%Packages
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\pagenumbering{arabic}
+
+%Pagination style and stuff
+%\linespread{2} 
+
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\textbf{RE: USYB-2018-099}\\
+\bigskip
+Dear Dr Jermiin,\\
+\bigskip
+
+We am very grateful to the three referees for their helpful and constructive comments, which we believe have helped me to significantly improve the manuscript.
+We have taken all of their comments on board, and respond to their points in details below.
+
+% For improving clarity in this document, reviewers' comments are displayed in blue, my responses in normal text and the changes to the manuscript in italic.
+% Additionally, I've uploaded two versions of the revised manuscript: both have the exact same content but one has all the changes and additions to the main text highlighted in yellow to help with reviewing.
+
+\section{Editors' comments}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{Along the lines set out by Reviewer 2, it would be wise to ensure that your metric is characterised as thoroughly as possible. In this regard, does it meet the following five conditions?}}
+
+\begin{enumerate}
+\item{\textcolor{blue}{Distinctiveness}}
+\item{\textcolor{blue}{Non-negativity}}
+\item{\textcolor{blue}{Symmetry}}
+\item{\textcolor{blue}{Triangle inequality}}
+\item{\textcolor{blue}{Four-point condition}}
+\end{enumerate}
+
+\item{\textcolor{blue}{If so, then it is actually an evolutionary distance, and it can be used as such; if not, then it is another type of distance. Establishing the type of distance may be overkill, but the characterization of a metric helps to determine what it can be used for, and what it cannot be used for.}}
+
+\end{enumerate}
+
+
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% REVIEWER 1
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+\section{Reviewer 1}
+
+\subsection{Major suggestions}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{I have some concerns about the approach, however. I was somewhat confused by the CD metric. When quantifying n, how is it decided how many taxa have "comparable" characters? If you simulated the character for all taxa, do they not all have this character (i.e. n always equals the dataset size)? But more importantly, will two characters not be more similar if they share the same number of character states, independent
+of if they are telling you the same evolutionary history? It seems to me that whether or not two characters share a state space is not the relevant axis along which to measure correlation.}}
+
+\item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the
+``normal'' topology." should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
+
+\item{\textcolor{blue}{I thought the reproducible science aspect was cool, and well done. Some aspects of the literature review and context for the problem need to be strengthened, particularly given that there is good work that has been done on this problem in a molecular model-based framework (see below). I've tried to note locations where I was confused by the prose, but this manuscript could certainly use a very close reading before resubmission.}}
+
+\end{enumerate}
+
+\subsection{Specific suggestions}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{"Phylogenetic analysis algorithms require the assumption of character independence - a condition generally acknowledged to be violated by morphological data."\\
+I don't love this sentence because it emphasizes morphology as distinct, when we recognize non-independence as a problem in basically all data types (see Huelsenbeck and Nielsen, 1996, Effect of Nonindependent Substitution on Phylogenetic Accuracy and the references therein). I do think you should point to a citation here; Davalos et al. 2014 (Integrating Incomplete Fossils by Isolating Conflicting Signal in Saturated and Non-Independent Morphological Characters) is a good one.}}
+
+\item{\textcolor{blue}{"good practices".\\
+Change to "careful character coding"}}
+
+We've changed the sentence following the reviewer's suggestions lines @@@.
+
+\item{\textcolor{blue}{"The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data".\\
+Evidence for this?}}
+
+%TG: Find cite.
+
+\item{\textcolor{blue}{"Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the very nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other."\\
+I don't really understand what this sentence is adding. It feels repetitious in light of previous paragraphs, but also does little to establish why morphological data should be especially susceptible to this. I think there are parts of the genome where we would expect to find as much or more correlation than in morphological characters - the stem domains of rRNA genes, for example. I would expect the average character correlation to be weaker in DNA data, or at least more spread out in a way that makes it harder to detect.}}
+
+%TG: Remove the sentence?
+
+\item{\textcolor{blue}{"Evolutionary dependence: this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait."\\
+Seems appropriate to cite Clarke and Middleton (2008) here.}}
+
+We added the suggested citation (lines @@@).
+
+\item{\textcolor{blue}{Coding dependence:\\
+This section could use a figure illustrating these types of dependence, and what they mean. For example: "For instance, coding for the same absence in different characters creates state transformations associated with the loss or gain of a particular character." is a fairly confusing sentence. I took this to mean that if you are coding, for example, tail characters, you might atomize the tail into a suite of characters, all of which are absent in organisms with no tail. But I'm not sure I've understood your meaning correctly.}}
+
+%TG: add a figure for the difference character dependencies?
+
+We've clarified the sentence with an example as follows:
+\textit{For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail.} lines @@@
+
+\item{\textcolor{blue}{"Correlation between characters detected by the software:"\\
+I really struggled with this section. It seems like the problem here is still a coding problem - that the authors of these four characters have chosen four highly dependent characters to build the matrix. Even scoring by hand under parsimony would have problems here. I think what you need to decide here is what you want to communicate in this paragraph. Is it that software is not currently equipped to handle this issue?}}
+
+%TG: probably insist on what the reviewer says: that the software cannot handle this.
+
+\item{\textcolor{blue}{"To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different levels of correlation between some characters (Fig.1 - note that each step is described in more details below):"\\
+Fig. 1 is the results, but this text implies it is a workflow diagram.}}
+
+We doubled checked the figures links and made sure that this mention of Fig.1 now properly points to the workflow figure.
+
+\item{\textcolor{blue}{"Additionally, we only consider differences for taxa with shared information (i.e. a Gower distance; Gower, 1971)."\\
+I'm not sure what this means. Does this mean that you did not include taxa with missing information when calculating per-character distances?}}
+
+We've clarified this sentence by adding the following example:
+\textit{For example, for two characters X and Y for four taxa, if character X is {0,0,?,1} for the first, second, third and fourth taxa respectively and character Y is {0,0,1,1}, only the first, second and fourth taxa are compared for this character.}
+
+\item{\textcolor{blue}{"This procedure was used to treat all the characters are unordered with no assumption on the meaning of the character state"\\
+Why is this important? The text doesn't mention testing anything related to orderedness, or specifying anything related to orderedness in MrBayes.}}
+
+%TG: answering that by saying this is a normal neutral procedure?
+
+\item{\textcolor{blue}{"The morphological HKY model"\\
+Is not real. This is just the HKY model. Goloboff (2017) would dispute that this model does not favor a Bayesian method, since it is still a Markovian model. That O'Reilly et al. used this model to generate binary data does not mean one has to - you could translate each of the four nucleotides to its own discrete character. This would probably get even further from the Mk model assumptions than collapsing the multistate character produced via the HKY model to a binary character.}}
+
+We've enquoted the ``morphological HKY model'' and specified that it is still a Markovian model:
+\textit{Note that both models (``morphological HKY'' and Mk) are both based on a Markovian model and only differ in the number of states generated and transformed.
+However, the ``morphological HKY model'' is not the one} directly \textit{estimated in the phylogenetic software used in this protocol (MrBayes, see below).}(lines @@@).
+
+%TG: maybe add a bit more?
+
+\item{\textcolor{blue}{"Recently however, Wright et al. (2016) have shown that an equal rate transition is still the most present in empirical data."\\
+Of the models tested - it's plausible there are other explainers of the data. I would change this to "have shown that equal transition rate is a reasonable assumption for many empirical datasets"}}
+
+We've changed the sentence as suggest by the reviewer (lines @@@).
+
+\item{\textcolor{blue}{"The resulting full simulation was 3.5TB big so is not shared here (though the 342 parameters are)."\\
+3.5 TB in size.}}
+
+We fixed this typo.
+
+\item{\textcolor{blue}{Most of the time when RF is normalized, it's done so so that low scores are better - i.e. a low RF score indicates less distance to the true tree. I was very confused looking at the figures, until I realized this was not how normalizing had been performed.  "However, the effect of these sources of correlation was out of the scope of this study and would have required a posteriori changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest."\\
+I'm not sure I follow this.}}
+
+
+
+
+\item{\textcolor{blue}{"However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree. "\\
+I understand why you did this, but I think you should also compare normal to true. That will give us some idea of the scope of how close we can get to true, under these conditions, and will help contextualize the results.}}
+
+\end{enumerate}
+
+
+
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% REVIEWER 2
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+\section{Reviewer 2}
+
+\subsection{Major suggestions}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{1. To be a metric, there are several properties that need to be satisfied. The proposed function
+is positively valued and symmetric (copied below from line 178): [...] But, the following metric property does not hold for all x; y:}}
+
+\item{\textcolor{blue}{While some details of the simulation study are included, some important ones are missing. In particular, in the design of the study, how did you avoid or mitigate errors introduced by the programs simulating data? All of the programs use random-number generators and have their own biases. How have you accounted for this in the study of design to conclude that your results are due to signal, and not bias from the programs used?}}
+
+\item{\textcolor{blue}{How did you ``randomly''randomly modify your matrices? Did you sample under some distribution? If so, which one?}}
+
+\item{\textcolor{blue}{It is not obvious why generated character sequences are representative of biological sequences or sample the space overall. Were the parameters chosen for the HKY model to fit a particular evolutionary scenario? Are they meant to capture all of the space?}}
+
+\item{\textcolor{blue}{Similarly, why did you choose 0.85 for the Mk model? Does it represent some important set of character sequences? How does it represent the space in general?}}
+
+\item{\textcolor{blue}{There are statements that seem contradictory, like (line 335): ``Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability > 0:95 and different if they had an overlap probability > 0:05.''}}
+
+\item{\textcolor{blue}{It is not clear how the conclusions were reached. For example, line 381-384: ``Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (Table 5 - median NTSRF of 0:828 and 0:679 respectively) but not in terms of individual taxon placements (Table 5 - median NTSTr of 0:738 and 0:601 respectively).'' Why is the 0:828 - 0:679 = 0:149 significant for this test and 0:738 - 0:601 = 0:137 is not?}}
+
+
+\end{enumerate}
+
+
+
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% REVIEWER 3
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+\section{Reviewer 3}
+
+\subsection{Major suggestions}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{I feel that the manuscript is certainly worth publishing in Systematic Biology, although I worry that the simulation procedure used by the authors limits their ability to thoroughly test of the effect of between character correlation on the accuracy of estimating phylogenetic trees. The authors note this themselves in the discussion, but I feel more should be made of this point. If the simulations utilised an explicit distribution of character covariance then I think that interpretation of the results would have been more straightforward.}}
+
+
+\item{\textcolor{blue}{Another worry I have is that the implied covariance at the tips does not necessarily reflect covariation over the full phylogeny. It is conceivable that two characters can appear to have near perfect correlation at the tips, but arrived at these states through completely independent pathways, particularly when simulating with a continuous time Markov chain where unobserved transitions to a new state and back to the original state are possible.}}
+
+\item{\textcolor{blue}{It seems that the results reported by the authors are inherently driven by the phylogenetic signal present in their ``bootstrapped'' datasets. This effect would be present in any approach to the simulation of covarying characters, but as the authors do not explicitly simulate covariance but instead rely on a proxy they cannot be certain that their results are driven by true character covariation or purely a restructuring of phylogenetic signal by resampling. In a simulation framework in which covariance is actively enforced and controlled it would be possible to assess other aspects of character covariance that seem important for empirical datasets, such as correlation within morphological compartments. I think without tests of these sort we cannot be completely sure of the effect of character covariance on topology estimates. Despite this, the authors present an overview of the effect of character covariance at large, and I certainly think that this is a worthwhile contribution.}}
+
+\item{\textcolor{blue}{A discussion of the ``effective'' number of characters might also be warranted. When maximising character covariance this likely requires the resampling of the same handful of characters multiple times, each of which provides the exact same phylogenetic signal. The redundancy of these characters seems likely to influence the accuracy of estimates. The choice of characters that are sampled by the bootstrap procedure will therefore constrain the accuracy of topology estimates. If the resampled matrix consists of a handful of characters with high consistency with the true tree, sampled many times over, then the tree estimate will be good (for at least part of the tree) and covariance will be high. Similarly, if the handful of regularly resampled characters are mainly inconsistent (with the true tree) then tree estimates will be poor but the implied covariance will also be high. I think this is evident from the reduced performance in larger matrices, where there will be a significant reduction in phylogenetic signal when attempting to maximise covariance.}}
+
+\item{\textcolor{blue}{Overall, I think that the authors provide an overview of the effect of covariance on the estimation of phylogeny, but without an explicit simulation of patterns of covariation we do not yet have a definitive understanding of the effects of between character covariance.}}
+
+\end{enumerate}
+
+\subsection{Minor revisions:}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{2:2 – Phylogenetic algorithms don't necessarily require independence, they simply assume it.}}
+
+\item{\textcolor{blue}{3:25 – I think that resurgence should be taken out of quotation marks, as no reference is supplied for the use of the phrase}}
+
+\item{\textcolor{blue}{3:29 – In what ways are morphological data inferior? I think this needs to be qualified.}}
+
+\item{\textcolor{blue}{4:45 – depend $->$ dependent}}
+
+\item{\textcolor{blue}{7:108 – inferences $->$ inference}}
+
+\item{\textcolor{blue}{8:134 – does $->$ do}}
+
+\item{\textcolor{blue}{8:135 – Do we actually expect high levels of correlation to lead to inaccurate phylogenies? I think this depends on what is considered to be a high level of correlation and how that correlation is structured. Imagine 100 characters covarying strongly with each other in blocks of 10, but no constraint on the level of correlation across all 10 blocks. This would provide an ``effective'' character number of ~ 10, which could be enough to resolve a small tree.}}
+
+\item{\textcolor{blue}{12:190 – are $->$ as}}
+
+\item{\textcolor{blue}{15:240 – The reference for the 0.26 cut off used by these authors should also be cited}}
+
+\item{\textcolor{blue}{18:286 – an $->$ and}}
+
+\item{\textcolor{blue}{18:286 – converged $->$ converge}}
+
+\item{\textcolor{blue}{18:298 – Surely strict isn't correct here as you are summarising a posterior sample? Is it not just a Majority rule tree?}}
+
+\item{\textcolor{blue}{19:310 – where $->$ were}}
+
+\item{\textcolor{blue}{19:311 – where $->$ were}}
+
+\item{\textcolor{blue}{20:341 – big $->$ in size}}
+
+\item{\textcolor{blue}{29:428 – really $->$ very}}
+
+\item{\textcolor{blue}{29:434 – delete ‘a'}}
+
+\item{\textcolor{blue}{30: 450 - < $->$ >}}
+
+\item{\textcolor{blue}{30:457 – a score}}
+
+\item{\textcolor{blue}{30:457 – on $->$ one}}
+
+\item{\textcolor{blue}{30:469 – delete ‘b'}}
+
+\item{\textcolor{blue}{31:479 – of $->$ off}}
+
+\item{\textcolor{blue}{31:487 – and the use of models that utilise tree structure}}
+
+\item{\textcolor{blue}{32:492 – worth $->$ worst}}
+
+\item{\textcolor{blue}{32:511 – citation includes first name ``David''}}
+
+\item{\textcolor{blue}{33:522 – I think the last sentence is redundant as the point has been made well before in the text.}}
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
