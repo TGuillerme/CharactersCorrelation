@@ -27,6 +27,8 @@
 \usepackage{lineno}
 \usepackage{pdflscape}
 
+\usepackage{color,soul}
+
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}%
 \newcolumntype{d}[1]{D{.}{.}{#1}}
@@ -116,7 +118,7 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 \begin{abstract}
 Phylogenetic analysis algorithms require the assumption of character independence - a condition generally acknowledged to be violated by morphological data.
 Correlation between characters can originate from intra-organismal features, shared phylogenetic history or forced by particular character-state coding schemes. 
-Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be avoided \textit{a priori} with good practices, phylogenetic software do not distinguish between any of them.
+Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be avoided \textit{a priori} with \hl{careful character coding}, phylogenetic software do not distinguish between any of them.
 
 In this study, we propose a new metric of raw character difference as a proxy for character correlation.
 Using thorough simulations, we test the effect of increasing or decreasing character differences on tree topology.
@@ -163,7 +165,7 @@ Before discussing character correlation further, it is important to understand t
     From a phylogenetic perspective, it can be especially pernicious because the relationship between the traits in question may have no obvious link from a morphological or functional comparison alone. 
     Intra-organismal links can be the targets of comparative developmental biology \citep{goswami2010,kelly2010reduced,stoessel2013morphological,goswami2014macroevolutionary} or functional investigations. 
 
-    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait. 
+    \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait \citep{ClarkeMiddleton2008}. 
     Unlike the case of intra-organismal dependence, there need not be an intrinsic constraint that causes these traits to covary.
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
     This is thought to correspond to adaptations for fossoriality or aquatic lifestyles.
@@ -175,6 +177,7 @@ Before discussing character correlation further, it is important to understand t
     Coding dependence manifests itself in several ways, particularly in coding redundant information.
     For instance, coding for the same absence in different characters creates state transformations associated with the loss or gain of a particular character.
     This occurs when a number of multistate characters include two variable feature states (e.g. large, small; red, blue etc.) in conjunction with absence.
+    \hl{For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail.}
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
     This coding dependency is linked to hierarchical dependency between characters \citep{wilkinson1995coping,BrazeauNA}.
@@ -268,6 +271,7 @@ $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathem
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
+\hl{For example, for two characters X and Y for four taxa, if character \texttt{X = \{0,0,?,1\}} for the first, second, third and fourth taxa respectively and character \texttt{Y = \{0,0,1,1\}}, only the first, second and fourth taxa are compared for this character.}
 
 We standardised each character by arbitrarily modifying their character state tokens (or symbols) by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
@@ -289,18 +293,21 @@ For each tree, we arbitrarily set the outgroup to be the first taxon (alphabetic
 These trees are hereafter called the ``true'' trees (see distinction below).
 We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
 \begin{itemize}
-    \item The morphological HKY-binary model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a Dirichlet distribution $Dir(1,1,1,1)$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
+    \item The \hl{``morphological HKY-binary'' model} \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a Dirichlet distribution $Dir(1,1,1,1)$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
     This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use an M$k$ model;][; see discussion]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
     \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
     We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146,ZouConvergence}.
     This model assumes a equal transition rate between character states which might seem overly simplistic, excluding other observed transition patterns \citep[e.g. Dollo characters;][]{Dollo,wright2015came}.
-    Recently however, \cite{Wright01072016} have shown that an equal rate transition is still the most present in empirical data.
+    However, \cite{Wright01072016} \hl{have shown that equal transition rate is a reasonable assumption for many empirical datasets.}
 \end{itemize}
 
-\noindent For each character, both models (morphological HKY-binary or M$k$) where chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
+\noindent For each character, both models (``morphological HKY-binary'' or M$k$) where chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
 These low evolutionary rate values allowed reduction in the number of homoplasic character changes, thus reinforcing the phylogenetic information in the matrices.
 We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.
 To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{OReilly20160081}.
+\hl{Note that both models (``morphological HKY-binary' and Mk) are both based on a Markovian model and only differ in the number of states generated and transformed.
+However, the ``morphological HKY model'' is not the one \textit{directly}estimated in the phylogenetic software used in this protocol (MrBayes, see below).}
+
 
 For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
 The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
@@ -359,7 +366,7 @@ Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Hol
 Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
 Comparisons falling between these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
 
-The resulting full simulation was 3.5TB big so is not shared here (though the parameters are).
+The resulting full simulation was 3.5TB \hl{in size} so is not shared here (though the parameters are).
 However, the resulting consensus trees on which the topological differences are calculated are available at \url{https://figshare.com/s/7a8fde8eaa39a3d3cf56}.
 
 \section{Results}
