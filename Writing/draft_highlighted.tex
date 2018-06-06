@@ -363,7 +363,7 @@ Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at one.
 The residuals of any model based on the $NTS$ scores were not normal thus preventing the use of parametric tests for comparisons (see online material \url{https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/02-EffectCorrelationFullResults.html}). 
 Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric} would be biased in its p-value calculation due to the presence of equal values in the $NTS$ distributions (e.g. when multiple trees are equal to the ``normal'' tree).
 Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
-Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $>0.05$.
+Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $<0.05$.
 Comparisons falling between these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
 
 The resulting full simulation was 3.5TB \hl{in size} so is not shared here (though the parameters are).
@@ -387,15 +387,16 @@ However, the resulting consensus trees on which the topological differences are 
 
 \subsection{Effect of character differences on topology}
 
-The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology when maximising character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.956 and median $NTS_{Tr}$ = 0.839) followed by simply randomising the characters (median $NTS_{RF}$ = 0.762 and median $NTS_{Tr}$ = 0.628) and minimising the character difference (median $NTS_{RF}$ = 0.605 and median $NTS_{Tr}$ = 0.303 - see supplementary material 3 for the full summary statistics).
-There is a significant difference between all scenarios (maximising, minimising and randomising) with the highest probability of overlap being between maximising and randomising the character difference (Bhattacharrya Coefficient of 0.873 for the $NTS_{RF}$ and 0.908 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (Bhattacharrya coefficient of 0.573 for the $NTS_{RF}$ and 0.614 for the $NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test})
+
+The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology when maximising character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.956 and median $NTS_{Tr}$ = 0.839\hl{; see supplementary materials 3, Table 1}) followed by simply randomising the characters (median $NTS_{RF}$ = 0.762 and median $NTS_{Tr}$ = 0.628\hl{; see supplementary materials 3, Table 1}) and minimising the character difference (median $NTS_{RF}$ = 0.605 and median $NTS_{Tr}$ = 0.303\hl{; see supplementary materials 3, Table 1}).
+There is a significant difference between all scenarios (maximising, minimising and randomising; \hl{\textit{p} = 0; Table} \ref{Tab_pooledscenarios_test}) with the highest probability of overlap being between maximising and randomising the character difference (Bhattacharrya Coefficient (BC) = 0.873 for the $NTS_{RF}$ and 0.908 for the $NTS_{Tr}$; Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (BC = 0.573 for the $NTS_{RF}$ and 0.614 for the $NTS_{Tr}$; Table \ref{Tab_pooledscenarios_test})
 
 \input{Tables/Tab_pooledscenarios_test.tex}
 
 \subsubsection{Number of characters}
 This effect of the character difference is not dependent on the number of characters when looking at clade conservation (i.e. $NTS_{RF}$).
-The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.730, 0.745, 0.767 respectively - see supplementary materials 3) with a significant difference only between 100 and 1000 and 350 and 1000 characters (Table \ref{Tab_pooledscharacters_test}).
-The number of characters affects the character difference more in terms of taxon placement for a low number of characters (median $NTS_{Tr}$ for 100, 350 and 1000 characters equals 0.544, 0.693, 0.799 respectively - see supplementary materials 3) with a significant difference between 100 and 350 or 1000 characters (Table \ref{Tab_pooledscharacters_test}).
+The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.730, 0.745, 0.767 respectively; see supplementary materials 3 \hl{Table 2}) with a significant difference only between 100 and 1000 and 350 and 1000 characters (\hl{\textit{p} = 0.001 and \textit{p} = 0.032 respectively}; Table \ref{Tab_pooledscharacters_test}).
+The number of characters affects the character difference more in terms of taxon placement for a low number of characters (median $NTS_{Tr}$ for 100, 350 and 1000 characters equals 0.544, 0.693, 0.799 respectively - see supplementary materials 3 \hl{Table 2}) with a significant difference between 100 and 350 or 1000 characters (\hl{\textit{p} = 0, \textit{p} = 0 and \textit{p} = 0.014 respectively}; Table \ref{Tab_pooledscharacters_test}).
 However, these differences have to be contrasted by a very high probability of overlap between each number of characters and metrics (Bhattacharrya Coefficient always $>0.95$) suggesting that the significant effects of the number of characters still leads to \hl{very} similar distributions.
 
 \input{Tables/Tab_pooledscharacters_test.tex}
@@ -403,7 +404,7 @@ However, these differences have to be contrasted by a very high probability of o
 \subsubsection{Number of taxa}
 
 Similar to the effect of number of characters on character difference, the number of taxa seems to have only a marginal effect.
-A low number of taxa (25) resulted in significant differences with both 75 or 150 taxa in both $NTS_{RF}$ and $NTS_{Tr}$ but no differences between 75 and 150 taxa (medians for 25, 75 and 150 taxa equals 0.802, 0.76, 0.763 $NTS_{RF}$ and 0.758, 0.588 and 0.615 $NTS_{Tr}$ respectively - Table \ref{Tab_pooledstaxa_test} and see supplementary materials 3).
+A low number of taxa (25) resulted in significant differences with both 75 or 150 taxa in both $NTS_{RF}$ and $NTS_{Tr}$ but no differences between 75 and 150 taxa (\hl{\textit{p} = 0.012, \textit{p} = 0.004, \textit{p} = 0 and \textit{p} = 0 respectively}; Table \ref{Tab_pooledstaxa_test} and medians for 25, 75 and 150 taxa equals 0.802, 0.76, 0.763 $NTS_{RF}$ and 0.758, 0.588 and 0.615 $NTS_{Tr}$ respectively; see supplementary materials 3 \hl{Table 3}).
 Again, however, the significant differences have to be contrasted with still high probabilities of overlaps for each $NTS_{RF}$ and $NTS_{Tr}$ distributions for every number of taxa (Table \ref{Tab_pooledstaxa_test}).
 
 \input{Tables/Tab_pooledstaxa_test.tex}
@@ -411,7 +412,8 @@ Again, however, the significant differences have to be contrasted with still hig
 
 \subsection{Effect of character differences on the inference method}
 
-Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (Table \ref{Tab_pooledsmethods_test} - median $NTS_{RF}$ of 0.828 and 0.679 respectively) but not in terms of individual taxon placements (Table \ref{Tab_pooledsmethods_test} - median $NTS_{Tr}$ of 0.738 and 0.601 respectively).
+Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (\hl{\textit{p} = 0} Table \ref{Tab_pooledsmethods_test} - median $NTS_{RF}$ of 0.828 and 0.679 respectively; \hl{see supplementary materials 3, Table 4}) but not in terms of individual taxon placements (\hl{\textit{p} = 0.08}; Table \ref{Tab_pooledsmethods_test} - median $NTS_{Tr}$ of 0.738 and 0.601 respectively; \hl{see supplementary materials 3, Table 4}).
+
 
 \input{Tables/Tab_pooledsmethods_test.tex}
 

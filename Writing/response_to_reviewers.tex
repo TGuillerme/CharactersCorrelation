@@ -104,11 +104,24 @@ We have taken all of their comments on board, and respond to their points in det
 
 \begin{enumerate}
 
-\item{\textcolor{blue}{I have some concerns about the approach, however. I was somewhat confused by the CD metric. When quantifying n, how is it decided how many taxa have "comparable" characters? If you simulated the character for all taxa, do they not all have this character (i.e. n always equals the dataset size)? But more importantly, will two characters not be more similar if they share the same number of character states, independent
-of if they are telling you the same evolutionary history? It seems to me that whether or not two characters share a state space is not the relevant axis along which to measure correlation.}}
+\item{\textcolor{blue}{I have some concerns about the approach, however. I was somewhat confused by the CD metric. When quantifying n, how is it decided how many taxa have "comparable" characters?
+If you simulated the character for all taxa, do they not all have this character (i.e. n always equals the dataset size)?
+But more importantly, will two characters not be more similar if they share the same number of character states, independent of if they are telling you the same evolutionary history?
+It seems to me that whether or not two characters share a state space is not the relevant axis along which to measure correlation.}}
 
-\item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the
-``normal'' topology." should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
+%TG: Specify the Gower distance (comparable)
+%TG: yes, n is fixed here (this is just for the CD definition)
+%TG: no, characters with missing data should be more dissimilar: since the similarity is measured in terms of shared splits, a missing data can always involve a new split (if the ? is a new state)
+%TG: and not sure about the directionality thing.
+
+%TG: TODO: clarify the CD metric definition
+
+
+\item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
+should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
+
+%TG: TODO: add the range of replaced character n and m
+%TG: TODO: add more explanantion on the replacements in the methods and the discussion (the reviewer's thoughts)
 
 \item{\textcolor{blue}{I thought the reproducible science aspect was cool, and well done. Some aspects of the literature review and context for the problem need to be strengthened, particularly given that there is good work that has been done on this problem in a molecular model-based framework (see below). I've tried to note locations where I was confused by the prose, but this manuscript could certainly use a very close reading before resubmission.}}
 
@@ -120,6 +133,8 @@ of if they are telling you the same evolutionary history? It seems to me that wh
 
 \item{\textcolor{blue}{"Phylogenetic analysis algorithms require the assumption of character independence - a condition generally acknowledged to be violated by morphological data."\\
 I don't love this sentence because it emphasizes morphology as distinct, when we recognize non-independence as a problem in basically all data types (see Huelsenbeck and Nielsen, 1996, Effect of Nonindependent Substitution on Phylogenetic Accuracy and the references therein). I do think you should point to a citation here; Davalos et al. 2014 (Integrating Incomplete Fossils by Isolating Conflicting Signal in Saturated and Non-Independent Morphological Characters) is a good one.}}
+
+%TG: TODO: add cites
 
 \item{\textcolor{blue}{"good practices".\\
 Change to "careful character coding"}}
@@ -254,16 +269,30 @@ We have clarified these two points in the manuscript and in the mathematical dem
 
 \item{\textcolor{blue}{While some details of the simulation study are included, some important ones are missing. In particular, in the design of the study, how did you avoid or mitigate errors introduced by the programs simulating data? All of the programs use random-number generators and have their own biases. How have you accounted for this in the study of design to conclude that your results are due to signal, and not bias from the programs used?}}
 
-\item{\textcolor{blue}{How did you ``randomly''randomly modify your matrices? Did you sample under some distribution? If so, which one?}}
+%TG: This is a tricky one. Simulations where generated using a random seed but each step of the simulation cascades down from it. In this context it is hard to control for how the random data was generated (seeds where used at the start of the matrix simulations and the start of the tree inferences to mitigate the effect).
+%TG: In the end this is always a problem with computers and I'm not sure how to solve them unless using true random generators (overkill?).
+
+\item{\textcolor{blue}{How did you ``randomly'' modify your matrices? Did you sample under some distribution? If so, which one?}}
+
+%TG: TODO: add to the methods the sampling distribution (runif(0,1)).
 
 \item{\textcolor{blue}{It is not obvious why generated character sequences are representative of biological sequences or sample the space overall. Were the parameters chosen for the HKY model to fit a particular evolutionary scenario? Are they meant to capture all of the space?}}
 
+%TG: again, not sure what the reviewer means, the HKY picks the HKY scenario and the Mk the GTR one.
+%TG: and no, probably they don't capture all the space, morphological characters can be in any scenario (see Wright et al) but most of them seem to be GTR friendly. 
+
 \item{\textcolor{blue}{Similarly, why did you choose 0.85 for the Mk model? Does it represent some important set of character sequences? How does it represent the space in general?}}
 
-\item{\textcolor{blue}{There are statements that seem contradictory, like (line 335): ``Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability > 0:95 and different if they had an overlap probability > 0:05.''}}
+%TG: the 0.85 is the proportion of binary characters. This was extracted from litterature.
+
+\item{\textcolor{blue}{There are statements that seem contradictory, like (line 335): ``Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability > 0.95 and different if they had an overlap probability > 0.05.''}}
+
+We fixed this type. We considered them different if they had an overlap probability $<$ 0.05.
 
 \item{\textcolor{blue}{It is not clear how the conclusions were reached. For example, line 381-384: ``Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (Table 5 - median NTSRF of 0:828 and 0:679 respectively) but not in terms of individual taxon placements (Table 5 - median NTSTr of 0:738 and 0:601 respectively).'' Why is the 0:828 - 0:679 = 0:149 significant for this test and 0:738 - 0:601 = 0:137 is not?}}
 
+The significances was referring to the results in Table 5 (Wilcox test p value of 0 and 0.08 and Bhattacharrya Coefficient of 0.891 and 0.984 respectively) and the median values were extracted from the supplementary material 3 Table 4.
+We now detailed the values and where they are present for each of the tests to avoid confusion.
 
 \end{enumerate}
 
