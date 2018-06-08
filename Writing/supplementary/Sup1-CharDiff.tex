@@ -139,10 +139,10 @@ x'_1 = 1 \text{ and } y'_1 = 1
 
 \noindent then:
 
-\texttt{x' = {1,1,2,2,3,3}} and \texttt{y' = {1,2,2,2,3,3}}
+\texttt{x' = {1,1,2,2,3,3}} and \texttt{y' = {1,1,2,2,3,3}}
 
 
-\indent The following proofs consider that the \textit{xyz} notation was applied.
+\noindent The following proofs consider that the \textit{xyz} notation was applied.
 
 
 \section{Distance metric proof}
@@ -164,6 +164,13 @@ The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarro
 \begin{equation}
     \label{Subadditivity}
     CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}
+\end{equation}
+
+\noindent Furthermore, $CD$ is a evolutionary distance metric if it satisfies the four point condition:
+
+\begin{equation}
+    \label{fourpoint}
+    CD_{(i,j)} + CD_{(m,n)} \leq \text{max}{(CD_{(i,m)} + CD_{(j,n)} ; CD_{(j,m)} + CD_{(i,n)} )}
 \end{equation}
 
 \newpage
@@ -253,8 +260,47 @@ For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{j}$, $z_{b}$ $\in (0,1)$:
 Thus equation \ref{Subadditivity} is true.
 
 
+\newpage
+
+\subsection{Four point condition}
+
+For any $n \in [1;\infty)$ and any four distinct characters $i$, $j$, $n$ and $m$, and if equations \ref{Positivity} and \ref{Subadditivity} are true, the pairwise distances $CD_{(i,j)}$, $CD_{(m,n)}$, $CD_{(i,m)}$, $CD_{(j,n)}$, $CD_{(j,m)}$ and $CD_{(i,n)}$ can be represented as a combination of any five values $a$, $b$, $c$, $d$ and $e$ $\geq 0$:
+
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.5\textwidth]{Four_point.pdf}
+\end{figure}
+
+Then:
+
+\begin{equation}
+    \begin{aligned}
+    CD_{(i,j)} = a + b \\
+    CD_{(m,n)} = d + e \\
+    CD_{(i,m)} = a + c + d \\
+    CD_{(j,n)} = b + c + e \\
+    CD_{(j,m)} = b + c + d \\
+    CD_{(i,n)} = a + c + e \\
+    \end{aligned}
+\end{equation}
+
+Thus:
+
+\begin{equation}
+    \begin{gathered}
+    CD_{(i,j)} + CD_{(m,n)} \leq \text{max}{(CD_{(i,m)} + CD_{(j,n)} ; CD_{(j,m)} + CD_{(i,n)} )} \\ 
+    a + b + d + e \leq \text{max} (a+c+d+b+c+e; b+c+d+a+c+e) \\
+    a + b + d + e \leq a+b+2c+e+d \\
+    2c \geq 0 \\
+    \end{gathered}
+\end{equation}
+
+Thus equation \ref{fourpoint} is true.
+
 \bibliographystyle{sysbio}
 \bibliography{References}
 
 \end{document}
+
+
 
