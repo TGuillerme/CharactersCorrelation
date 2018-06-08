@@ -126,14 +126,21 @@ So we cannot confirm or reject that $CD$ is a evolutionary distance metric.
 If you simulated the character for all taxa, do they not all have this character (i.e. n always equals the dataset size)?
 But more importantly, will two characters not be more similar if they share the same number of character states, independent of if they are telling you the same evolutionary history?
 It seems to me that whether or not two characters share a state space is not the relevant axis along which to measure correlation.}}
+\label{gower}
 
-%TG: Specify the Gower distance (comparable)
-%TG: yes, n is fixed here (this is just for the CD definition)
-%TG: no, characters with missing data should be more dissimilar: since the similarity is measured in terms of shared splits, a missing data can always involve a new split (if the ? is a new state)
-%TG: and not sure about the directionality thing.
+Using a Gower based distance, we only compared the comparable taxa between characters.
+For example, for two characters \texttt{x = {0, 1, 2, 3}} and \texttt{y = {0, ?, ?, ?}}, the Character Difference metric will be effectively calculated using only the first taxon (\texttt{x = {0}} and \texttt{y = {0}}) and would result in a Character Difference of 0.
+As the reviewer points out, characters with less taxa in common will thus be less likely to be different.
+This is consistent with what the CD metric actually captures in terms of phylogenetic signal (the number of share splits - see Reviewer 2 comment \ref{proof}).
+In the example above, the both characters imply at least one split (between the first taxon and the others).
+In other words, in a phylogenetic software, both characters will support the same split.
 
-%TG: TODO: clarify the CD metric definition
+Besides, as the reviewer also correctly points out, we simulated our data with no missing data so this does not affect our results.
+The precision in the manuscript was just describing the properties of the new CD metric.
 
+We've clarified how missing data can be potentially treated in the methods section:
+\textit{For example, for two characters X and Y for four taxa, if character \texttt{X = \{0,0,?,1\}} for the first, second, third and fourth taxa respectively and character \texttt{Y = \{0,0,1,1\}}, only the first, second and fourth taxa are compared for this character.
+Note that in these simulations, no missing data was included so the characters are compared for equal number of taxa (see below).} lines @@@
 
 \item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
 should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
@@ -195,8 +202,8 @@ We doubled checked the figures links and made sure that this mention of Fig.1 no
 \item{\textcolor{blue}{"Additionally, we only consider differences for taxa with shared information (i.e. a Gower distance; Gower, 1971)."\\
 I'm not sure what this means. Does this mean that you did not include taxa with missing information when calculating per-character distances?}}
 
-We've clarified this sentence by adding the following example:
-\textit{For example, for two characters X and Y for four taxa, if character X is {0,0,?,1} for the first, second, third and fourth taxa respectively and character Y is {0,0,1,1}, only the first, second and fourth taxa are compared for this character.}
+We've clarified this sentence (see Reviewer 1, Major suggestion \ref{gower}).
+
 
 \item{\textcolor{blue}{"This procedure was used to treat all the characters are unordered with no assumption on the meaning of the character state"\\
 Why is this important? The text doesn't mention testing anything related to orderedness, or specifying anything related to orderedness in MrBayes.}}
@@ -224,7 +231,7 @@ We fixed this typo.
 
 \item{\textcolor{blue}{Most of the time when RF is normalized, it's done so that low scores are better - i.e. a low RF score indicates less distance to the true tree. I was very confused looking at the figures, until I realized this was not how normalizing had been performed. }}
 
-%TG: not sure what to answer to this one. Yeah we've normalised using a different method that. Should I just insit on that in the text?
+We've changed the labels of the figures to NTS(RF) and NTS(Tr) to avoid any confusions.
 
 \item{\textcolor{blue}{"However, the effect of these sources of correlation was out of the scope of this study and would have required a posteriori changes to the matrices which are - when using empirical data - at best bad practice and at worth dishonest."\\
 I'm not sure I follow this.}}
@@ -262,6 +269,7 @@ I understand why you did this, but I think you should also compare normal to tru
 
 \item{\textcolor{blue}{1. To be a metric, there are several properties that need to be satisfied. The proposed function
 is positively valued and symmetric (copied below from line 178): [...] But, the following metric property does not hold for all x; y:}}
+\label{proof}
 
 We are really grateful that this reviewer picked up this flow in our mathematical demonstration of CD metric.
 This problem is due to a lack of indications from our side and we apologise for this.

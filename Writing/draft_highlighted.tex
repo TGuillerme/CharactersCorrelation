@@ -187,7 +187,7 @@ Before discussing character correlation further, it is important to understand t
 
 \noindent Of course, the three sources of dependence have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
 Logical dependence, however, is easily distinguished prior to phylogenetic inference, while the two other ones (intra-organismal and evolutionary) are much harder.
-However, the development of algorithms and software has not yet caught up with the need to deal with these interdependencies \citep{DeLaet2015,BrazeauNA}.
+However, the development of algorithms and software has not yet caught up with the need to deal with these interdependencies \citep{de2015parsimony,BrazeauNA}.
 Intra-organismal dependence requires more detailed, often extremely time-consuming studies (and possibly beyond the limits of available technology).
 Even after all of the effort is expended, the results might then only be known for a single (model) species.
 Evolutionary dependence itself requires the resolution of a phylogenetic tree, and is best determined by independent character sets. 
@@ -255,10 +255,9 @@ Each step was replicated 35 times and are described below in more detail, along 
 \end{figure}
 
 \subsection{Measuring differences between characters}
-\label{CD_description}
+\label{CDdescription}
 To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
 In order to measure this, we propose a new distance metric to measure the difference between two characters:
-%TG: OK, I've checked Farris' stuff. Despite not beeing described (at least not the in 1970 Syst Biol paper), it seems that the advancement index is just the distance between two taxa. Appart from the taxa/character difference, it's kind of similar but (1) it's not ponderated (divided by n), centered (-1/2) and reversed (1-2(...)); so I'm not sure if we need to say it's similar. In the end it's a distance metric and it can be pretty similar to *any* distance metric. I think we can leave as it is (plus, I've reinvented the wheel by mathematicallty demonstrating it's a distance - my first only real math in a draft).
 
 \subsubsection{Character Difference ($CD$)}
 \begin{equation}
@@ -271,7 +270,8 @@ $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathem
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
-\hl{For example, for two characters X and Y for four taxa, if character \texttt{X = \{0,0,?,1\}} for the first, second, third and fourth taxa respectively and character \texttt{Y = \{0,0,1,1\}}, only the first, second and fourth taxa are compared for this character.}
+\hl{For example, for two characters X and Y for four taxa, if character \texttt{X = \{0,0,?,1\}} for the first, second, third and fourth taxa respectively and character \texttt{Y = \{0,0,1,1\}}, only the first, second and fourth taxa are compared for this character.
+Note that in these simulations, no missing data was included so the characters are compared for equal number of taxa (see below).}
 
 We standardised each character by arbitrarily modifying their character state tokens (or symbols) by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
@@ -428,7 +428,7 @@ The full list of comparisons and summary statistics are available in the supplem
 
 \subsection{Effect of character differences on topology}
 As expected, there is a significant effect of the character difference in the ability to recover the correct topology.
-The character difference metric can be seen as the inverse of character correlation (see Methods \ref{CD_description}): a high character difference approximates a low level of character correlation and vice versa.
+The character difference metric can be seen as the inverse of character correlation (see Methods above): a high character difference approximates a low level of character correlation and vice versa.
 When characters are correlated, one could expect the matrices to convey a strong (but potentially misleading) phylogenetic signal since every character agrees with each other and conversely, when characters are uncorrelated, one could expect them to convey a weaker phylogenetic signal with a high amount of homoplasy.
 Intuitively, this would lead the ``minimised'' character difference scenario to lead to incorrect but consistent trees, the ``maximised'' scenario to lead to poorly resolved once (really homoplasic trees) and the ``randomised'' scenario to perform the best at recovering the correct topology.
 Although the expected results appear to be true for a low character difference scenario, increasing the character difference surprisingly improves the ability to recover the ``normal'' topology both in terms of clade conservation ($NTS_{RF}$) and taxa placement ($NTS_{Tr}$) for both inference methods (especially in bigger matrices; Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best}).
@@ -503,7 +503,7 @@ Applying this kind of bootstraps that maximises character difference by biasing 
 
 \subsection{Conclusion}
 Correlation between characters can be induced through three main phenomena: intra-organismal relationships, selection-driven covariation or biases in coding the characters yet only the latter can be improved upon to investigate phylogenetic relationships.
-Useful best practices guidelines \citep[e.g.][]{Brazeau2011,simoes2017giant} and algorithms for dealing with different types of character correlations \citep[e.g. for characters hierarchy][]{deLaet2015,BrazeauNA} already exist.
+Useful best practices guidelines \citep[e.g.][]{Brazeau2011,simoes2017giant} and algorithms for dealing with different types of character correlations \citep[e.g. for characters hierarchy][]{de2015parsimony,BrazeauNA} already exist.
 However, with the regain of popularity in discrete morphological data and the expansion of dataset size \citep[e.g.][with more than 1000 characters each]{nithe2013,O'Leary08022013}, we can expect the correlation between characters to increase stochastically.
 Moreover, because phylogenetic inference software are unable to \textit{a priori} differentiate these difference correlations, it is important to understand to what extant topologies can be induced by such bias.
 
@@ -525,7 +525,7 @@ European Research Council under the European Union’s Seventh Framework Program
 
 \section{Acknowledgements}
 Calculations where done using the Imperial College London Cluster Services (doi: 10.14469/hpc/2232).
-We thank Alberto Pascual Garcia for input in the design of the simulations protocol and Guillermo Herraiz Yebes for helping with the CD metric proof.
+We thank Alberto Pascual Garcia for input in the design of the simulations protocol and Guillermo Herraiz Yebes and Abigail Pastore for helping with the CD metric proof and the \hl{three anonymous reviewers for there insightful comments}.
 
 \bibliographystyle{sysbio}
 \bibliography{References}
