@@ -24,7 +24,9 @@ The following function counts, _a posteriori_ the number of characters that wher
 get.proportion.replace <- function(matrix, path) {
     ## Getting one matrix in a comparable format
     get.one.matrix <- function(path, matrix, type) {
-        return(unlist(apply(do.call(rbind, read.nexus.data(paste0(path, matrix, "_", type, ".nex"))), 2, list), recursive = FALSE))
+        return(unlist(apply(do.call(rbind,
+                                    read.nexus.data(paste0(path, matrix, "_", type, ".nex"))
+                            ), 2, list), recursive = FALSE))
     }
 
     ## Getting all the matrices
@@ -91,174 +93,27 @@ c("100c", "350c", "1000c") -> names(results_maxi[[1]]) ->
 
 We can then represent the results using box plots:
 
-```{r, fig.height = 6, fig.width = }
-
-boxplot(results_rand[[3]], xaxis = "n")
-
-
-
-
-
-plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, NTS = TRUE, ylab, xlab, axislab, ...) {
-    
-    ## Graphic parameters
-    ## Colours
-    cols <- c("red", "orange", "green3", "lightgreen", "blue", "lightblue")
-    
-    ## Y lab
-    if(missing(ylab)) {
-        if(metric == 1) ylab <- "Similarity (Matching Cluster)"
-        if(metric == 2) ylab <- "Similarity (Robinson-Foulds)"
-        if(metric == 3) ylab <- "Similarity (Nodal Split)"
-        if(metric == 4) ylab <- "Similarity (Triplets)"
-    }
-
-    ## Y lim
-    get.min.list <- function(X, metric) {
-        return(min(unlist(X[,metric])))
-    }
-
-    min <- min(unlist(lapply(unlist(unlist(unlist(taxa_list, recursive = FALSE), recursive = FALSE), recursive = FALSE), get.min.list, metric)))
-    if(min < 0) {
-        ylim <- c(min,1)
-    } else {
-        ylim <- c(0,1)
-    }
-
-    ## X lab
-    if(missing(xlab)) {
-        xlab <- "Characters"
-    }
-
-    ## axis lab
-    if(missing(axislab)) {
-        axislab <- c("100", "350", "1000")
-    }
-
-    ## Horizontal line
-    line <- 0
-    
-
-    if(what == "null") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), las = 1, ...,
-            ## c100
-            unlist(taxa_list$c100$bayesian$rand$maxi[,metric]), unlist(taxa_list$c100$parsimony$rand$maxi[,metric]),
-            unlist(taxa_list$c100$bayesian$rand$mini[,metric]), unlist(taxa_list$c100$parsimony$rand$mini[,metric]),
-            unlist(taxa_list$c100$bayesian$rand$norm[,metric]), unlist(taxa_list$c100$parsimony$rand$norm[,metric]),
-            ## c350
-            unlist(taxa_list$c350$bayesian$rand$maxi[,metric]), unlist(taxa_list$c350$parsimony$rand$maxi[,metric]),
-            unlist(taxa_list$c350$bayesian$rand$mini[,metric]), unlist(taxa_list$c350$parsimony$rand$mini[,metric]),
-            unlist(taxa_list$c350$bayesian$rand$norm[,metric]), unlist(taxa_list$c350$parsimony$rand$norm[,metric]),
-            ## c1000
-            unlist(taxa_list$c1000$bayesian$rand$maxi[,metric]), unlist(taxa_list$c1000$parsimony$rand$maxi[,metric]),
-            unlist(taxa_list$c1000$bayesian$rand$mini[,metric]), unlist(taxa_list$c1000$parsimony$rand$mini[,metric]),
-            unlist(taxa_list$c1000$bayesian$rand$norm[,metric]), unlist(taxa_list$c1000$parsimony$rand$norm[,metric])
-            )
-
-        ## X axis
-        axis(1, 1:18, labels = FALSE, tick = FALSE)
-        axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = axislab)
-        ## Lines
-        abline(v = 6.5) ; abline(v = 12.5)
-        abline(h = line, col = "grey", lty = 2)
-        ## Legend
-        if(legend) {
-            legend("bottomleft", col = cols, pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
-                legend = c("Maximised (Bayesian)", "Maximised (Parsimony)",
-                           "Minimised (Bayesian)", "Minimised (Parsimony)",
-                           "Normal (Bayesian)", "Normal (Parsimony)")
-                )
-        }
-    }
-
-    if(what == "best") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), las = 1, ...,
-            ## c100
-            unlist(taxa_list$c100$bayesian$norm$maxi[,metric]), unlist(taxa_list$c100$parsimony$norm$maxi[,metric]),
-            unlist(taxa_list$c100$bayesian$norm$mini[,metric]), unlist(taxa_list$c100$parsimony$norm$mini[,metric]),
-            unlist(taxa_list$c100$bayesian$norm$rand[,metric]), unlist(taxa_list$c100$parsimony$norm$rand[,metric]),
-            ## c350
-            unlist(taxa_list$c350$bayesian$norm$maxi[,metric]), unlist(taxa_list$c350$parsimony$norm$maxi[,metric]),
-            unlist(taxa_list$c350$bayesian$norm$mini[,metric]), unlist(taxa_list$c350$parsimony$norm$mini[,metric]),
-            unlist(taxa_list$c350$bayesian$norm$rand[,metric]), unlist(taxa_list$c350$parsimony$norm$rand[,metric]),
-            ## c1000
-            unlist(taxa_list$c1000$bayesian$norm$maxi[,metric]), unlist(taxa_list$c1000$parsimony$norm$maxi[,metric]),
-            unlist(taxa_list$c1000$bayesian$norm$mini[,metric]), unlist(taxa_list$c1000$parsimony$norm$mini[,metric]),
-            unlist(taxa_list$c1000$bayesian$norm$rand[,metric]), unlist(taxa_list$c1000$parsimony$norm$rand[,metric])
-            )
-
-        ## X axis
-        axis(1, 1:18, labels = FALSE, tick = FALSE)
-        axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = axislab)
-        ## Lines
-        abline(v = 6.5) ; abline(v = 12.5)
-        abline(h = line, col = "grey", lty = 2)
-        ## Legend
-        if(legend) {
-            legend("bottomleft", col = cols, pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
-                legend = c("Maximised (Bayesian)", "Maximised (Parsimony)",
-                           "Minimised (Bayesian)", "Minimised (Parsimony)",
-                           "Randomised (Bayesian)", "Randomised (Parsimony)")
-                )
-        }
-    }
-
-    if(what == "true") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), las = 1, ...,
-            ## c100
-            unlist(taxa_list$c100$bayesian$norm$true[,metric]), unlist(taxa_list$c100$parsimony$norm$true[,metric]),
-            unlist(taxa_list$c100$bayesian$rand$true[,metric]), unlist(taxa_list$c100$parsimony$rand$true[,metric]),
-            ## c350
-            unlist(taxa_list$c350$bayesian$norm$true[,metric]), unlist(taxa_list$c350$parsimony$norm$true[,metric]),
-            unlist(taxa_list$c350$bayesian$rand$true[,metric]), unlist(taxa_list$c350$parsimony$rand$true[,metric]),
-            ## c1000
-            unlist(taxa_list$c1000$bayesian$norm$true[,metric]), unlist(taxa_list$c1000$parsimony$norm$true[,metric]),
-            unlist(taxa_list$c1000$bayesian$rand$true[,metric]), unlist(taxa_list$c1000$parsimony$rand$true[,metric])
-            )
-
-        ## X axis
-        axis(1, 1:12, labels = FALSE, tick = FALSE)
-        axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = axislab)
-        ## Lines
-        abline(v = 4.5) ; abline(v = 8.5)
-        abline(h = line, col = "grey", lty = 2)
-        ## Legend
-        if(legend) {
-            legend("bottomleft", col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
-                legend = c("Normal (Bayesian)", "Normal (Parsimony)",
-                           "Randomised (Bayesian)", "Randomised (Parsimony)")
-                )
-        }
-    }
-
-    if(what == "check") {
-        boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols[1:4], 3), las = 1, ...,
-            ## c100
-            unlist(taxa_list$c100$bayesian$norm$rand[,metric]), unlist(taxa_list$c100$parsimony$norm$rand[,metric]),
-            unlist(taxa_list$c100$bayesian$rand$norm[,metric]), unlist(taxa_list$c100$parsimony$rand$norm[,metric]),
-            ## c350
-            unlist(taxa_list$c350$bayesian$norm$rand[,metric]), unlist(taxa_list$c350$parsimony$norm$rand[,metric]),
-            unlist(taxa_list$c350$bayesian$rand$norm[,metric]), unlist(taxa_list$c350$parsimony$rand$norm[,metric]),
-            ## c1000
-            unlist(taxa_list$c1000$bayesian$norm$rand[,metric]), unlist(taxa_list$c1000$parsimony$norm$rand[,metric]),
-            unlist(taxa_list$c1000$bayesian$rand$norm[,metric]), unlist(taxa_list$c1000$parsimony$rand$norm[,metric])
-            )
-
-        ## X axis
-        axis(1, 1:12, labels = FALSE, tick = FALSE)
-        axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = axislab)
-        ## Lines
-        abline(v = 4.5) ; abline(v = 8.5)
-        abline(h = line, col = "grey", lty = 2)
-        ## Legend
-        if(legend) {
-            legend("bottomleft", col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
-                legend = c("Normal (Bayesian)", "Normal (Parsimony)",
-                           "Randomised (Bayesian)", "Randomised (Parsimony)")
-                )
-        }
-    }
+```{r, fig.height = 18, fig.width = 6}
+## Plotting the different proportion results
+plot.proportions <- function(data, ...) {
+    ## Default colours
+    cols <- gray.colors(3)
+    ## Boxes
+    boxplot(xlab = "", ylab = "Proportion of replacement", xaxt = "n", ylim = c(0, 1), col = cols,
+            c(data[[1]], data[[2]], data[[3]]), ...)
+    legend("topleft", legend = names(data), pch = 19, col = cols, bty = "n")
+    ## X axis
+    axis(1, 1:9, labels = FALSE, tick = FALSE)
+    axis(1, c(2, 5, 8), tick = FALSE, labels = names(data))
+    ## Lines
+    abline(v = 3.5) ; abline(v = 6.5)
 }
 
-combine_results <- unlist(lapply(replacements[[1]][[1]], function(X) return(X[[1]])))
+par(mfrow = c(3,1))
+plot.proportions(results_maxi, main = "Maximised differences")
+plot.proportions(results_mini, main = "Minimised differences")
+plot.proportions(results_rand, main = "Randomised differences")
+
+```
+
 
