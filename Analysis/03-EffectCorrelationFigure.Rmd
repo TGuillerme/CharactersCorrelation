@@ -173,6 +173,20 @@ plot.results.single(t25_list, metric = 4, what = "true",
     main = "comparison to 'true' tree (25 taxa)", legend = TRUE, NTS = TRUE)
 ```
 
+
+<!-- For generating the figure for the supplementary-->
+
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
+pdf("../Writing/Figures/25t_true_tree.pdf", width = 12, height = 8.25)
+op <- par(mfrow=c(2,1))
+plot.results.single(t25_list, metric = 2, what = "true",
+    main = "comparison to 'true' tree (25 taxa)", legend = TRUE, NTS = TRUE)
+plot.results.single(t25_list, metric = 4, what = "true",
+    main = "", legend = FALSE, NTS = TRUE)
+par(op)
+# dev.off()
+```
+
 ### 75 taxa
 
 ```{r, fig.width=12, fig.height=6}
@@ -185,6 +199,18 @@ plot.results.single(t75_list, metric = 2, what = "true",
 ## Comparisons to the true tree (Triplets)
 plot.results.single(t75_list, metric = 4, what = "true",
     main = "comparison to 'true' tree (75 taxa)", legend = TRUE, NTS = TRUE)
+```
+
+
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
+pdf("../Writing/Figures/75t_true_tree.pdf", width = 12, height = 8.25)
+op <- par(mfrow=c(2,1))
+plot.results.single(t75_list, metric = 2, what = "true",
+    main = "comparison to 'true' tree (75 taxa)", legend = TRUE, NTS = TRUE)
+plot.results.single(t75_list, metric = 4, what = "true",
+    main = "", legend = FALSE, NTS = TRUE)
+par(op)
+# dev.off()
 ```
 
 ### 150 taxa
@@ -201,6 +227,16 @@ plot.results.single(t150_list, metric = 4, what = "true",
     main = "comparison to 'true' tree (150 taxa)", legend = TRUE, NTS = TRUE)
 ```
 
+```{r, eval = TRUE, echo = FALSE, print = FALSE, result = 'hide'}
+pdf("../Writing/Figures/150t_true_tree.pdf", width = 12, height = 8.25)
+op <- par(mfrow=c(2,1))
+plot.results.single(t150_list, metric = 2, what = "true",
+    main = "comparison to 'true' tree (150 taxa)", legend = TRUE, NTS = TRUE)
+plot.results.single(t150_list, metric = 4, what = "true",
+    main = "", legend = FALSE, NTS = TRUE)
+par(op)
+# dev.off()
+```
 
 
 ## Resolution

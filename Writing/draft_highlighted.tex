@@ -227,7 +227,13 @@ For example, if we consider the following matrix containing four cetartiodactyls
 
 In the example in Table \ref{Tab:example_matrix}, the characters \textbf{C1} and \textbf{C2} are the most likely to be truly independent; characters \textbf{C3} and \textbf{C4} suffer from a a coding induced dependency; characters \textbf{C1} and \textbf{C3}/\textbf{C4} have an evolutionary induce dependency and again, characters \textbf{C2} and \textbf{C3}/\textbf{C4} are likely to be independent.
 Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the character states tokens will be used in order to infer the tree.
-Some characters will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
+\hl{In fact, for practicality reasons, phylogenetic software do not (or rarely) distinguish between the different sources of correlation.
+In this specific example, we would intuitively want to favour character \textbf{C1} and \textbf{C2} more than the other characters since this would be \textit{a priori} the characters that are the most likely to reflect the group's evolutionary history in terms of split by separating the artiodactyles from the cetaceans.
+In other words, this is the correlation between characters that depicts the evolutionary history of this group.
+However, the other characters depict the same history (i.e. the same split) but for the wrong reasons (note that even if \textbf{C2} was coded presence (1) or absence (0) of baleens, the same split would still be estimated by the software).
+One solution could be to weight characters \textit{a priori} but that is a bad practice since it can easily lead to the resulting tree reflecting the researcher's \textit{priori} rather than the true evolutionary history.}
+
+This illustrates how some characters will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
 Yet the question has never been explored through a thorough simulation framework (although it has been tackled empirically for morphological data \citealt{Davalos01072014} or molecular data \citealt{ZouConvergence}).
 
 How \hl{do} these correlation really affect topology?
@@ -282,9 +288,9 @@ Note that in these simulations, no missing data was included so the characters a
 
 We standardised each character by arbitrarily modifying their character state tokens (or symbols) by order of appearance.
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
-This procedure was used to treat all the characters \hl{as} unordered with no assumption on the meaning of the character state (e.g. in a binary character $0$ is not necessary ancestral to $1$).
-It also greatly improved the speed of our algorithm implementation to compare the characters.
-This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} (following the \textit{xyz} notation in \citealt{felsenstein2004inferring}; \hl{as used in} \citealt{Davalos01072014}).
+\hl{This procedure allows to compare characters regardless of the significance given to their tokens (following the \textit{xyz} notation in }
+\citealt{felsenstein2004inferring}; \hl{as used in} \citealt{Davalos01072014}).
+This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}}.
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct splits in the tree inference process).
 
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
@@ -360,6 +366,7 @@ Note that we are not comparing the trees to the ``true'' tree used to simulate t
 First, in biology, this tree is always unknown.
 Second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the ``normal'', ``maximised'' and ``minimised'' trees.
 When measuring the difference between these trees and the ``true'' tree, we would also confound the effect of simulating a birth-death tree and simulating a discrete morphological matrices from it.
+\hl{However, we did report the comparison between the ``true'' trees and ``normal'' and ``randomised'' ones is available in the supplementary materials 3, Figs 6, 7 and 8.}
 
 The metric scores were calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
 The measurements were then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.

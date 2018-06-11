@@ -158,8 +158,6 @@ First, molecular and morphological data often differs in size and in the amount 
 Second, this discrepancy has been suggested to fewer stronger correlations in morphological data (i.e. ``concentrated'' correlations) versus weaker and more ``spread'' correlations in molecular data (i.e. ``diffused'' correlations - though some regions of the genome can be thought as more correlated than others; Huelsenbeck and Nielsen, 1999).
 Furthermore, because of this ``spread'' correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function cf. changes in nucleotide states ; see below).} lines @@@
 
-
-
 \item{\textcolor{blue}{"good practices".\\
 Change to "careful character coding"}}
 
@@ -191,7 +189,13 @@ We've clarified the sentence with an example as follows:
 \item{\textcolor{blue}{"Correlation between characters detected by the software:"\\
 I really struggled with this section. It seems like the problem here is still a coding problem - that the authors of these four characters have chosen four highly dependent characters to build the matrix. Even scoring by hand under parsimony would have problems here. I think what you need to decide here is what you want to communicate in this paragraph. Is it that software is not currently equipped to handle this issue?}}
 
-%TG: probably insist on what the reviewer says: that the software cannot handle this.
+We've added a paragraph highlithing how the problem indeed comes from the fact that current software are not equipped to handle this issue:
+
+\textit{In fact, for practicality reasons, phylogenetic software do not (or rarely) distinguish between the different sources of correlation.
+In this specific example, we would intuitively want to favour character \textbf{C1} and \textbf{C2} more than the other characters since this would be \textit{a priori} the characters that are the most likely to reflect the group's evolutionary history in terms of split by separating the artiodactyles from the cetaceans.
+In other words, this is the correlation between characters that depicts the evolutionary history of this group.
+However, the other characters depict the same history (i.e. the same split) but for the wrong reasons (note that even if \textbf{C2} was coded presence (1) or absence (0) of baleens, the same split would still be estimated by the software).
+One solution could be to weight characters \textit{a priori} but that is a bad practice since it can easily lead to the resulting tree reflecting the researcher's \textit{priori} rather than the true evolutionary history.} lines @@@
 
 \item{\textcolor{blue}{"To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different levels of correlation between some characters (Fig.1 - note that each step is described in more details below):"\\
 Fig. 1 is the results, but this text implies it is a workflow diagram.}}
@@ -203,11 +207,12 @@ I'm not sure what this means. Does this mean that you did not include taxa with 
 
 We've clarified this sentence (see Reviewer 1, Major suggestion \ref{gower}).
 
-
 \item{\textcolor{blue}{"This procedure was used to treat all the characters are unordered with no assumption on the meaning of the character state"\\
 Why is this important? The text doesn't mention testing anything related to orderedness, or specifying anything related to orderedness in MrBayes.}}
 
-%TG: answering that by saying this is a normal neutral procedure?
+We removed the mention of orderdness of the characters since, indeed, it might be more confusing than helpful in this context (we didn't not simulate any ordered characters and the CD metric does not consider characters as ordered - see supplementary material 1). We've changed the sentence to the following:
+
+\textit{This procedure allows to compare characters regardless of the significance given to their tokens (following the \textit{xyz} notation in Felsenstein, 2004; as used in D\'{a}valos et al., 2014).} lines @@@
 
 \item{\textcolor{blue}{"The morphological HKY model"\\
 Is not real. This is just the HKY model. Goloboff (2017) would dispute that this model does not favor a Bayesian method, since it is still a Markovian model. That O'Reilly et al. used this model to generate binary data does not mean one has to - you could translate each of the four nucleotides to its own discrete character. This would probably get even further from the Mk model assumptions than collapsing the multistate character produced via the HKY model to a binary character.}}
@@ -241,8 +246,10 @@ We meant that modifying phylogenetic matrices after the phylogenetic inference i
 \item{\textcolor{blue}{"However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree. "\\
 I understand why you did this, but I think you should also compare normal to true. That will give us some idea of the scope of how close we can get to true, under these conditions, and will help contextualize the results.}}
 
-%TG: add this to the supplementatries
+We've added the comparisons between the ``normal'' and ``randomised'' trees to the ``true'' tree in the supplementary material 3, figures 6 to 8.
+We've added a reference to these figures in the main text:
 
+\textit{However, we did report the comparison between the ``true'' trees and ``normal'' and ``randomised'' ones is available in the supplementary materials 3, Figs 6, 7 and 8.} lines @@@
 
 \end{enumerate}
 
