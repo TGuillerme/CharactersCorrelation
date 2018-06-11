@@ -109,8 +109,8 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 \section{Definition}
 
 $CD$, the Character Difference metric, is a distance that measures the difference between two characters in terms of shared phylogenetic splits.
-For two characters $x$ and $y$, $CD=0$ implies that the characters are identical, i.e. they convey the same phylogenetic signal in term of splits; $CD=1$ implies that the characters are the most different, i.e. they convey the most different phylogenetic signal in terms of splits.
 
+For two characters $x$ and $y$, $CD=0$ implies that the characters are identical, i.e. they convey the same phylogenetic signal in term of splits; $CD=1$ implies that the characters are the most different, i.e. they convey the most different phylogenetic signal in terms of splits.
 
 \begin{equation}
     CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
@@ -143,6 +143,18 @@ x'_1 = 1 \text{ and } y'_1 = 1
 
 
 \noindent The following proofs consider that the \textit{xyz} notation was applied.
+
+\subsection{Justification for the character states translation}
+Because the character states tokens are not representing any meaningful numerical value if the characters are unordered (e.g. there is no assumption that state 0 should come before state 1), they need to be reordered in a standard way so that the first token in the character is renamed to ``1'', the second to ``2'' etc.
+For example, in a 3 state character for four taxa: \texttt{X = {1, 0, 2, 1}}, the character tokens that are integers representing the states could equally have been \texttt{X = {E, A, I, E}} or \texttt{X = {blue, red, absent, blue}}.
+Therefore, to compare characters fairly, the tokens needs to be translated in a standard way such as the first token is replaced by the symbol ``1'', etc.
+In this example \texttt{X = {1, 0, 2, 1}} becomes \texttt{X' = {1, 2, 3, 1}}
+
+\subsection{Interpretation}
+For a characters \texttt{X = {1, 0, 2, 1}} implying three splits between four taxa and two characters \texttt{Y = {1, 1, 1, 2}} and \texttt{Z = {0, 2, 1, 0}} implying respectively two and three splits between four taxa, $CD_{(X,Y)} = 0.5$ and $CD_{(X,Z)} = 0$.
+This can be interpreted as the probability of characters \texttt{X}, \texttt{Y} and \texttt{X}, \texttt{Z} giving a conflicting phylogenetic signal between the four taxa.
+Here \texttt{X}, \texttt{Y} will conflict for 50\% of the taxa and \texttt{X}, \texttt{X} for 0\% of them.
+
 
 
 \section{Distance metric proof}
@@ -296,6 +308,10 @@ Thus:
 \end{equation}
 
 Thus equation \ref{fourpoint} is true.
+
+
+
+
 
 \bibliographystyle{sysbio}
 \bibliography{References}

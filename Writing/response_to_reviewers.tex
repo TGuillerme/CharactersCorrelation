@@ -286,7 +286,7 @@ In other words, because the character states tokens are not representing any mea
 For example, in a 3 state character for four taxa: \texttt{X = {1, 0, 2, 1}}, the character tokens that are integers representing the states could equally have been \texttt{X = {E, A, I, E}} or \texttt{X = {blue, red, absent, blue}}.
 Therefore, to compare characters fairly, the tokens needs to be translated in a standard way such as the first token is replaced by the symbol ``1'', etc.
 In this example \texttt{X = {1, 0, 2, 1}} becomes \texttt{X' = {1, 2, 3, 1}}
-In the reviewer's demonstration, \texttt{x  = {1}} and \texttt{y  = {0}} thus become \texttt{x'  = {1}} and \texttt{y'  = {1}}.
+In the reviewer's demonstration, \texttt{x  = {1}} and \texttt{y  = {0}} thus become \texttt{x' = {1}} and \texttt{y' = {1}}.
 Hence $CD_{(x',y')} = 0 \Leftrightarrow x' = y'$.
 
 \subsubsection{CD as a metric to compare the splits between characters}
@@ -296,6 +296,13 @@ Another character \texttt{Y = {1, 1, 1, 2}} will imply only two splits, non shar
 
 Following these two points, the reviewer counter example $CD_{(x,y)} = 0$ means that 1) $x'$ and $y'$ are identical and the characters $x$ and $y$ imply the same number of splits in a tree (here no splits since only one taxon is used - however, this would hold for any $n$ number of taxa).
 We have clarified these two points in the manuscript and in the mathematical demonstration.
+
+%TG: TODO: introduce this
+
+\textit{(i.e. entirely correlated characters would define identical splits between a set of taxa)}. lines @@@
+
+\textit{Similarly, an hypothetical comparison of two character for only one taxa \texttt{x = \{0\}} and \texttt{y = \{1\}} would result in comparing two identical characters \texttt{x' = \{1\}} and \texttt{y' = \{1\}}.} lines @@@
+
 
 %TG: TODO: add the stuff to the manuscript
 

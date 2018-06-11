@@ -269,7 +269,7 @@ Each step was replicated 35 times and are described below in more detail, along 
 
 \subsection{Measuring differences between characters}
 \label{CDdescription}
-To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
+To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information \hl{(i.e. entirely correlated characters would define identical splits between a set of taxa)}.
 In order to measure this, we propose a new distance metric to measure the difference between two characters:
 
 \subsubsection{Character Difference ($CD$)}
@@ -291,6 +291,7 @@ In other words, we replaced all the occurrences of the first token to be $1$, th
 \hl{This procedure allows to compare characters regardless of the significance given to their tokens (following the \textit{xyz} notation in }
 \citealt{felsenstein2004inferring}; \hl{as used in} \citealt{Davalos01072014}).
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}}.
+\hl{Similarly, an hypothetical comparison of two character for only one taxa \texttt{x = \{0\}} and \texttt{y = \{1\}} would result in comparing two identical characters \texttt{x' = \{1\}} and \texttt{y' = \{1\}}.}
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct splits in the tree inference process).
 
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
