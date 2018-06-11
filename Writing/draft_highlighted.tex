@@ -151,9 +151,16 @@ While there is a general appreciation of the limits of morphological data, they 
 As morphological data are likely to continue to play an extensive role in phylogenetic analysis, it is essential to understand the circumstances under which morphological data might be expected to ``misbehave''.
 This opens up possibilities for predicting problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
 
-The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data.
+The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data \cite[e.g.][]{Davalos01072014, ZouConvergence}.
 The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the very nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are \hl{dependent} on each other.
+\hl{This independence is assumed for both molecular and morphological characters} \citep{huelsenbeck1999effect,Davalos01072014,ZouConvergence}.
+\hl{However, several distinctions can be made between the amount and the nature of the correlation.
+First, molecular and morphological data often differs in size and in the amount of states analysed (molecular matrices are generally larger with mainly four states - not including missing data or indels - and morphological matrices are smaller with generally two states but sometimes up to more than ten;}
+\citealt{Guillerme2016146}
+\hl{);
+Second, this discrepancy has been suggested to fewer stronger correlations in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread'' correlations in molecular data}
+\citep[\hl{i.e. ``diffused'' correlations - though some regions of the genome can be thought as more correlated than others}][]{huelsenbeck1999effect}.
+\hl{Furthermore, because of this ``spread'' correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function \textit{cf.} changes in nucleotide states ; see below).}
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
 
 \begin{itemize}
@@ -277,7 +284,7 @@ We standardised each character by arbitrarily modifying their character state to
 In other words, we replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
 This procedure was used to treat all the characters \hl{as} unordered with no assumption on the meaning of the character state (e.g. in a binary character $0$ is not necessary ancestral to $1$).
 It also greatly improved the speed of our algorithm implementation to compare the characters.
-This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \citep[following the \textit{xyz} notation in][p.13]{felsenstein2004inferring}.
+This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} (following the \textit{xyz} notation in \citealt{felsenstein2004inferring}; \hl{as used in} \citealt{Davalos01072014}).
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct splits in the tree inference process).
 
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).

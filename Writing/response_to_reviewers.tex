@@ -140,8 +140,6 @@ should be true - does this simply mean that the same signal is being repeated ov
 %TG: TODO: add the range of replaced character n and m
 %TG: TODO: add more explanantion on the replacements in the methods and the discussion (the reviewer's thoughts)
 
-\item{\textcolor{blue}{I thought the reproducible science aspect was cool, and well done. Some aspects of the literature review and context for the problem need to be strengthened, particularly given that there is good work that has been done on this problem in a molecular model-based framework (see below). I've tried to note locations where I was confused by the prose, but this manuscript could certainly use a very close reading before resubmission.}}
-
 \end{enumerate}
 
 \subsection{Specific suggestions}
@@ -150,8 +148,17 @@ should be true - does this simply mean that the same signal is being repeated ov
 
 \item{\textcolor{blue}{"Phylogenetic analysis algorithms require the assumption of character independence - a condition generally acknowledged to be violated by morphological data."\\
 I don't love this sentence because it emphasizes morphology as distinct, when we recognize non-independence as a problem in basically all data types (see Huelsenbeck and Nielsen, 1996, Effect of Nonindependent Substitution on Phylogenetic Accuracy and the references therein). I do think you should point to a citation here; Davalos et al. 2014 (Integrating Incomplete Fossils by Isolating Conflicting Signal in Saturated and Non-Independent Morphological Characters) is a good one.}}
+\label{molecular}
 
-%TG: TODO: add cites
+We slightly rephrased the sentence in the abstract (See reviewer 3 minor revision \ref{abstract}) and expanded on the distinction between both character types this in the introduction following the reviewer pertinent biobliography suggestion:
+
+\textit{This independence is assumed for both molecular and morphological characters (Huelsenbeck and Nielsen, 1999; D\'{a}valos et al., 2014, Zou and Zhang, 2016).
+However, several distinctions can be made between the amount and the nature of the correlation.
+First, molecular and morphological data often differs in size and in the amount of states analysed (molecular matrices are generally larger with mainly four states - not including missing data or indels - and morphological matrices are smaller with generally two states but sometimes up to more than ten; Guillerme and Cooper, 2016).
+Second, this discrepancy has been suggested to fewer stronger correlations in morphological data (i.e. ``concentrated'' correlations) versus weaker and more ``spread'' correlations in molecular data (i.e. ``diffused'' correlations - though some regions of the genome can be thought as more correlated than others; Huelsenbeck and Nielsen, 1999).
+Furthermore, because of this ``spread'' correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function cf. changes in nucleotide states ; see below).} lines @@@
+
+
 
 \item{\textcolor{blue}{"good practices".\\
 Change to "careful character coding"}}
@@ -161,12 +168,12 @@ We've changed the sentence following the reviewer's suggestions lines @@@.
 \item{\textcolor{blue}{"The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data".\\
 Evidence for this?}}
 
-%TG: Find cite.
+We now refer to  D\'{a}valos et al., 2014 and Zou and Zhang, 2016's work on the problem of morphological character correlation in contrast of molecular data.
 
 \item{\textcolor{blue}{"Especially for discrete morphological data, this assumption of independence is probably violated frequently due to the very nature of phylogenetic data: correlations are expected to occur (to some degree) when characters are depending on each other."\\
 I don't really understand what this sentence is adding. It feels repetitious in light of previous paragraphs, but also does little to establish why morphological data should be especially susceptible to this. I think there are parts of the genome where we would expect to find as much or more correlation than in morphological characters - the stem domains of rRNA genes, for example. I would expect the average character correlation to be weaker in DNA data, or at least more spread out in a way that makes it harder to detect.}}
 
-%TG: Remove the sentence?
+We removed this sentence and added the reviewer's suggestion on DNA character susceptible to be more correlated in some regions (see Reviewer 1, specific suggestion \ref{molecular}).
 
 \item{\textcolor{blue}{"Evolutionary dependence: this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait."\\
 Seems appropriate to cite Clarke and Middleton (2008) here.}}
@@ -367,6 +374,7 @@ Both of which can unfortunately only be observed/analysed, \textit{a posteriori}
 \begin{enumerate}
 
 \item{\textcolor{blue}{2:2 – Phylogenetic algorithms don't necessarily require independence, they simply assume it.}}
+\label{abstract}
 
 We've rephrased this sentence to:
 \textit{Phylogenetic analysis algorithms assume character independence}. lines @@@
