@@ -293,23 +293,37 @@ Hence $CD_{(x',y')} = 0 \Leftrightarrow x' = y'$.
 Furthermore, the CD metric, used in this manuscript as a proxy for character correlation actually measures the difference between in characters in terms of phylogenetic signal.
 The character \texttt{X} described above implies 3 splits for four taxa (and of course, the character \texttt{X'} implies the exact same splits).
 Another character \texttt{Y = {1, 1, 1, 2}} will imply only two splits, non shared with \texttt{X} and a character \texttt{Z = {0, 2, 1, 0}} (\texttt{Z' = {1, 2, 3, 1}}) would imply the same splits as \texttt{X} (hence, $CD_{(X',Z')} = 0$ and $CD_{(X',Y')} = 0.5$).
+In other words the probability of X and Z generating conflicting split signal is null and this probability is of 0.5 for X and Y (i.e. half of the splits will be conflicting).
 
 Following these two points, the reviewer counter example $CD_{(x,y)} = 0$ means that 1) $x'$ and $y'$ are identical and the characters $x$ and $y$ imply the same number of splits in a tree (here no splits since only one taxon is used - however, this would hold for any $n$ number of taxa).
 We have clarified these two points in the manuscript and in the mathematical demonstration.
 
-%TG: TODO: introduce this
+We've added more explanations in the supplementary materials 1 on (1) the character translation, (2) the four-point metric proof and (3) on how to interpret the $CD$ metric.
+Additionally, we added more precisions in the text:
 
 \textit{(i.e. entirely correlated characters would define identical splits between a set of taxa)}. lines @@@
 
 \textit{Similarly, an hypothetical comparison of two character for only one taxa \texttt{x = \{0\}} and \texttt{y = \{1\}} would result in comparing two identical characters \texttt{x' = \{1\}} and \texttt{y' = \{1\}}.} lines @@@
 
 
-%TG: TODO: add the stuff to the manuscript
-
 \item{\textcolor{blue}{While some details of the simulation study are included, some important ones are missing. In particular, in the design of the study, how did you avoid or mitigate errors introduced by the programs simulating data? All of the programs use random-number generators and have their own biases. How have you accounted for this in the study of design to conclude that your results are due to signal, and not bias from the programs used?}}
 
-%TG: This is a tricky one. Simulations where generated using a random seed but each step of the simulation cascades down from it. In this context it is hard to control for how the random data was generated (seeds where used at the start of the matrix simulations and the start of the tree inferences to mitigate the effect).
-%TG: In the end this is always a problem with computers and I'm not sure how to solve them unless using true random generators (overkill?).
+%TG: really not sure about this comment... This is an epistemological point I think and I don't think we can solve this problem, even using true random-number generator. The error due to chaos is by definition impossible to take into account...
+
+We do agree that generating true randomness in current software is tricky but we are not sure how to answer this comment.
+In our simulations, random numbers where used at different levels:
+
+\begin{enumerate}
+    \item The generation of the ``true'' tree.
+    \item The generation of the discrete morphological characters (each 100, 350 and 1000).
+    \item The removal of the characters (for the ``randomised'' matrices).
+    \item The starting seeds for the tree inferences (in both MrBayes and PAUP*).
+\end{enumerate}
+
+Because each of this steps are dependent in a cascade (i.e. the random seed used to generated the ``true'' tree influence the generation of the discrete characters which influences the ``randomised'' matrix which influences the results from the random starting seed in the tree inference).
+However, we consider the influence of these cascading random numbers negligible in this analysis.
+Furthermore, we assumed that the multiplication of negligible effects will result in a near null error due to the pseudo random-number generators.
+In fine, our results are bound to be somehow biased by our prior believes and experience as well as by the tools (hardware and software) and the methods used in this manuscript but this is more of an epistemological point and is not specific to this study.
 
 \item{\textcolor{blue}{How did you ``randomly'' modify your matrices? Did you sample under some distribution? If so, which one?}}
 
