@@ -310,7 +310,7 @@ We then simulated discrete morphological characters on the topology of these tre
     \item The \hl{``morphological HKY-binary'' model} \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a Dirichlet distribution $Dir(1,1,1,1)$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
     This model has the advantage of not favouring Bayesian inference \citep[since it doesn't use an M$k$ model;][; see discussion]{OReilly20160081} but the downside of it is it can only generate binary state characters \citep[or 4 states;][]{puttick2017uncertain}.
     \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
-    We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146,ZouConvergence}.
+    We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep[\hl{from empirical observations in: }][]{Guillerme2016146,ZouConvergence}.
     This model assumes a equal transition rate between character states which might seem overly simplistic, excluding other observed transition patterns \citep[e.g. Dollo characters;][]{Dollo,wright2015came}.
     However, \cite{Wright01072016} \hl{have shown that equal transition rate is a reasonable assumption for many empirical datasets.}
 \end{itemize}
@@ -332,8 +332,9 @@ We calculated the pairwise character differences for each generated matrix using
 We then modified the matrices to either maximise or minimise the pairwise character differences for each matrix using three different algorithms.
 For maximising the pairwise differences between characters, we selected the characters that were the most similar to all the others (i.e. with an average character difference $<0.25$) and replaced them randomly by any of the remaining characters.
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
-Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $<0.75$) and randomly replaced them with the remaining ones.
+Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $>0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
+\hl{Each replaced characters (i.e. the characters with a weight of +$1$) where randomly selected from the remaining characters using a uniform distribution (0,1).}
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
 This step resulted in a total of 1260 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})

@@ -1,6 +1,7 @@
 \documentclass[12pt,letterpaper]{article}
 
 %Packages
+\usepackage{natbib}
 \usepackage{pdflscape}
 \usepackage{fixltx2e}
 \usepackage{textcomp}
@@ -327,18 +328,27 @@ In fine, our results are bound to be somehow biased by our prior believes and ex
 
 \item{\textcolor{blue}{How did you ``randomly'' modify your matrices? Did you sample under some distribution? If so, which one?}}
 
-%TG: TODO: add to the methods the sampling distribution (runif(0,1)).
+Every replaced characters where randomly selected from a uniform distribution (0,1). We have now specified this in the text:
+
+\textit{Each replaced characters (i.e. the characters with a weight of +$1$) where randomly selected from the remaining characters using a uniform distribution (0,1).} lines @@@
 
 \item{\textcolor{blue}{It is not obvious why generated character sequences are representative of biological sequences or sample the space overall. Were the parameters chosen for the HKY model to fit a particular evolutionary scenario? Are they meant to capture all of the space?}}
 
-%TG: again, not sure what the reviewer means, the HKY picks the HKY scenario and the Mk the GTR one.
-%TG: and no, probably they don't capture all the space, morphological characters can be in any scenario (see Wright et al) but most of them seem to be GTR friendly. 
+There is actually a vigorous debate surrounding how to generate biologically meaningful morphological characters \citep[][;confidential reviews and personal communications witht he authors]{OReilly20160081,goloboff2017weighted,puttick2017uncertain,GoloboffEmpirical,OReillyEmpirical}.
+This ongoing debate, however, focuses mainly on inference methods where data simulation is a tangential aspect of it.
+Therefore, we decided to base our simulation protocol on the empirical observations showing that half of 206 analysed datasets supported a M$k$-like model \citep[][Fig. 3]{Wright01072016} and the other half being a combination of models not explicitly described here but that are believed to be covered with the HKY-binarised model \citep{puttick2017uncertain,OReillyEmpirical}.
+In our simulations, the idea was to cover a broad range of morphological characters (with variable state numbers, evolution and transition rates) in order to capture a realistic image of the ``discrete morphological character space''.
+
+%TG: add some text to the manuscript parphrasing this? It's kind of already written in there...
 
 \item{\textcolor{blue}{Similarly, why did you choose 0.85 for the Mk model? Does it represent some important set of character sequences? How does it represent the space in general?}}
 
-%TG: the 0.85 is the proportion of binary characters. This was extracted from litterature.
+This 0.85 proportion of binary characters and 0.15 of three state ones was extracted from the 100 empirical matrices analysed in \cite{Guillerme2016146} (Supplementary appendix 1. Appendix A: Tree inference) and \cite{ZouConvergence}.
+We've specified this is the text:
 
-\item{\textcolor{blue}{There are statements that seem contradictory, like (line 335): ``Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability > 0.95 and different if they had an overlap probability > 0.05.''}}
+\textit{We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters (from empirical observations in: Guillerme and Cooper, 2016b; Zou and Zhang, 2016).}
+
+\item{\textcolor{blue}{There are statements that seem contradictory, like (line 335): ``Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>$ 0.95 and different if they had an overlap probability $>$ 0.05.''}}
 
 We fixed this type. We considered them different if they had an overlap probability $<$ 0.05.
 
@@ -511,7 +521,8 @@ We removed this sentence.
 \end{enumerate}
 
 
-
+\bibliographystyle{sysbio}
+\bibliography{References}
 
 
 
