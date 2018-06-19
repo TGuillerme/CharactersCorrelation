@@ -11,7 +11,9 @@ output:
 # Checking the number of character replaced in each matrix
 
 ```{r}
+library(dispRity)
 library(ape)
+library(knitr)
 ## Setting the path
 PATH <- "../Data/Simulations/Matrices/"
 ```
