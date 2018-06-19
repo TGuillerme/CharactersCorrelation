@@ -10,7 +10,6 @@ output:
 
 # Checking the number of character replaced in each matrix
 
-
 ```{r}
 library(ape)
 ## Setting the path
@@ -79,7 +78,7 @@ results_mini <- lapply(replacements, lapply, fun.mini)
 results_rand <- lapply(replacements, lapply, fun.rand)
 
 ## Naming the lists
-c("25t", "75t", "100t") -> names(results_maxi) -> names(results_mini) -> names(results_rand)
+c("25t", "75t", "150t") -> names(results_maxi) -> names(results_mini) -> names(results_rand)
 c("100c", "350c", "1000c") -> names(results_maxi[[1]]) ->
                               names(results_maxi[[2]]) ->
                               names(results_maxi[[3]]) ->
@@ -104,7 +103,7 @@ plot.proportions <- function(data, ...) {
     legend("topleft", legend = names(data), pch = 19, col = cols, bty = "n")
     ## X axis
     axis(1, 1:9, labels = FALSE, tick = FALSE)
-    axis(1, c(2, 5, 8), tick = FALSE, labels = names(data))
+    axis(1, c(2, 5, 8), tick = FALSE, labels = names(data[[1]]))
     ## Lines
     abline(v = 3.5) ; abline(v = 6.5)
 }
@@ -114,6 +113,118 @@ plot.proportions(results_maxi, main = "Maximised differences")
 plot.proportions(results_mini, main = "Minimised differences")
 plot.proportions(results_rand, main = "Randomised differences")
 
+```
+
+<!-- Figure version -->
+
+```{r, fig.height = 18, fig.width = 6, eval = TRUE, echo = FALSE}
+pdf("../Writing/Figures/Proportion_replaced_maxi.pdf", width = 6, height = 6)
+plot.proportions(results_maxi, main = "Maximised differences")
+pdf("../Writing/Figures/Proportion_replaced_mini.pdf", width = 6, height = 6)
+plot.proportions(results_mini, main = "Minimised differences")
+pdf("../Writing/Figures/Proportion_replaced_rand.pdf", width = 6, height = 6)
+plot.proportions(results_rand, main = "Randomised differences")
+```
+
+## Testing the differences in proportions
+
+We can then test the differences between categories.
+First we'll try an aov:
+
+```{r}
+## Data frame converter
+convert.df <- function(results) {
+    convert.sub.df <- function(list, names) {
+        df <- data.frame(unlist(list), as.factor(rep(names(list), each = length(list[[1]]))))
+        colnames(df) <- names
+        rownames(df) <- NULL
+        return(df)
+    }
+    df_list <- lapply(results, convert.sub.df, names = c("proportion", "characters"))
+    df_list <- cbind(do.call(rbind, df_list),
+                     "taxa" = as.factor(rep(names(results), each = nrow(df_list[[1]]))))
+    rownames(df_list) <- NULL
+    return(df_list)
+}
+
+## Generating the nested tables
+table_maxi <- convert.df(results_maxi)
+table_mini <- convert.df(results_mini)
+table_rand <- convert.df(results_rand)
+
+## Combining the tables
+all_results <- cbind(rbind(table_maxi, table_mini, table_rand),
+                    "scenario" = as.factor(rep(c("maxi", "mini", "rand"), each = nrow(table_maxi))))
+
+## Run the linear model for testing assumptions
+model <- lm(proportion ~ scenario, data = all_results)
+(residuals_normality <- shapiro.test(residuals(model)))
+(data_homostedasticity <- bartlett.test(proportion ~ scenario, data = all_results))
+
+## Normality assumption fails
+```    
+
+However, the assumptions are violated so we need to go non-parametric (Wilcox test and Bhattacharyya Coefficient)
+
+
+```{r}
+## Pairwise tests wrapper
+pair.test <- function(data, factor, test) {
+    ## Separating the data according to factors
+    factor <- which(colnames(data) == factor)
+    splited_data <- split(data, data[, factor])
+
+    ## Combination of tests
+    combinations <- combn(1:length(splited_data), 2)
+
+    ## Applying the tests
+    tests <- apply(combinations, 2, function(X, test, data)
+                 return(test(data[[X[1]]][,1], data[[X[2]]][,1])), test = test, data = splited_data)
+    names_test <- apply(combinations, 2, function(X, data)
+                   return(paste0(names(data)[X[1]], " - ", names(data)[X[2]])), data = splited_data)
+
+    names(tests) <- names_test
+    return(tests)
+}
+
+## Running the wilcox tests for each pooled factor
+wilcox_scen <- pair.test(all_results, factor = "scenario", wilcox.test)
+wilcox_taxa <- pair.test(all_results, factor = "taxa", wilcox.test)
+wilcox_char <- pair.test(all_results, factor = "characters", wilcox.test)
+
+## Extracting the statistic and the p_value only
+wilcox_scen_w <- unlist(lapply(wilcox_scen, function(X) return(unname(X$statistic))))
+wilcox_taxa_w <- unlist(lapply(wilcox_taxa, function(X) return(unname(X$statistic))))
+wilcox_char_w <- unlist(lapply(wilcox_char, function(X) return(unname(X$statistic))))
+wilcox_scen_p <- unlist(lapply(wilcox_scen, function(X) return(X$p.value)))
+wilcox_taxa_p <- unlist(lapply(wilcox_taxa, function(X) return(X$p.value)))
+wilcox_char_p <- unlist(lapply(wilcox_char, function(X) return(X$p.value)))
+
+
+## Running the Bhattacharrya tests for each pooled factor
+bhattc_scen <- pair.test(all_results, factor = "scenario", bhatt.coeff)
+bhattc_taxa <- pair.test(all_results, factor = "taxa", bhatt.coeff)
+bhattc_char <- pair.test(all_results, factor = "characters", bhatt.coeff)
+
+```
+
+And here are the results:
+
+```{r, echo = FALSE}
+kable(data.frame("Statistic" = wilcox_scen_w, "p_value" = wilcox_scen_p), digits = 3, 
+      caption = "Pairwise Wilcoxon test for the different number of scenarios.")
+kable(data.frame("bhatt.coeff" = bhattc_scen), digits = 3, 
+      caption = "Pairwise Bhattacharrya Coefficient for the different number of scenarios.")
+
+kable(data.frame("Statistic" = wilcox_taxa_w, "p_value" = wilcox_taxa_p), digits = 3, 
+      caption = "Pairwise Wilcoxon test for the different number of taxa.")
+kable(data.frame("bhatt.coeff" = bhattc_taxa), digits = 3, 
+      caption = "Pairwise Bhattacharrya Coefficient for the different number of taxa.")
+
+kable(data.frame("Statistic" = wilcox_char_w, "p_value" = wilcox_char_p), digits = 3, 
+      caption = "Pairwise Wilcoxon test for the different number of characters.")
+kable(data.frame("bhatt.coeff" = bhattc_char), digits = 3, 
+      caption = "Pairwise Bhattacharrya Coefficient for the different number of characters.")
 ```
 
 
