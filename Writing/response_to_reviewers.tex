@@ -68,8 +68,8 @@ Dear Dr Jermiin,\\
 We am very grateful to the three referees for their helpful and constructive comments, which we believe have helped me to significantly improve the manuscript.
 We have taken all of their comments on board, and respond to their points in details below.
 
-% For improving clarity in this document, reviewers' comments are displayed in blue, my responses in normal text and the changes to the manuscript in italic.
-% Additionally, I've uploaded two versions of the revised manuscript: both have the exact same content but one has all the changes and additions to the main text highlighted in yellow to help with reviewing.
+For improving clarity in this document, reviewers' comments are displayed in blue, our responses in normal text and the changes to the manuscript in italic.
+Additionally, we've uploaded two versions of the revised manuscript: both have the exact same content but one has all the changes and additions to the main text highlighted in yellow to help with reviewing.
 
 \section{Editors' comments}
 
@@ -138,6 +138,10 @@ Note that in these simulations, no missing data was included so the characters a
 \item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
 should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
 
+We've added the proportion of replaced characters in each matrices for each ``minimised'', ``maximised'' and ``randomised'' scenarios in the Supplementary material 3, figures @@@.
+It is worth noting that there is a significant difference in terms of number of number of replaced characters in each scenarios (the ``minimised'' matrices have, on average, more characters replaced than the ``randomised'' that has in turns more characters replaced than the ``maximised'') but non in terms of number of taxa or characters.
+
+This can lead the
 %TG: TODO: add the range of replaced character n and m
 %TG: TODO: add more explanantion on the replacements in the methods and the discussion (the reviewer's thoughts)
 
@@ -385,10 +389,21 @@ We now detailed the values and where they are present for each of the tests to a
 
 \item{\textcolor{blue}{Another worry I have is that the implied covariance at the tips does not necessarily reflect covariation over the full phylogeny. It is conceivable that two characters can appear to have near perfect correlation at the tips, but arrived at these states through completely independent pathways, particularly when simulating with a continuous time Markov chain where unobserved transitions to a new state and back to the original state are possible.}}
 
-%TG: Not sure about this one either: I guess its impossible to say both in simulations or in real life: in the end we only have the tips and their information.
+We agree with this reviewer's comment which can be especially thought to be the case for discrete with a fast rate of evolution.
+Such characters will likely swap between states along the branches following a hidden Markov chain.
+Unfortunately, however, although the state of a character on a branch can be modelled, it is nearly always impossible to actually observe them.
+
+We've added this remark in the caveats section:
+\textit{It is also worth noting that character similarity at the tips does not necessarily reflects that the characters underwent the same evolutionary history.
+This can specifically true when simulating characters based on the M$k$ model where the resulting tip states does not necessarily reflects variation of the state along the branches (e.g. Revell, 2014). However, it is worth noting that in empirical studies, such state changes along the branches are nearly always unknown.}
 
 \item{\textcolor{blue}{It seems that the results reported by the authors are inherently driven by the phylogenetic signal present in their ``bootstrapped'' datasets. This effect would be present in any approach to the simulation of covarying characters, but as the authors do not explicitly simulate covariance but instead rely on a proxy they cannot be certain that their results are driven by true character covariation or purely a restructuring of phylogenetic signal by resampling. In a simulation framework in which covariance is actively enforced and controlled it would be possible to assess other aspects of character covariance that seem important for empirical datasets, such as correlation within morphological compartments. I think without tests of these sort we cannot be completely sure of the effect of character covariance on topology estimates. Despite this, the authors present an overview of the effect of character covariance at large, and I certainly think that this is a worthwhile contribution.}}
 
+1- Covariance is approximated by using the same tree for the simulation
+2- The Character difference is an effective metric for measuring covariance for discrete characters. This is better than a simple correlation measurement because it makes it a distance it has the properties of a distance metric (which is not the case for correlations with multiple states)
+
+For example, for three characters \texttt{A = \{1,2,0,0,0\}}, \texttt{B = \{2,3,4,4,4\}} and \texttt{C = \{1,2,1,0,0\}}, $CD_{(A, C)} \leq CD_{(A, B)} + CD_{(B, C)}$ ($0.4 \leq 0 + 0.4$) but this is not the case for a correlation measurement where $cor_{(A, C)} > cor_{(A, B)} + cor_{(B, C)}$ ($0.868 \leq -0.687 + -0.534$). Furthermore, using a correlation metric, two character with the same splits (e.g. A and B).
+%TG: DOUBLE CHECK THIS
 %TG: Maybe say something along the lines: "yeah, great idea we'll do it later"?
 
 \item{\textcolor{blue}{A discussion of the ``effective'' number of characters might also be warranted. When maximising character covariance this likely requires the resampling of the same handful of characters multiple times, each of which provides the exact same phylogenetic signal. The redundancy of these characters seems likely to influence the accuracy of estimates. The choice of characters that are sampled by the bootstrap procedure will therefore constrain the accuracy of topology estimates. If the resampled matrix consists of a handful of characters with high consistency with the true tree, sampled many times over, then the tree estimate will be good (for at least part of the tree) and covariance will be high. Similarly, if the handful of regularly resampled characters are mainly inconsistent (with the true tree) then tree estimates will be poor but the implied covariance will also be high. I think this is evident from the reduced performance in larger matrices, where there will be a significant reduction in phylogenetic signal when attempting to maximise covariance.}}
@@ -440,7 +455,7 @@ We fixed this typo.
 
 \item{\textcolor{blue}{8:135 – Do we actually expect high levels of correlation to lead to inaccurate phylogenies? I think this depends on what is considered to be a high level of correlation and how that correlation is structured. Imagine 100 characters covarying strongly with each other in blocks of 10, but no constraint on the level of correlation across all 10 blocks. This would provide an ``effective'' character number of ~ 10, which could be enough to resolve a small tree.}}
 
-%TG: need a way to phrase this but totally agree, in the reviewer's example, the matrix would look "honets" (lots of characters) but the results would be actually based on way fewer.
+%TG: need a way to phrase this but totally agree, in the reviewer's example, the matrix would look "honest" (lots of characters) but the results would be actually based on way fewer.
 
 \item{\textcolor{blue}{12:190 – are $->$ as}}
 

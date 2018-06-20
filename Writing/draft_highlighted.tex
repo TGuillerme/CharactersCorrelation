@@ -491,6 +491,10 @@ First, simulating evolutionary history is complex.
 Not only because the models we're using to infer phylogenies are ever improving \citep[e.g.][]{heath2014fossilized,Wright01072016} but also because generalising morphological evolution across vastly different organisms is probably impossible \citep[see constrasted discussions from][]{GoloboffEmpirical,OReillyEmpirical}.
 However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree.
 This allows us to reduce the caveats from our simulations on the effect of character correlation since we only compare the simulation end products to each other (the outputs) rather than to the simulation inputs.
+\hl{It is also worth noting that character similarity at the tips does not necessarily reflects that the characters underwent the same evolutionary history.
+This can specifically true when simulating characters based on the M$k$ model where the resulting tip states does not necessarily reflects variation of the state along the branches}
+ \citep[e.g.][]{revell2014ancestral}.
+\hl{However, it is worth noting that in empirical studies, such state changes along the branches are nearly always unknown.}
 
 Second, measuring and modifying character correlation is difficult. 
 In our simulation protocol we chose to create simulation by duplicating characters in a matrix to maximise or minimise correlation.
