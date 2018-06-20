@@ -198,35 +198,33 @@ wilcox_char <- pair.test(all_results, factor = "characters", wilcox.test)
 wilcox_scen_w <- unlist(lapply(wilcox_scen, function(X) return(unname(X$statistic))))
 wilcox_taxa_w <- unlist(lapply(wilcox_taxa, function(X) return(unname(X$statistic))))
 wilcox_char_w <- unlist(lapply(wilcox_char, function(X) return(unname(X$statistic))))
-wilcox_scen_p <- unlist(lapply(wilcox_scen, function(X) return(X$p.value)))
-wilcox_taxa_p <- unlist(lapply(wilcox_taxa, function(X) return(X$p.value)))
-wilcox_char_p <- unlist(lapply(wilcox_char, function(X) return(X$p.value)))
-
+wilcox_scen_p <- p.adjust(unlist(lapply(wilcox_scen, function(X) return(X$p.value))), "bonferroni")
+wilcox_taxa_p <- p.adjust(unlist(lapply(wilcox_taxa, function(X) return(X$p.value))), "bonferroni")
+wilcox_char_p <- p.adjust(unlist(lapply(wilcox_char, function(X) return(X$p.value))), "bonferroni")
 
 ## Running the Bhattacharrya tests for each pooled factor
 bhattc_scen <- pair.test(all_results, factor = "scenario", bhatt.coeff)
 bhattc_taxa <- pair.test(all_results, factor = "taxa", bhatt.coeff)
 bhattc_char <- pair.test(all_results, factor = "characters", bhatt.coeff)
 
+## Combine the results
+combined_results <- as.data.frame(rbind(
+        cbind("statistic" = wilcox_scen_w, "p.value" = wilcox_scen_p, "bhatt.coeff" = bhattc_scen),
+        cbind("statistic" = wilcox_taxa_w, "p.value" = wilcox_taxa_p, "bhatt.coeff" = bhattc_taxa),
+        cbind("statistic" = wilcox_char_w, "p.value" = wilcox_char_p, "bhatt.coeff" = bhattc_char)))
 ```
 
 And here are the results:
 
 ```{r, echo = FALSE}
-kable(data.frame("Statistic" = wilcox_scen_w, "p_value" = wilcox_scen_p), digits = 3, 
-      caption = "Pairwise Wilcoxon test for the different number of scenarios.")
-kable(data.frame("bhatt.coeff" = bhattc_scen), digits = 3, 
-      caption = "Pairwise Bhattacharrya Coefficient for the different number of scenarios.")
-
-kable(data.frame("Statistic" = wilcox_taxa_w, "p_value" = wilcox_taxa_p), digits = 3, 
-      caption = "Pairwise Wilcoxon test for the different number of taxa.")
-kable(data.frame("bhatt.coeff" = bhattc_taxa), digits = 3, 
-      caption = "Pairwise Bhattacharrya Coefficient for the different number of taxa.")
-
-kable(data.frame("Statistic" = wilcox_char_w, "p_value" = wilcox_char_p), digits = 3, 
-      caption = "Pairwise Wilcoxon test for the different number of characters.")
-kable(data.frame("bhatt.coeff" = bhattc_char), digits = 3, 
-      caption = "Pairwise Bhattacharrya Coefficient for the different number of characters.")
+caption <- paste0("Pairwise Wilcoxon test and Bhattacharrya Coefficients for the difference in",
+  " proportion of character replacement for the different scenarios, number of taxa and characters.")
+kable(combined_results, digits = 3, caption = caption)
 ```
 
-
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
+library(xtable)
+source("../Functions/make.xtable.R")
+make.xtable(combined_results, caption = caption, label = "Tab_proportion_replacement",
+            path = "../Writing/Tables/", include.rownames = TRUE)
+```
