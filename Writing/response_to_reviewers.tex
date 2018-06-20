@@ -138,12 +138,19 @@ Note that in these simulations, no missing data was included so the characters a
 \item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
 should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
 
-We've added the proportion of replaced characters in each matrices for each ``minimised'', ``maximised'' and ``randomised'' scenarios in the Supplementary material 3, figures @@@.
-It is worth noting that there is a significant difference in terms of number of number of replaced characters in each scenarios (the ``minimised'' matrices have, on average, more characters replaced than the ``randomised'' that has in turns more characters replaced than the ``maximised'') but non in terms of number of taxa or characters.
+We've added the proportion of replaced characters in each matrices for each ``minimised'', ``maximised'' and ``randomised'' scenarios in the supplementary material 3, figures 1, 2 and 3.
+It is worth noting that there is a significant difference in terms of number of replaced characters in each scenarios between the ``maximised'' and the ``minimised'' and ``randomised'' matrices but non in terms of number of taxa or characters.
 
-This can lead the
-%TG: TODO: add the range of replaced character n and m
-%TG: TODO: add more explanantion on the replacements in the methods and the discussion (the reviewer's thoughts)
+This could potentially explain some of the differences between the scenarios (i.e. why it seems better to maximise character difference rather than minimising it) but does not explain the differences in smaller matrices nor between the ``minimised'' and ``randomised'' scenarios and neither between the two inference methods (since they both use the same matrices).
+Furthermore, the maximising/minimising character differences was done \textit{a priori} without any targeted number of characters to replace to make the analysis less idiosynchratic.
+In other words, we decided to modify the randomly simulated matrices to globally increase/decrease character differences which is expected to decrease anyway in bigger matrices.
+When using a small number of character states (i.e. two or three), the matrices with few taxa and many characters are expected to have an overall low character difference because of the smaller combinatoric possibilities for each characters.
+
+We've added mentions to the proportion of replaced characters analysis in the supplementary in the main text at lines @@@ and added a paragraph explaining this caveat in the discussion:
+
+%TG: TODO: added pragraph!
+\textit{.} lines @@@
+
 
 \end{enumerate}
 
@@ -343,7 +350,7 @@ This ongoing debate, however, focuses mainly on inference methods where data sim
 Therefore, we decided to base our simulation protocol on the empirical observations showing that half of 206 analysed datasets supported a M$k$-like model \citep[][Fig. 3]{Wright01072016} and the other half being a combination of models not explicitly described here but that are believed to be covered with the HKY-binarised model \citep{puttick2017uncertain,OReillyEmpirical}.
 In our simulations, the idea was to cover a broad range of morphological characters (with variable state numbers, evolution and transition rates) in order to capture a realistic image of the ``discrete morphological character space''.
 
-%TG: add some text to the manuscript parphrasing this? It's kind of already written in there...
+%TG: add some text to the manuscript paraphrasing this? It's kind of already written in there...
 
 \item{\textcolor{blue}{Similarly, why did you choose 0.85 for the Mk model? Does it represent some important set of character sequences? How does it represent the space in general?}}
 
@@ -384,6 +391,9 @@ We now detailed the values and where they are present for each of the tests to a
 \begin{enumerate}
 
 \item{\textcolor{blue}{I feel that the manuscript is certainly worth publishing in Systematic Biology, although I worry that the simulation procedure used by the authors limits their ability to thoroughly test of the effect of between character correlation on the accuracy of estimating phylogenetic trees. The authors note this themselves in the discussion, but I feel more should be made of this point. If the simulations utilised an explicit distribution of character covariance then I think that interpretation of the results would have been more straightforward.}}
+
+% As noted in the introduction, the aim of this manuscript was mainly to see how do software handle correlation between discrete morphological characters.
+% In other words, how can we distinguish between the complex sources of correlation in morphology 
 
 %TG: Not sure how to deal with this one.
 
