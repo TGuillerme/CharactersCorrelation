@@ -232,12 +232,19 @@ In this specific example, we would intuitively want to favour character \textbf{
 In other words, this is the correlation between characters that depicts the evolutionary history of this group.
 However, the other characters depict the same history (i.e. the same split) but for the wrong reasons (note that even if \textbf{C2} was coded presence (1) or absence (0) of baleens, the same split would still be estimated by the software).
 One solution could be to weight characters \textit{a priori} but that is a bad practice since it can easily lead to the resulting tree reflecting the researcher's \textit{priori} rather than the true evolutionary history.}
-
+% \hl{Furthermore, phenotypic variations can be continuous rather than discrete and ``discretising'' such characters can have some influence on tree inference} \citep{parins2017use}.
+% \hl{In this case, ``discretised'' }.
 This illustrates how some characters will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
 Yet the question has never been explored through a thorough simulation framework (although it has been tackled empirically for morphological data \citealt{Davalos01072014} or molecular data \citealt{ZouConvergence}).
 
-How \hl{do} these correlation really affect topology?
-We expect matrices with a high level of correlation to recover precise but inaccurate topologies but will matrices with low level of correlation (i.e. with high levels of homoplasy) actual cancel out the effects of correlation?
+
+
+
+How \hl{do} these \hl{specific} correlation really affect topology?
+% In the specific case of discrete morphological characters, how does the reduc phenotypic information and its different sources of correlation is 
+% More specifically, how can phylogenetic inference software distinguish between the complex sources of correlation tha
+% In other words, how can we distinguish between the complex sources of correlation in phenotype using only discrete morphological characters?
+% \cite{parins2017use}
 Here we formally assess the effect of discrete character's correlation using simulated data.
 We propose a new distance metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences or similarities between characters.
 We found that overall, there is a detectable effect of character correlation on topology where an increase in character dependence results in a decrease in the ability to recover the correct topology.

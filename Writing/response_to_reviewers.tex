@@ -392,12 +392,17 @@ We now detailed the values and where they are present for each of the tests to a
 
 \item{\textcolor{blue}{I feel that the manuscript is certainly worth publishing in Systematic Biology, although I worry that the simulation procedure used by the authors limits their ability to thoroughly test of the effect of between character correlation on the accuracy of estimating phylogenetic trees. The authors note this themselves in the discussion, but I feel more should be made of this point. If the simulations utilised an explicit distribution of character covariance then I think that interpretation of the results would have been more straightforward.}}
 
-% As noted in the introduction, the aim of this manuscript was mainly to see how do software handle correlation between discrete morphological characters.
-% In other words, how can we distinguish between the complex sources of correlation in morphology 
+As noted in the introduction, the aim of this manuscript was mainly to see how do software handle correlation between discrete morphological characters.
+In other words, how can we distinguish between the complex sources of correlation in phenotype using only discrete morphological characters?
+We do agree with the reviewer that a thorough analysis of the variance/covariance structure of simulated ``discretised'' characters (see reviewer 3, major suggestion \ref{hiden}) would have broad more insight into the nature of character correlation on phylogenetics inference in general (regardless of the type of character and correlation) but we feel that this is out of the scope of this study.
+
+We have however made clearer in the introduction what were the objectives of this current manuscript:
+
 
 %TG: Not sure how to deal with this one.
 
 \item{\textcolor{blue}{Another worry I have is that the implied covariance at the tips does not necessarily reflect covariation over the full phylogeny. It is conceivable that two characters can appear to have near perfect correlation at the tips, but arrived at these states through completely independent pathways, particularly when simulating with a continuous time Markov chain where unobserved transitions to a new state and back to the original state are possible.}}
+\label{hiden}
 
 We agree with this reviewer's comment which can be especially thought to be the case for discrete with a fast rate of evolution.
 Such characters will likely swap between states along the branches following a hidden Markov chain.
