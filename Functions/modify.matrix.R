@@ -20,22 +20,15 @@
 modify.matrix <- function(matrix, type = "maximise", threshold = 0.25) {#, character.differences) {
 
     ## Get the worst characters
-    get.worst.characters <- function(matrix, type, threshold) {
-
-        ## Calculate the median character difference
-        #median_char_diff <- apply(char.diff(matrix), 2, median, na.rm = TRUE)
-
+    characters.to.replace <- function(char_diff_matrix, type, threshold) {
         ## Calculate the quantiles
         if(type == "maximise") {
-            median_char_diff <- apply(char.diff(matrix), 2, quantile, probs = 0.25, na.rm = TRUE)
-        } else {
-            median_char_diff <- apply(char.diff(matrix), 2, quantile, probs = 0.75, na.rm = TRUE)
-        }
-
-        ## Select the worst characters
-        if(type == "maximise") {
+            median_char_diff <- apply(char_diff_matrix, 2, quantile, probs = 0.25, na.rm = TRUE)
+            ## Select the characters to replace
             return(which(median_char_diff < threshold))
         } else {
+            median_char_diff <- apply(char_diff_matrix, 2, quantile, probs = 0.75, na.rm = TRUE)
+            ## Select the characters to replace
             return(which(median_char_diff > threshold))
         }
     }
@@ -43,38 +36,107 @@ modify.matrix <- function(matrix, type = "maximise", threshold = 0.25) {#, chara
     ## Backup the matrix
     matrix_modified <- matrix
 
-    if(type != "randomise") {
-        ## Get the worst characters
-        worst_characters <- get.worst.characters(matrix_modified, type, threshold)
+    ## Calculate the character differences
+    char_diff_matrix_CD1 <- char.diff(matrix)
 
-        ## Set up the resampling values
-        if(length(worst_characters) == 0 | length(worst_characters) == ncol(matrix_modified)) {
-            sampling_pool <- seq(1:ncol(matrix_modified))
-            resample <- length(sampling_pool)
-            warning("All characters were below/above the threshold, the matrix as just been randomly reshuffled.")
+    ## Calculate the overall average character difference
+    overal_CD1 <- mean(char_diff_matrix_CD1[upper.tri(char_diff_matrix_CD1)])
+
+    select.characters <- function(char_diff_matrix_CD1, type, threshold, matrix_modified) {
+ 
+        if(type != "randomise") {
+            ## Get the worst characters
+            char_to_replace <- characters.to.replace(char_diff_matrix_CD1, type, threshold)
+
+            ## Set up the resampling values
+            if(length(char_to_replace) == 0 | length(char_to_replace) == ncol(matrix_modified)) {
+
+                ## Simulation failed
+                return(FALSE)
+                # sampling_pool <- seq(1:ncol(matrix_modified))
+                # resample <- length(sampling_pool)
+                # warning("All characters were below/above the threshold, the matrix as just been randomly reshuffled.")
+            } else {
+                sampling_pool <- seq(1:ncol(matrix_modified))[-char_to_replace]
+                resample <- length(char_to_replace)
+            }
+
+            ## Replace the worst characters (randomly)
+            char_replace_by <- sample(sampling_pool, resample, replace = TRUE)
+
         } else {
-            sampling_pool <- seq(1:ncol(matrix_modified))[-worst_characters]
-            resample <- length(worst_characters)
+            ## Randomise the matrix
+            char_to_replace_max <- characters.to.replace(char_diff_matrix_CD1, type = "maximise", threshold = 0.25)
+            char_to_replace_min <- characters.to.replace(char_diff_matrix_CD1, type = "minimise", threshold = 0.75)
+            
+            ## Select the number of characters to change
+            resample <- mean(length(char_to_replace_max), length(char_to_replace_min))
+            if(resample == 0) {
+                resample <- ncol(matrix_modified)
+            }
+
+            ## Characters to replace
+            char_to_replace <- sample(1:ncol(matrix_modified), resample)
+            char_replace_by <- sample(1:ncol(matrix_modified), resample, replace = TRUE)
         }
 
-        ## Replace the worst characters (randomly)
-        matrix_modified[, worst_characters] <- matrix_modified[, sample(sampling_pool, resample, replace = TRUE)]
-
-        #length(get.worst.characters(new_matrix, type, threshold))
-
-    } else {
-        ## Randomise the matrix
-        worst_characters_max <- get.worst.characters(matrix_modified, "maximise", 0.25)
-        worst_characters_min <- get.worst.characters(matrix_modified, "minimise", 0.75)
-        
-        ## Select the number of characters to change
-        resample <- mean(length(worst_characters_max), length(worst_characters_min))
-        if(resample == 0) {
-            resample <- ncol(matrix_modified)
-        }
-
-        matrix_modified[, sample(1:ncol(matrix_modified), resample)] <- matrix_modified[, sample(1:ncol(matrix_modified), resample, replace = TRUE)]
+        return(list("to" = char_to_replace, "by" = char_replace_by))
     }
 
-    return(matrix_modified)
+    ## Select the characters to replace
+    replace <- select.characters(char_diff_matrix_CD1, type, threshold, matrix_modified)
+
+    ## Simulation failed
+    if(class(replace) == "logical") {
+        return(FALSE)
+    }
+
+    ## Modify the matrix
+    matrix_modified[, replace$to] <- matrix_modified[, replace$by]
+
+    ## Calculate the new character differences
+    char_diff_matrix_CD2 <- char.diff(matrix_modified)
+
+    ## Calculate the new overall average character difference
+    overal_CD2 <- mean(char_diff_matrix_CD2[upper.tri(char_diff_matrix_CD2)])
+
+    ## Check whether the replacement worked
+    counter <- 0
+    check.work <- function(type, overal_CD1, overal_CD2) {
+        if(type == "maximised") {
+            ## Maximised imply the new CD is higher
+            did_work <- overal_CD2 > overal_CD1
+        } else {
+            if(type == "minimised") {
+                ## Minimised imply the new CD is lower
+                did_work <- overal_CD2 < overal_CD1
+            } else {
+                ## Randomised always work
+                did_work <- TRUE
+            }
+        }
+        return(did_work)
+    }
+
+    while(counter < 15 && !check.work(type, overal_CD1, overal_CD2)) {
+        ## Increment the counter to avoid and infinite loop
+        counter <- counter + 1
+
+        ## Re-modify the matrix
+        replace <- select.characters(char_diff_matrix_CD1, type, threshold, matrix_modified)
+
+        ## Modify the matrix
+        matrix_modified[, replace$to] <- matrix_modified[, replace$by]
+
+        ## Calculate the new character differences
+        char_diff_matrix_CD2 <- char.diff(matrix_modified)
+
+        ## Calculate the new overall average character difference
+        overal_CD2 <- mean(char_diff_matrix_CD2[upper.tri(char_diff_matrix_CD2)])
+    }
+
+    ## Return all the elements
+    output <- list("matrix" = matrix_modified, "overall" = c(overal_CD1, overal_CD2), "char_replaced" = replace$to, "replaced_by" = replace$by)
+
+    return(output)
 }
