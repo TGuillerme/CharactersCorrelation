@@ -55,62 +55,87 @@ then
     fi
 
     ## Job info
-    echo "#!/bin/sh" >> ${chain1}.mbjob
-    echo "#PBS -l walltime=${job_time}:00:00" >> ${chain1}.mbjob
-    echo "#PBS -l select=${nodes}:ncpus=${CPU}:mem=8gb" >> ${chain1}.mbjob
+    # echo "#!/bin/sh" >> ${chain1}.mbjob
+    # echo "#PBS -l walltime=${job_time}:00:00" >> ${chain1}.mbjob
+    # echo "#PBS -l select=${nodes}:ncpus=${CPU}:mem=8gb" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    # echo "## Load mrbayes" >> ${chain1}.mbjob
+    # echo "module load intel-suite" >> ${chain1}.mbjob
+    # echo "module load mpi" >> ${chain1}.mbjob
+    # echo "module load beagle-lib" >> ${chain1}.mbjob
+    # echo "module load mrbayes/3.2.6" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    
+
+    echo "#!/bin/bash" >> ${chain1}.mbjob
+    echo "#PBS -A UQ-SCI-BiolSci" >> ${chain1}.mbjob
+    echo "#PBS -l nodes=${nodes}:ppn=${CPU},mem=32GB,vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.mbjob
+    echo "#PBS -m n" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
+
     echo "## Load mrbayes" >> ${chain1}.mbjob
-    echo "module load intel-suite" >> ${chain1}.mbjob
-    echo "module load mpi" >> ${chain1}.mbjob
-    echo "module load beagle-lib" >> ${chain1}.mbjob
-    echo "module load mrbayes/3.2.6" >> ${chain1}.mbjob
+    echo "module load mrbayes" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
+
+
 
     ## Creating the job folder (if exists)
-    echo "## Creating the saving folder" >> ${chain1}.mbjob
-    echo "pbsdsh2 \"mkdir -p \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "## Creating the saving folder" >> ${chain1}.mbjob
+    # echo "pbsdsh2 \"mkdir -p \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
     ## Saving entry time
-    echo "## Entry time" >> ${chain1}.mbjob
-    echo "echo \"Entry time\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "## Entry time" >> ${chain1}.mbjob
+    # echo "echo \"Entry time\"" >> ${chain1}.mbjob
+    # echo "date" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
     ## Running the chains
     echo "## Run the chains" >> ${chain1}.mbjob
     echo "## norm" >> ${chain1}.mbjob
-    echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
-    echo "if [ -f \"${chain1}_norm.con.tre\" ] ; then echo \"norm time out\" ; else echo \"norm aborted\" ; fi"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    echo "mpiexec mb  \$HOME/CharSim/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
+    # echo "if [ -f \"${chain1}_norm.con.tre\" ] ; then echo \"norm time out\" ; else echo \"norm aborted\" ; fi"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
 
     echo "## maxi" >> ${chain1}.mbjob
-    echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
-    echo "if [ -f \"${chain1}_maxi.con.tre\" ] ; then echo \"maxi time out\" ; else echo \"maxi aborted\" ; fi"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    echo "mpiexec mb  \$HOME/CharSim/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
-    
+
+    # echo "## maxi" >> ${chain1}.mbjob
+    # echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
+    # echo "if [ -f \"${chain1}_maxi.con.tre\" ] ; then echo \"maxi time out\" ; else echo \"maxi aborted\" ; fi"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+
     echo "## mini" >> ${chain1}.mbjob
-    echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
-    echo "if [ -f \"${chain1}_mini.con.tre\" ] ; then echo \"mini time out\" ; else echo \"mini aborted\" ; fi"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    echo "mpiexec mb  \$HOME/CharSim/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
+
+    # echo "## mini" >> ${chain1}.mbjob
+    # echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
+    # echo "if [ -f \"${chain1}_mini.con.tre\" ] ; then echo \"mini time out\" ; else echo \"mini aborted\" ; fi"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
     echo "## rand" >> ${chain1}.mbjob
-    echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
-    echo "if [ -f \"${chain1}_rand.con.tre\" ] ; then echo \"rand time out\" ; else echo \"rand aborted\" ; fi"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    echo "mpiexec mb  \$HOME/CharSim/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
     echo "" >> ${chain1}.mbjob
 
-    ## Saving exit time
-    echo "## Exit time" >> ${chain1}.mbjob
-    echo "echo \"Exit time\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
+    # echo "## rand" >> ${chain1}.mbjob
+    # echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
+    # echo "if [ -f \"${chain1}_rand.con.tre\" ] ; then echo \"rand time out\" ; else echo \"rand aborted\" ; fi"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+
+    # ## Saving exit time
+    # echo "## Exit time" >> ${chain1}.mbjob
+    # echo "echo \"Exit time\"" >> ${chain1}.mbjob
+    # echo "date" >> ${chain1}.mbjob
 fi
 
 if echo $method | grep 'PAUP' > /dev/null
