@@ -10,7 +10,7 @@ do
     time_entry=$(grep -n 'Entry time' ${job} | sed 's/:Entry time//g')
     let "time_entry += 1"
     time_entry=$(sed -n ''"${time_entry}"'p' ${job})
-    time_entry=$(date -j -f '%a %d %b %T BST %Y' "${time_entry}" "+%s")
+    time_entry=$(date -j -f '%a %d %b %T AEST %Y' "${time_entry}" "+%s")
 
     ## Check if the job succeeded
     runs_done=$(grep -c "Analysis completed" ${job})
@@ -23,7 +23,7 @@ do
         time_out=$(grep -n 'Exit time' ${job} | sed 's/:Exit time//g')
         let "time_out += 1"
         time_out=$(sed -n ''"${time_out}"'p' ${job})
-        time_out=$(date -j -f '%a %d %b %T BST %Y' "${time_out}" "+%s")
+        time_out=$(date -j -f '%a %d %b %T AEST %Y' "${time_out}" "+%s")
         time_run=$(echo $((time_out-time_entry)))
         echo "CPU time:"
         echo 'scale=5 ; '"${time_run}"'/3600*12' | bc
@@ -75,7 +75,7 @@ do
 
         let "time_out += 1"
         time_out=$(sed -n ''"${time_out}"'p' ${job})
-        time_out=$(date -j -f '%a %d %b %T BST %Y' "${time_out}" "+%s")
+        time_out=$(date -j -f '%a %d %b %T AEST %Y' "${time_out}" "+%s")
         time_run=$(echo $((time_out-time_entry)))
         echo "CPU time:"
         echo 'scale=5 ; '"${time_run}"'/3600*12' | bc #TG: 12 is the number of CPUs!
