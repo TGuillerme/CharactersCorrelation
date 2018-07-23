@@ -26,22 +26,22 @@ cp ${chain}.mbjob ${chain}.mbjob-bis
 ## Comment out norm
 if echo $missing | grep '3' > /dev/null
 then
-    sed -i -e '20,23 s/^/#/' ${chain}.mbjob-bis
+    sed -i -e '15,18 s/^/#/' ${chain}.mbjob-bis
 fi
 
 ## Comment out maxi
 if echo $missing | grep '2' > /dev/null
 then
-    sed -i -e '20,23 s/^/#/' ${chain}.mbjob-bis
-    sed -i -e '26,29 s/^/#/' ${chain}.mbjob-bis
+    sed -i -e '15,18 s/^/#/' ${chain}.mbjob-bis
+    sed -i -e '21,24 s/^/#/' ${chain}.mbjob-bis
 fi
 
 ## Comment out mini
 if echo $missing | grep '1' > /dev/null
 then
-    sed -i -e '20,23 s/^/#/' ${chain}.mbjob-bis
-    sed -i -e '26,29 s/^/#/' ${chain}.mbjob-bis
-    sed -i -e '32,35 s/^/#/' ${chain}.mbjob-bis
+    sed -i -e '15,18 s/^/#/' ${chain}.mbjob-bis
+    sed -i -e '21,24 s/^/#/' ${chain}.mbjob-bis
+    sed -i -e '27,30 s/^/#/' ${chain}.mbjob-bis
 fi
 
 ## Append checkpoints
@@ -50,43 +50,46 @@ fi
 if echo $broken | grep '1' > /dev/null
 then
     ## Modify the mb command file
-    cp ${chain}_norm.mbcmd ${chain}_norm.append
-    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_norm.append
+    cp ${chain}_norm.mbcmd ${chain}_norm
+    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_norm
 
     ## Modify the job file
-    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.mbcmd/mv \$HOME\/CharSim\/Bayesian\/'"${chain}"'_norm.append \$TMPDIR\/'"${chain}"'_norm ; mv \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_norm.* \$TMPDIR\/ ; pbsexec mpiexec mb '"${chain}"'_norm/' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_norm.mbcmd/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_norm/' ${chain}.mbjob-bis
 
 fi
 
 if echo $broken | grep '2' > /dev/null
 then
     ## Modify the mb command file
-    cp ${chain}_maxi.mbcmd ${chain}_maxi.append
-    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_maxi.append
+    cp ${chain}_maxi.mbcmd ${chain}_maxi
+    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_maxi
 
     ## Modify the job file
-    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.mbcmd/mv \$HOME\/CharSim\/Bayesian\/'"${chain}"'_maxi.append \$TMPDIR\/'"${chain}"'_maxi ; mv \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_maxi.* \$TMPDIR\/ ; pbsexec mpiexec mb '"${chain}"'_maxi/' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_maxi.mbcmd/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_maxi/' ${chain}.mbjob-bis
+
 fi
 
 if echo $broken | grep '3' > /dev/null
 then
     ## Modify the mb command file
-    cp ${chain}_mini.mbcmd ${chain}_mini.append
-    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_mini.append
+    cp ${chain}_mini.mbcmd ${chain}_mini
+    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_mini
 
     ## Modify the job file
-    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.mbcmd/mv \$HOME\/CharSim\/Bayesian\/'"${chain}"'_mini.append \$TMPDIR\/'"${chain}"'_mini ; mv \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_mini.* \$TMPDIR\/ ; pbsexec mpiexec mb '"${chain}"'_mini/' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_mini.mbcmd/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_mini/' ${chain}.mbjob-bis
+
 fi
 
 if echo $broken | grep '4' > /dev/null
 then
     ## Modify the mb command file
-    cp ${chain}_rand.mbcmd ${chain}_rand.append
-    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_rand.append
+    cp ${chain}_rand.mbcmd ${chain}_rand
+    sed -i -e 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}_rand
 
     ## Modify the job file
-    sed -i -e 's/pbsexec mpiexec mb \$HOME\/CharSim\/Bayesian\/'"${chain}"'_rand.mbcmd/mv \$HOME\/CharSim\/Bayesian\/'"${chain}"'_rand.append \$TMPDIR\/'"${chain}"'_rand ; mv \$WORK\/CharSim\/Bayesian\/'"${chain}"'\/'"${chain}"'_rand.* \$TMPDIR\/ ; pbsexec mpiexec mb '"${chain}"'_rand/' ${chain}.mbjob-bis
+    sed -i -e 's/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_rand.mbcmd/mpiexec mb  $HOME\/CharSim\/'"${chain}"'_rand/' ${chain}.mbjob-bis
+
 fi
 
-rm *.append-e
-rm *.mbjob-bis-e
+rm *-e
+# rm *.mbjob-bis-e
