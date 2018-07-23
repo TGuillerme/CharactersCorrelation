@@ -281,9 +281,12 @@ In order to measure this, we propose a new distance metric to measure the differ
 
 \subsubsection{Character Difference ($CD$)}
 \begin{equation}
-    CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
+    CD_{(x,y)} = \abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}}
 \end{equation}
 
+
+
+%CD is similar to https://onlinelibrary.wiley.com/doi/full/10.1111/pala.12384 but by character rather than by species
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 $CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration in the supplementary material 1).
