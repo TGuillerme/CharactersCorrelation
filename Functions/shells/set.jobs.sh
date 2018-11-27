@@ -67,15 +67,53 @@ then
     # echo "" >> ${chain1}.mbjob
     
 
-    echo "#!/bin/bash" >> ${chain1}.mbjob
-    echo "#PBS -A UQ-SCI-BiolSci" >> ${chain1}.mbjob
-    echo "#PBS -l nodes=${nodes}:ppn=${CPU},mem=32GB,vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.mbjob
-    echo "#PBS -m n" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "#!/bin/bash" >> ${chain1}.mbjob
+    # echo "#PBS -A UQ-SCI-BiolSci" >> ${chain1}.mbjob
+    # echo "#PBS -l nodes=${nodes}:ppn=${CPU},mem=32GB,vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.mbjob
+    # echo "#PBS -m n" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
-    echo "## Load mrbayes" >> ${chain1}.mbjob
-    echo "module load mrbayes" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "## Load mrbayes" >> ${chain1}.mbjob
+    # echo "module load mrbayes" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+
+    echo "#!/bin/bash" >> ${chain1}.template
+    echo "#PBS -A UQ-SCI-BiolSci" >> ${chain1}.template
+    echo "#-#PBS -l nodes=1:ppn=${CPU},mem=32gb,vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.template
+    echo "#-#PBS -m n" >> ${chain1}.template
+    echo "#PBS -N TEMPLATE" >> ${chain1}.template
+    echo "#PBS -l select=1:ncpus=${CPU}:mpiprocs=${CPU}:mem=32gb:vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.template
+
+    echo "## Load modules" >> ${chain1}.template
+    echo "module load mrbayes" >> ${chain1}.template
+    echo "module load openmpi_ib" >> ${chain1}.template
+
+    # Saving entry time
+    echo "## Entry time" >> ${chain1}.template
+    echo "echo \"Entry time\"" >> ${chain1}.template
+    echo "date" >> ${chain1}.template
+    echo "" >> ${chain1}.template
+
+    echo "## Run the script" >> ${chain1}.template
+    echo "mpiexec -np ${CPU} mb \$HOME/CharSim/TEMPLATE" >> ${chain1}.template
+
+    echo "## Exit time" >> ${chain1}.template
+    echo "echo \"Exit time\"" >> ${chain1}.template
+    echo "date" >> ${chain1}.template
+
+    ## Split the template into the multiple chain jobs
+    sed 's/TEMPLATE/'"${chain1}"'_norm.mbcmd/g' ${chain1}.template > ${chain1}_norm.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_maxi.mbcmd/g' ${chain1}.template > ${chain1}_maxi.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_mini.mbcmd/g' ${chain1}.template > ${chain1}_mini.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_rand.mbcmd/g' ${chain1}.template > ${chain1}_rand.mbjob
+
+    ## Remove the template
+    rm ${chain1}.template
+
+
+
+
+
 
 
 
@@ -84,28 +122,28 @@ then
     # echo "pbsdsh2 \"mkdir -p \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     # echo "" >> ${chain1}.mbjob
 
-    # Saving entry time
-    echo "## Entry time" >> ${chain1}.mbjob
-    echo "echo \"Entry time\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # # Saving entry time
+    # echo "## Entry time" >> ${chain1}.mbjob
+    # echo "echo \"Entry time\"" >> ${chain1}.mbjob
+    # echo "date" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
-    ## Running the chains
-    echo "## Run the chains" >> ${chain1}.mbjob
-    echo "## norm" >> ${chain1}.mbjob
-    echo "mpiexec mb  \$HOME/CharSim/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
-    echo "norm time out"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
-    # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
+    # ## Running the chains
+    # echo "## Run the chains" >> ${chain1}.mbjob
+    # echo "## norm" >> ${chain1}.mbjob
+    # echo "mpiexec mb  \$HOME/CharSim/${chain1}_norm.mbcmd" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    # echo "norm time out"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    # # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
 
-    echo "## maxi" >> ${chain1}.mbjob
-    echo "mpiexec mb  \$HOME/CharSim/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
-    echo "maxi time out"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "## maxi" >> ${chain1}.mbjob
+    # echo "mpiexec mb  \$HOME/CharSim/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    # echo "maxi time out"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
     # echo "## maxi" >> ${chain1}.mbjob
     # echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_maxi.mbcmd" >> ${chain1}.mbjob
@@ -114,12 +152,12 @@ then
     # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     # echo "" >> ${chain1}.mbjob
 
-    echo "## mini" >> ${chain1}.mbjob
-    echo "mpiexec mb  \$HOME/CharSim/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
-    echo "mini time out"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "## mini" >> ${chain1}.mbjob
+    # echo "mpiexec mb  \$HOME/CharSim/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    # echo "mini time out"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
     # echo "## mini" >> ${chain1}.mbjob
     # echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_mini.mbcmd" >> ${chain1}.mbjob
@@ -128,12 +166,12 @@ then
     # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     # echo "" >> ${chain1}.mbjob
 
-    echo "## rand" >> ${chain1}.mbjob
-    echo "mpiexec mb  \$HOME/CharSim/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
-    echo "rand time out"  >> ${chain1}.mbjob
-    echo "date"  >> ${chain1}.mbjob
-    echo "" >> ${chain1}.mbjob
+    # echo "## rand" >> ${chain1}.mbjob
+    # echo "mpiexec mb  \$HOME/CharSim/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
+    # echo "rand time out"  >> ${chain1}.mbjob
+    # echo "date"  >> ${chain1}.mbjob
+    # echo "" >> ${chain1}.mbjob
 
     # echo "## rand" >> ${chain1}.mbjob
     # echo "pbsexec mpiexec mb \$HOME/CharSim/Bayesian/${chain1}_rand.mbcmd" >> ${chain1}.mbjob
@@ -142,10 +180,10 @@ then
     # echo "pbsdsh2 \"cp \$TMPDIR/* \$WORK/CharSim/Bayesian/${chain1}/\"" >> ${chain1}.mbjob
     # echo "" >> ${chain1}.mbjob
 
-    ## Saving exit time
-    echo "## Exit time" >> ${chain1}.mbjob
-    echo "echo \"Exit time\"" >> ${chain1}.mbjob
-    echo "date" >> ${chain1}.mbjob
+    # ## Saving exit time
+    # echo "## Exit time" >> ${chain1}.mbjob
+    # echo "echo \"Exit time\"" >> ${chain1}.mbjob
+    # echo "date" >> ${chain1}.mbjob
 fi
 
 if echo $method | grep 'PAUP' > /dev/null
