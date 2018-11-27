@@ -23,7 +23,8 @@ chain1=$1
 method=$2
 CPU=$3
 job_time=$4
-chain2=$5
+username=$5
+chain2=$6
 
 ## Set up the methods
 if echo $method | grep 'both' > /dev/null
@@ -81,7 +82,7 @@ then
     echo "#PBS -A UQ-SCI-BiolSci" >> ${chain1}.template
     echo "#-#PBS -l nodes=1:ppn=${CPU},mem=32gb,vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.template
     echo "#-#PBS -m n" >> ${chain1}.template
-    echo "#PBS -N TEMPLATE" >> ${chain1}.template
+    echo "#PBS -N TEMPLATE.mbcmd" >> ${chain1}.template
     echo "#PBS -l select=1:ncpus=${CPU}:mpiprocs=${CPU}:mem=32gb:vmem=32GB,walltime=${job_time}:00:00" >> ${chain1}.template
 
     echo "## Load modules" >> ${chain1}.template
@@ -92,20 +93,25 @@ then
     echo "## Entry time" >> ${chain1}.template
     echo "echo \"Entry time\"" >> ${chain1}.template
     echo "date" >> ${chain1}.template
-    echo "" >> ${chain1}.template
 
     echo "## Run the script" >> ${chain1}.template
-    echo "mpiexec -np ${CPU} mb \$HOME/CharSim/TEMPLATE" >> ${chain1}.template
+    echo "mpiexec -np ${CPU} mb \$HOME/CharSim/TEMPLATE.mbcmd" >> ${chain1}.template
 
     echo "## Exit time" >> ${chain1}.template
     echo "echo \"Exit time\"" >> ${chain1}.template
     echo "date" >> ${chain1}.template
 
+    echo "## Transfer files" >> ${chain1}.template
+    echo "mv \$HOME/CharSim/TEMPLATE* /30days/${username}/" >> ${chain1}.template
+    echo "echo \"File transfer OK\"" >> ${chain1}.template
+
+
+
     ## Split the template into the multiple chain jobs
-    sed 's/TEMPLATE/'"${chain1}"'_norm.mbcmd/g' ${chain1}.template > ${chain1}_norm.mbjob
-    sed 's/TEMPLATE/'"${chain1}"'_maxi.mbcmd/g' ${chain1}.template > ${chain1}_maxi.mbjob
-    sed 's/TEMPLATE/'"${chain1}"'_mini.mbcmd/g' ${chain1}.template > ${chain1}_mini.mbjob
-    sed 's/TEMPLATE/'"${chain1}"'_rand.mbcmd/g' ${chain1}.template > ${chain1}_rand.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_norm/g' ${chain1}.template > ${chain1}_norm.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_maxi/g' ${chain1}.template > ${chain1}_maxi.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_mini/g' ${chain1}.template > ${chain1}_mini.mbjob
+    sed 's/TEMPLATE/'"${chain1}"'_rand/g' ${chain1}.template > ${chain1}_rand.mbjob
 
     ## Remove the template
     rm ${chain1}.template
