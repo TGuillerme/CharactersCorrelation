@@ -102,7 +102,7 @@ then
     echo "date" >> ${chain1}.template
 
     echo "## Transfer files" >> ${chain1}.template
-    echo "mv \$HOME/CharSim/TEMPLATE* /30days/${username}/" >> ${chain1}.template
+    echo "mv \$HOME/TEMPLATE* /30days/${username}/" >> ${chain1}.template
     echo "echo \"File transfer OK\"" >> ${chain1}.template
 
 
