@@ -8,12 +8,15 @@ do
     ## Check if the con.tre is not empty
     if tail -1 ${chain}.con.tre | grep 'end;' > /dev/null
     then
+
+        ## Get the chain prefix
+        prefix=$(echo $chain | sed 's/_norm//' | sed 's/_maxi//' | sed 's/_mini//' | sed 's/_rand//')
         
         ## Make the new folder (checks if the directory exists)
-        mkdir -p Done/${chain}
+        mkdir -p Done/${prefix}
 
         ## Move to the finished chains
-        mv ${chain}* Done/${chain}/
+        mv ${chain}* Done/${prefix}/
 
     else
         echo "$chain.con.tre does not contain a proper tree"
