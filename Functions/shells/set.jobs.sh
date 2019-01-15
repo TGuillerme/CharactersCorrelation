@@ -95,15 +95,15 @@ then
     echo "date" >> ${chain1}.template
 
     echo "## Run the script" >> ${chain1}.template
-    echo "mpiexec -np ${CPU} mb \$HOME/CharSim/TEMPLATE.mbcmd" >> ${chain1}.template
+    echo "mpiexec -np ${CPU} mb /30days/${username}/TEMPLATE.mbcmd" >> ${chain1}.template
 
     echo "## Exit time" >> ${chain1}.template
     echo "echo \"Exit time\"" >> ${chain1}.template
     echo "date" >> ${chain1}.template
 
     echo "## Transfer files" >> ${chain1}.template
-    echo "mv \$HOME/TEMPLATE* /30days/${username}/" >> ${chain1}.template
-    echo "echo \"File transfer OK\"" >> ${chain1}.template
+    echo "#mv \$HOME/TEMPLATE* /30days/${username}/" >> ${chain1}.template
+    echo "#echo \"File transfer OK\"" >> ${chain1}.template
 
 
 

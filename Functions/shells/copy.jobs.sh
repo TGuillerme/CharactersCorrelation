@@ -26,4 +26,4 @@ done
 #for f in *.con.tre ; do chain=$(basename $f .con.tre); echo $chain ; srm ${chain}* ; echo " cleaned" ; done
 
 
-# scp Users/TGuillerme/Projects/CharactersCorrelation/Cluster/Bayesian/Jobs_out/Done/@@@ uqapasto@awoonga.qriscloud.org.au:/home/uqapasto/CharSim
+# scp Users/TGuillerme/Projects/CharactersCorrelation/Cluster/Bayesian/Jobs_out/Done/75t_1000c_0111_rand uqapasto@awoonga.qriscloud.org.au:/home/uqapasto/CharSim/
