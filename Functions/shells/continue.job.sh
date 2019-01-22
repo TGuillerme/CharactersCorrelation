@@ -8,7 +8,7 @@ usessh=$3
 
 ## Setting the paths
 FROMUSER="${user}@awoonga.qriscloud.org.au"
-FROMPATH="/30days/${user}"
+FROMPATH="/90days/${user}"
 JOBPATH="/Users/TGuillerme/Projects/CharactersCorrelation/Cluster/Bayesian/Jobs_in/Done"
 
 # ## Check if jobs is runnable
