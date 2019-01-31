@@ -114,11 +114,13 @@ else
     ## Finish the files
     if [ "$run1_finished" == "FALSE" ]
     then
+        echo "" >> ${chain}_${tree}.run1.t
         echo "end;" >> ${chain}_${tree}.run1.t
     fi
     
     if [ "$run2_finished" == "FALSE" ]
     then
+        echo "" >> ${chain}_${tree}.run2.t
         echo "end;" >> ${chain}_${tree}.run2.t
     fi
 
