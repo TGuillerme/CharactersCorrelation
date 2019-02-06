@@ -4,18 +4,46 @@
 #Shell script for appending an MCMC
 ##########################
 #SYNTAX:
-#sh append.sh <mbcmd>
+#sh append.sh <chain>
 #with:
-#<mbcmd> the .mbcmd file to append
+#<chain> the chain to append
 ##########################
 #----
-#guillert(at)tcd.ie - 2019/01/17
+#guillert(at)tcd.ie - 2019/02/06
 ##########################
 
 ## Input
-mbcmd=$1
+chain=$1
 
-sed 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${mbcmd} > mbcmd.tmp
-mv mbcmd.tmp ${mbcmd}
+## Append the mbcmd file
+sed 's/mcmc nruns=2/mcmc append=yes nruns=2/' ${chain}.mbcmd > chain.tmp
+mv mbcmd.tmp ${chain}.mbcmd
+
+## Append the first tree file
+tail_end=$(tail -1 ${chain}.run1.t)
+if echo ${tail_end} | grep -q "end;"
+then
+    run1_finished="TRUE"
+else
+    run1_finished="FALSE"
+    echo "end;" >> ${chain}.run1.t
+fi
+
+## Append the second tree file
+tail_end=$(tail -1 ${chain}.run2.t)
+if echo ${tail_end} | grep -q "end;"
+then
+    run1_finished="TRUE"
+else
+    run1_finished="FALSE"
+    echo "end;" >> ${chain}.run2.t
+fi
+
+## Remove old outputs
+rm ${chain}.o*
+rm ${chain}.e*
+
+## Rerun the job
+qsub ${chain}.mbjob
 
 #End
