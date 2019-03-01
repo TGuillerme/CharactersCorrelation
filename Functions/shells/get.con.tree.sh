@@ -7,7 +7,7 @@ PATH_OUT="/Users/TGuillerme/Projects/CharactersCorrelation/Data/Trees_out/Consen
 for folder in ${chain_prefix}*
 do
     ## Get the chain name
-    chain_name=$(echo ${folder} | sed 's/\/Volumes\/CharacterCorrelation\/CharacterCorrelationData\///g')
+    chain_name=$(echo ${folder} | sed 's/\/Volumes\/CharacterCorrelation\/CharacterCorrelationNew\///g')
     
     list=$(ls ${PATH_OUT})
     if echo $list | grep -q ${chain_prefix}

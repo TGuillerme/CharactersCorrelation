@@ -4,8 +4,8 @@
 #'
 #' @param chain the general name of the chain (e.g. 25t_100c)
 #' @param path the path to where the files are stored
-#' @param type which type of tree (Bayesian or Parismony)
-#' @param length.in how many chains to read (e.g. 35)
+#' @param type which type of tree (Bayesian or Parsimony)
+#' @param length.in how many chains to read (e.g. 20) - can be left missing to read all the available files
 #'
 #' @return
 #' A list of metrics for the comparisons.

@@ -20,7 +20,7 @@
 make.xtable <- function(table, digit = 3, caption, label, longtable = FALSE, path, include.rownames = FALSE) {
 
     ## Rounding
-    table <- round(table, digits = digit)
+    table[,which(unlist(lapply(table, class)) == "numeric")] <- round(table[,which(unlist(lapply(table, class)) == "numeric")], digits = digit)
 
     ## Add significance values
     if(all(!is.na(match(colnames(table), c("bhatt.coeff", "statistic", "p.value"))))){
