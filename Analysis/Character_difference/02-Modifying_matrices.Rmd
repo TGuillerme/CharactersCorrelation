@@ -27,7 +27,7 @@ if(!require(diversitree)) install.packages("diversitree")
 source("../../Functions/modify.matrix.R")
 
 ## Seed for repeatability
-set.seed(0)
+set.seed(123)
 ```
 
 Generating the matrix
@@ -148,7 +148,7 @@ plot(char_diff_matrix_norm, type = "matrix")
 
 ```{r, fig.width=12, fig.height=6}
 ## Character difference
-char_diff_matrix_maxi <- char.diff(matrix_maxi)
+char_diff_matrix_maxi <- char.diff(matrix_maxi[[1]])
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
 plot(char_diff_matrix_maxi, type = "density", main = "Maximised matrix")
@@ -158,7 +158,7 @@ plot(char_diff_matrix_maxi, type = "matrix")
 
 ```{r, fig.width=12, fig.height=6}
 ## Character difference
-char_diff_matrix_mini <- char.diff(matrix_mini)
+char_diff_matrix_mini <- char.diff(matrix_mini[[1]])
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
 plot(char_diff_matrix_mini, type = "density", main = "Minimised matrix")
@@ -168,7 +168,7 @@ plot(char_diff_matrix_mini, type = "matrix")
 
 ```{r, fig.width=12, fig.height=6}
 ## Character difference
-char_diff_matrix_rand <- char.diff(matrix_rand)
+char_diff_matrix_rand <- char.diff(matrix_rand[[1]])
 par(mfrow = c(1, 2))
 ## The character difference density (per character)
 plot(char_diff_matrix_rand, type = "density", main = "Randomised matrix")
@@ -181,7 +181,7 @@ plot(char_diff_matrix_rand, type = "matrix")
 
 
 ```{r, fig.width=12, fig.height=12, eval = FALSE, echo = FALSE}
-pdf("../../Writing/Figures/Modif_matrix.pdf", width = 7.2, height = 4.5)
+# pdf("../../Writing/Figures/Modif_matrix.pdf", width = 7.2, height = 4.5)
 par(mfrow = c(2, 3), bty = "n", mar = c(1,1,1,1))
 ## Tree
 plot(tree, cex = 0.8, main = "A - Simulated tree")
