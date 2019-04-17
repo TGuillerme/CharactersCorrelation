@@ -8,130 +8,152 @@ output:
     fig_height: 6
 ---
 
-# Checking the number of character replaced in each matrix
+# Checking the number of character replaced in each matrix and the change in character correlation
 
 ```{r}
 library(dispRity)
 library(ape)
 library(knitr)
 ## Setting the path
-PATH <- "../Data/Simulations/Matrices/"
+PATH <- "../Data/Simulations/"
 ```
 
-The following function counts, _a posteriori_ the number of characters that where replaced in each matrix (by comparing them to the normal matrix)
+The following function counts the effective change in number of characters for each matrix: the average character correlation change, their distributions, the number of changed characters, and their character correlation change.
+
+## Load the data
+
+We can use the following functions to load the already estimated parameters (`read.matrix.param`) during the simulations or directly the matrices (`read.matrix`) to specifically double check the parameters (not in this document).
 
 ```{r}
-## Getting the proportion of replaced characters
-get.proportion.replace <- function(matrix, path) {
-    ## Getting one matrix in a comparable format
-    get.one.matrix <- function(path, matrix, type) {
-        return(unlist(apply(do.call(rbind,
-                                    read.nexus.data(paste0(path, matrix, "_", type, ".nex"))
-                            ), 2, list), recursive = FALSE))
-    }
+## Loading a matrix
+read.matrix <- function(chain_name, path) {
+    ## Read the four matrices
+    norm <- do.call(rbind, read.nexus.data(paste0(path, chain_name, "_norm.nex")))
+    maxi <- do.call(rbind, read.nexus.data(paste0(path, chain_name, "_maxi.nex")))
+    mini <- do.call(rbind, read.nexus.data(paste0(path, chain_name, "_mini.nex")))
+    rand <- do.call(rbind, read.nexus.data(paste0(path, chain_name, "_rand.nex")))
+    return(list(norm = norm, maxi = maxi, mini = mini, rand = rand))
+}
 
-    ## Getting all the matrices
-    norm <- get.one.matrix(path, matrix, "norm")
-    maxi <- get.one.matrix(path, matrix, "maxi")
-    mini <- get.one.matrix(path, matrix, "mini")
-    rand <- get.one.matrix(path, matrix, "rand")
+## Loading a matrix parameter
+read.matrix.param <- function(chain_name, path) {
+    ## Reading the parameters
+    maxi <- read.csv(paste0(path, chain_name, "_changes_maxi.csv"), row.names = 1)
+    mini <- read.csv(paste0(path, chain_name, "_changes_mini.csv"), row.names = 1)
+    rand <- read.csv(paste0(path, chain_name, "_changes_rand.csv"), row.names = 1)
 
+    ## Splitting the parameters
+    char_diff_change <- rbind(maxi = maxi[1,], mini = mini[1,], rand = rand[1,])
+    colnames(char_diff_change) <- c("original", "modified")
 
-    ## Comparing all the matrices
-    n <- length(norm)
-    maxi <- length(which(!mapply(function(X, Y) all(X == Y), norm, maxi)))/n
-    mini <- length(which(!mapply(function(X, Y) all(X == Y), norm, mini)))/n
-    rand <- length(which(!mapply(function(X, Y) all(X == Y), norm, rand)))/n
+    ## Getting the list of changes
+    characters_changes <- list(maxi = maxi[-1,], mini = mini[-1,], rand = rand[-1,])
 
-    return(c("maxi" = maxi, "mini" = mini, "rand" = rand))
+    ## Return both
+    return(list(differences = char_diff_change, changes = characters_changes))
 }
 ```
 
-We can then apply it to the list of matrices
+We can load all the parameters arranged into a list of list of scenarios (e.g. 25 taxa and 100 characters, etc.):
 
-```{r}
+```{r, echo = FALSE}
 ## Creating the placeholder list for the results
-replacements <- list(list(), list(), list())
+parameters <- list(list(), list(), list())
 ## getting the values to loop through
 taxa_val <- c(25, 75, 150)
 character_val <- c(100, 350, 1000)
+## Set the path
+param_path <- paste0(PATH, "Parameters/")
+
+## Loading the parameters
 for(taxa in 1:3) {
     for(character in 1:3) {
-        ## Get the taxa names
-        names <- unique(gsub("_[a-z]*.nex", "",
-          list.files(PATH, pattern = paste0(taxa_val[taxa], "t_", character_val[character], "c_"))))
-        ## Get the proportions of replaced characters
-        replacements[[taxa]][[character]] <- lapply(as.list(names), get.proportion.replace, PATH)
+        ## Get the chain names
+        chain_names <- list.files(path = param_path, pattern = paste0(taxa_val[taxa], "t_", character_val[character], "c_"))
+        ## Remove the suffix
+        chain_names <- unique(gsub("_changes_\\S+.csv", "", chain_names, perl = TRUE))
+
+        ## Get the matrix change parameters
+        parameters[[taxa]][[character]] <- lapply(as.list(chain_names), read.matrix.param, path = param_path)
     }
+    names(parameters[[taxa]]) <- paste0(character_val, "c")
 }
-
-## Combining the results
-fun.maxi <- function(list) {
-    return(unlist(lapply(list, function(X) return(X[[1]]))))
-}
-fun.mini <- function(list) {
-    return(unlist(lapply(list, function(X) return(X[[2]]))))
-}
-fun.rand <- function(list) {
-    return(unlist(lapply(list, function(X) return(X[[3]]))))
-}
-results_maxi <- lapply(replacements, lapply, fun.maxi)
-results_mini <- lapply(replacements, lapply, fun.mini)
-results_rand <- lapply(replacements, lapply, fun.rand)
-
-## Naming the lists
-c("25t", "75t", "150t") -> names(results_maxi) -> names(results_mini) -> names(results_rand)
-c("100c", "350c", "1000c") -> names(results_maxi[[1]]) ->
-                              names(results_maxi[[2]]) ->
-                              names(results_maxi[[3]]) ->
-                              names(results_mini[[1]]) ->
-                              names(results_mini[[2]]) ->
-                              names(results_mini[[3]]) ->
-                              names(results_rand[[1]]) ->
-                              names(results_rand[[2]]) ->
-                              names(results_rand[[3]])
+names(parameters) <- paste0(taxa_val, "t")
 ```
 
-We can then represent the results using box plots:
+## Average character difference change
+
+Getting the difference between the character difference in the normal matrix and the one in the modified ones:
+
+```{r}
+## Get character difference change value
+get.char.diff.change <- function(chain) {
+    return(chain$differences)
+}
+parameters_difference <- lapply(parameters, lapply, lapply, get.char.diff.change)
+
+## Get the differences
+parameters_diff <- lapply(parameters_difference, lapply, lapply, function(X) apply(X, 1, diff))
+```
+
+Plotting the results
 
 ```{r, fig.height = 18, fig.width = 6}
+## Extract the results for each type of scenarios
+extract.results <- function(list, what) {
+    return(unname(unlist(lapply(list, function(X) return(X[what])))))
+}
+differences_maxi <- lapply(parameters_diff, lapply, extract.results, what = "maxi")
+differences_mini <- lapply(parameters_diff, lapply, extract.results, what = "mini")
+differences_rand <- lapply(parameters_diff, lapply, extract.results, what = "rand")
+
+## overal_range (for plotting)
+overal_range <- range(c(unlist(differences_maxi), unlist(differences_mini), unlist(differences_rand)))
+
 ## Plotting the different proportion results
-plot.proportions <- function(data, ...) {
+plot.proportions <- function(data, ylim = c(-1, 1), xlim = c(0.8, 9.2), leg.pos, ylab, ...) {
     ## Default colours
-    cols <- gray.colors(3)
+    cols <- gray.colors(length(data))
     ## Boxes
-    boxplot(xlab = "", ylab = "Proportion of replacement", xaxt = "n", ylim = c(0, 1), col = cols,
-            c(data[[1]], data[[2]], data[[3]]), ...)
-    legend("topleft", legend = names(data), pch = 19, col = cols, bty = "n")
+    boxplot(NULL, xlab = "", ylab = ylab, xaxt = "n", yaxt = "n",  ylim = ylim, xlim = xlim, ...)
+    legend(leg.pos, legend = names(data), pch = 19, col = cols, bty = "n")
     ## X axis
     axis(1, 1:9, labels = FALSE, tick = FALSE)
     axis(1, c(2, 5, 8), tick = FALSE, labels = names(data[[1]]))
     ## Lines
-    abline(v = 3.5) ; abline(v = 6.5)
+    abline(v = 3.5) ; abline(v = 6.5) ; abline(h = 0, lty = 2)
+
+    ## Data
+    boxplot(c(data[[1]], data[[2]], data[[3]]), col = cols, add = TRUE, xaxt = "n")
 }
-
 par(mfrow = c(3,1))
-plot.proportions(results_maxi, main = "Maximised differences")
-plot.proportions(results_mini, main = "Minimised differences")
-plot.proportions(results_rand, main = "Randomised differences")
-
+plot.proportions(differences_maxi, ylim = overal_range, main = "Maximised", leg.pos = "bottomleft",
+    ylab = "Character differences change")
+plot.proportions(differences_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft",
+    ylab = "Character differences change")
+plot.proportions(differences_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft",
+    ylab = "Character differences change")
 ```
 
 <!-- Figure version -->
 
 ```{r, fig.height = 18, fig.width = 6, eval = TRUE, echo = FALSE}
-pdf("../Writing/Figures/Proportion_replaced_maxi.pdf", width = 6, height = 6)
-plot.proportions(results_maxi, main = "Maximised differences")
-pdf("../Writing/Figures/Proportion_replaced_mini.pdf", width = 6, height = 6)
-plot.proportions(results_mini, main = "Minimised differences")
-pdf("../Writing/Figures/Proportion_replaced_rand.pdf", width = 6, height = 6)
-plot.proportions(results_rand, main = "Randomised differences")
+pdf("../Writing/Figures/Difference_change_maxi.pdf", width = 6, height = 6)
+plot.proportions(differences_maxi, ylim = overal_range, main = "Maximised", leg.pos = "bottomleft",
+    ylab = "Character differences change")
+pdf("../Writing/Figures/Difference_change_mini.pdf", width = 6, height = 6)
+plot.proportions(differences_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft",
+    ylab = "Character differences change")
+pdf("../Writing/Figures/Difference_change_rand.pdf", width = 6, height = 6)
+plot.proportions(differences_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft",
+    ylab = "Character differences change")
 ```
 
-## Testing the differences in proportions
+### Testing the differences in character difference
 
-We can then test the differences between categories.
-First we'll try an aov:
+We can test the differences in character differences using the combined Wilcoxon test and Bhattacharyya coefficients.
+
+First we need to convert it into a usable table format:
 
 ```{r}
 ## Data frame converter
@@ -150,24 +172,14 @@ convert.df <- function(results) {
 }
 
 ## Generating the nested tables
-table_maxi <- convert.df(results_maxi)
-table_mini <- convert.df(results_mini)
-table_rand <- convert.df(results_rand)
+table_maxi <- convert.df(differences_maxi)
+table_mini <- convert.df(differences_mini)
+table_rand <- convert.df(differences_rand)
 
 ## Combining the tables
 all_results <- cbind(rbind(table_maxi, table_mini, table_rand),
                     "scenario" = as.factor(rep(c("maxi", "mini", "rand"), each = nrow(table_maxi))))
-
-## Run the linear model for testing assumptions
-model <- lm(proportion ~ scenario, data = all_results)
-(residuals_normality <- shapiro.test(residuals(model)))
-(data_homostedasticity <- bartlett.test(proportion ~ scenario, data = all_results))
-
-## Normality assumption fails
-```    
-
-However, the assumptions are violated so we need to go non-parametric (Wilcox test and Bhattacharyya Coefficient)
-
+```
 
 ```{r}
 ## Pairwise tests wrapper
@@ -225,6 +237,155 @@ kable(combined_results, digits = 3, caption = caption)
 ```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 library(xtable)
 source("../Functions/make.xtable.R")
-make.xtable(combined_results, caption = caption, label = "Tab_proportion_replacement",
+make.xtable(combined_results, caption = caption, label = "Tab_difference_change",
+            path = "../Writing/Tables/", include.rownames = TRUE)
+```
+
+
+
+
+
+
+
+## Number of characters duplicated
+
+We can also look at the number of characters that are duplicated in each 
+
+
+```{r}
+## Get character difference change value
+get.char.replace <- function(chain) {
+    ## Get the duplicates
+    all_duplicates <- lapply(chain$changes, function(X) return(length(unique(X[,2]))))
+    ## Make them proportional
+    return(mapply(function(x,y) return(x/y), all_duplicates, as.list(c(100, 350, 1000)),
+                 SIMPLIFY = FALSE))
+
+}
+## Get the number of duplicated characters
+parameters_duplicates <- lapply(parameters, lapply, lapply, get.char.replace)
+```
+
+Plotting the results
+
+```{r, fig.height = 18, fig.width = 6}
+## Extract the results for each type of scenarios
+duplicates_maxi <- lapply(parameters_duplicates, lapply, extract.results, what = "maxi")
+duplciates_mini <- lapply(parameters_duplicates, lapply, extract.results, what = "mini")
+duplicates_rand <- lapply(parameters_duplicates, lapply, extract.results, what = "rand")
+
+## overal_range (for plotting)
+overal_range <- range(c(unlist(duplicates_maxi), unlist(duplciates_mini), unlist(duplicates_rand)))
+
+## Plotting the different proportion results
+par(mfrow = c(3,1))
+plot.proportions(duplicates_maxi, ylim = overal_range, main = "Maximised", leg.pos = "topleft",
+    ylab = "Proportion of duplicated characters")
+plot.proportions(duplciates_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft",
+    ylab = "Proportion of duplicated characters")
+plot.proportions(duplicates_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft",
+    ylab = "Proportion of duplicated characters")
+```
+
+<!-- Figure version -->
+
+```{r, fig.height = 18, fig.width = 6, eval = TRUE, echo = FALSE}
+pdf("../Writing/Figures/Difference_change_maxi.pdf", width = 6, height = 6)
+plot.proportions(differences_maxi, ylim = overal_range, main = "Maximised", leg.pos = "bottomleft")
+pdf("../Writing/Figures/Difference_change_mini.pdf", width = 6, height = 6)
+plot.proportions(differences_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft")
+pdf("../Writing/Figures/Difference_change_rand.pdf", width = 6, height = 6)
+plot.proportions(differences_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft"))
+```
+
+### Testing the differences in character difference
+
+We can test the differences in character differences using the combined Wilcoxon test and Bhattacharyya coefficients.
+
+First we need to convert it into a usable table format:
+
+```{r}
+## Data frame converter
+convert.df <- function(results) {
+    convert.sub.df <- function(list, names) {
+        df <- data.frame(unlist(list), as.factor(rep(names(list), each = length(list[[1]]))))
+        colnames(df) <- names
+        rownames(df) <- NULL
+        return(df)
+    }
+    df_list <- lapply(results, convert.sub.df, names = c("proportion", "characters"))
+    df_list <- cbind(do.call(rbind, df_list),
+                     "taxa" = as.factor(rep(names(results), each = nrow(df_list[[1]]))))
+    rownames(df_list) <- NULL
+    return(df_list)
+}
+
+## Generating the nested tables
+table_maxi <- convert.df(differences_maxi)
+table_mini <- convert.df(differences_mini)
+table_rand <- convert.df(differences_rand)
+
+## Combining the tables
+all_results <- cbind(rbind(table_maxi, table_mini, table_rand),
+                    "scenario" = as.factor(rep(c("maxi", "mini", "rand"), each = nrow(table_maxi))))
+```
+
+```{r}
+## Pairwise tests wrapper
+pair.test <- function(data, factor, test) {
+    ## Separating the data according to factors
+    factor <- which(colnames(data) == factor)
+    splited_data <- split(data, data[, factor])
+
+    ## Combination of tests
+    combinations <- combn(1:length(splited_data), 2)
+
+    ## Applying the tests
+    tests <- apply(combinations, 2, function(X, test, data)
+                 return(test(data[[X[1]]][,1], data[[X[2]]][,1])), test = test, data = splited_data)
+    names_test <- apply(combinations, 2, function(X, data)
+                   return(paste0(names(data)[X[1]], " - ", names(data)[X[2]])), data = splited_data)
+
+    names(tests) <- names_test
+    return(tests)
+}
+
+## Running the wilcox tests for each pooled factor
+wilcox_scen <- pair.test(all_results, factor = "scenario", wilcox.test)
+wilcox_taxa <- pair.test(all_results, factor = "taxa", wilcox.test)
+wilcox_char <- pair.test(all_results, factor = "characters", wilcox.test)
+
+## Extracting the statistic and the p_value only
+wilcox_scen_w <- unlist(lapply(wilcox_scen, function(X) return(unname(X$statistic))))
+wilcox_taxa_w <- unlist(lapply(wilcox_taxa, function(X) return(unname(X$statistic))))
+wilcox_char_w <- unlist(lapply(wilcox_char, function(X) return(unname(X$statistic))))
+wilcox_scen_p <- p.adjust(unlist(lapply(wilcox_scen, function(X) return(X$p.value))), "bonferroni")
+wilcox_taxa_p <- p.adjust(unlist(lapply(wilcox_taxa, function(X) return(X$p.value))), "bonferroni")
+wilcox_char_p <- p.adjust(unlist(lapply(wilcox_char, function(X) return(X$p.value))), "bonferroni")
+
+## Running the Bhattacharrya tests for each pooled factor
+bhattc_scen <- pair.test(all_results, factor = "scenario", bhatt.coeff)
+bhattc_taxa <- pair.test(all_results, factor = "taxa", bhatt.coeff)
+bhattc_char <- pair.test(all_results, factor = "characters", bhatt.coeff)
+
+## Combine the results
+combined_results <- as.data.frame(rbind(
+        cbind("statistic" = wilcox_scen_w, "p.value" = wilcox_scen_p, "bhatt.coeff" = bhattc_scen),
+        cbind("statistic" = wilcox_taxa_w, "p.value" = wilcox_taxa_p, "bhatt.coeff" = bhattc_taxa),
+        cbind("statistic" = wilcox_char_w, "p.value" = wilcox_char_p, "bhatt.coeff" = bhattc_char)))
+```
+
+And here are the results:
+
+```{r, echo = FALSE}
+caption <- paste0("Pairwise Wilcoxon test and Bhattacharrya Coefficients for the difference in",
+  " proportion of character replacement for the different scenarios, number of taxa and characters.")
+kable(combined_results, digits = 3, caption = caption)
+```
+
+```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
+library(xtable)
+source("../Functions/make.xtable.R")
+make.xtable(combined_results, caption = caption, label = "Tab_difference_change",
             path = "../Writing/Tables/", include.rownames = TRUE)
 ```
