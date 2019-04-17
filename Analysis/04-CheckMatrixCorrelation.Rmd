@@ -229,8 +229,8 @@ combined_results <- as.data.frame(rbind(
 And here are the results:
 
 ```{r, echo = FALSE}
-caption <- paste0("Pairwise Wilcoxon test and Bhattacharrya Coefficients for the difference in",
-  " proportion of character replacement for the different scenarios, number of taxa and characters.")
+caption <- paste0("Pairwise Wilcoxon test and Bhattacharrya Coefficients for the differences in",
+  "character difference for the different scenarios, number of taxa and characters.")
 kable(combined_results, digits = 3, caption = caption)
 ```
 
@@ -242,11 +242,6 @@ make.xtable(combined_results, caption = caption, label = "Tab_difference_change"
 ```
 
 
-
-
-
-
-
 ## Number of characters duplicated
 
 We can also look at the number of characters that are duplicated in each 
@@ -255,12 +250,7 @@ We can also look at the number of characters that are duplicated in each
 ```{r}
 ## Get character difference change value
 get.char.replace <- function(chain) {
-    ## Get the duplicates
-    all_duplicates <- lapply(chain$changes, function(X) return(length(unique(X[,2]))))
-    ## Make them proportional
-    return(mapply(function(x,y) return(x/y), all_duplicates, as.list(c(100, 350, 1000)),
-                 SIMPLIFY = FALSE))
-
+    return(lapply(chain$changes, function(X) return(length(unique(X[,2])))))
 }
 ## Get the number of duplicated characters
 parameters_duplicates <- lapply(parameters, lapply, lapply, get.char.replace)
@@ -269,19 +259,28 @@ parameters_duplicates <- lapply(parameters, lapply, lapply, get.char.replace)
 Plotting the results
 
 ```{r, fig.height = 18, fig.width = 6}
+## Make the characters proportional
+make.prop <- function(list) {
+    return(mapply(function(x,y) return(x/y), list, as.list(c(100, 350, 1000)),
+                 SIMPLIFY = FALSE))
+}
+
 ## Extract the results for each type of scenarios
-duplicates_maxi <- lapply(parameters_duplicates, lapply, extract.results, what = "maxi")
-duplciates_mini <- lapply(parameters_duplicates, lapply, extract.results, what = "mini")
-duplicates_rand <- lapply(parameters_duplicates, lapply, extract.results, what = "rand")
+duplicates_maxi <- lapply(lapply(parameters_duplicates, lapply, extract.results, what = "maxi"),
+                        make.prop)
+duplicates_mini <- lapply(lapply(parameters_duplicates, lapply, extract.results, what = "mini"),
+                        make.prop)
+duplicates_rand <- lapply(lapply(parameters_duplicates, lapply, extract.results, what = "rand"),
+                        make.prop)
 
 ## overal_range (for plotting)
-overal_range <- range(c(unlist(duplicates_maxi), unlist(duplciates_mini), unlist(duplicates_rand)))
+overal_range <- c(0,1)
 
 ## Plotting the different proportion results
 par(mfrow = c(3,1))
 plot.proportions(duplicates_maxi, ylim = overal_range, main = "Maximised", leg.pos = "topleft",
     ylab = "Proportion of duplicated characters")
-plot.proportions(duplciates_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft",
+plot.proportions(duplicates_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft",
     ylab = "Proportion of duplicated characters")
 plot.proportions(duplicates_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft",
     ylab = "Proportion of duplicated characters")
@@ -290,12 +289,15 @@ plot.proportions(duplicates_rand, ylim = overal_range, main = "Randomised", leg.
 <!-- Figure version -->
 
 ```{r, fig.height = 18, fig.width = 6, eval = TRUE, echo = FALSE}
-pdf("../Writing/Figures/Difference_change_maxi.pdf", width = 6, height = 6)
-plot.proportions(differences_maxi, ylim = overal_range, main = "Maximised", leg.pos = "bottomleft")
-pdf("../Writing/Figures/Difference_change_mini.pdf", width = 6, height = 6)
-plot.proportions(differences_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft")
-pdf("../Writing/Figures/Difference_change_rand.pdf", width = 6, height = 6)
-plot.proportions(differences_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft"))
+pdf("../Writing/Figures/Proportion_duplicated_maxi.pdf", width = 6, height = 6)
+plot.proportions(duplicates_maxi, ylim = overal_range, main = "Maximised", leg.pos = "topleft",
+    ylab = "Proportion of duplicated characters")
+pdf("../Writing/Figures/Proportion_duplicated_mini.pdf", width = 6, height = 6)
+plot.proportions(duplicates_mini, ylim = overal_range, main = "Minimised", leg.pos = "topleft",
+    ylab = "Proportion of duplicated characters")
+pdf("../Writing/Figures/Proportion_duplicated_rand.pdf", width = 6, height = 6)
+plot.proportions(duplicates_rand, ylim = overal_range, main = "Randomised", leg.pos = "topleft",
+    ylab = "Proportion of duplicated characters")
 ```
 
 ### Testing the differences in character difference
@@ -305,25 +307,10 @@ We can test the differences in character differences using the combined Wilcoxon
 First we need to convert it into a usable table format:
 
 ```{r}
-## Data frame converter
-convert.df <- function(results) {
-    convert.sub.df <- function(list, names) {
-        df <- data.frame(unlist(list), as.factor(rep(names(list), each = length(list[[1]]))))
-        colnames(df) <- names
-        rownames(df) <- NULL
-        return(df)
-    }
-    df_list <- lapply(results, convert.sub.df, names = c("proportion", "characters"))
-    df_list <- cbind(do.call(rbind, df_list),
-                     "taxa" = as.factor(rep(names(results), each = nrow(df_list[[1]]))))
-    rownames(df_list) <- NULL
-    return(df_list)
-}
-
 ## Generating the nested tables
-table_maxi <- convert.df(differences_maxi)
-table_mini <- convert.df(differences_mini)
-table_rand <- convert.df(differences_rand)
+table_maxi <- convert.df(duplicates_maxi)
+table_mini <- convert.df(duplicates_mini)
+table_rand <- convert.df(duplicates_rand)
 
 ## Combining the tables
 all_results <- cbind(rbind(table_maxi, table_mini, table_rand),
@@ -331,25 +318,6 @@ all_results <- cbind(rbind(table_maxi, table_mini, table_rand),
 ```
 
 ```{r}
-## Pairwise tests wrapper
-pair.test <- function(data, factor, test) {
-    ## Separating the data according to factors
-    factor <- which(colnames(data) == factor)
-    splited_data <- split(data, data[, factor])
-
-    ## Combination of tests
-    combinations <- combn(1:length(splited_data), 2)
-
-    ## Applying the tests
-    tests <- apply(combinations, 2, function(X, test, data)
-                 return(test(data[[X[1]]][,1], data[[X[2]]][,1])), test = test, data = splited_data)
-    names_test <- apply(combinations, 2, function(X, data)
-                   return(paste0(names(data)[X[1]], " - ", names(data)[X[2]])), data = splited_data)
-
-    names(tests) <- names_test
-    return(tests)
-}
-
 ## Running the wilcox tests for each pooled factor
 wilcox_scen <- pair.test(all_results, factor = "scenario", wilcox.test)
 wilcox_taxa <- pair.test(all_results, factor = "taxa", wilcox.test)
@@ -379,13 +347,13 @@ And here are the results:
 
 ```{r, echo = FALSE}
 caption <- paste0("Pairwise Wilcoxon test and Bhattacharrya Coefficients for the difference in",
-  " proportion of character replacement for the different scenarios, number of taxa and characters.")
+  " proportion of character duplicated for the different scenarios, number of taxa and characters.")
 kable(combined_results, digits = 3, caption = caption)
 ```
 
 ```{r, eval = TRUE, echo = FALSE, print = FALSE, results = 'hide', warning = FALSE}
 library(xtable)
 source("../Functions/make.xtable.R")
-make.xtable(combined_results, caption = caption, label = "Tab_difference_change",
+make.xtable(combined_results, caption = caption, label = "Tab_proportion_duplicated",
             path = "../Writing/Tables/", include.rownames = TRUE)
 ```
