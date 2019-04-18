@@ -285,15 +285,15 @@ In order to measure this, we propose a new distance metric to measure the differ
 
 \subsubsection{Character Difference ($CD$)}
 \begin{equation}
-    CD_{(x,y)} = \abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}}
+    CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
 \end{equation}
-
 
 
 %CD is similar to https://onlinelibrary.wiley.com/doi/full/10.1111/pala.12384 but by character rather than by species
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
-$CD$ is a continuous distance metric bounded between $0$ and $1$ (see the mathematical demonstration in the supplementary material 1).
+%TG: Modifications in this sentence not in the letter yet
+$CD$ is a continuous \hl{scaled Hamming distance} metric bounded between $0$ and $1$.% (see the mathematical demonstration in the supplementary material 1).
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
@@ -334,12 +334,11 @@ These low evolutionary rate values allowed reduction in the number of homoplasic
 We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.
 To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{sanderson1989patterns,OReilly20160081}.
 \hl{Note that both models (``morphological HKY-binary' and Mk) are both based on a Markovian model and only differ in the number of states generated and transformed.
-However, the ``morphological HKY model'' is not the one \textit{directly}estimated in the phylogenetic software used in this protocol (MrBayes, see below).}
-
+However, the ``morphological HKY model'' is not the one \textit{directly} estimated in the phylogenetic software used in this protocol (MrBayes, see below).}
 
 For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
 The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 35 times resulting in 315 ``normal'' morphological matrices.
+To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 35@@@ times resulting in 315 ``normal'' morphological matrices.
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.

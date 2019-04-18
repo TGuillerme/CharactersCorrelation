@@ -65,7 +65,7 @@
 Dear Dr Jermiin,\\
 \bigskip
 
-We am very grateful to the three referees for their helpful and constructive comments, which we believe have helped me to significantly improve the manuscript.
+We are very grateful to the three referees for their helpful and constructive comments, which we believe have helped me to significantly improve the manuscript.
 We have taken all of their comments on board, and respond to their points in details below.
 
 For improving clarity in this document, reviewers' comments are displayed in blue, our responses in normal text and the changes to the manuscript in italic.
@@ -77,30 +77,23 @@ Additionally, we've uploaded two versions of the revised manuscript: both have t
 
 \item{\textcolor{blue}{Along the lines set out by Reviewer 2, it would be wise to ensure that your metric is characterised as thoroughly as possible. In this regard, does it meet the following five conditions?}}
 
+After working on the required proof of the metric, we figured out that the formerly proposed Character Difference had a non-expected behaviour of being non-linear.
+We have now modified the metric to be linear (see illustration here: \url{https://github.com/TGuillerme/CharactersCorrelation/blob/master/Analysis/05-char.diffModification.pdf}).
+We thus made some major changes to the manuscript that were not suggested by the reviewers below:
 \begin{enumerate}
-\item{\textcolor{blue}{Distinctiveness}}
-\item{\textcolor{blue}{Non-negativity}}
-\item{\textcolor{blue}{Symmetry}}
-\item{\textcolor{blue}{Triangle inequality}}
-\item{\textcolor{blue}{Four-point condition}}
+    \item We change the Character Difference metric to be a scaled Hamming Distance rather than the former proposed distance.
+    \item We thus removed the supplementary material 1 wit the proof for the distance metric (since Hamming distances are well established distance metrics).
+    \item We reran all the simulations from scratch with the inclusion of the updated Character Difference metric.
+    \item For time constraint reason we reran 20 replicates (rather than 35 in the previous manuscript) for a total of 40 CPU years.
+    \item We propose a new interpretation to the updated results.
 \end{enumerate}
 
-\item{\textcolor{blue}{If so, then it is actually an evolutionary distance, and it can be used as such; if not, then it is another type of distance. Establishing the type of distance may be overkill, but the characterization of a metric helps to determine what it can be used for, and what it cannot be used for.}}
+Of course, we also took all the reviewers comments on board (excluding the ones rendered obsolete by the modified metrics such as the proof for the four point condition).
 
-In the supplementary materials 1, we mathematically define the characteristics of $CD$ and proved that it is a distance metric since it respects the four first points:
+Note that, if you consider it necessary, we'll happily add the characterisation of the new metric to the supplementary although, again, since it is now simply a scaled Hamming distance, we believed it was unwarranted for this revised version of the manuscript. 
 
-\begin{enumerate}
-\item Distinctiveness: $CD_{(x,y)} = 0 \Leftrightarrow x = y$, proved in equation 11 (note that we corrected the error highlighted by reviewer 2 with a more restrictive definition of $x$ and $y$).
-\item Non-negativity: $CD_{(x,y)} \geq 0$, proved in equation 10.
-\item Symmetry: $CD_{x,y} = CD_{y,x}$, proved in equation 12.
-\item Triangle inequality: $CD_{(x,y)} \leq CD_{(x,z)} + CD_{(z,y)}$, proved in equation 13.
-\item Four point condition: $CD_{(i,j)} + CD_{(m,n)} \leq \text{max}{(CD_{(i,m)} + CD_{(j,n)} ; CD_{(j,m)} + CD_{(i,n)} )}$, proved in equation 15.
-\end{enumerate}
 
 \end{enumerate}
-
-
-
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -124,7 +117,7 @@ It seems to me that whether or not two characters share a state space is not the
 Using a Gower based distance, we only compared the comparable taxa between characters.
 For example, for two characters \texttt{x = {0, 1, 2, 3}} and \texttt{y = {0, ?, ?, ?}}, the Character Difference metric will be effectively calculated using only the first taxon (\texttt{x = {0}} and \texttt{y = {0}}) and would result in a Character Difference of 0.
 As the reviewer points out, characters with less taxa in common will thus be less likely to be different.
-This is consistent with what the CD metric actually captures in terms of phylogenetic signal (the number of share splits - see Reviewer 2 comment \ref{proof}).
+This is consistent with what the CD metric actually captures in terms of phylogenetic signal (the number of share splits).
 In the example above, the both characters imply at least one split (between the first taxon and the others).
 In other words, in a phylogenetic software, both characters will support the same split.
 
@@ -135,20 +128,19 @@ We've clarified how missing data can be potentially treated in the methods secti
 \textit{For example, for two characters X and Y for four taxa, if character \texttt{X = \{0,0,?,1\}} for the first, second, third and fourth taxa respectively and character \texttt{Y = \{0,0,1,1\}}, only the first, second and fourth taxa are compared for this character.
 Note that in these simulations, no missing data was included so the characters are compared for equal number of taxa (see below).} lines @@@
 
-\item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality.  Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
+\item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality. Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
 should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
 
-We've added the proportion of replaced characters in each matrices for each ``minimised'', ``maximised'' and ``randomised'' scenarios in the supplementary material 3, figures 1, 2 and 3.
-It is worth noting that there is a significant difference in terms of number of replaced characters in each scenarios between the ``maximised'' and the ``minimised'' and ``randomised'' matrices but non in terms of number of taxa or characters.
+We've added the proportion of replaced (i.e. duplicated) characters in each matrices for each ``minimised'', ``maximised'' and ``randomised'' scenarios along with the changes in overall Character Differences in the supplementary material 3, figures 1, 2 and 3.
+ @@@TO CHECK + change SM numbering
 
-This could potentially explain some of the differences between the scenarios (i.e. why it seems better to maximise character difference rather than minimising it) but does not explain the differences in smaller matrices nor between the ``minimised'' and ``randomised'' scenarios and neither between the two inference methods (since they both use the same matrices).
-Furthermore, the maximising/minimising character differences was done \textit{a priori} without any targeted number of characters to replace to make the analysis less idiosynchratic.
+The maximising/minimising character differences was done \textit{a priori} without any targeted number of characters to replace to make the analysis less idiosynchratic.
 In other words, we decided to modify the randomly simulated matrices to globally increase/decrease character differences which is expected to decrease anyway in bigger matrices.
 When using a small number of character states (i.e. two or three), the matrices with few taxa and many characters are expected to have an overall low character difference because of the smaller combinatoric possibilities for each characters.
 
 We've added mentions to the proportion of replaced characters analysis in the supplementary in the main text at lines @@@ and added a paragraph explaining this caveat in the discussion:
 
-%TG: TODO: added pragraph!
+%TG: TODO: add pragraph!
 \textit{.} lines @@@
 
 
@@ -193,7 +185,7 @@ We added the suggested citation (lines @@@).
 \item{\textcolor{blue}{Coding dependence:\\
 This section could use a figure illustrating these types of dependence, and what they mean. For example: "For instance, coding for the same absence in different characters creates state transformations associated with the loss or gain of a particular character." is a fairly confusing sentence. I took this to mean that if you are coding, for example, tail characters, you might atomize the tail into a suite of characters, all of which are absent in organisms with no tail. But I'm not sure I've understood your meaning correctly.}}
 
-%TG: add a figure for the difference character dependencies?
+%TG: add a figure for the difference character dependencies? @@@
 
 We've clarified the sentence with an example as follows:
 \textit{For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail.} lines @@@
@@ -201,7 +193,7 @@ We've clarified the sentence with an example as follows:
 \item{\textcolor{blue}{"Correlation between characters detected by the software:"\\
 I really struggled with this section. It seems like the problem here is still a coding problem - that the authors of these four characters have chosen four highly dependent characters to build the matrix. Even scoring by hand under parsimony would have problems here. I think what you need to decide here is what you want to communicate in this paragraph. Is it that software is not currently equipped to handle this issue?}}
 
-We've added a paragraph highlithing how the problem indeed comes from the fact that current software are not equipped to handle this issue:
+We've added a paragraph highlighting how the problem indeed comes from the fact that current software are not equipped to handle this issue:
 
 \textit{In fact, for practicality reasons, phylogenetic software do not (or rarely) distinguish between the different sources of correlation.
 In this specific example, we would intuitively want to favour character \textbf{C1} and \textbf{C2} more than the other characters since this would be \textit{a priori} the characters that are the most likely to reflect the group's evolutionary history in terms of split by separating the artiodactyles from the cetaceans.
