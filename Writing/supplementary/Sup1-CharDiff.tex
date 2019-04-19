@@ -113,7 +113,7 @@ $CD$, the Character Difference metric, is a distance that measures the differenc
 For two characters $x$ and $y$, $CD=0$ implies that the characters are identical, i.e. they convey the same phylogenetic signal in term of splits; $CD=1$ implies that the characters are the most different, i.e. they convey the most different phylogenetic signal in terms of splits.
 
 \begin{equation}
-    CD_{(x,y)} = 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n}-\frac{1}{2}}\right)
+    CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
 \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each transformed characters states for the characters $x$ and $y$ and the taxa $i$.
@@ -189,17 +189,16 @@ The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarro
 
 \subsection{Character difference positivity}
 
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ because the difference between character states is considered as Fitch-like (unordered; i.e. the difference between two different characters states is equal to $1$ and the difference between two identical character states is equal to $0$):
+For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ because the difference between character states is considered as Fitch-like (unordered; i.e. the difference between two different characters states is equal to $1$ and the difference between two identical character states is equal to $0$).
+Furthermore, following the $xyz$ notation described above, for any $n > 1$, $x_{1}-y_{1}=0$.
+Therefore the sum of the differences $\sum_{i=1}^{n}\abs{x_{i}-y_{i}} \in [0;(n-1)]$.
 
 \begin{equation}
     \label{positive_demo}
     \begin{gathered}
     0 \leq  \abs{x_{n}-y_{n}} \leq 1\\
-    0 \leq  \sum_{i=1}^{n}\abs{x_{i}-y_{i}} \leq n\\
-    0 \leq  \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} \leq 1\\
-    0 \leq  \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} \leq \frac{1}{2}\\
-    0 \leq  2\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} \leq 1\\
-    0 \leq  1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right) \leq 1\\
+    0 \leq  \sum_{i=1}^{n}\abs{x_{i}-y_{i}} \leq (n-1)\\
+    0 \leq  \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n-1} \leq 1\\
     \end{gathered}
 \end{equation}
 
@@ -216,10 +215,7 @@ For any $n \in [1;\infty)$ and $x_{n} = y_{n}$ then:
     \begin{aligned}
     \abs{x_{n}-y_{n}} &= 0\\
     \sum_{i}^{n}\abs{x_{i}-y_{i}} &= 0\\
-    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= 0\\
-    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \frac{1}{2}\\
-    2\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= 1\\
-    1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right) &= 0\\
+    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n-1} &= 0\\
     \end{aligned}
 \end{equation}
 
@@ -234,10 +230,7 @@ For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$, similarly to equat
     \begin{aligned}
     \abs{x_{n}-y_{n}} &= \abs{y_{n}-x_{n}}\\
     \sum_{i}^{n}\abs{x_{i}-y_{i}} &= \sum_{i}^{n}\abs{y_{i}-x_{i}}\\
-    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n} &= \frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}\\
-    \abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= \abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\\
-    2\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} &= 2\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\\
-    1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right) &= 1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n}-\frac{1}{2}}\right)\\
+    \frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n-1} &= \frac{\sum_{i}^{n}\abs{y_{i}-x_{i}}}{n-1}\\
     \end{aligned}
 \end{equation}
 
@@ -245,30 +238,22 @@ Thus equation \ref{Equality} is true.
 
 \subsection{Character difference subadditivity}
 
-For any $n, j, b \in [1;\infty)$ and $x_{n}$, $y_{j}$, $z_{b}$ $\in (0,1)$:
+For any $n, \in [1;\infty)$ and $x_{n}$, $y_{n}$, $z_{n}$ $\in (0,1)$:
 
 \begin{equation}
-    \label{subadditivity_demo}
+    \label{equality_demo}
     \begin{aligned}
-    CD_{x,y} &\leq CD_{x,z} + CD_{z,y}\\
-    \text{if:}\\
-     1 - 2\left(\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}}\right)
-     &\leq 
-     1 - 2\left(\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-z_{k}}}{j}-\frac{1}{2}}\right) 
-     +
-     1 - 2\left(\abs*{\frac{\sum_{a}^{b}\abs{z_{a}-y_{a}}}{b}-\frac{1}{2}}\right) \\
-     \text{then, the opposite is:}\\
-     \underbrace{\abs*{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n}-\frac{1}{2}} }_{\in[0,1/2]}
-     &\geq 
-     \underbrace{\abs*{\frac{\sum_{k}^{j}\abs{x_{k}-z_{k}}}{j}-\frac{1}{2}} }_{\in[0,1/2]}
-     +
-     \underbrace{\abs*{\frac{\sum_{a}^{b}\abs{z_{a}-y_{a}}}{b}-\frac{1}{2}} }_{\in[0,1/2]} - 2\\
-     \text{thus:}\\
-     \in[0,\frac{1}{2}] &\geq \in[0,\frac{1}{2}] + \in[0,\frac{1}{2}] -2 \\
-     \in[0,\frac{1}{2}] &\geq \in[-2,-1]\\
+    \text{since:}\\
+    \underbrace{\frac{\sum_{i}^{n}\abs{x_{i}-y_{i}}}{n-1}}_{\in[0,1]}
+    &\leq
+    \underbrace{\frac{\sum_{i}^{n}\abs{x_{i}-z_{i}}}{n-1}}_{\in[0,1]}
+    +
+    \underbrace{\frac{\sum_{i}^{n}\abs{z_{i}-y_{i}}}{n-1}}_{\in[0,1]}\\
+    \text{thus:}\\
+    \in[0,1] &\leq \in[0,1] + \in[0,1] \\
+    \in[0,1] &\leq \in[0,2]\\
     \end{aligned}
 \end{equation}
-
 Thus equation \ref{Subadditivity} is true.
 
 
