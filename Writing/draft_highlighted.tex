@@ -416,14 +416,20 @@ However, the resulting consensus trees on which the topological differences are 
 
 \subsection{Effect of character differences on topology}
 
-
-The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology when maximising character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.956 and median $NTS_{Tr}$ = 0.839\hl{; see supplementary materials 3, Table 2}) followed by simply randomising the characters (median $NTS_{RF}$ = 0.762 and median $NTS_{Tr}$ = 0.628\hl{; see supplementary materials 3, Table 2}) and minimising the character difference (median $NTS_{RF}$ = 0.605 and median $NTS_{Tr}$ = 0.303\hl{; see supplementary materials 3, Table 2}).
-There is a significant difference between all scenarios (maximising, minimising and randomising; \hl{\textit{p} = 0; Table} \ref{Tab_pooledscenarios_test}) with the highest probability of overlap being between maximising and randomising the character difference (Bhattacharrya Coefficient (BC) = 0.873 for the $NTS_{RF}$ and 0.908 for the $NTS_{Tr}$; Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (BC = 0.573 for the $NTS_{RF}$ and 0.614 for the $NTS_{Tr}$; Table \ref{Tab_pooledscenarios_test})
+The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology when minimising character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.869 and median $NTS_{Tr}$ = 0.787\hl{; see supplementary materials 3, Table 3}) followed by randomising the characters (median $NTS_{RF}$ = 0.814 and median $NTS_{Tr}$ = 0.791\hl{; see supplementary materials 3, Table 2}) and maximising the character difference (median $NTS_{RF}$ = 0.698 and median $NTS_{Tr}$ = 0.754\hl{; see supplementary materials 3, Table 2}).
+There is a significant difference between all scenarios \hl{in terms of clade conservation ($NTS_{RF}$)} (maximising, minimising and randomising; \hl{\textit{p} = 0; Table} \ref{Tab_pooledscenarios_test}) with the highest probability of overlap being between minimising and randomising the character difference (Bhattacharrya Coefficient (BC) = 0.954 for the $NTS_{RF}$; Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (BC = 0.848 for the $NTS_{RF}$; Table \ref{Tab_pooledscenarios_test}).
+\hl{There is however no difference in terms of taxa displacement ($NTS_{Tr}$) between the three scenarios (with a BC > 0.98 for each comparison; Table \ref{Tab_pooledscenarios_test}).}
 
 \input{Tables/Tab_pooledscenarios_test.tex}
 
 \subsubsection{Number of characters}
-This effect of the character difference is not dependent on the number of characters when looking at clade conservation (i.e. $NTS_{RF}$).
+\hl{This effect of the character difference affects clade conservation ($NTS_{RF}$) only by big differences in number of characters (100 \textit{vs.} 1000, median $NTS_{RF} = 0.727$ and $NTS_{RF} = 0.865$ respectively; Wilcoxon text $p = 0$ and $BC = 0.914$ \ref{Tab_pooledscharacters_test}).}
+\hl{For closer differences of characters (i.e. 100 \textit{vs.} 350 and 350 \textit{vs.} 1000), Wilcoxon tests where different ($p = 0$) but with high distribution overlap ($BC > 0.96$).}
+
+
+is not dependent on the number of characters when looking at clade conservation (i.e. $NTS_{RF}$).
+
+
 The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.730, 0.745, 0.767 respectively; see supplementary materials 3 \hl{Table 3}) with a significant difference only between 100 and 1000 and 350 and 1000 characters (\hl{\textit{p} = 0.001 and \textit{p} = 0.032 respectively}; Table \ref{Tab_pooledscharacters_test}).
 The number of characters affects the character difference more in terms of taxon placement for a low number of characters (median $NTS_{Tr}$ for 100, 350 and 1000 characters equals 0.544, 0.693, 0.799 respectively - see supplementary materials 3 \hl{Table 3}) with a significant difference between 100 and 350 or 1000 characters (\hl{\textit{p} = 0, \textit{p} = 0 and \textit{p} = 0.014 respectively}; Table \ref{Tab_pooledscharacters_test}).
 However, these differences have to be contrasted by a very high probability of overlap between each number of characters and metrics (Bhattacharrya Coefficient always $>0.95$) suggesting that the significant effects of the number of characters still leads to \hl{very} similar distributions.

@@ -74,6 +74,7 @@ Additionally, we've uploaded two versions of the revised manuscript: both have t
 \section{Editors' comments}
 
 \begin{enumerate}
+\label{metric_change}
 
 \item{\textcolor{blue}{Along the lines set out by Reviewer 2, it would be wise to ensure that your metric is characterised as thoroughly as possible. In this regard, does it meet the following five conditions?}}
 
@@ -90,8 +91,8 @@ We thus made some major changes to the manuscript that were not suggested by the
 
 Of course, we also took all the reviewers comments on board (excluding the ones rendered obsolete by the modified metrics such as the proof for the four point condition).
 
-Note that, if you consider it necessary, we'll happily add the characterisation of the new metric to the supplementary although, again, since it is now simply a scaled Hamming distance, we believed it was unwarranted for this revised version of the manuscript. 
-
+We have also updated the Character Difference metric characterisation in the supplementary material 1.
+However, since it is now simply a scaled Hamming distance, these demonstrations might be unwarranted for this revised version of the manuscript.
 
 \end{enumerate}
 
@@ -281,8 +282,11 @@ We've added a reference to these figures in the main text:
 is positively valued and symmetric (copied below from line 178): [...] But, the following metric property does not hold for all x; y:}}
 \label{proof}
 
-We are really grateful that this reviewer picked up this flow in our mathematical demonstration of CD metric.
-This problem is due to a lack of indications from our side and we apologise for this.
+We have reviewed the formula of the CD metric following an unexpected non-linear behaviour (see comment \ref{metric_change}).
+Furtheremore, we'd like to highlight the following points:
+
+% We are really grateful that this reviewer picked up this flow in our mathematical demonstration of CD metric.
+% This problem is due to a lack of indications from our side and we apologise for this.
 
 \subsubsection{Character states translation}
 In fact, before being plugged into the CD equation, characters needs to be modified following Felsenstein's \textit{xyz} notation.
@@ -300,7 +304,7 @@ Another character \texttt{Y = {1, 1, 1, 2}} will imply only two splits, non shar
 In other words the probability of X and Z generating conflicting split signal is null and this probability is of 0.5 for X and Y (i.e. half of the splits will be conflicting).
 
 Following these two points, the reviewer counter example $CD_{(x,y)} = 0$ means that 1) $x'$ and $y'$ are identical and the characters $x$ and $y$ imply the same number of splits in a tree (here no splits since only one taxon is used - however, this would hold for any $n$ number of taxa).
-We have clarified these two points in the manuscript and in the mathematical demonstration.
+We have clarified these two points in the manuscript.
 
 We've added more explanations in the supplementary materials 1 on (1) the character translation, (2) the four-point metric proof and (3) on how to interpret the $CD$ metric.
 Additionally, we added more precisions in the text:
@@ -308,6 +312,26 @@ Additionally, we added more precisions in the text:
 \textit{(i.e. entirely correlated characters would define identical splits between a set of taxa)}. lines @@@
 
 \textit{Similarly, an hypothetical comparison of two character for only one taxa \texttt{x = \{0\}} and \texttt{y = \{1\}} would result in comparing two identical characters \texttt{x' = \{1\}} and \texttt{y' = \{1\}}.} lines @@@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \item{\textcolor{blue}{While some details of the simulation study are included, some important ones are missing. In particular, in the design of the study, how did you avoid or mitigate errors introduced by the programs simulating data? All of the programs use random-number generators and have their own biases. How have you accounted for this in the study of design to conclude that your results are due to signal, and not bias from the programs used?}}
