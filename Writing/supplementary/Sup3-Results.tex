@@ -105,28 +105,57 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 
 \newpage
 
-\section{Characters replacement}
+\section{Changes in average Character Difference}
+
+The following figures and tables represent the average change in the Character difference metric for the ``maximised'', ``minimised'' and ``randomised'' matrices compared to the ``normal'' matrix.
 
 \begin{figure}[!htbp]
 \centering
-   \includegraphics[width=0.75\textwidth]{../Figures/Proportion_replaced_maxi.pdf}
-\caption{Proportion of replaced characters in all the ``maximised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
+   \includegraphics[width=0.75\textwidth]{../Figures/Difference_change_maxi.pdf}
+\caption{Average Character Difference change in all the ``maximised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-   \includegraphics[width=0.75\textwidth]{../Figures/Proportion_replaced_mini.pdf}
-\caption{Proportion of replaced characters in all the ``minimised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
+   \includegraphics[width=0.75\textwidth]{../Figures/Difference_change_mini.pdf}
+\caption{Average Character Difference change in all the ``minimised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-   \includegraphics[width=0.75\textwidth]{../Figures/Proportion_replaced_rand.pdf}
-\caption{Proportion of replaced characters in all the ``randomised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
+   \includegraphics[width=0.75\textwidth]{../Figures/Difference_change_rand.pdf}
+\caption{Average Character Difference change in all the ``randomised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
 \end{figure}
 
 
-\input{../Tables/Tab_proportion_replacement.tex}
+\input{../Tables/Tab_difference_change.tex}
+
+\newpage
+
+\section{Proportions of duplicated characters}
+
+The following figures and tables represent the proportions duplicated characters for the ``maximised'', ``minimised'' and ``randomised'' matrices compared to the ``normal'' matrix. This represents the amount of character modified in the matrices. In other words, when modifying the matrices, a character can be removed a replace by either a character already present in the matrix (duplicated character) or by a character removed (replaced character).
+
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.75\textwidth]{../Figures/Proportion_duplicated_maxi.pdf}
+\caption{Proportion of duplicated characters in all the ``maximised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.75\textwidth]{../Figures/Proportion_duplicated_mini.pdf}
+\caption{Proportion of duplicated characters in all the ``minimised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+   \includegraphics[width=0.75\textwidth]{../Figures/Proportion_duplicated_rand.pdf}
+\caption{Proportion of duplicated characters in all the ``randomised'' matrices for 25, 75 and 150 taxa and 100, 350 and 1000 characters.}
+\end{figure}
+
+
+\input{../Tables/Tab_proportion_duplicated.tex}
 
 
 \newpage
