@@ -423,41 +423,37 @@ There is a significant difference between all scenarios \hl{in terms of clade co
 \input{Tables/Tab_pooledscenarios_test.tex}
 
 \subsubsection{Number of characters}
-\hl{This effect of the character difference affects clade conservation ($NTS_{RF}$) only by big differences in number of characters (100 \textit{vs.} 1000, median $NTS_{RF} = 0.727$ and $NTS_{RF} = 0.865$ respectively; Wilcoxon text $p = 0$ and $BC = 0.914$ \ref{Tab_pooledscharacters_test}).}
-\hl{For closer differences of characters (i.e. 100 \textit{vs.} 350 and 350 \textit{vs.} 1000), Wilcoxon tests where different ($p = 0$) but with high distribution overlap ($BC > 0.96$).}
+\hl{This effect of the character difference affects clade conservation ($NTS_{RF}$) only by big differences in number of characters (100 \textit{vs.} 1000, median $NTS_{RF} = 0.727$ and $NTS_{RF} = 0.865$ respectively; Wilcoxon text $p = 0$ and $BC = 0.914$ - table \ref{Tab_pooledscharacters_test}).}
+\hl{For closer differences between characters numbers (i.e. 100 \textit{vs.} 350 and 350 \textit{vs.} 1000), Wilcoxon tests showed clear differences ($p = 0$) but with high distribution overlap ($BC > 0.96$).}
+\hl{Regarding taxa displacements ($NTS_{Tr}$), there was an effect of the number of characters (median $NTS_{Tr}$ of 0.614, 0.793 and 0.896 for respectively 100, 350 and 1000 characters - supplementary materials 3, table 4) although the with a high distribution overlap between 350 and 1000 characters ($BC > 0.95$ - table \ref{Tab_pooledscharacters_test}).}
 
-
-is not dependent on the number of characters when looking at clade conservation (i.e. $NTS_{RF}$).
-
-
-The median $NTS_{RF}$ was similar for 100, 350 and 1000 characters (0.730, 0.745, 0.767 respectively; see supplementary materials 3 \hl{Table 3}) with a significant difference only between 100 and 1000 and 350 and 1000 characters (\hl{\textit{p} = 0.001 and \textit{p} = 0.032 respectively}; Table \ref{Tab_pooledscharacters_test}).
-The number of characters affects the character difference more in terms of taxon placement for a low number of characters (median $NTS_{Tr}$ for 100, 350 and 1000 characters equals 0.544, 0.693, 0.799 respectively - see supplementary materials 3 \hl{Table 3}) with a significant difference between 100 and 350 or 1000 characters (\hl{\textit{p} = 0, \textit{p} = 0 and \textit{p} = 0.014 respectively}; Table \ref{Tab_pooledscharacters_test}).
-However, these differences have to be contrasted by a very high probability of overlap between each number of characters and metrics (Bhattacharrya Coefficient always $>0.95$) suggesting that the significant effects of the number of characters still leads to \hl{very} similar distributions.
 
 \input{Tables/Tab_pooledscharacters_test.tex}
 
 \subsubsection{Number of taxa}
 
 Similar to the effect of number of characters on character difference, the number of taxa seems to have only a marginal effect.
-A low number of taxa (25) resulted in significant differences with both 75 or 150 taxa in both $NTS_{RF}$ and $NTS_{Tr}$ but no differences between 75 and 150 taxa (\hl{\textit{p} = 0.012, \textit{p} = 0.004, \textit{p} = 0 and \textit{p} = 0 respectively}; Table \ref{Tab_pooledstaxa_test} and medians for 25, 75 and 150 taxa equals 0.802, 0.76, 0.763 $NTS_{RF}$ and 0.758, 0.588 and 0.615 $NTS_{Tr}$ respectively; see supplementary materials 3 \hl{Table 4}).
-Again, however, the significant differences have to be contrasted with still high probabilities of overlaps for each $NTS_{RF}$ and $NTS_{Tr}$ distributions for every number of taxa (Table \ref{Tab_pooledstaxa_test}).
+\hl{A low number of taxa (25) resulted in significant differences with both 75 or 150 taxa in both $NTS_{RF}$ (median $NTS_{RF}$ of 0.846 and 0.787 for 25 and 75 taxa respectively with a $p = 0$ and a $BC$ marginally $< 0.95$ - table \ref{Tab_pooledstaxa_test} and supplementary materials 3, table 5) but no differences between 75 and 150 taxa and for $NTS_{Tr}$ ($BC > 0.95$ - table \ref{Tab_pooledstaxa_test}).}
+The significant differences have to be contrasted with still high probabilities of overlaps for each $NTS_{RF}$ and $NTS_{Tr}$ distributions for every number of taxa (Table \ref{Tab_pooledstaxa_test}).
 
 \input{Tables/Tab_pooledstaxa_test.tex}
 
-
 \subsection{Effect of character differences on the inference method}
 
-Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (\hl{\textit{p} = 0} Table \ref{Tab_pooledsmethods_test} - median $NTS_{RF}$ of 0.828 and 0.679 respectively; \hl{see supplementary materials 3, Table 5}) but not in terms of individual taxon placements (\hl{\textit{p} = 0.08}; Table \ref{Tab_pooledsmethods_test} - median $NTS_{Tr}$ of 0.738 and 0.601 respectively; \hl{see supplementary materials 3, Table 5}).
+Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (\hl{\textit{p} = 0} Table \ref{Tab_pooledsmethods_test} - median $NTS_{RF}$ of \hl{0.851} and \hl{0.739} respectively; \hl{see supplementary materials 3, Table 6}) but not in terms of individual taxon placements (\hl{\textit{p} = 0.041 but $BC > 0.95$}; Table \ref{Tab_pooledsmethods_test}).
 
 
 \input{Tables/Tab_pooledsmethods_test.tex}
 
-\subsection{Combined effects of taxa, characters and correlation on topology}
 
-When looking at the combined effect of each parameter, the ``maximised'' and ``minimised'' scenarios are always significantly different with no high probability of overlap for both $NTS_{RF}$ and $NTS_{Tr}$ (Wilcoxon rank test p.value $<0.05$ and Bhattacharrya Coefficient $<0.95$ - see supplementary material 3).
-The same differences are observed when comparing the ``maximised'' scenario against the ``randomised'' one expect for: (1) the Bayesian inference with 25 taxa (with 100, 350 and 1000 characters) and with 75 taxa with 1000 characters for both $NTS_{RF}$ and $NTS_{Tr}$; and (2) the maximum parsimony for 25 taxa (with 350 and 1000) characters for both $NTS_{RF}$ and $NTS_{Tr}$ and 75 taxa with 100 characters for $NTS_{Tr}$.
-Identically, there was always a significant difference between the ``minimised'' scenario and the ``randomised'' one was expect for the matrix of 150 taxa and 100 characters under maximum parsimony for $NTS_{RF}$ and the matrix of 150 and 1000 characters under Bayesian inference for $NTS_{Tr}$.
-The full list of comparisons and summary statistics are available in the supplementary materials 3.
+
+%TODO:
+% \subsection{Combined effects of taxa, characters and correlation on topology}
+
+% When looking at the combined effect of each parameter, the ``maximised'' and ``minimised'' scenarios are always significantly different with no high probability of overlap for both $NTS_{RF}$ and $NTS_{Tr}$ (Wilcoxon rank test p.value $<0.05$ and Bhattacharrya Coefficient $<0.95$ - see supplementary material 3).
+% The same differences are observed when comparing the ``maximised'' scenario against the ``randomised'' one expect for: (1) the Bayesian inference with 25 taxa (with 100, 350 and 1000 characters) and with 75 taxa with 1000 characters for both $NTS_{RF}$ and $NTS_{Tr}$; and (2) the maximum parsimony for 25 taxa (with 350 and 1000) characters for both $NTS_{RF}$ and $NTS_{Tr}$ and 75 taxa with 100 characters for $NTS_{Tr}$.
+% Identically, there was always a significant difference between the ``minimised'' scenario and the ``randomised'' one was expect for the matrix of 150 taxa and 100 characters under maximum parsimony for $NTS_{RF}$ and the matrix of 150 and 1000 characters under Bayesian inference for $NTS_{Tr}$.
+% The full list of comparisons and summary statistics are available in the supplementary materials 3.
 
 \section{Discussion}
 
