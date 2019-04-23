@@ -333,8 +333,8 @@ Applying a Bhattacharrya Coefficient and Wilcoxon test
 ```{r, warning = FALSE, warning = FALSE}
 ## Summarise into a table
 methods_list <- list(method_RF_norm, method_Tr_norm, method_RF_null, method_Tr_null)
-comp.labels <- c("Best", rep("", 3), "Null", rep("", 3))
-metric.labels <- rep(c("RF", "", "Tr", ""), 2)
+comp.labels <- c("Best", rep("", 1), "Null", rep("", 1))
+metric.labels <- rep(c("RF", "Tr"), 2)
 test_table <- pair.test.table(methods_list, comp.label = comp.labels, metric.label = metric.labels)
 ```
 
