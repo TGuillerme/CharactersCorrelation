@@ -506,11 +506,20 @@ kable(wx_Tr_null, row.names = FALSE, caption = captions_wx[4], digit = 3)
 
 ```{r, echo = FALSE, eval = TRUE, print = FALSE, result = 'hide', warning = FALSE}
 ## Labels
-labels_wx <- paste0("Full_Tab_BC", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+labels_wx <- paste0("Full_Tab_Bayesian_WX", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
 
 ## Tables
-make.xtable(wx_RF_best, caption = captions_wx[1], label = labels_wx[1], path = "../Writing/Tables/")
-make.xtable(wx_Tr_best, caption = captions_wx[2], label = labels_wx[2], path = "../Writing/Tables/")
-make.xtable(wx_RF_null, caption = captions_wx[3], label = labels_wx[3], path = "../Writing/Tables/")
-make.xtable(wx_Tr_null, caption = captions_wx[4], label = labels_wx[4], path = "../Writing/Tables/")
+## Bayesians
+make.xtable(wx_RF_best[1:9,], caption = captions_wx[1], label = labels_wx[1], path = "../Writing/Tables/")
+make.xtable(wx_Tr_best[1:9,], caption = captions_wx[2], label = labels_wx[2], path = "../Writing/Tables/")
+make.xtable(wx_RF_null[1:9,], caption = captions_wx[3], label = labels_wx[3], path = "../Writing/Tables/")
+make.xtable(wx_Tr_null[1:9,], caption = captions_wx[4], label = labels_wx[4], path = "../Writing/Tables/")
+
+labels_wx <- paste0("Full_Tab_Parsimony_WX", rep(c("RF", "Tr"), 2), c(rep("best", 2), rep("null", 2)))
+
+## Parsimonies
+make.xtable(wx_RF_best[10:18,], caption = captions_wx[1], label = labels_wx[1], path = "../Writing/Tables/")
+make.xtable(wx_Tr_best[10:18,], caption = captions_wx[2], label = labels_wx[2], path = "../Writing/Tables/")
+make.xtable(wx_RF_null[10:18,], caption = captions_wx[3], label = labels_wx[3], path = "../Writing/Tables/")
+make.xtable(wx_Tr_null[10:18,], caption = captions_wx[4], label = labels_wx[4], path = "../Writing/Tables/")
 ```
