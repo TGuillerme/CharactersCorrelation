@@ -161,8 +161,8 @@ The assumption of character independence is central to phylogenetic inference me
 \hl{However, several distinctions can be made between the amount and the nature of the correlation.
 First, molecular and morphological data often differs in size and in the amount of states analysed (molecular matrices are generally larger with mainly four states - not including missing data or indels - and morphological matrices are smaller with generally two states but sometimes up to more than ten;}
 \citealt{Guillerme2016146}
-\hl{);
-Second, this discrepancy has been suggested to fewer stronger correlations in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread'' correlations in molecular data}
+\hl{).
+Second, this discrepancy has been suggested to be stronger correlations in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread'' correlations in molecular data}
 \citep[\hl{i.e. ``diffused'' correlations - though some regions of the genome can be thought as more correlated than others}][]{huelsenbeck1999effect}.
 \hl{Furthermore, because of this ``spread'' correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function \textit{cf.} changes in nucleotide states ; see below).}
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
@@ -251,7 +251,7 @@ How \hl{do} these \hl{specific} correlation really affect topology?
 % \cite{parins2017use}
 Here we formally assess the effect of discrete character's correlation using simulated data.
 We propose a new distance metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase/decrease the overall differences or similarities between characters.
-We found that overall, there is a detectable effect of character correlation on topology where an increase in character dependence results in a decrease in the ability to recover the correct topology.
+We found that overall, there is a detectable effect of character correlation on topology where \hl{a decrease} in character dependence results in a decrease in the ability to recover the correct topology.
 These results, however, vary greatly in magnitude depending on the size of matrix and the inference method used.
 
 \section{Methods}
@@ -293,7 +293,7 @@ In order to measure this, we propose a new distance metric to measure the differ
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 %TG: Modifications in this sentence not in the letter yet
-$CD$ is a continuous \hl{scaled Hamming distance} metric bounded between $0$ and $1$.% (see the mathematical demonstration in the supplementary material 1).
+$CD$ is a continuous \hl{scaled Hamming distance} metric bounded between $0$ and $1$ (see the mathematical demonstration in the supplementary material 1).
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
 Additionally, we only consider differences for taxa with shared information \citep[i.e. a Gower distance;][]{GowerDist}.
@@ -338,7 +338,7 @@ However, the ``morphological HKY model'' is not the one \textit{directly} estima
 
 For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
 The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step 35@@@ times resulting in 315 ``normal'' morphological matrices.
+To estimate the variance of our simulations and assess the effect of our random parameters, we repeated this step \hl{20} times resulting in \hl{180} ``normal'' morphological matrices.
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
@@ -349,7 +349,7 @@ Conversely, for minimising the pairwise character differences, we selected the m
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
 \hl{Each replaced characters (i.e. the characters with a weight of +$1$) where randomly selected from the remaining characters using a uniform distribution (0,1).}
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
-This step resulted in a total of 1260 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
+This step resulted in a total of \hl{720} matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})
 
 \begin{figure}[!htbp]
@@ -360,8 +360,8 @@ The algorithms for the three modifications are available on GitHub (\url{https:/
 \end{figure}
 
 \subsection{Inferring topologies}
-We inferred the topologies with both BPP and MP using MrBayes \citep[v3.2.6;][]{Ronquist2012mrbayes} and PAUP* \citep[v4.0a151;][]{swofford2001paup} respectively.
-For both methods, we used the arbitrarily chosen outgroup in the simulations to root our trees.
+We inferred the topologies with both Bayesian inference and maximum parsimony using MrBayes \citep[v3.2.6;][]{Ronquist2012mrbayes} and PAUP* \citep[v4.0a151;][]{swofford2001paup} respectively.
+For both methods, we used the arbitrarily chosen outgroup in the simulations to root our trees (\hl{the first taxa in the taxa list}).
 The maximum parsimony inference was run using a heuristic search with random sequence addition replicate 100 times with a limit of $5\times10^6$ rearrangements per replicates (\texttt{hsearch addseq=random nreps=100 rearrlimit=5000000 limitperrep=yes}).
 
 Bayesian inference was run using an M\textit{k} model with ascertainment bias and four discrete gamma rate categories (M\textit{kv} $4\Gamma$ - \texttt{lset nst=1 rates=gamma Ngammacat=4}) with an variable rate prior an exponential (0.5) shape (\texttt{prset ratepr=variable Shapepr=Exponential(0.5)}).
@@ -372,7 +372,7 @@ In practice, these few MCMC got stuck at an ASDSF around (but not below) 0.01.
 
 A majority rule tree was then calculated for both Bayesian an maximum parsimony trees.
 For the Bayesian consensus trees, the 25\% first trees of the posterior tree distribution were excluded as a burnin.
-The 2880 tree inferences took around one CPU century on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC}.
+The \hl{1440} tree inferences took around one CPU century on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC} \hl{and the Australian QRIScloud Awoonga clusters (3Ghz)}.
 
 \subsection{Comparing topologies}
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Foulds distance \citep{RF1981} and the triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``randomised'' matrices and the tree inferred from the ``normal'' matrix.
@@ -381,21 +381,20 @@ Note that we are not comparing the trees to the ``true'' tree used to simulate t
 First, in biology, this tree is always unknown.
 Second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the ``normal'', ``maximised'' and ``minimised'' trees.
 When measuring the difference between these trees and the ``true'' tree, we would also confound the effect of simulating a birth-death tree and simulating a discrete morphological matrices from it.
-\hl{However, we did report the comparison between the ``true'' trees and ``normal'' and ``randomised'' ones is available in the supplementary materials 3, Figs 9, 10 and 11.}
+\hl{However, we did report the comparison between the ``true'' trees and ``normal'' and ``randomised'' ones is available in the supplementary materials 3, Figs 12, 13 and 14.}
 
 The metric scores were calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
 The measurements were then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
 When the normalised metric has a score of one it means both trees are identical, when it has a score of zero it means the trees are no more different than expected by chance and when it has a score $<0$ the trees are more different than expected by chance.
 The normalised score for both metrics thus reflects two distinct aspects of tree topology: (1) the Normalised Robinson-Foulds ($NTS_{RF}$) Similarity reflects the conservation of clades (i.e. a score close to $1$ indicates that most clades are identical in both trees); and (2) the Normalised Triplets Similarity ($NTS_{Tr}$) reflects the position of taxa (i.e. a score close to $1$ indicates that most taxa have the same neighbours in both trees).
 
-Because both $NTS_{RF}$ and $NTS_{Tr}$ metrics are bounded at one.
 The residuals of any model based on the $NTS$ scores were not normal thus preventing the use of parametric tests for comparisons (see online material \url{https://rawgit.com/TGuillerme/CharactersCorrelation/master/Analysis/02-EffectCorrelationFullResults.html}). 
-Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric} would be biased in its p-value calculation due to the presence of equal values in the $NTS$ distributions (e.g. when multiple trees are equal to the ``normal'' tree).
-Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146,soto2016trace}.
+Similarly, a non-parametric Wilcoxon rank test \citep{hollander2013nonparametric} would be biased in its \textit{p}-value calculation due to the presence of equal values in the $NTS$ distributions (e.g. when multiple trees are equal to the ``normal'' tree).
+Therefore, we used a combination of the Wilcoxon rank test with a Bonferonni-Holm corrections \citep[to ensure our significant results were robust to Type I error rate inflation;][]{holm1979simple} and a simple non-parametric metric for measuring the probability of overlap between two distributions, the Bhattacharyya Coefficient \citep[$BC$;][]{Bhattacharyya,Guillerme2016146}.
 Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>0.95$ and different if they had an overlap probability $<0.05$.
 Comparisons falling between these range can not be designated as strictly similar/different but can still be ranked (e.g. for three distributions A, B, C, if $BC_{(A,B)} = 0.15$ and $BC_{(A,C)} = 0.65$, we cannot consider either distribution significantly different or similar but $B$ still has a lower probability of being similar to $A$ than $C$).
 
-The resulting full simulation was 3.5TB \hl{in size} so is not shared here (though the parameters are).
+The resulting full simulation was \hl{2TB in size} so is not shared here (though the parameters are).
 However, the resulting consensus trees on which the topological differences are calculated are available at \url{https://figshare.com/s/7a8fde8eaa39a3d3cf56}.
 
 \section{Results}
