@@ -288,11 +288,9 @@ In order to measure this, we propose a new distance metric to measure the differ
     CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
 \end{equation}
 
-
 %CD is similar to https://onlinelibrary.wiley.com/doi/full/10.1111/pala.12384 but by character rather than by species
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
-%TG: Modifications in this sentence not in the letter yet
 $CD$ is a continuous \hl{scaled Hamming distance} metric bounded between $0$ and $1$ (see the mathematical demonstration in the supplementary material 1).
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states in a qualitative way.
 Two same character states tokens have a difference of zero and two different ones have a difference of one (e.g. $0 - 0 = 0$ or $1 - 8 = 1$).
@@ -305,9 +303,7 @@ In other words, we replaced all the occurrences of the first token to be $1$, th
 \hl{This procedure allows to compare characters regardless of the significance given to their tokens (following the \textit{xyz} notation in }
 \citealt{felsenstein2004inferring}; \hl{as used in} \citealt{Davalos01072014}).
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}}.
-\hl{Similarly, an hypothetical comparison of two character for only one taxa \texttt{x = \{0\}} and \texttt{y = \{1\}} would result in comparing two identical characters \texttt{x' = \{1\}} and \texttt{y' = \{1\}}.}
 Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are exactly identical (forming three distinct splits in the tree inference process).
-
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
 When the character difference is maximal ($1$) it means it conveys the greatest difference in phylogenetic signal (i.e. characters are uncorrelated).
 It is important to stress that a character difference of $0$ (i.e. the same phylogenetic signal) does not mean the opposite of $1$ (i.e. \textit{not} the opposite phylogenetic signal but the most different number of implied splits) .
@@ -347,7 +343,7 @@ For maximising the pairwise differences between characters, we selected the char
 This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
 Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (i.e. with an average character difference $>0.75$) and randomly replaced them with the remaining ones.
 Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification (i.e. randomly weighting characters).
-\hl{Each replaced characters (i.e. the characters with a weight of +$1$) where randomly selected from the remaining characters using a uniform distribution (0,1).}
+\hl{Each replaced characters (i.e. the characters with a weight of +$1$) were randomly selected by sampling them randomly from the list of the remaining characters.}
 Each of the three matrices are effectively a bootstrap pseudo-replication of the ``normal'' matrix with the ``randomised'' one being a random one and the ``maximised'' and ``minimised'' being conditional bootstraps.
 This step resulted in a total of \hl{720} matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})

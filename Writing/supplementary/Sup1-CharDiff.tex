@@ -148,13 +148,15 @@ x'_1 = 1 \text{ and } y'_1 = 1
 Because the character states tokens are not representing any meaningful numerical value if the characters are unordered (e.g. there is no assumption that state 0 should come before state 1), they need to be reordered in a standard way so that the first token in the character is renamed to ``1'', the second to ``2'' etc.
 For example, in a 3 state character for four taxa: \texttt{X = {1, 0, 2, 1}}, the character tokens that are integers representing the states could equally have been \texttt{X = {E, A, I, E}} or \texttt{X = {blue, red, absent, blue}}.
 Therefore, to compare characters fairly, the tokens needs to be translated in a standard way such as the first token is replaced by the symbol ``1'', etc.
-In this example \texttt{X = {1, 0, 2, 1}} becomes \texttt{X' = {1, 2, 3, 1}}
+In this example \texttt{X = {1, 0, 2, 1}} becomes \texttt{X' = {1, 2, 3, 1}}.
+
+Note that the first two translated tokens are always equal (\texttt{x = {1, ...}} and \texttt{y = {1, ...}}) hence the denominator of $CD$ being $n - 1$ to reflect this equality.
+Because of this, $CD$ can only be applied for $n \in [2;\infty)$ (i.e. if $n = 1$, the denominator is 0).
 
 \subsection{Interpretation}
-For a characters \texttt{X = {1, 0, 2, 1}} implying three splits between four taxa and two characters \texttt{Y = {1, 1, 1, 2}} and \texttt{Z = {0, 2, 1, 0}} implying respectively two and three splits between four taxa, $CD_{(X,Y)} = 0.5$ and $CD_{(X,Z)} = 0$.
+For a character \texttt{X = {1, 0, 2, 1, 0}} implying two splits between five taxa and two characters \texttt{Y = {1, 1, 1, 2, 2}} and \texttt{Z = {0, 2, 1, 0, 2}} implying respectively one and two splits between five taxa, $CD_{(X,Y)} = 0.75$ and $CD_{(X,Z)} = 0$.
 This can be interpreted as the probability of characters \texttt{X}, \texttt{Y} and \texttt{X}, \texttt{Z} giving a conflicting phylogenetic signal between the four taxa.
-Here \texttt{X}, \texttt{Y} will conflict for 50\% of the taxa and \texttt{X}, \texttt{X} for 0\% of them.
-
+Here \texttt{X}, \texttt{Y} will conflict for 70\% of the taxa and \texttt{X}, \texttt{X} for 0\% of them.
 
 
 \section{Distance metric proof}
@@ -189,7 +191,7 @@ The Character Difference ($CD$) metric is a distance $d: CD \times CD \rightarro
 
 \subsection{Character difference positivity}
 
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ because the difference between character states is considered as Fitch-like (unordered; i.e. the difference between two different characters states is equal to $1$ and the difference between two identical character states is equal to $0$).
+For any $n \in [2;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$ because the difference between character states is considered as Fitch-like (unordered; i.e. the difference between two different characters states is equal to $1$ and the difference between two identical character states is equal to $0$).
 Furthermore, following the $xyz$ notation described above, for any $n > 1$, $x_{1}-y_{1}=0$.
 Therefore the sum of the differences $\sum_{i=1}^{n}\abs{x_{i}-y_{i}} \in [0;(n-1)]$.
 
@@ -208,7 +210,7 @@ Thus equation \ref{Positivity} is true.
 
 \subsection{Character difference identity}
 
-For any $n \in [1;\infty)$ and $x_{n} = y_{n}$ then:
+For any $n \in [2;\infty)$ and $x_{n} = y_{n}$ then:
 %TG: Is that valid for a demonstration?
 \begin{equation}
     \label{identitydemo}
@@ -223,7 +225,7 @@ Thus equation \ref{Identity} is true.
 
 \subsection{Character difference equality}
 
-For any $n \in [1;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$, similarly to equation \ref{positive_demo}:
+For any $n \in [2;\infty)$ and $x_{n}$ and $y_{n} \in (0,1)$, similarly to equation \ref{positive_demo}:
 
 \begin{equation}
     \label{equality_demo}
@@ -238,7 +240,7 @@ Thus equation \ref{Equality} is true.
 
 \subsection{Character difference subadditivity}
 
-For any $n, \in [1;\infty)$ and $x_{n}$, $y_{n}$, $z_{n}$ $\in (0,1)$:
+For any $n, \in [2;\infty)$ and $x_{n}$, $y_{n}$, $z_{n}$ $\in (0,1)$:
 
 \begin{equation}
     \label{equality_demo}
@@ -261,7 +263,7 @@ Thus equation \ref{Subadditivity} is true.
 
 \subsection{Four point condition}
 
-For any $n \in [1;\infty)$ and any four distinct characters $i$, $j$, $n$ and $m$, and if equations \ref{Positivity} and \ref{Subadditivity} are true, the pairwise distances $CD_{(i,j)}$, $CD_{(m,n)}$, $CD_{(i,m)}$, $CD_{(j,n)}$, $CD_{(j,m)}$ and $CD_{(i,n)}$ can be represented as a combination of any five values $a$, $b$, $c$, $d$ and $e$ $\geq 0$:
+For any $n \in [2;\infty)$ and any four distinct characters $i$, $j$, $n$ and $m$, and if equations \ref{Positivity} and \ref{Subadditivity} are true, the pairwise distances $CD_{(i,j)}$, $CD_{(m,n)}$, $CD_{(i,m)}$, $CD_{(j,n)}$, $CD_{(j,m)}$ and $CD_{(i,n)}$ can be represented as a combination of any five values $a$, $b$, $c$, $d$ and $e$ $\geq 0$:
 
 \begin{figure}[!htbp]
 \centering
