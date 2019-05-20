@@ -162,7 +162,7 @@ The assumption of character independence is central to phylogenetic inference me
 First, molecular and morphological data often differs in size and in the amount of states analysed (molecular matrices are generally larger with mainly four states - not including missing data or indels - and morphological matrices are smaller with generally two states but sometimes up to more than ten;}
 \citealt{Guillerme2016146}
 \hl{).
-Second, this discrepancy has been suggested to be stronger correlations in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread'' correlations in molecular data}
+Second, this difference between both types of characters has been suggested to be stronger correlations in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread'' correlations in molecular data}
 \citep[\hl{i.e. ``diffused'' correlations - though some regions of the genome can be thought as more correlated than others}][]{huelsenbeck1999effect}.
 \hl{Furthermore, because of this ``spread'' correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function \textit{cf.} changes in nucleotide states ; see below).}
 Before discussing character correlation further, it is important to understand that it may manifest itself in at least three distinct ways:
@@ -192,6 +192,7 @@ Before discussing character correlation further, it is important to understand t
     It is worth noting, however, that these correlations could also be due to the nature of the available data, especially in palaeontology.
     For example, when only one fragmentary molar is available to describe a specimen, researchers have to ``extract'' as much phylogenetic information from the available data as possible, potentially inducing correlations.
     This coding dependency is linked to hierarchical dependency between characters \citep{wilkinson1995coping,BrazeauNA}.
+    \hl{In the example above, attributes of the tail (colour or length) are hierarchically dependent on the presence of the tail in the first place.}
     Finally this can also be due to a bias in the amount of characters available.
     For example, in skulls, because of their complexity, there is a high likelihood of inducing correlation (by effectively reducing structural complexity to discrete characters).
 \end{itemize}
@@ -232,12 +233,11 @@ For example, if we consider the following matrix containing four cetartiodactyls
 In the example in Table \ref{Tab:example_matrix}, the characters \textbf{C1} and \textbf{C2} are the most likely to be truly independent; characters \textbf{C3} and \textbf{C4} suffer from a a coding induced dependency; characters \textbf{C1} and \textbf{C3}/\textbf{C4} have an evolutionary induce dependency and again, characters \textbf{C2} and \textbf{C3}/\textbf{C4} are likely to be independent.
 Yet a phylogenetic software will treat all these four characters in exactly the same way: only the sheer difference between the character states tokens will be used in order to infer the tree.
 \hl{In fact, for practicality reasons, phylogenetic software do not (or rarely) distinguish between the different sources of correlation.
-In this specific example, we would intuitively want to favour character \textbf{C1} and \textbf{C2} more than the other characters since this would be \textit{a priori} the characters that are the most likely to reflect the group's evolutionary history in terms of split by separating the artiodactyles from the cetaceans.
+In this specific example, we would intuitively want to favour character \textbf{C1} and \textbf{C2} that seem to be more likely to reflect the split by separating artiodactyles from the cetaceans.
 In other words, this is the correlation between characters that depicts the evolutionary history of this group.
-However, the other characters depict the same history (i.e. the same split) but for the wrong reasons (note that even if \textbf{C2} was coded presence (1) or absence (0) of baleens, the same split would still be estimated by the software).
-One solution could be to weight characters \textit{a priori} but that is a bad practice since it can easily lead to the resulting tree reflecting the researcher's \textit{priori} rather than the true evolutionary history.}
-% \hl{Furthermore, phenotypic variations can be continuous rather than discrete and ``discretising'' such characters can have some influence on tree inference} \citep{parins2017use}.
-% \hl{In this case, ``discretised'' }.
+However, the other characters depict the same history (i.e. the same split) but for the wrong reasons (note that even if \textbf{C2} was coded presence (1) or absence (0) of baleen, the same split would still be estimated by the software).
+One solution would be to a) weight some characters (e.g. giving \textbf{C3} and \textbf{C4} a lower weight) and b) make some characters dependent on each other (e.g. making \textbf{C3} and \textbf{C4} dependent on \textbf{C1}).
+However, this can also be a bad practice since it can easily lead to the resulting tree reflecting the researcher's prior expectations rather than the true evolutionary history.}
 This illustrates how some characters will therefore be expected to covary in non-phylogenetic way, and that this phenomenon can reasonably be expected to mislead phylogenetic analysis.
 Yet the question has never been explored through a thorough simulation framework (although it has been tackled empirically for morphological data \citealt{Davalos01072014} or molecular data \citealt{ZouConvergence}).
 
@@ -381,7 +381,7 @@ Note that we are not comparing the trees to the ``true'' tree used to simulate t
 First, in biology, this tree is always unknown.
 Second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the ``normal'', ``maximised'' and ``minimised'' trees.
 When measuring the difference between these trees and the ``true'' tree, we would also confound the effect of simulating a birth-death tree and simulating a discrete morphological matrices from it.
-\hl{However, we did report the comparison between the ``true'' trees and ``normal'' and ``randomised'' ones is available in the supplementary materials 3, Figs 12, 13 and 14.}
+\hl{However, we did report the comparison between the ``true'' trees and both the ``normal'' and ``randomised'' in the supplementary materials 3, Figs 12, 13 and 14.}
 
 The metric scores were calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
 The measurements were then standardised using the Normalised Tree Similarity metric \citep[$NTS$; i.e. centering the metrics scores using the mean metric score for 1000 pairwise comparisons between random trees with $n$ taxa;][]{Bogdanowicz2012,Guillerme2016146}.
