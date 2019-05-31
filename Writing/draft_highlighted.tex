@@ -253,7 +253,6 @@ We propose a new distance metric to measure the difference between characters (a
 We found that overall, there is a detectable effect of character correlation on topology where \hl{a decrease} in character dependence results in a decrease in the ability to recover the correct topology.
 These results, however, vary greatly in magnitude depending on the size of matrix and the inference method used.
 
-%AP Well this is worrying-because it seems like authors could use these results to justify introducing or ignoring character correlations.  It seems like it would be important to test the effect of correlations in uninformative vs informative characters.  Reconstructors wouldn't know whether each character is informative or not, so they would more likely try to avoid it?  But yeah, maybe that would take another year?
 \section{Methods}
 
 To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different levels of correlation between some characters (Fig.\ref{Fig:outline} - note that each step is described in more details below):
@@ -306,12 +305,8 @@ Note that in terms of phylogenetic signal, both \texttt{A} and \texttt{A'} are e
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated).
 When the character difference is maximal ($1$) it means it conveys the greatest difference in phylogenetic signal (i.e. characters are uncorrelated).
 It is important to stress that a character difference of $0$ (i.e. the same phylogenetic signal) does not mean the opposite of $1$ (i.e. \textit{not} the opposite phylogenetic signal but the most different number of implied splits) .
-For example with three characters \texttt{A = \{0,1,1,1\}}, \texttt{B = \{1,0,0,0\}} and \texttt{C = \{0,0,1,2\}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$ \hl{$CD_{(A,B)} = (0+0+0+0)/(4-1) = 0$ and $CD_{(A,C)} = (0+1+1+1)/(4-1) = 1$}.
+For example with three characters \texttt{A = \{0,1,2,1\}}, \texttt{B = \{2,0,1,0\}} and \texttt{C = \{0,0,1,2\}}, $CD_{(A,B)} = 0$ and $CD_{(A,C)} = 1$ \hl{(translated into \texttt{A' = \{1,2,3,2\}} \texttt{B' = \{1,2,3,2\}} and \texttt{C' = \{1,1,2,3\}}; $CD_{(A,B)} = (0+0+0+0)/(4-1) = 0$ and $CD_{(A,C)} = (0+1+1+1)/(4-1) = 1$)}.
 Because the character is continuous and bounded between $(0,1)$, it can be interpreted as the probability of two characters leading to a different set of splits (i.e. a different phylogenetic signal).
-
-
-
-
 
 \subsection{Simulating discrete morphological matrices}
 To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146}.
@@ -398,31 +393,26 @@ However, the resulting consensus trees on which the topological differences are 
 
 \section{Results}
 
-%TODO: I strongly suggest that you labelled these figures more on the fig-put less in the legend-give them titles of Robinson Ford or triplet whatever.  Then in the first line of the fig text- you can say "Robinson Ford distance shows the degree of clade conservatism whatever that means... "  so the reader can immediately know the difference between fig 2 and 3.  To label: (1) text on ylab "Normalized tree similarity"- then each row can just be "# taxa" (2) mtext on xlab "Number of characters"  (3)  legend c("more correlated", "less correlated", "randomised") but leave bayesian and parsimony for the fig text.  The goal being to know what the figure says at a glance-the fig text can help clarify
-
-
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Figures/RF_results_best.pdf}
-\caption{\small{Effect of character difference on recovering the ``normal'' topology. The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the ``maximised'' character difference in Bayesian (red) and under maximum parsimony (orange), the ``minimised'' character difference in Bayesian (dark green) and under maximum parsimony (light green) and the ``randomised'' character difference in Bayesian (dark blue) and under maximum parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
+\caption{\small{Effect of character difference on recovering the ``normal'' topology in terms of clade conservation ($NTS_{RF}$). The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the ``maximised'' character difference in Bayesian (red) and under maximum parsimony (orange), the ``minimised'' character difference in Bayesian (dark green) and under maximum parsimony (light green) and the ``randomised'' character difference in Bayesian (dark blue) and under maximum parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
 \label{Fig:RF_results_best}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Figures/Tr_results_best.pdf}
-\caption{Effect of character difference on recovering the ``normal'' topology. The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Triplets distance.}
+\caption{Effect of character difference on recovering the ``normal'' topology in terms of Triplets ($NTS_{Tr}$). The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Triplets distance.}
 \label{Fig:Tr_results_best}
 \end{figure}
 
 \subsection{Effect of character differences on topology}
 
 The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology when minimising character difference leading to the smallest loss in phylogenetic information (median $NTS_{RF}$ = 0.869 and median $NTS_{Tr}$ = 0.787\hl{; see supplementary materials 3, Table 3}) followed by randomising the characters (median $NTS_{RF}$ = 0.814 and median $NTS_{Tr}$ = 0.791\hl{; see supplementary materials 3, Table 2}) and maximising the character difference (median $NTS_{RF}$ = 0.698 and median $NTS_{Tr}$ = 0.754\hl{; see supplementary materials 3, Table 2}).
-There is a significant difference between all scenarios \hl{in terms of clade conservation ($NTS_{RF}$)} (maximising, minimising and randomising; \hl{\textit{p} = 0; Table} \ref{Tab_pooledscenarios_test}) with the highest probability of overlap being between minimising and randomising the character difference (Bhattacharrya Coefficient (BC) = 0.954 for the $NTS_{RF}$; Table \ref{Tab_pooledscenarios_test}) and the lowest probability between maximising and minimising the character difference (BC = 0.848 for the $NTS_{RF}$; Table \ref{Tab_pooledscenarios_test}).
+There is a significant difference between all scenarios \hl{in terms of clade conservation ($NTS_{RF}$)} (maximising, minimising and randomising; \hl{\textit{p} = 0; Table} \ref{Tab_pooledscenarios_test}) with the highest probability of overlap being between minimising and randomising the character difference (Bhattacharrya Coefficient (BC) = 0.954 for the $NTS_{RF}$; Table \ref{Tab_pooledscenarios_test}) and the lowest probability of overlap between maximising and minimising the character difference (BC = 0.848 for the $NTS_{RF}$; Table \ref{Tab_pooledscenarios_test}).
 \hl{There is however no difference in terms of taxa displacement ($NTS_{Tr}$) between the three scenarios (with a BC > 0.98 for each comparison - Table}
-\ref{Tab_pooledscenarios_test}).  %AB: TODO: HERE  CAN YOU GIVE A LITTLE MORE INTUITION ON WHAT THE RESULTS MEAN
-
-%TODO: maybe this is table 2?  You say "differennce between the pooled scenarios"  I don't remember what you are talking about-maybe describe the pooled scenarios for the forgetful reader.  I have no idea what table 2 is even saying-the table text could use more hand holding explanations.  # same issues with table 3.  I think I personally would've done these stats differently as a multilevel model so that the bonferroni corrections weren't necessary-but I suppose it doesnt fucking matter with p values like that.  However, table 4 is perfect: don't change a thing.
+\ref{Tab_pooledscenarios_test}).
 
 \input{Tables/Tab_pooledscenarios_test.tex}
 
@@ -463,28 +453,19 @@ Regarding the inference method, there is a significant difference in clade conse
 \section{Discussion}
 
 \subsection{Effect of character differences on topology}
-As expected, there is a significant effect of the character difference in the ability to recover the correct topology.
-%AB: This is only true for the RF method, no?
+As expected, there is a significant effect of the character difference in the ability to recover the correct topology \hl{(in terms of clades)}.
 The character difference metric can be seen as the inverse of character correlation (see Methods above): a high character difference approximates a low level of character correlation and vice versa.
 When characters are correlated, one could expect the matrices to convey a strong (but potentially misleading) phylogenetic signal since every character agrees with each other and conversely, when characters are uncorrelated, one could expect them to convey a weaker phylogenetic signal with a high amount of homoplasy.
-Intuitively, one would hypothesise that the ``minimised'' character difference scenario to lead to incorrect but consistent trees, the ``maximised'' scenario to lead to poorly resolved once (very homoplasic trees) and the ``randomised'' scenario to perform the best at recovering the correct topology. 
-%AB: TODO: I DONT SEE ANY DATA THAT SUPPORTS THIS STATEMENT
+Intuitively, one would hypothesise that the ``minimised'' character difference scenario would lead to incorrect but consistent trees (\hl{i.e. because the characters are not different, they all support the same topology that might be incorrect}), the ``maximised'' scenario to lead to poorly resolved trees (\hl{i.e. because characters are different, the matrix has a lot of homoplasy leading to badly resolved topologies}) and the ``randomised'' scenario to perform the best at recovering the correct topology (\hl{i.e. a simple bootstrap procedure}). 
 \hl{However, throughout our simulation, the ``minimised'' character difference scenario (i.e. increased correlation) tended to result in trees slightly closer to the ``true'' tree and the ``maximised'' character difference scenario (i.e. decreased correlation) led to slightly worst trees (Fig.}
 \ref{Fig:RF_results_best}.
-\hl{This
-%AB: TODO (WHAT IS THIS?,  CHARACTER CORRELATION?)
-did not however appear to affect the taxa placement ($NTS_{Tr}$) for which the confidence intervals overlapped too much to be able to discern clear statistical differences (Fig.}
+\hl{This effect of increasing or reducing character difference did not however appear to affect the taxa placement ($NTS_{Tr}$) for which the confidence intervals overlapped too much to be able to discern clear statistical differences (Fig.}
 \ref{Fig:Tr_results_best}).
 \hl{However this results needs to be contrasted by the fact that}
-the trees generated by the ``minimised'' correlation scenario do not appear better resolved (towards any topology) than the other scenarios (see supplementary material 3, \hl{Figs 9, 10 and 11}).
-\hl{Furthermore, it is important to note that on average, less characters where duplicated (replaced) in the ``minimised'' matrices compared to both the ``maximised'' and ``randomised'' matrices (supplementary material 3, Figs 4, 5 and 6).
-%AB: TODO:  WHY DID THIS HAPPEN?WHY IS IT IMPORTANT ? 
-However,
-%AB: TODO (THIS CLAUSE IS CONFUSING AND KIND OF SOUNDS LIKE BULLSHIT )
-this change in the amount of replaced characters did not change the way average character differences varyed across the three transformed matrices: the character differences were always consistently increased (``maximised''), decreased (``minimised'') and maintained at a normal level (``randomised'') for each replicate (supplementary material 3, Figs 1, 2 and 3).
+the trees generated by the ``minimised'' character difference scenario do not appear better resolved (towards any topology) than the other scenarios (see supplementary material 3, \hl{Figs 9, 10 and 11}).
+\hl{Furthermore, it is important to note that on average, less characters where duplicated (replaced) in the ``minimised'' matrices compared to both the ``maximised'' and ``randomised'' matrices (supplementary material 3, Figs 4, 5 and 6 - likely due to the fact that replacing only a few highly different characters can drastically decrease the character difference).
+However, this change in the amount of replaced characters did not change the way average character differences varied across the three transformed matrices: the character differences were always consistently increased (``maximised''), decreased (``minimised'') and maintained at a normal level (``randomised'') for each replicate (supplementary material 3, Figs 1, 2 and 3).
 This suggest that character difference can be decreased with a smaller amount of characters replacements than increasing it.}
-%AB: TODO: I SUDDENLY REALLY DONT LIKE THE TERM CHARACTER DIFFERENCES-ITS THE OPPOSITE OF CHARACTER CORRALTION? IT DOESNT SOUND LIKE IT INTUITIVELY. ITS KIND OF CONFUSING TO HAVE SO MANY TERMS MEANING THE SAME THING -MAXIMIZED V MINIMIZED, CHARACTER CORRALATION, CHARACTER DIFFERENCE.  I'M TIRED AND GRUMPY.
-
 
 \subsubsection{Number of characters and taxa}
 Because of the nature of our simulation protocol, one could expect that the effect of character correlation would have increased with the number of characters (i.e. the more characters available, the more characters are modified in each scenario).
@@ -496,10 +477,8 @@ Similarly, the characters in the ``minimised'' matrix are mainly inconsistent wi
 Although we measured a significant difference between smaller and larger matrices (\hl{in terms of number of characters, between 100 and 1000 characters - $BC$ $NTS_{RF}=0.914$ and $BC$ $NTS_{Tr}=0.826$}; Tables \ref{Tab_pooledscharacters_test} and \ref{Tab_pooledstaxa_test}),
 these differences have to be contrasted with the probability of overlap between the results distributions that are always \hl{very} high between every matrix's size (Bhattacharrya Coefficients $>0.949$ for both the different number of characters and taxa).
 This suggests that the overall character difference metric \hl{can be used as a proxy} for character correlation as it is \hl{not directly dependent} on the number of characters analysed.
-Regarding the number of taxa, our results suggest that the effect of character correlation on recovering the right topology is independent on the size of the matrix when pooling the data.
-%AB: TODO: DID YOU TALK ABOUT POOLING DATA IN THE METHOSA? I'M NOT SURE WHAT YOU ARE REFERING TO.
+Regarding the number of taxa, our results suggest that the effect of character correlation on recovering the right topology is independent on the size of the matrix when pooling the data (\hl{i.e. when combining the simulations together}).
 Furthermore, using the Normalised Tree Similarity metric ($NTS$) accounts for the fact that topological difference is affected by the sheer number of taxa considered (i.e. we corrected for the expected difference when comparing two random trees with the same number of taxa).
-
 
 \subsection{Effect of character differences on the inference method}
 When considering the pooled effect of the tree inference method, we only detected a significant difference between the Bayesian and the maximum parsimony trees in terms of clade conservation but none in terms of taxa placement (both using a Wilcoxon test and the Bhattacharrya Coefficient; Table \ref{Tab_pooledsmethods_test}).
@@ -507,12 +486,9 @@ The difference in the ability of each method to recover the ``correct'' topology
 In this study, it is possible that our simulation protocol for generating the characters (favouring slightly more M$k$-based characters rather than HKY ones) could slightly favour Bayesian inference over maximum parsimony, however, our protocol for selecting matrices \citep[i.e. those with in a $CI>0.26$ in a quick preliminary parsimony search;][]{OReilly20160081} could also favour maximum parsimony analysis.
 It was however not the purpose of this study to compare the overall performance of both methods but rather to measure the effect of character correlation on each of those methods separately.
 
-%TODO: Bayesian recovers the ``true'' tree topology slighltly but consistently better (supplementary materials 3, figures 12, 13, and 14).
-
 The differences in performance of the Bayesian and parsimony approaches observed here could be due to the inherent mechanisms of each method.
 For any given topology $T$ that was obtained from the ``normal'' matrix and a matrix with high homoplasy, both methods will generate scores differently:
-(1) in parsimony, the topology will probably be given a bad score (one that implies many changes along the tree) and the optimality criterion (favouring the minimum score) will likely discard the tree.
-%AB: TODO: (WHICH TREE? TRUE TREE?)
+(1) in parsimony, the topology will probably be given a bad score (one that implies many changes along the tree) and the optimality criterion (favouring the minimum score) will likely discard the focal topology.
 The tree search will thus likely result in a topology island that will not contain the given topology $T$.
 (2) in Bayesian inference, the topology will also be given a bad score (i.e. low likelihood) although the high homoplasy can be accommodated in the tree through high evolution rates or/and long branches.
 The rate and the branch length being two parameters among others, the score (the likelihood) will change less drastically than for using parsimony.
@@ -530,7 +506,8 @@ and (2) coding more characters (increasing \textit{a priori} dependence) but all
 It is important to note that the two other sources of character correlation could also be present in our simulations although they were not explicitly modelled:
 (1) evolutionary correlation is implied by simulating the characters based on Birth-Death trees;
 and (2) intra-organismal correlation could also be present in the matrices for those characters randomly simulated but sharing similar evolutionary simulation regimes (i.e. creating ``modules'' of characters).
-However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices.% which are - when using empirical data - at best bad practice and at worst dishonest. AB: TODO: I DONT  REALLY UNDERSTAND
+However, the effect of these sources of correlation was out of the scope of this study and would have required \textit{a posteriori} changes to the matrices \hl{(i.e. inferring the topology first and looking at character's correlation based on the observed topology}\citealt{Lande1983,Maddison1990,Pagel1994}).
+
 
 \subsection{Limitations}
 First, simulating evolutionary history is complex.
@@ -565,15 +542,13 @@ For example, in the ``maximised'' scenario, we randomly remove some characters t
 It is noteworthy to point that in rather small matrices (25 $\times$ 100), there was no significant difference in terms of recovering the right topology when maximising or randomising the character differences.
 Since many discrete morphological matrices are of similar size \citep{guillerme2016assessment} a simple bootstrap re-sampling (i.e. the equivalent of randomising the character differences in our analysis) will be sufficient to obtain a robust topology (\textit{cf.} actively collecting different characters).
 In matrices with more taxa, however, the \hl{``minimised''} scenario resulted in better topological recovery than any other scenarios.
-Applying this kind of bootstraps that maximises character difference by biasing the random sampling could thus results in better resolved trees.
-%AB: TODO: HMM IS THIS CIRCULAR LOGIC?  YOU KNOW THAT CHARACTERS ARE ON AVERAGE INFOMRATIVE-SO OF COURSE INCREASING THE REPRESENTATION OF INFROMATIVE CHARACTERS INCREASES YOUR ABILITY TO CORRELTY RSOLVE.  IF CHRACTERS WERE UNIFORMATIVE AND CORRELATED THIS RESULT WOULD NOT HOLD
+Applying this kind of bootstraps that minimised character difference by biasing the random sampling could thus \hl{help understanding which characters generate more homoplasy and which nodes in the tree are conflictual.}
 
 \subsection{Conclusion}
 Correlation between characters can be induced through three main phenomena: intra-organismal relationships, selection-driven covariation or biases in coding the characters yet only the latter can be improved upon to investigate phylogenetic relationships.
 Useful best practices guidelines \citep[e.g.][]{Brazeau2011,simoes2017giant} and algorithms for dealing with different types of character correlations \citep[e.g. for characters hierarchy][]{de2015parsimony,BrazeauNA} already exist.
 However, with the regain of popularity in discrete morphological data and the expansion of dataset size \citep[e.g.][with more than 1000 characters each]{nithe2013,O'Leary08022013}, we can expect the correlation between characters to increase stochastically.
 Moreover, because phylogenetic inference software are unable to \textit{a priori} differentiate these difference correlations, it is important to understand to what extant topologies can be induced by such bias.
-%AB: TODO: (DID YOU LOOK AT WHICH TOPOLOGIES WERE INDUCED??)
 
 We found that character differences as a proxy for character correlation have a strong effect on recovering the ``normal'' topology: when character correlation was low (high character differences), the topology was always the furthest away from the ``normal'' topology.
 Conversely, when correlation between characters was high, the topology was always the closest to the ``normal'' topology.
