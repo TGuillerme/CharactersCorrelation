@@ -11,6 +11,8 @@
 #' @param ylab a \code{character} string to be passed to \code{boxplot(..., ylab)}
 #' @param xlab a \code{character} string to be passed to \code{boxplot(..., xlab)}
 #' @param axislab a \code{character} string to be passed to \code{axis(..., labels)}
+#' @param leg.pos the legend position (default is \code{"bottomleft"})
+#' @param leg.cex the legend text size (default is \code{1})
 #' @param ... any additional argument to be passed to \code{boxplot}
 #'
 #' @details
@@ -30,7 +32,7 @@
 #' 
 
 
-plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, NTS = TRUE, ylab, xlab, axislab, ...) {
+plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, NTS = TRUE, ylab, xlab, axislab, leg.pos = "bottomleft", leg.cex = 0.8, ...) {
     
     ## Graphic parameters
     ## Colours
@@ -63,7 +65,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
 
     ## axis lab
     if(missing(axislab)) {
-        axislab <- c("100", "350", "1000")
+        axislab <- c("100", "350\ncharacters", "1000")
     }
 
     ## Horizontal line
@@ -94,7 +96,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend("bottomleft", col = cols, pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
+            legend(leg.pos, cex = leg.cex, col = cols, pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
                 legend = c("Maximised (Bayesian)", "Maximised (Parsimony)",
                            "Minimised (Bayesian)", "Minimised (Parsimony)",
                            "Normal (Bayesian)", "Normal (Parsimony)")
@@ -126,7 +128,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend("bottomleft", col = cols, pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
+            legend(leg.pos, cex = leg.cex, col = cols, pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
                 legend = c("Maximised (Bayesian)", "Maximised (Parsimony)",
                            "Minimised (Bayesian)", "Minimised (Parsimony)",
                            "Randomised (Bayesian)", "Randomised (Parsimony)")
@@ -155,7 +157,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend("bottomleft", col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
+            legend(leg.pos, cex = leg.cex, col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
                 legend = c("Normal (Bayesian)", "Normal (Parsimony)",
                            "Randomised (Bayesian)", "Randomised (Parsimony)")
                 )
@@ -183,7 +185,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend("bottomleft", col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", cex = 0.8,
+            legend(leg.pos, cex = leg.cex, col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
                 legend = c("Normal (Bayesian)", "Normal (Parsimony)",
                            "Randomised (Bayesian)", "Randomised (Parsimony)")
                 )
