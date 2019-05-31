@@ -98,6 +98,8 @@ scenario_list <- list(scenario_RF_norm, scenario_Tr_norm, scenario_RF_null, scen
 comp.labels <- c("Best", rep("", 5), "Null", rep("", 5))
 metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 test_table <- pair.test.table(scenario_list, comp.label = comp.labels, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -177,6 +179,8 @@ character_list <- list(character_RF_norm, character_Tr_norm, character_RF_null, 
 comp.labels <- c("Best", rep("", 5), "Null", rep("", 5))
 metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 test_table <- pair.test.table(character_list, comp.label = comp.labels, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -256,6 +260,8 @@ taxa_list <- list(taxa_RF_norm, taxa_Tr_norm, taxa_RF_null, taxa_Tr_null)
 comp.labels <- c("Best", rep("", 5), "Null", rep("", 5))
 metric.labels <- rep(c("RF", "", "", "Tr", "", ""), 2)
 test_table <- pair.test.table(taxa_list, comp.label = comp.labels, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -336,6 +342,8 @@ methods_list <- list(method_RF_norm, method_Tr_norm, method_RF_null, method_Tr_n
 comp.labels <- c("Best", rep("", 1), "Null", rep("", 1))
 metric.labels <- rep(c("RF", "Tr"), 2)
 test_table <- pair.test.table(methods_list, comp.label = comp.labels, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}

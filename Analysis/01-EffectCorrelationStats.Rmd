@@ -92,11 +92,13 @@ Applying a Bhattacharrya Coefficient and Wilcoxon test
 scenario_list <- list(scenario_RF_norm, scenario_Tr_norm)
 metric.labels <- c("RF", "", "", "Tr", "", "")
 test_table <- pair.test.table(scenario_list, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE}
 ## Caption
-cap_pool_scen_test <- paste("Difference between the pooled scenarios. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correction)")
+cap_pool_scen_test <- paste("Differences between the Normalised Tree Similarities in terms of clade conservation (Robinson-Foulds distances - RF) and taxa displacement (Triplets - Tr) for each minimised (mini), maximised (maxi) and randomised (rand) character differences. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction).")
 
 ## Printing the tables
 kable(test_table, row.names = FALSE, caption = cap_pool_scen_test)
@@ -167,11 +169,13 @@ Applying a Bhattacharrya Coefficient and Wilcoxon test
 character_list <- list(character_RF_norm, character_Tr_norm)
 metric.labels <- c("RF", "", "", "Tr", "", "")
 test_table <- pair.test.table(character_list, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE}
 ## Caption
-cap_pool_char_test <- paste("Difference between the pooled number of characters. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
+cap_pool_char_test <- paste("Differences between the Normalised Tree Similarities in terms of clade conservation (Robinson-Foulds distances - RF) and taxa displacement (Triplets - Tr) for the three different number of characters: 100 (c100), 350 (c350) and 1000 (c1000). Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction).")
 
 ## Printing the tables
 kable(test_table, row.names = FALSE, caption = cap_pool_char_test)
@@ -242,11 +246,13 @@ Applying a Bhattacharrya Coefficient and Wilcoxon test
 taxa_list <- list(taxa_RF_norm, taxa_Tr_norm)
 metric.labels <- c("RF", "", "", "Tr", "", "")
 test_table <- pair.test.table(taxa_list, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE}
 ## Caption
-cap_pool_tax_test <- paste("Difference between the pooled number of taxa. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
+cap_pool_tax_test <- paste("Differences between the Normalised Tree Similarities in terms of clade conservation (Robinson-Foulds distances - RF) and taxa displacement (Triplets - Tr) for the three different number of taxa: 25 (t25), 75 (t75) and 150 (t150). Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction).")
 
 ## Printing the tables
 kable(test_table, row.names = FALSE, caption = cap_pool_tax_test)
@@ -318,11 +324,13 @@ Applying a Bhattacharrya Coefficient and Wilcoxon test
 methods_list <- list(method_RF_norm, method_Tr_norm)
 metric.labels <- c("RF", "Tr")
 test_table <- pair.test.table(methods_list, metric.label = metric.labels)
+## Change the ":" into vs.
+test_table$test <- gsub(":", " vs. ", test_table$test)
 ```
 
 ```{r, echo = FALSE}
 ## Caption
-cap_pool_met_test <- paste("Difference between the pooled methods. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric wilcoxon test (with Bonferonni-Holm correciton)")
+cap_pool_met_test <- paste("Differences between the Normalised Tree Similarities in terms of clade conservation (Robinson-Foulds distances - RF) and taxa displacement (Triplets - Tr) for the two different inference methods: bayesian or maximum parsimony. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction).")
 
 ## Printing the tables
 kable(test_table, row.names = FALSE, caption = cap_pool_met_test)
