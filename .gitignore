@@ -13,3 +13,4 @@ Cluster/*
 # Jobs
 Cluster/Bayesian/*.mbcmd
 Cluster/Bayesian/*.mbjob
+Cluster/JobTracker.xlsx
