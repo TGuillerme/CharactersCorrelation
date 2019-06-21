@@ -2,7 +2,6 @@
 \usepackage{natbib}
 
 %Packages
-\usepackage{pdflscape}
 \usepackage{fixltx2e}
 \usepackage{textcomp}
 \usepackage{fullpage}
@@ -26,8 +25,9 @@
 \usepackage[osf]{mathpazo}
 \usepackage{dcolumn}
 \usepackage{lineno}
-\usepackage{dcolumn}
-\usepackage{mathtools}
+\usepackage{pdflscape}
+
+\usepackage{color,soul}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}%
@@ -56,7 +56,7 @@
 \normalfont\itshape #1
 \end{large}
 \end{center}}
-\renewcommand{\subsection}[1]{%
+\renewcommand{\subsubsection}[1]{%
 \vspace{2ex}
 \noindent
 \textit{#1.}---}
@@ -70,27 +70,21 @@
 %---------------------------------------------
 
 \begin{document}
-
 %Running head
-\begin{flushright}
+\begin{flushright}s
 Version dated: \today
 \end{flushright}
+
 \bigskip
 \noindent RH: Characters correlation
-
 \bigskip
 \medskip
 \begin{center}
-
 \noindent{\Large \bf Influence of different modes of morphological character correlation on phylogenetic tree inference}
-
 \bigskip
 
-\noindent{\Large \bf Supplementary material 1 - Character difference}
-
-\bigskip
-
-\noindent {\normalsize \sc Thomas Guillerme$^{1,2,*}$, and Martin D. Brazeau$^{2,3}$}\\
+\noindent {\normalsize \sc Thomas Guillerme$^{1,2,*}$, Abigail I. Pastore$^{1}$, and Martin D. Brazeau$^{2,3}$}\\
+% Abigail I. Pastore$^{1}$
 \noindent {\small \it 
 $^1$School of Biological Sciences, University of Queensland, St. Lucia, Queensland, Australia.\\
 $^2$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\
