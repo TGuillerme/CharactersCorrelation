@@ -125,7 +125,7 @@ The precision in the manuscript was just describing the properties of the new CD
 
 We've clarified how missing data can be potentially treated in the methods section:
 \textit{For example, for two characters X and Y for four taxa, if character \texttt{X = \{0,0,?,1\}} for the first, second, third and fourth taxa respectively and character \texttt{Y = \{0,0,1,1\}}, only the first, second and fourth taxa are compared for this character.
-Note that in these simulations, no missing data was included so the characters are compared for equal number of taxa (see below).} lines 213-218.
+Note that in these simulations, no missing data was included so the characters are compared for equal number of taxa (see below).} lines 212-2178.
 
 \item{\textcolor{blue}{I also found the explanations confusing for what proportion of a matrix was repeat sampled. For example, in a matrix that you call maximised, n characters are replaced. But how many is that really? What is the range? I had a hard time putting a context to this and deciding how well I feel these simulations approximate reality. Without knowing this, I was having difficulty understanding why the statement "when character correlation was high (low character differences), the topology was always the furthest away from the``normal'' topology." 
 should be true - does this simply mean that the same signal is being repeated over and over again, but that signal is low information relative to the topology? To my mind, highly correlated datasets would yield congruent trees, but that these trees may be discordant with the true tree, if the resampled characters were not representative of the true signal, or highly concordant with the true tree if they were. Perhaps this not being observed is a result of not performing comparisons to the true tree?}}
@@ -138,9 +138,9 @@ When using a small number of character states (i.e. two or three), the matrices 
 
 We've added mentions to the proportion of replaced characters analysis in the supplementary and added a paragraph explaining this caveat in the discussion:
 
-\textit{Furthermore, it is important to note that on average, less characters where duplicated (replace) in the ``minimised'' matrices compared to both the ``maximised'' and ``randomised'' matrices (supplementary material 3, Figs 4, 5 and 6).
+\textit{Furthermore, it is important to note that on average, fewer characters were duplicated (replaced) in the ``minimised'' matrices compared to both the ``maximised'' and ``randomised'' matrices (supplementary material 3, Figs 4, 5 and 6).
 However, this change in the amount of replaced characters did not changed the way average character differences changed across the three transformed matrices: the character differences were always consistently increased (``maximised''), decreased (``minimised'') and maintained at a normal level (``randomised'') for each replicate (supplementary material 3, Figs 1, 2 and 3).
-This suggest that character difference can be decreased with a smaller amount of characters replacements than increasing it.} lines 453-462.
+This suggest that character difference can be decreased with a smaller amount of characters replacements than increasing it.} lines 459-469.
 
 
 \end{enumerate}
@@ -157,9 +157,9 @@ We slightly rephrased the sentence in the abstract (See reviewer 3 minor revisio
 
 \textit{This independence is assumed for both molecular and morphological characters (Huelsenbeck and Nielsen, 1999; D\'{a}valos et al., 2014, Zou and Zhang, 2016).
 However, several distinctions can be made between the amount and the nature of the correlation.
-First, molecular and morphological data often differs in size and in the amount of states analysed (molecular matrices are generally larger with mainly four states - not including missing data or indels - and morphological matrices are smaller with generally two states but sometimes up to more than ten; Guillerme and Cooper, 2016).
-Second, this difference between both types of characters has been suggested to be stronger correlations in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread'' correlations in molecular data (i.e. ``diffused'' correlations - though some regions of the genome can be thought as more correlated than others; Huelsenbeck and Nielsen, 1999).
-Furthermore, because of this ``spread'' correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function cf. changes in nucleotide states ; see below).} lines 43-58.
+First, molecular and morphological data often differs in size and in the number of states analysed (molecular matrices are generally larger with mainly four states - not including missing data or indels - and morphological matrices are smaller with generally two states but may have an arbitrary number of states (up to that supported by phylogenetic software; Guillerme and Cooper, 2016).
+Second, correlations have been proposed to be stronger in morphological data (i.e. ``concentrated'' correlations) \textit{versus} weaker and more ``spread-out'' correlations in molecular data (i.e. ``diffused'' correlations - though some regions of the genome may be thought as more correlated than others; Huelsenbeck and Nielsen, 1999).
+Furthermore, because of this ``spread'' of correlations in molecular data, it can be harder to link the character correlation to a specific biological phenomenon (i.e. changes in morphological states can be more readily linked to a function cf. changes in nucleotide states ; see below).} lines 42-57.
 
 \item{\textcolor{blue}{"good practices".\\
 Change to "careful character coding"}}
@@ -179,7 +179,7 @@ We removed this sentence and added the reviewer's suggestion on DNA character su
 \item{\textcolor{blue}{"Evolutionary dependence: this is the result of sets of characters co-evolving due to selection, likely related to functional links between two traits that help serve an overall lifestyle trait."\\
 Seems appropriate to cite Clarke and Middleton (2008) here.}}
 
-We added the suggested citation (lines 75).
+We added the suggested citation (line 74).
 
 \item{\textcolor{blue}{Coding dependence:\\
 This section could use a figure illustrating these types of dependence, and what they mean. For example: "For instance, coding for the same absence in different characters creates state transformations associated with the loss or gain of a particular character." is a fairly confusing sentence. I took this to mean that if you are coding, for example, tail characters, you might atomize the tail into a suite of characters, all of which are absent in organisms with no tail. But I'm not sure I've understood your meaning correctly.}}
@@ -187,19 +187,19 @@ This section could use a figure illustrating these types of dependence, and what
 We do not feel that adding a figure for illustrating the matrix will improve clarity of an already long and thorough description.
 However, we've trying to clarify the description with an example as follows:
 
-\textit{For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail.} lines 95-96 and \textit{In the example above, attributes of the tail (colour or length) are hierarchically dependent on the presence of the tail in the first place.} lines 102-104.
+\textit{For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail.} lines 94-95 and \textit{In the example above, attributes of the tail (colour or length) are hierarchically dependent on the presence of the tail in the first place.} lines 101-103.
 
 \item{\textcolor{blue}{"Correlation between characters detected by the software:"\\
 I really struggled with this section. It seems like the problem here is still a coding problem - that the authors of these four characters have chosen four highly dependent characters to build the matrix. Even scoring by hand under parsimony would have problems here. I think what you need to decide here is what you want to communicate in this paragraph. Is it that software is not currently equipped to handle this issue?}}
 
 We've added a paragraph highlighting how the problem indeed comes from the fact that current software are not equipped to handle this issue:
 
-\textit{In fact, for practicality reasons, phylogenetic software do not (or rarely) distinguish between the different sources of correlation.
+\textit{In fact, for practical reasons, phylogenetic software do not (or rarely) distinguish between the different sources of correlation.
 In this specific example, we would intuitively want to favour character \textbf{C1} and \textbf{C2} that seem to be more likely to reflect the split by separating artiodactyles from the cetaceans.
 In other words, this is the correlation between characters that depicts the evolutionary history of this group.
 However, the other characters depict the same history (i.e. the same split) but for the wrong reasons (note that even if \textbf{C2} was coded presence (1) or absence (0) of baleen, the same split would still be estimated by the software).
 One solution would be to a) weight some characters (e.g. giving \textbf{C3} and \textbf{C4} a lower weight) and b) make some characters dependent on each other (e.g. making \textbf{C3} and \textbf{C4} dependent on \textbf{C1}).
-However, this can also be a bad practice since it can easily lead to the resulting tree reflecting the researcher's prior expectations rather than the true evolutionary history.} lines 145-157.
+However, this can also be a bad practice since it can easily lead to the resulting tree reflecting the researcher's prior expectations rather than the true evolutionary history.} lines 143-156.
 
 \item{\textcolor{blue}{"To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different levels of correlation between some characters (Fig.1 - note that each step is described in more details below):"\\
 Fig. 1 is the results, but this text implies it is a workflow diagram.}}
@@ -216,21 +216,21 @@ Why is this important? The text doesn't mention testing anything related to orde
 
 We removed the mention of orderdness of the characters since, indeed, it might be more confusing than helpful in this context (we didn't not simulate any ordered characters and the CD metric does not consider characters as ordered - see supplementary material 1). We've changed the sentence to the following:
 
-\textit{This procedure allows to compare characters regardless of the significance given to their tokens (following the \textit{xyz} notation in Felsenstein, 2004; as used in D\'{a}valos et al., 2014).} lines 221-223.
+\textit{This procedure allows comparison of characters regardless of the significance given to their tokens (following the \textit{xyz} notation in Felsenstein, 2004; as used in D\'{a}valos et al., 2014).} lines 220-222.
 
 \item{\textcolor{blue}{"The morphological HKY model"\\
 Is not real. This is just the HKY model. Goloboff (2017) would dispute that this model does not favor a Bayesian method, since it is still a Markovian model. That O'Reilly et al. used this model to generate binary data does not mean one has to - you could translate each of the four nucleotides to its own discrete character. This would probably get even further from the Mk model assumptions than collapsing the multistate character produced via the HKY model to a binary character.}}
 
 We've enquoted the ``morphological HKY model'' and specified that it is still a Markovian model:
 \textit{Note that both models (``morphological HKY'' and Mk) are both based on a Markovian model and only differ in the number of states generated and transformed.
-However, the ``morphological HKY model'' is not the one} directly \textit{estimated in the phylogenetic software used in this protocol (MrBayes, see below).} lines 271-275.
+However, the ``morphological HKY model'' is not the one} directly \textit{estimated in the phylogenetic software used in this protocol (MrBayes, see below).} lines 272-276.
 
 %TG: maybe add a bit more?
 
 \item{\textcolor{blue}{"Recently however, Wright et al. (2016) have shown that an equal rate transition is still the most present in empirical data."\\
 Of the models tested - it's plausible there are other explainers of the data. I would change this to "have shown that equal transition rate is a reasonable assumption for many empirical datasets"}}
 
-We've changed the sentence as suggest by the reviewer (lines 260-261).
+We've changed the sentence as suggest by the reviewer (lines 262-263).
 
 \item{\textcolor{blue}{"The resulting full simulation was 3.5TB big so is not shared here (though the 342 parameters are)."\\
 3.5 TB in size.}}
@@ -254,7 +254,7 @@ I understand why you did this, but I think you should also compare normal to tru
 We've added the comparisons between the ``normal'' and ``randomised'' trees to the ``true'' tree in the supplementary material 3, figures 9 to 11.
 We've added a reference to these figures in the main text:
 
-\textit{However, we did report the comparison between the ``true'' trees and both the ``normal'' and ``randomised'' in the supplementary materials 3, Figs 12, 13 and 14.} lines 346-347
+\textit{However, we did report the comparison between the ``true'' trees and both the ``normal'' and ``randomised'' in the supplementary materials 3, Figs 12, 13 and 14.} lines 347-3478.
 
 \end{enumerate}
 
@@ -309,7 +309,7 @@ We have clarified these two points in the manuscript.
 We've correct the supplementary materials 1 and added more explanations on (1) the character translation, (2) the four-point metric proof and (3) on how to interpret the $CD$ metric.
 Additionally, we added more precisions in the text:
 
-\textit{(i.e. entirely correlated characters would define identical splits between a set of taxa)}. lines 202-203.
+\textit{(i.e. entirely correlated characters would define identical splits between a set of taxa)}. lines 201-202.
 
 \item{\textcolor{blue}{While some details of the simulation study are included, some important ones are missing. In particular, in the design of the study, how did you avoid or mitigate errors introduced by the programs simulating data? All of the programs use random-number generators and have their own biases. How have you accounted for this in the study of design to conclude that your results are due to signal, and not bias from the programs used?}}
 
@@ -340,7 +340,7 @@ Therefore we do not believe that the random number generation was a proper since
 
 Every replaced characters were randomly selected randomly from the total sample of characters (i.e. randomly sampling from the uniform integers distribution (1, $c$); where $c$ is the number of remaining characters). We have now specified this in the text:
 
-\textit{Each replaced characters (i.e. the characters with a weight of +$1$) were randomly selected by sampling them randomly from the list of the remaining characters.} lines 297-299.
+\textit{Each replaced characters (i.e. the characters with a weight of +$1$) were randomly selected by sampling them randomly from the list of the remaining characters.} lines 298-300.
 
 \item{\textcolor{blue}{It is not obvious why generated character sequences are representative of biological sequences or sample the space overall. Were the parameters chosen for the HKY model to fit a particular evolutionary scenario? Are they meant to capture all of the space?}}
 
@@ -354,7 +354,7 @@ In our simulations, the idea was to cover a broad range of morphological charact
 This 0.85 proportion of binary characters and 0.15 of three state ones was extracted from the 100 empirical matrices analysed in \cite{Guillerme2016146} (Supplementary appendix 1. Appendix A: Tree inference) and \cite{ZouConvergence}.
 We've specified this in the text:
 
-\textit{We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters (from empirical observations in: Guillerme and Cooper, 2016b; Zou and Zhang, 2016).} lines 256-258.
+\textit{We draw the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters (from empirical observations in: Guillerme and Cooper, 2016b; Zou and Zhang, 2016).} lines 257-259.
 
 \item{\textcolor{blue}{There are statements that seem contradictory, like (line 335): ``Thus, additionally to the Wilcoxon test results, we considered distribution to be significantly similar if they had an overlap probability $>$ 0.95 and different if they had an overlap probability $>$ 0.05.''}}
 
@@ -394,7 +394,7 @@ As noted in the introduction, the aim of this manuscript was mainly to see does 
 We also review different sources of correlation for characters and discuss how the multidimensional complexity of a phenotype (and the correlations therein) is not reflected in two dimensional character matrices.
 We do agree with the reviewer that a thorough analysis of the variance/covariance structure of simulated ``discretised'' characters (see reviewer 3, major suggestion \ref{hiden}) would have broad more insight into the nature of character correlation on phylogenetics inference in general (regardless of the type of character and correlation) but due to the length required to run the current ``simplistic'' simulation, we feel that this would be out of the scope of this manuscript.
 
-We have now clarified in the manuscript what our objectives were by streamlining the last paragraph of the introduction (lines 160-168).
+We have now clarified in the manuscript what our objectives were by streamlining the last paragraph of the introduction (lines 159-170).
 We have also explicitly added in the supplementary material 3, figs 1, 2 and 3 how the character difference changes between all matrices compared to the ``normal'' matrix.
 
 \item{\textcolor{blue}{Another worry I have is that the implied covariance at the tips does not necessarily reflect covariation over the full phylogeny. It is conceivable that two characters can appear to have near perfect correlation at the tips, but arrived at these states through completely independent pathways, particularly when simulating with a continuous time Markov chain where unobserved transitions to a new state and back to the original state are possible.}}
@@ -408,8 +408,8 @@ First, in empirical data two characters can be strongly correlated for biologica
 Second, by comparing characters at any time point rather than simply at the tips (which can be problematic since our trees were not all ultrametric) we would probably not be able to compare the effect of the ``true'' characters' correlation since this information will not be used by the phylogenetic software (MrBayes and PAUP*) that will only use tip values.
 
 We've added this remark in the caveats section:
-\textit{It is also worth noting that character similarity at the tips does not necessarily reflects that the characters underwent the same evolutionary history.
-This may be specifically true when simulating characters based on the M$k$ model where the resulting tip states does not necessarily reflects variation of the state along the branches (e.g. Revell, 2014). However, it is worth noting that in empirical studies, such state changes along the branches are nearly always empirically unknown (even though they can be estimated by Maximum Likelihood).} lines 554-560.
+\textit{It is also worth noting that character similarity at the tips does not necessarily reflects identical evolutionary history.
+This may be specifically true when simulating characters based on the M$k$ model where the resulting tip states does not necessarily reflects variation of the state along the branches (e.g. Revell, 2014). However, it is worth noting that in empirical studies, such state changes along the branches are nearly always empirically unknown (even though they can be estimated by Maximum Likelihood).} lines 563-568.
 
 \item{\textcolor{blue}{It seems that the results reported by the authors are inherently driven by the phylogenetic signal present in their ``bootstrapped'' datasets. This effect would be present in any approach to the simulation of covarying characters, but as the authors do not explicitly simulate covariance but instead rely on a proxy they cannot be certain that their results are driven by true character covariation or purely a restructuring of phylogenetic signal by resampling. In a simulation framework in which covariance is actively enforced and controlled it would be possible to assess other aspects of character covariance that seem important for empirical datasets, such as correlation within morphological compartments. I think without tests of these sort we cannot be completely sure of the effect of character covariance on topology estimates. Despite this, the authors present an overview of the effect of character covariance at large, and I certainly think that this is a worthwhile contribution.}}
 
@@ -424,9 +424,9 @@ We hope to expand this study in the future by create different groups of charact
 
 We've added the following part to the discussion:
 
-\textit{Overall, it is expected that minimising character difference (increasing character correlation) is likely to have a bigger effect on recovering the ``correct'' topology since most characters will provide the same phylogenetic signal.
+\textit{Overall, it is expected that minimising character difference (increasing character correlation) is likely to have a greater effect on recovering the ``correct'' topology since most characters will provide the same phylogenetic signal.
 If the ``minimised'' matrix consists of a handful of characters with high consistency with the ``best'' tree, then the tree estimate will be good (for at least part of the tree).
-Similarly, the characters in the ``minimised'' matrix are mainly inconsistent with the ``best'' tree then the estimates will be poor.} lines 468-474
+Similarly, the characters in the ``minimised'' matrix are mainly inconsistent with the ``best'' tree then the estimates will be poor.} lines 475-481.
 
 \item{\textcolor{blue}{Overall, I think that the authors provide an overview of the effect of covariance on the estimation of phylogeny, but without an explicit simulation of patterns of covariation we do not yet have a definitive understanding of the effects of between character covariance.}}
 
@@ -457,7 +457,7 @@ We've removed the quotes.
 \item{\textcolor{blue}{3:29 – In what ways are morphological data inferior? I think this needs to be qualified.}}
 
 We've added the following justification (and toned down the sentence):
-\textit{Although morphological character data are sometimes considered inferior to molecular sequence data due to the difficulties of collected them and their sometimes subjectivity, they are often the only source of phylogenetic data for extinct species.} lines 29-31.
+\textit{Although morphological character data are sometimes considered inferior to molecular sequence data due to the difficulties of collected them and their sometimes subjectivity, they are often the only source of phylogenetic data for extinct species.} lines 28-30.
 
 \item{\textcolor{blue}{4:45 – depend $->$ dependent}}
 
