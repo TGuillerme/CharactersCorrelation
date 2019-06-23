@@ -1,5 +1,5 @@
 # Influence of different modes of morphological character correlation on phylogenetic tree inference
-Author(s): [Thomas Guillerme](mailto:guillert@tcd.ie) and [Martin Brazeau](mailto:m.brazeau@imperial.ac.uk)
+Author(s): [Thomas Guillerme](mailto:guillert@tcd.ie), [Abigail Pastore](mailto:a.pastore@uq.edu.au) and [Martin Brazeau](mailto:m.brazeau@imperial.ac.uk)
 
 This repository contains all the code and data used in the manuscript [Link to final published pdf will be here]().
 
