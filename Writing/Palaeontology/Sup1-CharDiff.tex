@@ -1,0 +1,164 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{natbib}
+
+%Packages
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\usepackage{pdflscape}
+
+\usepackage{color,soul}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+\pagenumbering{arabic}
+
+
+%Pagination style and stuff
+\linespread{2}
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+%\bibpunct{(}{)}{;}{a}{}{,}
+
+%---------------------------------------------
+%
+%       START
+%
+%---------------------------------------------
+
+\begin{document}
+%Running head
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+
+\bigskip
+\noindent RH: Characters correlation
+\bigskip
+\medskip
+\begin{center}
+\noindent{\Large \bf Influence of different modes of morphological character correlation on phylogenetic tree inference}
+\bigskip
+
+\noindent{\Large \bf Supplementary material 1 - Character difference}
+
+
+\noindent {\normalsize \sc Thomas Guillerme$^{1,2,*}$, Abigail I. Pastore$^{1}$, and Martin D. Brazeau$^{2,3}$}\\
+% Abigail I. Pastore$^{1}$
+\noindent {\small \it 
+$^1$School of Biological Sciences, University of Queensland, St. Lucia, Queensland, Australia.\\
+$^2$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\
+$^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London, SW75BD, United Kingdom.\\}
+
+\end{center}
+\medskip
+\noindent{*\bf Corresponding author.} \textit{guillert@tcd.ie}\\ 
+\vspace{1in}
+
+%Line numbering
+% \modulolinenumbers[1]
+% \linenumbers
+\newpage
+
+\section{Definition}
+
+$CD$, the Character Difference metric, is a distance that measures the difference between two characters in terms of shared phylogenetic splits.
+
+For two characters $x$ and $y$, $CD=0$ implies that the characters are identical, i.e. they convey the same phylogenetic signal in term of splits; $CD=1$ implies that the characters are the most different, i.e. they convey the most different phylogenetic signal in terms of splits.
+
+\begin{equation}
+    CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
+\end{equation}
+
+\noindent Where $n$ is the number of taxa with comparable data and $x_i$ and $y_i$ are each transformed characters states for the characters $x$ and $y$ and the taxa $i$.
+The characters are transformed following \cite{felsenstein2004inferring}'s \textit{xyz} notation where characters states are reorder so that:
+
+\begin{equation}
+x'_1 = 1 \text{ and } y'_1 = 1
+\end{equation}
+
+\noindent the following character states are then either translated using the same notation for each $i^{th}$ taxa where the state integer is incremented by $+1$ for each new encountered state:
+
+\begin{equation}
+\text{If } x_i = x_1 \text{ then } x'_i = 1 \text{; else } x'_i = x'_1 + 1
+\end{equation}
+
+\begin{equation}
+\text{If } y_i = y_1 \text{ then } y'_i = 1 \text{; else } y'_i = y'_1 + 1
+\end{equation}
+
+\noindent For example if:
+
+\texttt{x = {0,0,2,2,1,1}} and \texttt{y = {8,8,0,0,3,3}}
+
+\noindent then:
+
+\texttt{x' = {1,1,2,2,3,3}} and \texttt{y' = {1,1,2,2,3,3}}
+
+
+\noindent The following proofs consider that the \textit{xyz} notation was applied.
+
+\subsection{Justification for the character states translation}
+Because the character states tokens are not representing any meaningful numerical value if the characters are unordered (e.g. there is no assumption that state 0 should come before state 1), they need to be reordered in a standard way so that the first token in the character is renamed to ``1'', the second to ``2'' etc.
+For example, in a 3 state character for four taxa: \texttt{X = {1, 0, 2, 1}}, the character tokens that are integers representing the states could equally have been \texttt{X = {E, A, I, E}} or \texttt{X = {blue, red, absent, blue}}.
+Therefore, to compare characters fairly, the tokens needs to be translated in a standard way such as the first token is replaced by the symbol ``1'', etc.
+In this example \texttt{X = {1, 0, 2, 1}} becomes \texttt{X' = {1, 2, 3, 1}}.
+
+Note that the first two translated tokens are always equal (\texttt{x = {1, ...}} and \texttt{y = {1, ...}}) hence the denominator of $CD$ being $n - 1$ to reflect this equality.
+Because of this, $CD$ can only be applied for $n \in [2;\infty)$ (i.e. if $n = 1$, the denominator is 0).
+
+\subsection{Interpretation}
+For a character \texttt{X = {1, 0, 2, 1, 0}} implying two splits between five taxa and two characters \texttt{Y = {1, 1, 1, 2, 2}} and \texttt{Z = {0, 2, 1, 0, 2}} implying respectively one and two splits between five taxa, $CD_{(X,Y)} = 0.75$ and $CD_{(X,Z)} = 0$.
+This can be interpreted as the probability of characters \texttt{X}, \texttt{Y} and \texttt{X}, \texttt{Z} giving a conflicting phylogenetic signal between the four taxa.
+Here \texttt{X}, \texttt{Y} will conflict for 75\% of the taxa and \texttt{X}, \texttt{X} for 0\% of them.
+
+\bibliographystyle{sysbio}
+\bibliography{References}
+
+\end{document}
+
+
+
