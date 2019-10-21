@@ -306,7 +306,7 @@ For example with three characters \texttt{A = \{0,1,2,1\}}, \texttt{B = \{2,0,1,
 Because the character is continuous and bounded between $(0,1)$, it can be interpreted as the probability of two characters leading to a different set of splits (i.e. a different phylogenetic signal).
 
 \subsection{Simulating discrete morphological matrices}
-To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146}.
+To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146} using \texttt{R} \citep{R}.
 First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution maintaining $\lambda$ $>$ $\mu$ using the \texttt{diversitree} \texttt{R} package \citep[v0.9-8;][]{fitzjohndiversitree2012} and saving the tree after reaching either 25, 75 or 150 taxa.
 For each tree, we arbitrarily set the outgroup to be the first taxon (alphabetically) thus effectively rooting the trees on this taxon.
 These trees are hereafter called the ``true'' trees (see distinction below).
