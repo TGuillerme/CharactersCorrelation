@@ -260,3 +260,43 @@ plot.tree.resolution("../Data/Trees_out/Consensus_trees/", ntaxa = 75, col = c("
 ## Nodes for the trees with 150 taxa
 plot.tree.resolution("../Data/Trees_out/Consensus_trees/", ntaxa = 150, col = c("darkgrey", "red", "green3", "blue", "grey", "orange", "lightgreen", "lightblue"))
 ```
+
+## Branch length distribution
+
+How are the branch lengths distributed in the initial trees?
+
+```{r, fig.width=8, fig.height=8}
+## Branch lengths for the trees with 25 taxa
+plot.brlen.distribution("../Data/Simulations/Trees/", ntaxa = 25, cols = "grey", main = "Branch length distributions for \"true\" trees with 25 taxa", zeros = c(1e-16, 1e-10, 1e-05, 1e-01))
+```
+
+```{r, fig.width=8, fig.height=8}
+## Branch lengths for the trees with 25 taxa
+plot.brlen.distribution("../Data/Simulations/Trees/", ntaxa = 75, cols = "grey", main = "Branch length distributions for \"true\" trees with 75 taxa", zeros = c(1e-16, 1e-10, 1e-05, 1e-01))
+```
+
+```{r, fig.width=8, fig.height=8}
+## Branch lengths for the trees with 25 taxa
+plot.brlen.distribution("../Data/Simulations/Trees/", ntaxa = 150, cols = "grey", main = "Branch length distributions for \"true\" trees with 150 taxa", zeros = c(1e-16, 1e-10, 1e-05, 1e-01))
+```
+
+
+<!-- Figures for SOM: -->
+
+```{r, fig.width=8, fig.height=8, eval = TRUE, echo = FALSE}
+pdf("../Writing/Figures/Zero_brlen_25t.pdf", width = 8, height = 8)
+## Branch lengths for the trees with 25 taxa
+plot.brlen.distribution("../Data/Simulations/Trees/", ntaxa = 25, cols = "grey", main = "Branch length distributions for \"true\" trees with 25 taxa", zeros = c(1e-16, 1e-10, 1e-05, 1e-01))
+```
+
+```{r, fig.width=8, fig.height=8, eval = TRUE, echo = FALSE}
+pdf("../Writing/Figures/Zero_brlen_75t.pdf", width = 8, height = 8)
+## Branch lengths for the trees with 75 taxa
+plot.brlen.distribution("../Data/Simulations/Trees/", ntaxa = 75, cols = "grey", main = "Branch length distributions for \"true\" trees with 75 taxa", zeros = c(1e-16, 1e-10, 1e-05, 1e-01))
+```
+
+```{r, fig.width=8, fig.height=8, eval = TRUE, echo = FALSE}
+pdf("../Writing/Figures/Zero_brlen_150t.pdf", width = 8, height = 8)
+## Branch lengths for the trees with 150 taxa
+plot.brlen.distribution("../Data/Simulations/Trees/", ntaxa = 150, cols = "grey", main = "Branch length distributions for \"true\" trees with 150 taxa", zeros = c(1e-16, 1e-10, 1e-05, 1e-01))
+```
