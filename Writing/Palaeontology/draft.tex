@@ -129,11 +129,10 @@ Although the two first sources can be investigated by biologists \textit{a poste
 In this study, we use a metric of raw character difference as a proxy for character correlation.
 Using thorough simulations, we test the effect of increasing or decreasing character differences on tree topology.
 Overall, we found a negative effect of reducing character correlations on recovering the correct topology.
-%@@@ TG: AP -> accuracy precision trade off.
 This means that datasets with low correlation between characters will make it more complicated to estimate a correct topology.
 However, this effect is less important for matrices with a small number of taxa (25 in our simulations) where reducing or increasing character correlation is not more effective in getting the expected topology than randomly drawing characters.
 Furthermore, in bigger matrices (350 characters), the inference method has a strong effect with Bayesian trees being consistently less affected by character correlation than maximum parsimony trees.
-These results suggest that ignoring the problem of character correlation or independence can often impact topology in phylogenetic analysis and that analysing the correlations between characters could help understanding problematic phylogenetic matrices.
+These results suggest that ignoring the problem of character correlation or independence can often impact topology in phylogenetic analysis.
 However, encouragingly, they also suggest that, unless correlation is actively maximised or minimised, probabilistic methods can easily accommodate for a random correlation between characters.
 
 \end{abstract}
@@ -183,13 +182,8 @@ Evolutionary dependence itself requires the accurate resolution of a phylogeneti
 Intra-organismal and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inference software that are blind to these distinctions.
 If fact, what the software are confronted with is a two dimensional matrix problem that renders all morphological dependencies invisible.
-This introduces a new, less studied, source of character dependence:
-
-\begin{itemize}
-    \item \textbf{Character compatibility}: this is the result of how software actually interprets the differences between characters.
-    The majority of phylogenetic algorithms cannot interpret character descriptions and state meanings, and instead must interpret discrete states as signifiers of shared similarity: for each characters, species are grouped if they have identical characters.
-    Therefore, character with the same number of states will have a chance of being correlated regardless of mode of form of character correlation.
-\end{itemize}
+The majority of phylogenetic algorithms cannot interpret character descriptions and state meanings, and instead must interpret discrete states as signifiers of shared similarity: for each characters, species are grouped if they have identical characters.
+Therefore, character with the same number of states will have a chance of being correlated regardless of mode of form of character correlation.
 
 \noindent How does character correlation really affect topology?
 Although it has been tackled empirically (for morphological data \citealt{Davalos01072014}, and molecular data \citealt{ZouConvergence}), the question has never been explored through a thorough simulation framework.
@@ -359,14 +353,12 @@ When comparing the distribution using the Wilcoxon ranked tests, there was no cl
 In terms of clade conservation ($NTS_{RF}$), however, ``maximised'' and ``minimised'' scenarios produced nearly always consistently different topologies using Bayesian inference (apart for the matrices with 25 taxa and 100 and 350 characters and the matrices with 150 taxa and 350 characters) but not using parsimony (only the matrices with 75 taxa and 100 or 350 characters produced different $NTS_{RF}$ distributions - supplementary material 3, tables 19 and 20).
 
 \section{Discussion}
-% @@@AP- ok so im understanding that its important to measure CD because it tells you wether you are inflating your odds of getting a well resolved tree.  If you find low CD it means you should check your characters to see if you are committing coding dependency or if your traits are evolutionarily dependent then its probably an honest phylogenetic signal.  I'm not sure how Intra-organismal fits in though.  So basically the message of this paper should be "Always check your characters for correllation using this sweet metric-and if its high -check to see what kind of correlation you have"(This should go in the abstract as well) It'd then be nice to 'prescribe' methods for checking which kind of correlation you have.  Ok, Now I'm going to read the discussion and see if you did this.
 
 \subsection{Effect of character differences on topology}
 We find that there is a significant influence of morphological character correlation on inferring tree topology.
 When characters are correlated, matrices convey a strong (but potentially misleading) phylogenetic signal since characters are more likely to agree with each other and conversely, when characters are uncorrelated, one could expect them to convey a weaker phylogenetic signal with a high amount of characters giving a conflicting signal (homoplasy).
 Throughout our simulation, the ``minimised'' character difference scenario (i.e. increased correlation) tended to result in trees slightly closer to the ``true'' tree and the ``maximised'' character difference scenario led to slightly worse trees (Fig. \ref{Fig:RF_results_best}).
 These results suggest that, in matrices with high character differences, bootstrapping or other data randomisation methods can effectively improve the ability to recover the correct topology.
-%@@@ AP: does it???  I dont think I agree!  basically this just over inflates the weight of the characters you picked at random. So if its a bad character-you will recover an incorrect tree with greater confidence. No?
 
 However, this effect of increasing or reducing character difference did not appear to affect taxon placement ($NTS_{Tr}$) for which the confidence intervals overlapped too much to be able to discern clear statistical differences (Fig.\ref{Fig:Tr_results_best}).
 Furthermore, these results needs to be contrasted with the fact that the trees generated by the ``minimised'' character difference scenario do not appear better resolved (towards any topology) than the other scenarios (see supplementary material 3, Figs 12, 13 and 14).
@@ -407,8 +399,8 @@ Since many discrete morphological matrices are of similar size \citep{guillerme2
 will be sufficient to obtain a robust topology.
 In matrices with more taxa, however, the ``minimised'' scenario resulted in better topological recovery.
 Applying this type of bootstraps that minimised character difference by biasing the random sampling could thus help in understanding which characters generate more homoplasy, which nodes in the tree are conflictual or which clades might be most dependent on highly correlated characters. 
-Overall, we suggest measuring (and reporting) the levels of character difference in a matrix to help understand potential caveats in the distribution of optimal trees (e.g. a low average character difference will expect to generate more robust trees in bigger matrices).
-%@@@ MB: I think we need to be careful here. Trees with a lot of high, consistent signal might appear to have low CD. What might be a better metric to investigate is the density of characters that have very high (like, perfectly correlated) CDs a hint that a lot of the data might reflect coding the same thing.
+Overall, we suggest measuring (and reporting) the levels of character difference in a matrix to help understand potential caveats in the data.
+In fact, regions of the matrix where characters have a consistent low difference can reflect that they are coding for the same information.
 
 \subsection{Limitations}
 First, simulating evolutionary history is complex.
@@ -416,14 +408,6 @@ Not only because the models we're using to infer phylogenies are ever-improving 
 However, we do not compare the ``maximised'', ``minimised'' and ``randomised'' to the ``true'' tree but rather to the ``normal'' tree.
 This allows us to reduce the caveats from our simulations on the effect of character correlation since we only compare the simulation end products to the other outputs rather than to the simulation inputs.
  
-% Second, modifying character correlation is difficult.
-% @@@AP- the whole point is to start using CD to measure it...  you could maybe drop this paragraph and subsume the literature discussion into the discussion I suggested above about the 3 types of dependency and the potential for circular logic.  But maybe add a few lines on what you believe is state of the art for dealing with it, and then tie it up with a CHARGE to find betters ways to deal with it like in your monotreme study
-% In our simulation protocol we chose to create simulations by duplicating characters in a matrix to maximise or minimise correlation (supplementary materials 3, figures 4, 5 and 6).
-% In biology, this correlation arises from either intra-organismal or evolutionary mechanisms.
-% This could lead to correlations between characters to be more present in some parts of the trees that other \citep[e.g. in the case of inapplicable data ][]{BrazeauNA}.
-% However, because of the number of characters, it is currently too complex to attribute correlation to each kind of biological  and coding dependence and is still actively discussed in the literature \citep{Lande1983,Maddison1990,Pagel1994,Pagel2006,goswami2006morphological,goswami2010,goswami2014macroevolutionary,Grabowski2016}.
-% Therefore, we made the choice to simplify our simulations by generating character correlation as a stochastic process rather than a biological one.
-
 Second, comparing phylogenetic inference methods is not trivial.
 As mentioned above, both maximum parsimony and Bayesian inference have similar outputs nut vastly differ in how optimality is measured.
 There are also difficulties in summarising both methods with consensus trees \cite{oReilly2017efficacy}.
@@ -436,10 +420,9 @@ Useful best practices guidelines \citep[e.g.][]{Brazeau2011,simoes2017giant} and
 However, with the expansion of dataset size \citep[e.g.][> 1000 characters]{nithe2013,O'Leary08022013}, we can expect the correlation between characters to increase stochastically.
 Moreover, because phylogenetic inference software are unable to \textit{a priori} differentiate between these correlation types, it is important to understand to what extent topologies can be influenced by such bias.
 
-We found that character correlation has a strong effect on recovering the correct topology with trees having high character differences always performing more poorly at recovering the correct topology than trees with low or randomised character differences.
-%@@@ MB: Might be worth pointing to this and adding this as a reassurance: correlations not driven by selection  (e.g. pleitropy) could cancel each other out if they are randomly distributed  with respect to traits.
-%@@@ AP: Rephrase above.
+We found that character correlation has a strong effect on recovering the correct topology: matrices with high character differences always performed more poorly at recovering the correct topology than trees with low or randomised character differences.
 This is especially true in large matrices where we advise to reduce character difference by using bootstrapping with ``bias'' whereas this may not be major problem in modest size matrices (25 taxa; 100 to 350 characters).
+However, in empirical datasets, if character difference is not driven by selection (e.g. pleiotropy) correlation is likely be cancelled out if the correlated characters are randomly distributed with respect to traits.
 We recommend that all morphological phylogenetic analyses should report the level of character difference so that we can begin to detect and address the problem of coding dependence on inflating our confidence in our phylogenetic reconstructions.
 
 \section{Data availability, repeatability and reproducibility}
