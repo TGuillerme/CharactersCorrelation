@@ -77,10 +77,10 @@ pair.comp(matrix, "incompatible")
 intersect(c(which(i == "0"), which(i=="1")), c(which(j == "0"), which(j=="1")))
 paste(i)
 
-pairCompat.orig <- function(i, j, count) {
+pairCompat <- function(i, j, maximum.pairs = 2) {
     Keeps <- intersect(c(which(i == "0"), which(i=="1")), c(which(j == "0"), which(j=="1"))) #TG: This line basically removes NAs (making sure not comparing NAs, won't intersect)
     Combns <- paste(i[Keeps], j[Keeps]) #TG: This line combines both characters
     Pairs <- unique(Combns) #TG: This line counts the unique number of comparison pairs
-    Incompatibility <- ifelse(length(Pairs) < count, 0, 1) #TG: If there are less pairs than the maximum (count), character is compatible
+    Incompatibility <- ifelse(length(Pairs) < maximum.pairs, 0, 1) #TG: If there are less pairs than the maximum (count), character is compatible
     return(Incompatibility)
 }
