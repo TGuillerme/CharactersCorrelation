@@ -154,15 +154,15 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 \section{Introduction}
 The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
 This owes in large part to the advent of new models, methods and software \citep{lewisa2001,ronquista2012,Ronquist2012mrbayes,heath2014fossilized} and the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary.
-While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any investigations into their statistical properties.
-As morphological data are likely to continue to play an extensive role in phylogenetic analysis (namely for neontological analysis), it is essential to understand the circumstances under which morphological data might be expected to lead to erroneous phylogenetic inferences.
+While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any investigations into their statistical properties. %MB: I think there are a few classic papers we could cite here. The dismissal tends to arise with the same 'workflow': calculate a molecular tree; calculate a morphological tree; see that they are different; shit on the morphological tree because of this that and the other, but never bother to check if the data actually suggest these phenomena. TG: which ones?
+As morphological data are likely to continue to play an extensive role in phylogenetic analysis,  %MB: cite Nature paper here. TG: which one?
+it is essential to understand the circumstances under which morphological data might be expected to lead to erroneous phylogenetic inferences.
 This opens up possibilities for analysing problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
 
 The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data \cite[e.g.][]{Davalos01072014, ZouConvergence}.
 The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-However, several distinctions can be made between the amount and the nature of the correlation.
-First, molecular and morphological data often differ in the size and number of states analysed.
-Second, correlations have been proposed to be stronger in morphological data but weaker and more ``spread-out'' in molecular data \citep[][]{huelsenbeck1999effect}.
+Non-independence of characters implies that some suites of characters are expected to transform in highly correlated ways.
+Not only does this violate the assumptions of phylogenetic analysis, but implies that if convergence has occurred in correlated sets of characters, then this would lead to spurious cladistic groupings.
 Here we distinguish three different modes of forms of character correlation (described in more details in \citealt{wilkison1992ordered,wilkinson1995character,wilkinson1995coping}):
 
 \begin{itemize}
@@ -172,15 +172,18 @@ Here we distinguish three different modes of forms of character correlation (des
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving. 
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
 
-    \item \textbf{Coding dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
+    \item \textbf{\color{blue}{Logical} dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail \citep{wilkinson1995coping,BrazeauNA}.
+    \color{blue}{Note that there are a lot of alternative methodological choices for this example \citep[e.g. using inapplicable tokens; ][]{Brazeau2011} and that these choices affect results more or less depending on the estimation method (parsimony methods contrast with probabilistic methods were ancestral conditions are respectively fixed or not).}
 \end{itemize}
 
 \noindent Of course, the three sources of dependence can have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
-Coding dependence, however, is easily distinguished prior to phylogenetic inference, while intra-organismal and evolutionary dependence are much harder to parse.
+\color{blue}{Logical dependence}, however, is easily distinguished prior to phylogenetic inference, while intra-organismal and evolutionary dependence are much harder to parse.
 Meanwhile, the development of algorithms and software has not yet caught up with the need to deal with these interdependencies \citep{de2015parsimony,BrazeauNA}.
 Intra-organismal dependence requires more detailed, often extremely time-consuming studies (possibly beyond the limits of available technology).
-Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree, and is best determined by independent character sets. 
+Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree \color{blue}{(but see useful methods from \citealt{Pagel1994} and \citealt{billet2019serial}), and is best determined by independent character sets.
+The latter is commonly hard to get because of the nature of the data: some common types of data (e.g. fossil data) offer very few options of independent character sets and no biological datasets can really be independent.
+It is also worth noting that the evolutionary and intra-organismal dependences induced correlations are by no means restricted to the use of discrete morphological data. In fact, by essence, these correlations appear to any type of data whether continuous (e.g. linear measurements or morphometric geometric measurements) or non-morphological (e.g. behaviour, or - much more commonly used - molecular data).}
 
 Intra-organismal and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inference software that are blind to these distinctions.
@@ -190,7 +193,7 @@ Therefore, character with the same number of states will have a chance of being 
 
 \noindent How does character correlation really affect topology?
 Although it has been tackled empirically (for morphological data \citealt{Davalos01072014}, and molecular data \citealt{ZouConvergence}), the question has never been explored through a thorough simulation framework.
-sSimulations can allow the design of datasets with controlled levels of correlation and for which the correct expected answer is known by design.
+Simulations can allow the design of datasets with controlled levels of correlation and for which the correct expected answer is known by design.
 Furthermore, using simulations will allow drawing generalities on the effect of character correlation on phylogenetic inference in contrast to potential idiosyncrasies of empirical datasets.
 Here we use a Hamming distance metric to measure the difference between characters (as a proxy for these three sources of correlation as interpreted by the software) and a protocol to modify discrete morphological matrices to increase or decrease the overall differences or similarities between characters.
 We found that overall, there is a clear effect of character correlation on topology where a decrease in character correlation results in a decrease in the ability to recover the correct topology.
@@ -199,7 +202,7 @@ These results, however, vary greatly in magnitude depending on the size of matri
 \section{Methods}
 To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different average correlation between characters (Fig.\ref{Fig:outline} - note that each step is described in more details below):
 \begin{enumerate}
-    \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 or 150 taxa, for 100, 350 or 1000 characters, hereafter called the ``normal'' matrices. This step resulted in 9 matrices.
+    \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 or 150 taxa, for 100, 350 or 1000 characters, hereafter called the \color{blue}{\textit{unperturbed matrices}}. This step resulted in 9 matrices.
 
     \item \textbf{Modifying matrices}: we changed the ``normal'' matrices by modifying the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least different or most different characters and replacing them randomly by characters from the remaining set.
     We also randomised the ``normal'' matrices without bias towards maximising or minimising character differences (hereafter called the ``randomised'' matrices).
