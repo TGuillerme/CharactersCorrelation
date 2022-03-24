@@ -30,7 +30,7 @@
 \usepackage{dcolumn}
 \usepackage{lineno}
 \usepackage{pdflscape}
-
+\usepackage{xcolor}
 \usepackage{color,soul}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
@@ -94,6 +94,9 @@ $^1$School of Biological Sciences, University of Queensland, St. Lucia, Queensla
 $^2$Imperial College London, Silwood Park Campus, Department of Life Sciences, Buckhurst Road, Ascot SL5 7PY, United Kingdom.\\
 $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London, SW75BD, United Kingdom.\\}
 
+% TODO: change the affiliations
+
+
 \end{center}
 \medskip
 \noindent{*\bf Corresponding author.} \textit{guillert@tcd.ie}\\ 
@@ -124,7 +127,7 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 \newpage
 \begin{abstract}
 Phylogenetic analysis algorithms assume character independence - a condition generally acknowledged to be violated by morphological data.
-Correlation between characters can originate from intra-organismal features, shared phylogenetic history or forced by particular character-state coding schemes. 
+Correlation between characters can originate from intra-organismal features, \color{blue}{evolutionary dependence} or forced by particular character-state coding schemes.
 Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be diminished \textit{a priori} with careful character coding, phylogenetic software do not distinguish between any of them.
 In this study, we use a metric of raw character difference as a proxy for character correlation.
 Using thorough simulations, we test the effect of increasing or decreasing character differences on tree topology.
@@ -222,9 +225,9 @@ To measure the effect of character correlation as interpreted by the phylogeneti
 In order to measure this, we used the following scaled Hamming distance between two characters:
 
 \subsubsection{Character Difference ($CD$)}
-\begin{equation}
-    CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
-\end{equation}
+% \begin{equation}
+%     CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
+% \end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 $CD$ is a continuous scaled Hamming distance metric bounded between $0$ and $1$.
