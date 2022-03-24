@@ -127,7 +127,7 @@ $^3$Department of Earth Sciences, Natural History Museum, Cromwell Road, London,
 \newpage
 \begin{abstract}
 Phylogenetic analysis algorithms assume character independence - a condition generally acknowledged to be violated by morphological data.
-Correlation between characters can originate from intra-organismal features, \color{blue}{evolutionary dependence} or forced by particular character-state coding schemes.
+Correlation between characters can originate from intra-organismal features, \textcolor{blue}{evolutionary dependence} or forced by particular character-state coding schemes.
 Although the two first sources can be investigated by biologists \textit{a posteriori} and the third one can be diminished \textit{a priori} with careful character coding, phylogenetic software do not distinguish between any of them.
 In this study, we use a metric of raw character difference as a proxy for character correlation.
 Using thorough simulations, we test the effect of increasing or decreasing character differences on tree topology.
@@ -172,20 +172,20 @@ Here we distinguish three different modes of forms of character correlation (des
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving. 
     For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
 
-    \item \textbf{\color{blue}{Logical} dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
+    \item \textbf{Logical dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail \citep{wilkinson1995coping,BrazeauNA}.
-    \color{blue}{Note that there are a lot of alternative methodological choices for this example \citep[e.g. using inapplicable tokens; ][]{Brazeau2011} and that these choices affect results more or less depending on the estimation method (parsimony methods contrast with probabilistic methods were ancestral conditions are respectively fixed or not).}
+    \textcolor{blue}{Note that there are a lot of alternative methodological choices for this example \citep[e.g. using inapplicable tokens; ][]{Brazeau2011} and that these choices affect results more or less depending on the estimation method (parsimony methods contrast with probabilistic methods were ancestral conditions are respectively fixed or not).}
 \end{itemize}
 
 \noindent Of course, the three sources of dependence can have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
-\color{blue}{Logical dependence}, however, is easily distinguished prior to phylogenetic inference, while intra-organismal and evolutionary dependence are much harder to parse.
+Logical dependence, however, is easily distinguished prior to phylogenetic inference, while intra-organismal and evolutionary dependence are much harder to parse.
 Meanwhile, the development of algorithms and software has not yet caught up with the need to deal with these interdependencies \citep{de2015parsimony,BrazeauNA}.
 Intra-organismal dependence requires more detailed, often extremely time-consuming studies (possibly beyond the limits of available technology).
-Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree \color{blue}{(but see useful methods from \citealt{Pagel1994} and \citealt{billet2019serial}), and is best determined by independent character sets.
-The latter is commonly hard to get because of the nature of the data: some common types of data (e.g. fossil data) offer very few options of independent character sets and no biological datasets can really be independent.
+Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree (but see useful methods from \citealt{Pagel1994} and \citealt{billet2019serial}), and is best determined by independent character sets.
+\textcolor{blue}{The latter is commonly hard to get because of the nature of the data: some common types of data (e.g. fossil data) offer very few options of independent character sets and no biological datasets can really be independent.
 It is also worth noting that the evolutionary and intra-organismal dependences induced correlations are by no means restricted to the use of discrete morphological data. In fact, by essence, these correlations appear to any type of data whether continuous (e.g. linear measurements or morphometric geometric measurements) or non-morphological (e.g. behaviour, or - much more commonly used - molecular data).}
 
-Intra-organismal and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
+\color{black}{Intra-organismal} and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inference software that are blind to these distinctions.
 If fact, what the software are confronted with is a two dimensional matrix problem that renders all morphological dependencies invisible.
 The majority of phylogenetic algorithms cannot interpret character descriptions and state meanings, and instead must interpret discrete states as signifiers of shared similarity: for each characters, species are grouped if they have identical characters.
@@ -202,18 +202,19 @@ These results, however, vary greatly in magnitude depending on the size of matri
 \section{Methods}
 To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different average correlation between characters (Fig.\ref{Fig:outline} - note that each step is described in more details below):
 \begin{enumerate}
-    \item \textbf{Simulating matrices}: we simulated discrete morphological matrices with 25, 75 or 150 taxa, for 100, 350 or 1000 characters, hereafter called the \color{blue}{\textit{unperturbed matrices}}. This step resulted in 9 matrices.
+    \item \textbf{Simulating matrices}: \textcolor{blue}{using a randomly generated topology (the \textit{starting tree})} we simulated discrete morphological matrices with 25, 75 or 150 taxa, for 100, 350 or 1000 characters, hereafter called the \textcolor{blue}{\textit{unperturbed matrices}}.
+    This step resulted in 9 matrices.
 
-    \item \textbf{Modifying matrices}: we changed the ``normal'' matrices by modifying the characters in order to maximise or minimise characters differences (hereafter called respectively ``maximised'' and ``minimised'' matrices) by removing respectively the least different or most different characters and replacing them randomly by characters from the remaining set.
-    We also randomised the ``normal'' matrices without bias towards maximising or minimising character differences (hereafter called the ``randomised'' matrices).
+    \item \textcolor{blue}{\textbf{Inducing correlation}: To induce different levels of unpredicted correlation, we used the unperturbed matrices as the basis of a series of resampling manipulations that either enriched or depleted the matrix with correlated characters.
+    We modified the matrices by running three types of bootstrapping methods (i.e. removing a set of characters by a set of remaining ones): 1) a classical bootstrap (randomly removing/replacing characters) as our null change in character correlation (hereafter, the \textit{randomised matrices}); 2) a biassed bootstrap towards correlation (removing/replacing the most different characters) to generate matrices with maximised correlation (the \textit{maximised correlation matrices}) and 3) a biassed bootstrap away from correlation (removing/replacing the least different characters) to generate the \textit{minimised correlation matrices} (i.e. with a minimised amount of correlation).}
 
-    \item \textbf{Inferring topologies}: we inferred the topologies from the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices using both maximum parsimony and Bayesian inference.
-    Hereafter, the resultant topologies are called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' trees).
+    \item \textcolor{blue}{\textbf{Inferring topologies}: we inferred the topologies from the unperturbed, randomised, maximised correlation and minimised correlation matrices using both maximum parsimony and Bayesian inference. Hereafter, the resultant topologies are called the unperturbed, randomised, maximised correlation and minimised correlation trees.}
 
-    \item \textbf{Comparing topologies}: finally, we compared the ``normal'' to the ``maximised'', ``minimised'' and ``randomised'' trees to measure the effect of character correlation on the recovered topology.
+    \item \textcolor{blue}{\textbf{Comparing topologies}: finally, we compared the unperturbed tree to the trees recovered from analysis of the three different dataset types (randomised, maximised and minimised correlation) to measure the effect of character correlation on the recovered topology.}
 
 \end{enumerate}
 All steps were replicated 20 times and are described below in more detail.
+\textcolor{blue}{Note that we compare to the topologies from the randomised, maximised and minimised correlation trees to the unperturbed tree rather than to the starting tree because differences with the starting tree can be due to other confounding factors which are out of the scope of this study (e.g. the algorithms used to simulate characters).}
 
 \begin{figure}[!htbp]
 \centering
@@ -222,15 +223,42 @@ All steps were replicated 20 times and are described below in more detail.
 \label{Fig:outline}
 \end{figure}
 
+\subsection{Simulating discrete morphological matrices}
+
+To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146} using \texttt{R} \citep{R}.
+First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution with $\lambda$ $>$ $\mu$ \citep[\texttt{diversitree} v0.9-8;][]{fitzjohndiversitree2012} and saving the trees after reaching either 25, 75 or 150 taxa (see supplementary material 3, Figs 1, 2 and 3).
+For each tree, we arbitrarily set the outgroup to be the first taxon (alphabetically) thus effectively rooting the trees on this taxon.
+These trees are hereafter called the \textcolor{blue}{\textit{starting trees}}.
+We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
+\begin{itemize}
+    \item The ``morphological HKY-binary'' model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a Dirichlet distribution $Dir(1,1,1,1)$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
+    \textcolor{blue}{This allows the changes in character states to vary without specifying which change is more likely, hence expecting an equiprobable change in character state in all directions.}
+    \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
+    We drew the number of character states with a probability of $0.85$ for binary characters \textcolor{blue}{(using a $2\times2$ Q matrix)} and $0.15$ for three state characters (\textcolor{blue}{using a $3\times3$ Q matrix);} \citealt{Guillerme2016146,ZouConvergence}). %TG: this Q matrix bit is very jargony and unsincere...
+\end{itemize}
+
+\noindent For each character, both models (``morphological HKY-binary'' or M$k$) were chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
+\textcolor{blue}{This simulated, for each character, a variation in the change of character state at different rates while ensuring that these rates were drawn from the same distribution, resulting in an overall mean character rate of 0.05 with a variance of 0.0005.}
+These low evolutionary rate values allowed reduction in the number of homoplasic character changes, thus reinforcing the phylogenetic information in the matrices.
+\textcolor{blue}{We re-simulated every invariant character to obtain a matrix with no invariant characters (making the effective mean rate to $>0.05$).
+Although invariant characters are important for effectively measuring the true evolutionary rates, many empirical matrices do not contain invariant characters which is in turn taken into account by software that accommodate for this ascertainment bias.}
+We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.
+To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ (\textcolor{blue}{expecting at least 3.85 (1/0.26) changes per derived character}; \citealt{sanderson1989patterns,OReilly20160081}).
+
+For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
+The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
+We repeated this step 20 times resulting in 180 ``normal'' morphological matrices.
+
+
 \subsection{Measuring differences between characters}
 \label{CDdescription}
 To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
 In order to measure this, we used the following scaled Hamming distance between two characters:
 
 \subsubsection{Character Difference ($CD$)}
-% \begin{equation}
-%     CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
-% \end{equation}
+\begin{equation}
+    CD_{(x,y)} = \frac{\sum_{i}^{n}\abs{x_{i} - y_{i}}}{n-1}
+\end{equation}
 
 \noindent Where $n$ is the number of taxa with comparable characters $x$, $y$ and $x_i$, $y_i$ are each character's state for the $i^{th}$ taxon.
 $CD$ is a continuous scaled Hamming distance metric bounded between $0$ and $1$.
@@ -242,27 +270,6 @@ This procedure allows comparison of characters regardless of the significance gi
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}}.
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated). 
 When the character difference is maximal ($1$) it means the characters convey the greatest difference in phylogenetic signal
-
-\subsection{Simulating discrete morphological matrices}
-To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146} using \texttt{R} \citep{R}.
-First, we generate random birth-death trees with the birth ($\lambda$) and death ($\mu$) parameters sampled from a uniform $(0,1)$ distribution with $\lambda$ $>$ $\mu$\citep[\texttt{diversitree} v0.9-8;][]{fitzjohndiversitree2012} and saving the trees after reaching either 25, 75 or 150 taxa (see supplementary material 3, Figs 1, 2 and 3).
-For each tree, we arbitrarily set the outgroup to be the first taxon (alphabetically) thus effectively rooting the trees on this taxon.
-These trees are hereafter called the ``true'' trees (see distinction below).
-We then simulated discrete morphological characters on the topology of these trees using the either of the two following models:
-\begin{itemize}
-    \item The ``morphological HKY-binary'' model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a Dirichlet distribution $Dir(1,1,1,1)$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
-    \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
-    We drew the number of character states with a probability of $0.85$ for binary characters and $0.15$ for three state characters \citep{Guillerme2016146,ZouConvergence}.
-\end{itemize}
-
-\noindent For each character, both models (``morphological HKY-binary'' or M$k$) were chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
-These low evolutionary rate values allowed reduction in the number of homoplasic character changes, thus reinforcing the phylogenetic information in the matrices.
-We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.
-To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to $0.26$ \citep{sanderson1989patterns,OReilly20160081}.
-
-For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 1000 characters following \cite{OReilly20160081}.
-The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-We repeated this step 20 times resulting in 180 ``normal'' morphological matrices.
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
