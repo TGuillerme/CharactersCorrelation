@@ -199,6 +199,11 @@ Here we use a Hamming distance metric to measure the difference between characte
 We found that overall, there is a clear effect of character correlation on topology where a decrease in character correlation results in a decrease in the ability to recover the correct topology.
 These results, however, vary greatly in magnitude depending on the size of matrix and the inference method used.
 
+%---------------------------------------------
+%
+%       METHODS
+%
+%---------------------------------------------
 \section{Methods}
 To assess the effects of character correlation on the accuracy of phylogenetic inference we generated a series of matrices exhibiting different average correlation between characters (Fig.\ref{Fig:outline} - note that each step is described in more details below):
 \begin{enumerate}
@@ -321,33 +326,38 @@ To measure the effect of character correlation, we used a combination of the Wil
 The resulting full simulation was 2TB in size so is not shared here (though the parameters are).
 However, the resulting consensus trees on which the topological differences are calculated are available at \url{https://figshare.com/s/7a8fde8eaa39a3d3cf56}.
 
+%---------------------------------------------
+%
+%       RESULTS
+%
+%---------------------------------------------
 \section{Results}
 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{RF_results_best.eps}
-\caption{\small{Effect of character difference on recovering the topology from the unperturbed matrix in terms of clade conservation ($NTS_{RF}$). The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the ``maximised'' character difference in Bayesian (red) and under maximum parsimony (orange), the ``minimised'' character difference in Bayesian (dark green) and under maximum parsimony (light green) and the ``randomised'' character difference in Bayesian (dark blue) and under maximum parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
+\caption{\small{Effect of character correlation on recovering the topology from the unperturbed matrix in terms of clade conservation ($NTS_{RF}$). The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different correlation scenarios and tree inference method with the maximised correlation in Bayesian (red) and under maximum parsimony (orange), the minimised correlation in Bayesian (dark green) and under maximum parsimony (light green) and the randomised correlation in Bayesian (dark blue) and under maximum parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
 \label{Fig:RF_results_best}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Tr_results_best.eps}
-\caption{Effect of character difference on recovering the ``normal'' topology in terms of Triplets ($NTS_{Tr}$). The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Triplets distance.}
+\caption{Effect of character correlation on recovering the topology from the unperturbed matrix in terms of Triplets ($NTS_{Tr}$). The axis are identical to figure \ref{Fig:RF_results_best} but y axis represents the Normalised Tree Similarity using Triplets distance.}
 \label{Fig:Tr_results_best}
 \end{figure}
 
 \subsection{Effect of character differences on topology}
-The overall amount of character difference in a matrix has an effect of the ability to recover the correct topology when minimising character difference leading to the smallest loss in phylogenetic information followed by randomising and maximising the character difference (see supplementary materials 3, Tables 3, 4 and 5).
+\textcolor{blue}{The overall amount of character difference in a matrix has an effect of the ability to recover the topology from the unperturbed matrix when maximised character correlation leading to the smallest loss in phylogenetic information followed by randomising and minimising the character correlation} (see supplementary materials 3, Tables 3, 4 and 5).
 There is a significant difference between all scenarios in terms of clade conservation ($NTS_{RF}$ - Table \ref{Tab_pooledscenarios_test}).
 However, there is no difference in terms of taxon displacement between the three scenarios ($NTS_{Tr}$ - Table \ref{Tab_pooledscenarios_test}).
 
 \input{Tab_pooledscenarios_test.tex}
 
 \subsubsection{Number of characters}
-This effect of the character difference affects clade conservation ($NTS_{RF}$) only over large differences in number of characters (100 \textit{vs.} 1000 - Table \ref{Tab_pooledscharacters_test}).
+The effect of the character difference affects clade conservation ($NTS_{RF}$) only over large differences in number of characters (100 \textit{vs.} 1000 - Table \ref{Tab_pooledscharacters_test}).
 For closer differences between characters numbers (100 \textit{vs.} 350 and 350 \textit{vs.} 1000), Wilcoxon tests showed clear differences ($p = 0$) but with high distribution overlap ($BC > 0.96$).
-Regarding taxon displacements ($NTS_{Tr}$), there was an effect of the number of characters  although the with a high distribution overlap between 350 and 1000 characters (Table \ref{Tab_pooledscharacters_test}).
+Regarding taxon displacements ($NTS_{Tr}$), there was an effect of the number of characters although the with a high distribution overlap between 350 and 1000 characters (Table \ref{Tab_pooledscharacters_test}).
 
 \input{Tab_pooledscharacters_test.tex}
 
@@ -361,13 +371,12 @@ The significant differences have to be contrasted with still high probabilities 
 \subsection{Effect of character differences on the inference method}
 Regarding the inference method, there is a significant difference in clade conservation between Bayesian and maximum parsimony (\textit{p} = 0 Table \ref{Tab_pooledsmethods_test}) but not in terms of individual taxon placements (\textit{p} = 0.041 but $BC > 0.95$; Table \ref{Tab_pooledsmethods_test}).
 
-
 \input{Tab_pooledsmethods_test.tex}
 
 \subsection{Combined effects of taxa, characters and correlation on topology}
-When looking at the combined effect of each parameter, the ``maximised'', ``minimised'' and ``randomised'' scenarios $NTS_{RF}$ and $NTS_{Tr}$ never overlap ($BC < 0.95$ - supplementary material 3, tables 16 and 17).
+When looking at the combined effect of each parameter, the maximised, minimised or randomised correlation scenarios $NTS_{RF}$ and $NTS_{Tr}$ never overlap ($BC < 0.95$ - supplementary material 3, tables 16 and 17).
 When comparing the distribution using the Wilcoxon ranked tests, there was no clear differences between tree similarity of differencing numbers of taxa, characters, tree correlation, or tree inference method for the taxon displacement metric ($NTS_{Tr}$ - supplementary material 3, tables 21 and 22).
-In terms of clade conservation ($NTS_{RF}$), however, ``maximised'' and ``minimised'' scenarios produced nearly always consistently different topologies using Bayesian inference (apart for the matrices with 25 taxa and 100 and 350 characters and the matrices with 150 taxa and 350 characters) but not using parsimony (only the matrices with 75 taxa and 100 or 350 characters produced different $NTS_{RF}$ distributions - supplementary material 3, tables 19 and 20).
+In terms of clade conservation ($NTS_{RF}$), however, maximised and minimised correlation scenarios produced nearly always consistently different topologies using Bayesian inference (apart for the matrices with 25 taxa and 100 and 350 characters and the matrices with 150 taxa and 350 characters) but not using parsimony (only the matrices with 75 taxa and 100 or 350 characters produced different $NTS_{RF}$ distributions - supplementary material 3, tables 19 and 20).
 
 \section{Discussion}
 
@@ -451,7 +460,7 @@ The post-simulation analysis, tables and figures (reported in this manuscript) a
 European Research Council under the European Union’s Seventh Framework Programme (FP/2007–2013)/ERC Grant Agreement number 311092.
 
 \section{Acknowledgements}
-Calculations where done using the Imperial College London Cluster Services (doi: 10.14469/hpc/2232) and the Australian QRIScloud Awoonga cluster services. We thank Alberto Pascual Garcia for input in the design of the simulations protocol, Guillermo Herraiz Yebes for helping with the CD metric proof and Orlin Todorov for assistance with the computations. We also thank the three anonymous reviewers for there constructive and insightful comments.
+Calculations where done using the Imperial College London Cluster Services (doi: 10.14469/hpc/2232) and the Australian QRIScloud Awoonga cluster services. We thank Alberto Pascual Garcia for input in the design of the simulations protocol and Orlin Todorov for assistance with the computations. We also thank the three anonymous reviewers for there constructive and insightful comments.
 
 \bibliographystyle{sysbio}
 \bibliography{References}
