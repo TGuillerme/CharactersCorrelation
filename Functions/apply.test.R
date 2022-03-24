@@ -7,7 +7,6 @@
 #' @param best which best tree (rand or norm)
 #' @param test which test (if NULL, simply summarises the distribution)
 #' @param convert.row.names whether to convert the row names into columns data (TRUE) or not (FALSE)
-#' @param translate whether to translate the param names to the latest publication (maxi -> minimised, mini -> maximised, norm -> unperturbed, rand -> randomised)
 #' 
 #' @examples
 #'
@@ -16,7 +15,7 @@
 #' @author Thomas Guillerme
 #' @export
 
-apply.test <- function(data, metric, best, test, convert.row.names = TRUE, translate = TRUE) {
+apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
 
     ## Combined
     combined <- TRUE
@@ -219,6 +218,7 @@ apply.pair.test <- function(table, test) {
 #' @param metric.label the metrics labels (can be missing)
 #' @param comp.label the comparisons labels (can be missing)
 #' @param correction which correction to apply
+#' @param translate whether to translate the param names to the latest publication (maxi -> minimised, mini -> maximised, norm -> unperturbed, rand -> randomised)
 #' 
 #' @examples
 #'
@@ -227,7 +227,7 @@ apply.pair.test <- function(table, test) {
 #' @author Thomas Guillerme
 #' @export
 #' 
-pair.test.table <- function(distributions, digit = 3, metric.label, comp.label, correction = "bonferroni") {
+pair.test.table <- function(distributions, digit = 3, metric.label, comp.label, correction = "bonferroni", translate = TRUE) {
 
     tests <- c(bhatt.coeff, wilcox.test)
 
@@ -251,21 +251,21 @@ pair.test.table <- function(distributions, digit = 3, metric.label, comp.label, 
     ## Rounding
     table <- round(table, digit = digit)
 
-    ## Adding the metrics and comp (if not missing)
+    ## Adding the metrics and comp (if not missing)
     if(!missing(metric.label) && !missing(comp.label)) {
         labels <- data.frame("comp" = comp.label, "metric" = metric.label, rownames(table))
         colnames(labels)[length(labels)] <- "test"
         table_out <- cbind(labels, as.data.frame(table))
     }
 
-    ## Adding the metrics (if not missing)
+    ## Adding the metrics (if not missing)
     if(!missing(metric.label) && missing(comp.label)) {
         labels <- data.frame("metric" = metric.label, rownames(table))
         colnames(labels)[length(labels)] <- "test"
         table_out <- cbind(labels, as.data.frame(table))
     }
 
-    ## Adding the comp (if not missing)
+    ## Adding the comp (if not missing)
     if(missing(metric.label) && !missing(comp.label)) {
         labels <- data.frame("comp" = comp.label, rownames(table))
         colnames(labels)[length(labels)] <- "test"
@@ -275,6 +275,37 @@ pair.test.table <- function(distributions, digit = 3, metric.label, comp.label, 
     if(missing(metric.label) && missing(comp.label)) {
         table_out <- table
     }
+
+
+
+
+
+
+
+        # ## Translate the param names
+        # if(length(change <- which(param == "maxi")) > 0) {
+        #     param[change] <- "minimised"
+        #     change <- integer()
+        # }
+        # if(length(change <- which(param == "mini")) > 0) {
+        #     param[change] <- "maximised"
+        #     change <- integer()
+        # }
+        # if(length(change <- which(param == "rand")) > 0) {
+        #     param[change] <- "randomised"
+        #     change <- integer()
+        # }
+        # if(length(change <- which(param == "norm")) > 0) {
+        #     param[change] <- "unperturbed"
+        #     c
+
+
+
+
+
+
+
+
 
     return(table_out)
 }

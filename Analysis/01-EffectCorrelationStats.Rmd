@@ -98,7 +98,7 @@ test_table$test <- gsub(":", " vs. ", test_table$test)
 
 ```{r, echo = FALSE}
 ## Caption
-cap_pool_scen_test <- paste("Differences between the Normalised Tree Similarities in terms of clade conservation (Robinson-Foulds distances - RF) and taxa displacement (Triplets - Tr) for each minimised (mini), maximised (maxi) and randomised (rand) character differences. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction).")
+cap_pool_scen_test <- paste("Differences between the Normalised Tree Similarities in terms of clade conservation (Robinson-Foulds distances - RF) and taxa displacement (Triplets - Tr) for each maximised, minimised and randomised correlation. Bhatt.coeff is the Bhattacharrya Coefficient (probability of overlap), the statistic and the p.value are from a non-parametric Wilcoxon test (with Bonferonni-Holm correction).")
 
 ## Printing the tables
 kable(test_table, row.names = FALSE, caption = cap_pool_scen_test)
