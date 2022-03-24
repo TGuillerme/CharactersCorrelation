@@ -19,7 +19,7 @@ if(!require(devtools)) install.packages("devtools")
 if(!require(dispRity)) install_github("TGuillerme/dispRity")
 
 ## The cran version of diversitree
-if(!require(diversitree)) install.packages("diversitree")
+if(!require(diversitree)) install_github("richfitz/diversitree")
 ```
 
 ```{r, results="hide", message=FALSE}
@@ -180,19 +180,19 @@ plot(char_diff_matrix_rand, type = "matrix")
 <!-- Paper figure -->
 
 
-```{r, fig.width=12, fig.height=12, eval = FALSE, echo = FALSE}
-# pdf("../../Writing/Figures/Modif_matrix.pdf", width = 7.2, height = 4.5)
+```{r, fig.width=12, fig.height=12, eval = TRUE, echo = FALSE}
+pdf("../../Writing/Figures/Modif_matrix2.pdf", width = 7.2, height = 4.5)
 par(mfrow = c(2, 3), bty = "n", mar = c(1,1,1,1))
 ## Tree
-plot(tree, cex = 0.8, main = "A - Simulated tree")
+plot(tree, cex = 0.8, main = "A - Starting tree")
 ## Normal matrix
-plot(char_diff_matrix_norm, type = "matrix", main = "B - Normal matrix", legend = FALSE)
+plot(char_diff_matrix_norm, type = "matrix", main = "B - Unperturbed matrix", legend = FALSE)
 ## Empty plot
 plot(0,0, col = "white", xaxt = 'n', yaxt = 'n', xlab = "", ylab = "")
 ## Maximised matrix
-plot(char_diff_matrix_maxi, type = "matrix", main = "C - Maximised matrix", legend = FALSE)
+plot(char_diff_matrix_maxi, type = "matrix", main = "C - Minimised correlation matrix", legend = FALSE)
 ## Minimised matrix
-plot(char_diff_matrix_mini, type = "matrix", main = "D - Minimised matrix", legend = FALSE)
+plot(char_diff_matrix_mini, type = "matrix", main = "D - Maximised correlation matrix", legend = FALSE)
 ## Randomised matrix
 plot(char_diff_matrix_rand, type = "matrix", main = "E - Randomised matrix", legend = FALSE)
 dev.off()

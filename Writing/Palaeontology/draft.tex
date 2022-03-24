@@ -249,11 +249,13 @@ For each tree with 25, 75 or 150 taxa we generated matrices with 100, 350 and 10
 The matrices were generated using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
 We repeated this step 20 times resulting in 180 ``normal'' morphological matrices.
 
-
 \subsection{Measuring differences between characters}
+
 \label{CDdescription}
-To measure the effect of character correlation as interpreted by the phylogenetic software, we define characters as being entirely correlated if they give the same phylogenetic information.
-In order to measure this, we used the following scaled Hamming distance between two characters:
+
+
+\textcolor{blue}{In order to introduce more or remove correlation in the unperturbed matrices, we use a character difference metric that is the scaled Hamming distance between two characters.
+Using this metric, two characters can have a character difference ranging from 0 (no difference, the characters are perfectly correlated and will provide the same phylogenetic information) to 1 (the characters are completely different and uncorrelated providing a different phylogenetic information):}
 
 \subsubsection{Character Difference ($CD$)}
 \begin{equation}
@@ -264,28 +266,29 @@ In order to measure this, we used the following scaled Hamming distance between 
 $CD$ is a continuous scaled Hamming distance metric bounded between $0$ and $1$.
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states as binary (e.g. $2 - 2 = 0$ or $1 - 8 = 1$).
 
-We standardised each character by arbitrarily modifying their character state tokens (or symbols) by order of appearance.
-We replaced all the occurrences of the first token to be $1$, the second to be $2$, etc.
+We standardised each character by arbitrarily modifying their character state tokens (or symbols) by \textcolor{blue}{order of appearance in the matrix - for example for the first character (1st column) in the matrix, if the state coded for the first OTU (1st row) was \texttt{3}, it was translated into \texttt{1} for the whole character (across the 1st column); if the state coded for the second OTU (2nd row) was \texttt{0}, it was translated into \texttt{2} for the whole character, etc.}
+We replaced all the occurrences of the first token to be \texttt{1}, the second to be \texttt{2}, etc.
 This procedure allows comparison of characters regardless of the significance given to their tokens (following the \textit{xyz} notation in \citealt{felsenstein2004inferring}; as used in \citealt{Davalos01072014}).
-This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}}.
+This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \textcolor{blue}{(see supplementary materials 1)}.
 When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated). 
 When the character difference is maximal ($1$) it means the characters convey the greatest difference in phylogenetic signal
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
-We then modified the matrices to either maximise or minimise the pairwise character differences for each matrix using three different algorithms.
-For maximising the pairwise differences between characters, we selected the characters that were the most similar to all the others (mean character difference $<0.25$) and replaced them randomly by any of the remaining characters.
-This operation increased the overall pairwise character difference in the matrix thus making the characters more dissimilar.
-Conversely, for minimising the pairwise character differences, we selected the most dissimilar characters (mean character difference $>0.75$) and randomly replaced them with the remaining ones.
-Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $<0.25$ or $>0.75$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification.
+We then modified the matrices to \textcolor{blue}{either decrease or increase character difference, respectively maximising or minimising correlation}.
+For \textcolor{blue}{decreasing the pairwise differences between characters, we selected the characters that were the most dissimilar to all the others (mean character difference $>0.75$) and replaced them randomly by any of the remaining characters.
+This operation made the characters in the matrix more similar to each other, thus maximising character correlation.}
+Conversely, for \textcolor{blue}{increasing} the pairwise character differences, we selected the most similar characters (mean character difference $<0.25$) and randomly replaced them with the remaining ones, \textcolor{blue}{thus minimising character correlation.}
+Finally, because this operation effectively changes the weight of characters (i.e. giving the characters $>0.75$ or $<0.25$ a weight of $0$ and giving the randomly selected remaining characters a weight of +$1$), we randomly replaced the average number of characters replaced in the character maximisation and minimisation by any other characters as a randomised expectation modification.
 Each replaced characters were randomly selected by sampling them randomly from the list of the remaining characters.
-This step resulted in a total of 720 matrices (hereafter called the ``normal'', ``maximised'', ``minimised'' and ``randomised'' matrices - see Fig. \ref{Fig:modif_matrix} for an illustration).
+
+This step resulted in a total of 720 matrices (\textcolor{blue}{the unperturbed, randomised, maximised correlation and minimised correlation matrices} - see Fig. \ref{Fig:modif_matrix} for an illustration).
 The algorithms for the three modifications are available on GitHub (\url{https://github.com/TGuillerme/CharactersCorrelation})
 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{Modif_matrix.eps}
-\caption{Example illustration of the protocol for modifying matrices. The matrices represent the pairwise character differences for 100 characters. Blue colours correspond to low character differences and orange colours correspond to high character differences. \textbf{A} - a random Birth-Death tree is simulated and used for generating the ``normal'' matrix (\textbf{B}), characters in this matrix are then removed or duplicated to favour maximised (\textbf{C}), minimised (\textbf{D}) or randomise character difference (\textbf{E}). The differences between the characters is low in \textbf{C} (minimised compared to \textbf{A}) implying a high correlation between the characters. Conversely, the character differences is high in \textbf{D} (maximised compared to \textbf{A}) implying a low correlation between the characters.}
+\caption{Example illustration of the protocol for modifying matrices. The matrices represent the pairwise character differences for 100 characters. Blue colours correspond to low character differences and orange colours correspond to high character differences. \textcolor{blue}{\textbf{A} - a random Birth-Death tree is simulated and used for generating the unperturbed matrix (\textbf{B}), characters in this matrix are then removed or duplicated to maximise (\textbf{C}) or minimise (\textbf{D}) character correlation; or to randomise characters (\textbf{E}). The differences between the characters is low in \textbf{C} (decreased compared to \textbf{A}) implying a maximised correlation between the characters. Conversely, the character differences is high in \textbf{D} (increased compared to \textbf{A}) implying a minimised correlation between the characters.}}
 \label{Fig:modif_matrix}
 \end{figure}
 
@@ -295,12 +298,29 @@ For both methods, we used the arbitrarily chosen outgroup in the simulations to 
 The maximum parsimony inference was run using a heuristic search with random sequence addition replicate 100 times with a limit of $5\times10^6$ rearrangements per replicates.
 
 Bayesian inference was run using an M\textit{k} model with ascertainment bias and four discrete gamma rate categories (M\textit{kv} $4\Gamma$) with an variable rate prior an exponential (0.5) shape.
+\textcolor{blue}{We’ve used the Mk model with ascertainment bias (Mkv) to correct for the fact that no invariant characters were present in the matrix (as is often the case with morphological data) allowing the model to estimate the correct evolutionary rates (see above).
+We used four discrete character rates categories making the assumption that each character has an independent $\frac{1}{4}$ chance to be in the $1^{st}$, $2^{nd}$, $3^{rd}$ or $4^{th}$ quartile of the rate distribution.
+Finally we allowed that the average rate of this distribution ($\alpha$) is drawn from an exponential distribution (with a mean of 0.5) in every iteration of the MCMC allowing an efficient exploration of the parameter space.}
 The MCMC was ran over two runs of 6 chains each for a maximum of $1\times10^9$ generations with a sampling every 200 generations with an automatic stop if the average standard deviation of split frequency (ASDSF) fell below 0.01.
+\textcolor{blue}{We used this method to diagnose when the 12 chains reached a similar region in the parameter space. In other words, we considered that when the differences in solutions between the chains reaches a stabilised solution independently (ASDSF $<0.01$), then the MCMC converged on the ``correct'' inference.}
 Due to cluster hardware requirements and to save some time, when chains didn't converge and the runs exceeded 5GB each, we aborted the MCMC and computed the consensus tree from the unconverged chains.
 In practice, these few MCMC got stuck at an ASDSF around (but not below) 0.01.
 
 A majority rule tree was then calculated for both maximum parsimony and Bayesian trees (discarding the 25\% first trees).
 The 1440 tree inferences took around one CPU century on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC} and the Australian QRIScloud Awoonga clusters (3Ghz).
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Comparing topologies}
 We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Foulds distance \citep{RF1981} and the triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``randomised'' matrices and the tree inferred from the ``normal'' matrix.
