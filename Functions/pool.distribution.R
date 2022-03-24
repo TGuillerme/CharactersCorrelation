@@ -38,38 +38,41 @@ pool.distribution <- function(data, param, metric, best) {
 
     ## Extracting the right distribution
 
-    ## Checking if the parameter is at the first level (number of taxa)
+    ## Checking if the parameter is at the first level (number of taxa)
     param_level1 <- match(param, names(NTS))
     if(!is.na(param_level1)) {
-        ## Extracting the distribution
-        return(as.vector(unlist(NTS[[param_level1]])))
+        ## Extracting the distribution
+        output <- as.vector(unlist(NTS[[param_level1]]))
     } else {
-        ## Checking if the parameter is at the second level (number of characters)
+        ## Checking if the parameter is at the second level (number of characters)
         param_level2 <- match(param, names(NTS[[1]]))
         if(!is.na(param_level2)) {
             ## Extracting the distribution
             distribution <- sapply(NTS, function(x, param_level2) x[[param_level2]], param_level2, simplify = FALSE)
-            return(as.vector(unlist(distribution)))
+            output <- as.vector(unlist(distribution))
         } else {
             ## Checking if the parameter is at the third level (method)
             param_level3 <- match(param, names(NTS[[1]][[1]]))
             if(!is.na(param_level3)) {
                 ## Extracting the distribution
                 distribution <- lapply(NTS, lapply, `[[`, param_level3)
-                return(as.vector(unlist(distribution)))
+                output <- as.vector(unlist(distribution))
             } else {
                 ## Checking if the parameter is at the fourth level (scenario)
                 param_level4 <- match(param, names(NTS[[1]][[1]][[1]]))
                 if(!is.na(param_level4)) {
                     ## Extracting the distribution
                     distribution <- lapply(NTS, lapply, lapply, `[[`, param_level4)
-                    return(as.vector(unlist(distribution)))
+                    output <- as.vector(unlist(distribution))
                 } else {
                     stop("Parameter not found.")
                 }
             }
         }
     }
+
+    ## Translate or not
+    return(output)
 }
 
 #' @title Pool multiple distributions for multiple parameters
@@ -80,7 +83,8 @@ pool.distribution <- function(data, param, metric, best) {
 #' @param param which parameters
 #' @param metric which metrics
 #' @param best which comparison
-#' 
+#' @param translate whether to translate the param names to the latest publication (maxi -> minimised, mini -> maximised, norm -> unperturbed, rand -> randomised)
+#'
 #' @examples
 #'
 #' @seealso
@@ -88,7 +92,7 @@ pool.distribution <- function(data, param, metric, best) {
 #' @author Thomas Guillerme
 #' @export
 #' 
-multi.pool <- function(data, param, metric, best) {
+multi.pool <- function(data, param, metric, best, translate = TRUE) {
     ## Get the distributions for multiple parameters
     distributions <- list()
     for(one_param in 1:length(param)) {
@@ -104,7 +108,28 @@ multi.pool <- function(data, param, metric, best) {
     }
 
     ## Transform it into a dataframe
-    return(matrix(data = unlist(distributions), ncol = length(param), dimnames = list(c(), param)))
+    if(!translate) {
+        return(matrix(data = unlist(distributions), ncol = length(param), dimnames = list(c(), param)))
+    } else {
+        ## Translate the param names
+        if(length(change <- which(param == "maxi")) > 0) {
+            param[change] <- "minimised"
+            change <- integer()
+        }
+        if(length(change <- which(param == "mini")) > 0) {
+            param[change] <- "maximised"
+            change <- integer()
+        }
+        if(length(change <- which(param == "rand")) > 0) {
+            param[change] <- "randomised"
+            change <- integer()
+        }
+        if(length(change <- which(param == "norm")) > 0) {
+            param[change] <- "unperturbed"
+            change <- integer()
+        }
+        return(matrix(data = unlist(distributions), ncol = length(param), dimnames = list(c(), param)))
+    }
 }
 
 #' @title Pooled distribution summary table
@@ -131,21 +156,21 @@ pool.table <- function(distributions, digit = 3, metric.label, comp.label, label
     ## Rounding
     scenarios <- round(scenarios, digit = digit)
 
-    ## Adding the metrics and comp (if not missing)
+    ## Adding the metrics and comp (if not missing)
     if(!missing(metric.label) && !missing(comp.label)) {
         labels <- data.frame("comp" = comp.label, "metric" = metric.label, unlist(lapply(distributions, colnames)))
         colnames(labels)[length(labels)] <- label.param
         scenarios_table <- cbind(labels, as.data.frame(scenarios))
     }
 
-    ## Adding the metrics (if not missing)
+    ## Adding the metrics (if not missing)
     if(!missing(metric.label) && missing(comp.label)) {
         labels <- data.frame("metric" = metric.label, unlist(lapply(distributions, colnames)))
         colnames(labels)[length(labels)] <- label.param
         scenarios_table <- cbind(labels, as.data.frame(scenarios))
     }
 
-    ## Adding the comp (if not missing)
+    ## Adding the comp (if not missing)
     if(missing(metric.label) && !missing(comp.label)) {
         labels <- data.frame("comp" = comp.label, unlist(lapply(distributions, colnames)))
         colnames(labels)[length(labels)] <- label.param

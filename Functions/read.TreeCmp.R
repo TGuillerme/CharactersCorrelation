@@ -19,7 +19,7 @@
 
 #path_alt <- "/Users/TGuillerme/Projects/CharactersCorrelation/Data/Trees_out/Consensus_trees/Parsimony"
 
-read.TreeCmp <- function(chain, path = "/Users/TGuillerme/Projects/CharactersCorrelation/Data/Trees_out/Consensus_trees", type = "Bayesian", length.in) {
+read.TreeCmp <- function(chain, path = "~/Projects/CharactersCorrelation/Data/Trees_out/Consensus_trees", type = "Bayesian", length.in) {
 
     path <- paste(path, type, sep = "/")
 

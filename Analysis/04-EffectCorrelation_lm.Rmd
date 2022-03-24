@@ -37,7 +37,7 @@ Here we measure the eventual correlation between a low/high character correlatio
 
 ```{r, fig.width=6, fig.height=6, message = FALSE}
 ## Loading the matrices CD
-matrices_cd <- get.matrix.CD(path = "../Data/Simulations/Matrices", "25t_100c", verbose = TRUE, length.out = 35, cent.tend = mean)
+matrices_cd <- get.matrix.CD(path = "../Data/Simulations/Matrices", chain = "25t_100c", verbose = TRUE, length.out = 35, cent.tend = mean)
 
 ## Running the model
 model_out <- run.lm(matrices_cd, whole_data, chain = "25t_100c", method = "Bayesian", metric = "RF", cent.tend = NULL)

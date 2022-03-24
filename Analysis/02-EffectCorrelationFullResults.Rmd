@@ -37,13 +37,13 @@ library(xtable)
 
 ```{r, warning = FALSE}
 ## Pooling the data per scenarios
-scenario_RF_norm <- multi.pool(whole_data, param = c("maxi", "mini", "rand"),
+scenario_RF_norm <- multi.pool(whole_data, param = c("mini", "maxi", "rand"),
                                metric = "RF", best = "norm")
-scenario_Tr_norm <- multi.pool(whole_data, param = c("maxi", "mini", "rand"),
+scenario_Tr_norm <- multi.pool(whole_data, param = c("mini", "maxi", "rand"),
                                metric = "Tr", best = "norm")
-scenario_RF_null <- multi.pool(whole_data, param = c("maxi", "mini", "norm"),
+scenario_RF_null <- multi.pool(whole_data, param = c("mini", "maxi", "norm"),
                                metric = "RF", best = "rand")
-scenario_Tr_null <- multi.pool(whole_data, param = c("maxi", "mini", "norm"),
+scenario_Tr_null <- multi.pool(whole_data, param = c("mini", "maxi", "norm"),
                                metric = "Tr", best = "rand")
 
 ## Preparing the table labels
@@ -409,7 +409,7 @@ Let's analysis the data using a nested anova.
 The models look at the effect of our scenarios ("maximised", "minimised", etc...) on the normalised tree score (NTS - using both the Robinson-Fould and Triplets scores) with a nested effect of the method (parsimony or bayesian), the number of taxa (25, 75, 150) and the number of characters (100, 150, 1000).
 
 ```{r, warning = FALSE}
-## Applying an lm to all the data with error
+## Applying an lm to all the data with error
 results <- test.effect.aov(whole_data,
   formula = NTS ~ scenario + (1|method) + (1|taxa) + (1|character), fun = lmer)
 ```

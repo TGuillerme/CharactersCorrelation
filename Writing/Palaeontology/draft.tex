@@ -222,7 +222,7 @@ All steps were replicated 20 times and are described below in more detail.
 \caption{Outline of the simulation protocol: the first step includes both the simulation and the modification of the matrices (thin solid lines); the second step includes tree inference using maximum parsimony and Bayesian inference methods (thick solid lines); the third step includes comparing the resulting tree topologies (dashed lines). $n$ and $m$ corresponds to the number of characters with a character difference $<0.25$ and $>0.75$ respectively.}
 \label{Fig:outline}
 \end{figure}
-
+''
 \subsection{Simulating discrete morphological matrices}
 
 To simulate the matrices we applied a protocol very similar to \cite{Guillerme2016146} using \texttt{R} \citep{R}.
@@ -252,7 +252,6 @@ We repeated this step 20 times resulting in 180 ``normal'' morphological matrice
 \subsection{Measuring differences between characters}
 
 \label{CDdescription}
-
 
 \textcolor{blue}{In order to introduce more or remove correlation in the unperturbed matrices, we use a character difference metric that is the scaled Hamming distance between two characters.
 Using this metric, two characters can have a character difference ranging from 0 (no difference, the characters are perfectly correlated and will provide the same phylogenetic information) to 1 (the characters are completely different and uncorrelated providing a different phylogenetic information):}
@@ -309,25 +308,10 @@ In practice, these few MCMC got stuck at an ASDSF around (but not below) 0.01.
 A majority rule tree was then calculated for both maximum parsimony and Bayesian trees (discarding the 25\% first trees).
 The 1440 tree inferences took around one CPU century on the Imperial College High Performance Computing Service \citep[2-3GHz clock rate;][]{HPC} and the Australian QRIScloud Awoonga clusters (3Ghz).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsection{Comparing topologies}
-We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Foulds distance \citep{RF1981} and the triplets distance \citep{dobson1975triplets} between the trees inferred from the ``maximised'', ``minimised'' and ``randomised'' matrices and the tree inferred from the ``normal'' matrix.
-We explored the effect of character difference on recovering the ``normal'' topology by comparing the ``maximised'', ``minimised'' and ``randomised'' trees to the ``normal'' tree (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best} and supplementary materials 3 Figs 10 and 11).
-Note that we are not comparing the trees to the ``true'' tree used to simulate the matrices.
-First, in biology, this tree is always unknown.
-Second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the ``normal'', ``maximised'' and ``minimised'' trees.
+We compared the topologies using the same approach as in \cite{Guillerme2016146}: we measured both the Robinson-Foulds distance (\textcolor{blue}{the differences in clade compositions}, \citealt{RF1981}) and the triplets distance (\textcolor{blue}{the differences in tips positions}; \citealt{dobson1975triplets}) between the trees inferred from the maximised correlation, minimised correlation and randomised matrices and the tree inferred from the unperturbed matrix (Figs \ref{Fig:RF_results_best} and \ref{Fig:Tr_results_best} and supplementary materials 3 Figs 10 and 11).
+Note that we are not comparing the trees to the starting tree used to simulate the matrices.
+This is because, first, in biology, this tree is always unknown; and second, our objective is to measure the direct effect of character correlation approximated by the difference in topology between the unperturbed,  maximised correlation and minimised correlation trees.
 
 The metric scores were calculated using the \texttt{TreeCmp} javascript \citep{Bogdanowicz2012}.
 The measurements were then standardised using the Normalised Tree Similarity metric \citep[$NTS$; centering and scaling the metric score to the number of taxa;][]{Bogdanowicz2012,Guillerme2016146}.
@@ -342,7 +326,7 @@ However, the resulting consensus trees on which the topological differences are 
 \begin{figure}[!htbp]
 \centering
    \includegraphics[width=1\textwidth]{RF_results_best.eps}
-\caption{\small{Effect of character difference on recovering the ``normal'' topology in terms of clade conservation ($NTS_{RF}$). The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 f from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the ``maximised'' character difference in Bayesian (red) and under maximum parsimony (orange), the ``minimised'' character difference in Bayesian (dark green) and under maximum parsimony (light green) and the ``randomised'' character difference in Bayesian (dark blue) and under maximum parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
+\caption{\small{Effect of character difference on recovering the topology from the unperturbed matrix in terms of clade conservation ($NTS_{RF}$). The y axis represents the Normalised Tree Similarity using Robinson-Fould distance for matrices with 25, 75 and 150 taxa from top to bottom respectively. The x axis represents the different character difference scenarios and tree inference method with the ``maximised'' character difference in Bayesian (red) and under maximum parsimony (orange), the ``minimised'' character difference in Bayesian (dark green) and under maximum parsimony (light green) and the ``randomised'' character difference in Bayesian (dark blue) and under maximum parsimony (light blue) for matrices of 100, 350 and 1000 characters in the panels from left to right.}}
 \label{Fig:RF_results_best}
 \end{figure}
 

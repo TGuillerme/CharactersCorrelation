@@ -7,6 +7,7 @@
 #' @param best which best tree (rand or norm)
 #' @param test which test (if NULL, simply summarises the distribution)
 #' @param convert.row.names whether to convert the row names into columns data (TRUE) or not (FALSE)
+#' @param translate whether to translate the param names to the latest publication (maxi -> minimised, mini -> maximised, norm -> unperturbed, rand -> randomised)
 #' 
 #' @examples
 #'
@@ -15,7 +16,7 @@
 #' @author Thomas Guillerme
 #' @export
 
-apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
+apply.test <- function(data, metric, best, test, convert.row.names = TRUE, translate = TRUE) {
 
     ## Combined
     combined <- TRUE
@@ -45,9 +46,9 @@ apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
     list_names <- names(NTS_list)
     parameter_names <- c("t25.", "t75.", "t150.", "c100.", "c350.", "c1000.", "bayesian", "parsimony")
     if(best == "norm") {
-        parameter_names <- c(parameter_names, c("maxi", "mini", "rand"))
+        parameter_names <- c(parameter_names, c("minimised", "maximised", "randomised"))
     } else {
-        parameter_names <- c(parameter_names, c("norm", "maxi", "mini"))
+        parameter_names <- c(parameter_names, c("unperturbed", "minimised", "maximised"))
     }
     parameters <- lapply(as.list(parameter_names), grep, list_names, fixed = TRUE)
     names(parameters) <- parameter_names
@@ -87,7 +88,7 @@ apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
             results_out[-c(1,10,19,28,37,46), 2] <- "" #taxa
             results_out[-seq(from = 1, to = 52, by = 3), 3] <- "" #characters
             ## Adding the column names
-            colnames(results_out)[1:4] <- c("method", "taxa", "characters", "scenario")
+            colnames(results_out)[1:4] <- c("method", "taxa", "characters", "correlation")
 
             return(results_out)
         } else {
@@ -108,7 +109,7 @@ apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
         colnames(test_results) <- apply(combo_matrix, 2, function(X) paste(parameter_names[X], collapse = ""))
     
         ## Get the row names (min:max, etc..)
-        rownames(test_results) <- c("max-min", "max-rand", "min-rand")
+        rownames(test_results) <- c("minimised-maximised", "minimised-randomised", "maximised-randomised")
 
         ## Transpose the matrix for aesthetics
         test_results <- t(test_results)
@@ -119,7 +120,7 @@ apply.test <- function(data, metric, best, test, convert.row.names = TRUE) {
 
         ## Getting the row and column names
         rownames <- apply(combo_matrix, 2, function(X) paste(parameter_names[X], collapse = ""))
-        colnames <- c("max-min", "max-rand", "min-rand")
+        colnames <- c("minimised-maximised", "minimised-randomised", "maximised-randomised")
 
         ## Transform the results into a table format
         statistic_results <- matrix(data = unlist(statistic), ncol = 3, byrow = TRUE, dimnames = list(rownames, colnames))

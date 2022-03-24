@@ -34,7 +34,7 @@
 
 plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, NTS = TRUE, ylab, xlab, axislab, leg.pos = "bottomleft", leg.cex = 0.8, ...) {
     
-    ## Graphic parameters
+    ## Graphic parameters
     ## Colours
     cols <- c("red", "orange", "green3", "lightgreen", "blue", "lightblue")
     
@@ -75,20 +75,20 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
     if(what == "null") {
         boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), las = 1, ...,
             ## c100
-            unlist(taxa_list$c100$bayesian$rand$maxi[,metric]), unlist(taxa_list$c100$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$rand$mini[,metric]), unlist(taxa_list$c100$parsimony$rand$mini[,metric]),
+            unlist(taxa_list$c100$bayesian$rand$maxi[,metric]), unlist(taxa_list$c100$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$rand$norm[,metric]), unlist(taxa_list$c100$parsimony$rand$norm[,metric]),
             ## c350
-            unlist(taxa_list$c350$bayesian$rand$maxi[,metric]), unlist(taxa_list$c350$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c350$bayesian$rand$mini[,metric]), unlist(taxa_list$c350$parsimony$rand$mini[,metric]),
+            unlist(taxa_list$c350$bayesian$rand$maxi[,metric]), unlist(taxa_list$c350$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c350$bayesian$rand$norm[,metric]), unlist(taxa_list$c350$parsimony$rand$norm[,metric]),
             ## c1000
-            unlist(taxa_list$c1000$bayesian$rand$maxi[,metric]), unlist(taxa_list$c1000$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c1000$bayesian$rand$mini[,metric]), unlist(taxa_list$c1000$parsimony$rand$mini[,metric]),
+            unlist(taxa_list$c1000$bayesian$rand$maxi[,metric]), unlist(taxa_list$c1000$parsimony$rand$maxi[,metric]),
             unlist(taxa_list$c1000$bayesian$rand$norm[,metric]), unlist(taxa_list$c1000$parsimony$rand$norm[,metric])
             )
 
-        ## X axis
+        ## X axis
         axis(1, 1:18, labels = FALSE, tick = FALSE)
         axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = axislab)
         ## Lines
@@ -96,10 +96,10 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend(leg.pos, cex = leg.cex, col = cols, pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
+            legend(leg.pos, cex = leg.cex, col = cols, pch = 19, bty = "n", title = "Correlation:", bg = "white", border = "white",
                 legend = c("Maximised (Bayesian)", "Maximised (Parsimony)",
                            "Minimised (Bayesian)", "Minimised (Parsimony)",
-                           "Normal (Bayesian)", "Normal (Parsimony)")
+                           "Unperturbed (Bayesian)", "Unperturbed (Parsimony)")
                 )
         }
     }
@@ -107,20 +107,20 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
     if(what == "best") {
         boxplot(xlab = xlab, ylab = ylab, xaxt = "n", ylim = ylim, col = rep(cols, 3), las = 1, ...,
             ## c100
-            unlist(taxa_list$c100$bayesian$norm$maxi[,metric]), unlist(taxa_list$c100$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$norm$mini[,metric]), unlist(taxa_list$c100$parsimony$norm$mini[,metric]),
+            unlist(taxa_list$c100$bayesian$norm$maxi[,metric]), unlist(taxa_list$c100$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c100$bayesian$norm$rand[,metric]), unlist(taxa_list$c100$parsimony$norm$rand[,metric]),
             ## c350
-            unlist(taxa_list$c350$bayesian$norm$maxi[,metric]), unlist(taxa_list$c350$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c350$bayesian$norm$mini[,metric]), unlist(taxa_list$c350$parsimony$norm$mini[,metric]),
+            unlist(taxa_list$c350$bayesian$norm$maxi[,metric]), unlist(taxa_list$c350$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c350$bayesian$norm$rand[,metric]), unlist(taxa_list$c350$parsimony$norm$rand[,metric]),
             ## c1000
-            unlist(taxa_list$c1000$bayesian$norm$maxi[,metric]), unlist(taxa_list$c1000$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c1000$bayesian$norm$mini[,metric]), unlist(taxa_list$c1000$parsimony$norm$mini[,metric]),
+            unlist(taxa_list$c1000$bayesian$norm$maxi[,metric]), unlist(taxa_list$c1000$parsimony$norm$maxi[,metric]),
             unlist(taxa_list$c1000$bayesian$norm$rand[,metric]), unlist(taxa_list$c1000$parsimony$norm$rand[,metric])
             )
 
-        ## X axis
+        ## X axis
         axis(1, 1:18, labels = FALSE, tick = FALSE)
         axis(1, c(3.5, 9.5, 15.5), tick = FALSE, labels = axislab)
         ## Lines
@@ -128,7 +128,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend(leg.pos, cex = leg.cex, col = cols, pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
+            legend(leg.pos, cex = leg.cex, col = cols, pch = 19, bty = "n", title = "Correlation:", bg = "white", border = "white",
                 legend = c("Maximised (Bayesian)", "Maximised (Parsimony)",
                            "Minimised (Bayesian)", "Minimised (Parsimony)",
                            "Randomised (Bayesian)", "Randomised (Parsimony)")
@@ -149,7 +149,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
             unlist(taxa_list$c1000$bayesian$rand$true[,metric]), unlist(taxa_list$c1000$parsimony$rand$true[,metric])
             )
 
-        ## X axis
+        ## X axis
         axis(1, 1:12, labels = FALSE, tick = FALSE)
         axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = axislab)
         ## Lines
@@ -157,8 +157,8 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend(leg.pos, cex = leg.cex, col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
-                legend = c("Normal (Bayesian)", "Normal (Parsimony)",
+            legend(leg.pos, cex = leg.cex, col = cols[1:4], pch = 19, bty = "n", title = "Correlation:", bg = "white", border = "white",
+                legend = c("Unperturbed (Bayesian)", "Unperturbed (Parsimony)",
                            "Randomised (Bayesian)", "Randomised (Parsimony)")
                 )
         }
@@ -177,7 +177,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
             unlist(taxa_list$c1000$bayesian$rand$norm[,metric]), unlist(taxa_list$c1000$parsimony$rand$norm[,metric])
             )
 
-        ## X axis
+        ## X axis
         axis(1, 1:12, labels = FALSE, tick = FALSE)
         axis(1, c(2.5, 6.5, 10.5), tick = FALSE, labels = axislab)
         ## Lines
@@ -185,8 +185,8 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
         abline(h = line, col = "grey", lty = 2)
         ## Legend
         if(legend) {
-            legend(leg.pos, cex = leg.cex, col = cols[1:4], pch = 19, bty = "n", title = "Character differences:", bg = "white", border = "white",
-                legend = c("Normal (Bayesian)", "Normal (Parsimony)",
+            legend(leg.pos, cex = leg.cex, col = cols[1:4], pch = 19, bty = "n", title = "Correlation:", bg = "white", border = "white",
+                legend = c("Unperturbed (Bayesian)", "Unperturbed (Parsimony)",
                            "Randomised (Bayesian)", "Randomised (Parsimony)")
                 )
         }
@@ -196,7 +196,7 @@ plot.results.single <- function(taxa_list, metric, what, ylim, legend = FALSE, N
 
 plot.results.true.tree <- function(data_list, metric, main, legend = FALSE) {
     
-    ## Graphic parameters
+    ## Graphic parameters
     cols <- c("darkgrey", "lightgrey")
     ylab <- ifelse(metric == 2, "Similarity (Robinson-Foulds)", "Similarity (Triplets)")
     ylim <- c(0,1)
@@ -215,7 +215,7 @@ plot.results.true.tree <- function(data_list, metric, main, legend = FALSE) {
         col = rep(cols, 3)
         )
 
-    ## X axis
+    ## X axis
     axis(1, 1:6, labels = FALSE, tick = FALSE) # ticks = FALSE?
     axis(1, c(1.5, 3.5, 5.5), tick = FALSE, labels = c("100", "350", "1000"))
 
@@ -223,6 +223,6 @@ plot.results.true.tree <- function(data_list, metric, main, legend = FALSE) {
     abline(v = 2.5) ; abline(v = 4.5)
     abline(h = line, col = "grey", lty = 2)
     if(legend) {
-        legend("bottomleft", legend = c("Normal (Bayesian)", "Normal (Parsimony)"), col = cols, pch = 19, bty = "n", title = "Character differences:", cex = 0.8)
+        legend("bottomleft", legend = c("Unperturbed (Bayesian)", "Unperturbed (Parsimony)"), col = cols, pch = 19, bty = "n", title = "Correlation:", cex = 0.8)
     }
 }
