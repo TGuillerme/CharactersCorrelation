@@ -134,7 +134,7 @@ This means that datasets with low correlation between characters will make it mo
 However, this effect is less important for matrices with a small number of taxa (25 in our simulations) where reducing or increasing character correlation is not more effective in getting the expected topology than randomly drawing characters.
 Furthermore, in bigger matrices (350 characters), the inference method has a strong effect with Bayesian trees being consistently less affected by character correlation than maximum parsimony trees.
 These results suggest that ignoring the problem of character correlation or independence can often impact topology in phylogenetic analysis.
-However, encouragingly, they also suggest that, unless correlation is actively maximised or minimised, probabilistic methods can easily accommodate for a random correlation between characters.
+However, encouragingly, they also suggest that, unless correlation is actively maximised or minimised, probabilistic methods can easily accommodate for a \textcolor{blue}{randomised} correlation between characters.
 
 \end{abstract}
 
@@ -272,8 +272,8 @@ We standardised each character by arbitrarily modifying their character state to
 We replaced all the occurrences of the first token to be \texttt{1}, the second to be \texttt{2}, etc.
 This procedure allows comparison of characters regardless of the significance given to their tokens (following the \textit{xyz} notation in \citealt{felsenstein2004inferring}; as used in \citealt{Davalos01072014}).
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \textcolor{blue}{(see supplementary materials 1)}.
-When the character difference is null ($0$) it means that characters convey the same phylogenetic signal (i.e. characters are entirely correlated). 
-When the character difference is maximal ($1$) it means the characters convey the greatest difference in phylogenetic signal
+When the character difference is null ($0$) it means that characters convey the same \textcolor{blue}{phylogenetic information} (i.e. characters are entirely correlated). 
+When the character difference is maximal ($1$) it means the characters convey the greatest difference in \textcolor{blue}{phylogenetic information}.
 
 \subsection{Modifying the matrices}
 We calculated the pairwise character differences for each generated matrix using the \texttt{dispRity R} package \citep{thomas_guillerme_2016_55646}.
@@ -385,7 +385,7 @@ In terms of clade conservation ($NTS_{RF}$), however, maximised and minimised co
 
 \subsection{Effect of character differences on topology}
 We find that there is a significant influence of morphological character correlation on inferring tree topology.
-When characters are correlated, matrices convey a strong (but potentially misleading) phylogenetic signal since characters are more likely to agree with each other and conversely, when characters are uncorrelated, one could expect them to convey a weaker phylogenetic signal with a high amount of characters giving a conflicting signal (homoplasy).
+When characters are correlated, matrices convey a strong (but potentially misleading) \textcolor{blue}{phylogenetic information} since characters are more likely to agree with each other and conversely, when characters are uncorrelated, one could expect them to convey a weaker \textcolor{blue}{phylogenetic information}with a high amount of characters giving a conflicting signal (homoplasy).
 Throughout our simulation, the maximised character correlation scenario (i.e. decreased character difference) tended to result in trees slightly closer to the tree inferred from the unperturbed matrix and the minimised character correlation led to slightly worse trees (Fig. \ref{Fig:RF_results_best}).
 These results suggest that, in matrices with low character correlations, bootstrapping or other data randomisation methods can effectively improve the ability to recover the correct topology.
 
