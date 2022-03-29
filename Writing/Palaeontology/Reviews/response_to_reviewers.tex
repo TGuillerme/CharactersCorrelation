@@ -88,13 +88,19 @@ Additionally, we've uploaded two versions of the revised manuscript: both have t
 %@@@TODO-1: add a line in the intro explaining this? 
 %TG: something like that "Note that investigating the shared evolutionary history is often part of the goal of phylogenetic analyses."
 
+
+
 \item{\textcolor{blue}{Matrices that were modified to minimise character differences are referred to as 'minimised'. However, in the context of the main questions, 'minimisation' of character differences corresponds to maximisation of character state correlations. Since these two concepts have opposite polarities, it would be easier for readers to follow the work if it consistently referred to one or the other - and I'd propose that referring to the amount of character correlation would be best and more straightforward for readers.}}
 
 We have changed the naming of the matrices and the trees throughout the whole manuscript to now only focus on the character correlation aspect (\textit{c.f.} the character difference). The \textit{Normal} matrix/tree is now the \textit{Unperturbed} matrix/tree the \textit{Maximised (difference)} matrix/tree is now the \textit{Minimised (correlation)} matrix/tree and the \textit{Minimised (difference)} matrix/tree is now the \textit{Maximised (correlation)} matrix. The \textit{Randomised} matrix/tree stayed unchanged.
 
+
+
 \item{\textcolor{blue}{'Normal' has multiple meanings and mathematically could mean 'orthogonal'. In the way the authors use it, it comes across as colloquial, and it doesn't contain much information (there is no objective meaning of 'normal' in this context). A more intuitive term might be 'unmodified' or 'simnulated', or something else, there are probably better options.}}
 
 We have now changed mentions to the \textit{Normal} tree as "the topology inferred from the unperturbed matrix" to avoid any confusion throughout the manuscript.
+
+
 
 \item{\textcolor{blue}{'In a few places 'phylogenetic signal' is used to refer to a situation where a topology is well-supported. But I had the impression this might not strictly correspond to support of the "true" phylogeny (correct me if I'm wrong however). Phylogenetic signal is a widely-used phrase with several different potential meanings. So to avoid confusion it would be useful each time if the text referred explictily to support for the "true" phylogeny underlying the simulations, or to support for nodes in the inferred phylogeny, whether they are present in the true phylogeny or not. Or tended to produce strong support for incorrect topologies.}}
 
@@ -179,9 +185,11 @@ guidelines.}}
 
 \item{\textcolor{blue}{Lines 22-23: 'probabilistic methods can easily accommodate for a random correlation between characters.'
 \\
-'random correlation' sounds like an oxymoron! I think that what the authors really mean is moderate amounts of correlation that basically mimic accelerated local rates of change on a small proportion of branches. From what the authors state later, it’s not the randomness that is important, but that it occurs infrequently relative to total taxon sampling.}}
+'random correlation' sounds like an oxymoron! I think that what the authors really mean is moderate amounts of correlation that basically mimic accelerated local rates of change on a small proportion of branches. From what the authors state later, it's not the randomness that is important, but that it occurs infrequently relative to total taxon sampling.}}
 
 We have now changed "random correlation" to "\textit{randomised} correlation" throughout the manuscript to better reflect this comment.
+
+
 
 \item{\textcolor{blue}{Lines 50-55: Types of dependence.
 \\
@@ -191,9 +199,9 @@ The reason why I prefer this is that we can model both functional suites and int
 \\
 Q=...
 \\
-We’ll set a=1 and let’s say we have a rate of change of π=0.05. Our transition matrix for time t=1 is now mexp(πQt) =
+We'll set a=1 and let's say we have a rate of change of $\pi$=0.05. Our transition matrix for time t=1 is now mexp($\pi$Qt) =
 \\
-Note that if we calculated the probability of going from 0 to 1 for either character, then we’ve have almost the same value: the difference is that there is some small chance that, over the same amount of time, we also went from 0 to 1 for the other character, and thus from 00 to 11. The probability of stasis is the probability of stasis for one character squared.
+Note that if we calculated the probability of going from 0 to 1 for either character, then we've have almost the same value: the difference is that there is some small chance that, over the same amount of time, we also went from 0 to 1 for the other character, and thus from 00 to 11. The probability of stasis is the probability of stasis for one character squared.
 \\
 Change here is independent; the condition of Character 1 has no effect how Character 2 evolves, and the two characters do not change together. (This is assuming continuous time change.) We can introduce a new Q matrix that allows Characters 1 and 2 to affect each other, and in which there are joint changes altering both characters:
 \\
@@ -205,56 +213,110 @@ The off-diagonal reflects (j) joint change: a change 'deeper' in the organisms t
 \\
 This is where I was a little uncertain: does integration fit in with intra-organismal dependence? If so, then the authors should state that. At any rate, given the ubiquity of papers describing integration and modularity papers, I think that it would help the readers to understand the correlation models if the discussion was presented in terms of integration/modules and functional suites.}}
 
+% @@@TODO-6: Check if that works with comments: https://docs.google.com/document/d/1ED7b-uxtEzJ5fUUXugBYMIq88zx2ySY9fHcJDcUekAs/edit?disco=AAAAMGcMrqU
+%TG: still to do. But I think it's kind of in there...
+
+
 
 \item{\textcolor{blue}{Lines 58-59: 'For example, two characters 'tail colour' and 'tail length' could be coded two times as an absence for a taxon with no tail (Wilkinson, 1995b; Brazeau et al., 2018).'
 \\
-Coding this as inapplicable makes this much less of a problem for likelihood, where it is treated as an unknown. In likelihood, unlike parsimony, the ancestral condition is not fixed: so, if tails are found in two subclades, then the marginals for the 'tailless' paraclade will have low values for tail being present: but there is some small probability that the tail was there, and then lost in parallel. If that tail was there, then it had States A, B, C, etc., for length, color, etc. Because we are multiplying this, it’s really P[tail present] X P([tail state A]+tail state B)) etc.}}
+Coding this as inapplicable makes this much less of a problem for likelihood, where it is treated as an unknown. In likelihood, unlike parsimony, the ancestral condition is not fixed: so, if tails are found in two subclades, then the marginals for the 'tailless' paraclade will have low values for tail being present: but there is some small probability that the tail was there, and then lost in parallel. If that tail was there, then it had States A, B, C, etc., for length, color, etc. Because we are multiplying this, it's really P[tail present] X P([tail state A]+tail state B)) etc.}}
+
+We have added this precision in the text:
+
+\textit{For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail (Wilkinson, 1995b; Brazeau et al., 2018). Note that there are a lot of alternative methodological choices for this example (e.g. using inapplicable tokens; Brazeau 2011) and that these choices affect results more or less depending on the estimation method (parsimony methods contrast with probabilistic methods were ancestral conditions are respectively fixed or not). Line @@@.}
+
+
 
 \item{\textcolor{blue}{Lines 69-71: 'Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree, and is best determined by independent character sets.'
 \\
 I would add three points here. One, with fossil data (such as readers of Palaeontology use), we have very few options for independent character sets. Two, as the authors cite above, we have reason to think that correlated change happens with molecular evolution. The really important point is that what we want are character data that we know had independent character change: but no biological data are above suspicion here. Three, we do not need accurate resolution of trees if we have sets of characters that we suspect are correlated. Given such a set, we can run two sets of Markov Chain Monte Carlo analyses: one in which characters in the set evolve independently, and one in which we use more complex models in which the states are not the states of one character, but the combinations of states from 2+ characters (Billet \& Bardin 2018 Syst. Biol. 68:267, Pagel 1994 Proc. R. Soc. B 255:37). We then can assess whether the correlated change model produces appreciably better posterior probabilities in the same way that we can contrast any other pair of different models.
 \\
-What Guillerme et al. are assessing is a little bit different from what Pagel and later workers considered: what happens if there is correlated character evolution happening among unknown sets of characters? Billet \& Bardin’s study focused on mammal teeth: but even non-biologists would expect mammal teeth to show correlated character change. This raises the issue with which readers of Palaeontology will be familiar: how do I have reason to suspect that there is correlated change in some group of characters, and what happens if I fail to guess? What this simulation study offers is an idea of what happens when there is some amount of correlated change, but we just do not know how much.}}
+What Guillerme et al. are assessing is a little bit different from what Pagel and later workers considered: what happens if there is correlated character evolution happening among unknown sets of characters? Billet \& Bardin's study focused on mammal teeth: but even non-biologists would expect mammal teeth to show correlated character change. This raises the issue with which readers of Palaeontology will be familiar: how do I have reason to suspect that there is correlated change in some group of characters, and what happens if I fail to guess? What this simulation study offers is an idea of what happens when there is some amount of correlated change, but we just do not know how much.}}
 
+We are grateful for this insight and have added it to the manuscript:
+
+\textit{Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree (but see useful methods from Pagel 1994 and Billet and Bardin 2019), and is best determined by independent character sets. The later being commonly hard to get because of the nature of the data: some common type of data (e.g. fossil data) offer very few options of independent character sets and no biological datasets can really be independent. Line @@@.}
 
 \item{\textcolor{blue}{Lines 123 – 124: In order to measure this, we used the following scaled Hamming distance between two characters:
 \\
 I think that it would be worth comparing this to pairwise dissimilarity among taxa. After all, there have been numerous papers published in Palaeontology that use pairwise dissimilarity (also called phenetic dissimilarity or phenetic distance) to measure disparity. The difference is basically R-mode vs. Q-mode: for phenetic dissimilarity, we count the number of differences between two taxa and divide by the total number of comparable characters to get the proportion of different characters. Here, we count the number of differences between two characters and divide by n-1 to get (almost) the proportion of differing taxa. It basically is like generating scatterplots for every pair of characters, and then counting the number of taxa that fall above or below the line bisecting the axes (0,0 : m,m).}}
 
+%@@@ TODO:
+
+
+
 \item{\textcolor{blue}{Lines 131-132: 'We standardised each character by arbitrarily modifying their character state tokens (or symbols) by order of appearance.'
 \\
 I think that the authors should state 'by order of derivation' or 'order of evolution.' I realize that their simulations evolve up to n taxa and then attempt to reconstruct phylogeny. However, many simulations in palaeobiological studies sample simulated taxa over time. In such cases, the order in which states evolve and the order in which they are sampled might not be identical, particularly for characters that evolve rapidly relative to sampling rates.}}
 
+We apologise for the confusion here: by ``order of appearance'' we meant:
+\textit{order of appearance in the matrix - for example for the first character (1st column) in the matrix, if the state coded for the first OTU (1st row) was \texttt{3}, it was translated into \texttt{1} for the whole character (across the 1st column); if the state coded for the second OTU (2nd row) was \texttt{0}, it was translated into \texttt{2} for the whole character, etc...} and have now specified that in the manuscript on line @@@.
 
-\item{\textcolor{blue}{Lines 150 – 152: 'The 'morphological HKY-binary' model (O’Reilly et al.,
+
+
+\item{\textcolor{blue}{Lines 150 – 152: 'The 'morphological HKY-binary' model (O'Reilly et al.,
 2016) which is an HKY model (Hasegawa et al., 1985) with a random states frequency (sampled from a Dirichlet distribution Dir(1, 1, 1, 1))...'
 \\
-The authors should state that this allows variation in gains/losses of present absent characters to vary without specifying which characters are prone to gain/loss. The authors also should note that because it’s (1,1,1,1), the expectation is that gains and losses will be equiprobable. This does raise the question: why didn’t they use a beta distribution (1,1) given that they were dealing with 2-state characters? That’s just the special case of the Dirichlet. Using a 4 state character like this seems a little weird because net stasis will include both net stasis and net transition, and thus is P[net stasis] + P[net transition]; net change now is twice net transversion and thus 2*P[net transition]. So, this will not quite be the same distribution as beta(1,1); the expectation will still be 50:50, but (I think!) the variance on the state-acquisition bias will be a little greater under the 'lumped' 4-state Dirichlet than under the Beta.}}
+The authors should state that this allows variation in gains/losses of present absent characters to vary without specifying which characters are prone to gain/loss. The authors also should note that because it's (1,1,1,1), the expectation is that gains and losses will be equiprobable. This does raise the question: why didn't they use a beta distribution (1,1) given that they were dealing with 2-state characters? That's just the special case of the Dirichlet. Using a 4 state character like this seems a little weird because net stasis will include both net stasis and net transition, and thus is P[net stasis] + P[net transition]; net change now is twice net transversion and thus 2*P[net transition]. So, this will not quite be the same distribution as beta(1,1); the expectation will still be 50:50, but (I think!) the variance on the state-acquisition bias will be a little greater under the 'lumped' 4-state Dirichlet than under the Beta.}}
+
+We used the Dir(1,1,1,1) distribution to be consistent with previously published simulations (e.g. O'Reilly et al. 2016).
+We have however specified the following:
+
+\textit{This allows the changes in character states to vary without specifying which change is more likely, hence expecting an equiprobable change in character state in all directions.} Line @@@.
+
+
 
 \item{\textcolor{blue}{Lines 155-156: 'To generate more than binary states characters, we used the Mk model (Lewis, 2001).'
 \\
-How did the Mk model generate the 3-state characters? Shouldn’t the authors have used a Dirichlet (1,1,1) (or a Dirichlet (1,1,1,1,1,1) with lumping of 1\&2, 3\&4 and 5\&6) to actually generate the characters with individual rate bias?}}
+How did the Mk model generate the 3-state characters? Shouldn't the authors have used a Dirichlet (1,1,1) (or a Dirichlet (1,1,1,1,1,1) with lumping of 1\&2, 3\&4 and 5\&6) to actually generate the characters with individual rate bias?}}
 
-\item{\textcolor{blue}{Lines 159-161: 'For each character, both models ('morphological HKYbinary' or Mk) were chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution (β = 100 and α = 5).'
+We generated multi ($>2$) state characters with the Mk model using the \texttt{ape::rTraitDisc} function (through \texttt{dispRity::sim.morpho}) that calculates the transition probabilities for each branch using any sized Q matrices. We specified this in the text:
+
+\textit{we used the Mk model (Lewis 2001). We drew the number of character states with a probability of 0.85 for binary characters (using a 2x2 transition matrix Q) and 0.15 for three state characters (using a 3x3 Q matrix)}. Lines @@@
+
+
+
+\item{\textcolor{blue}{Lines 159-161: 'For each character, both models ('morphological HKYbinary' or Mk) were chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = 100 and $\alpha$ = 5).'
 \\
-The authors should make a couple of points clear here. The first is that they should make clear what this section is doing vs. the prior section. I would state plainly that the prior section was about generating variation in state gain/loss biases. This part is about generating variation in character change; basically, you are allowing each character to change at its own rate and (when it does change) to have its own bias in gains/losses of states; however, in all cases, every character’s particular rate and gain/loss bias is drawn from the same distribution.
+The authors should make a couple of points clear here. The first is that they should make clear what this section is doing vs. the prior section. I would state plainly that the prior section was about generating variation in state gain/loss biases. This part is about generating variation in character change; basically, you are allowing each character to change at its own rate and (when it does change) to have its own bias in gains/losses of states; however, in all cases, every character's particular rate and gain/loss bias is drawn from the same distribution.
 \\
-The second is that this is different from the way systematists usually use gamma distributions for rate variation, in which they have a separate rate parameter π (I will use π rather than α as Lewis did, simply to avoid confusion between rate parameter and the Gamma shape parameter α). They then set β=α so that the mean of the Gamma, α/(β=α), is 1.0 and the variance, α/(β=α)2, increases as α decreases. The expected rate of change then is π and the variance is π/α.
+The second is that this is different from the way systematists usually use gamma distributions for rate variation, in which they have a separate rate parameter $\pi$ (I will use $\pi$ rather than $\alpha$ as Lewis did, simply to avoid confusion between rate parameter and the Gamma shape parameter $\alpha$). They then set $\beta$=$\alpha$ so that the mean of the Gamma, $\alpha$/($\beta$=$\alpha$), is 1.0 and the variance, $\alpha$/($\beta$=$\alpha$)2, increases as $\alpha$ decreases. The expected rate of change then is $\pi$ and the variance is $\pi$/$\alpha$.
 \\
-By using separate shape (α) and rate (β) parameters without any independent rate parameter, these authors are making a mean rate π = α/β = 0.05 with variance of the rate being 0.0005. I think that the authors should just state this. (Also, I’m not sure that everyone knows reflexively what the mean and variance are given α and β, so it’s probably best to remind them.)}}
+By using separate shape ($\alpha$) and rate ($\beta$) parameters without any independent rate parameter, these authors are making a mean rate $\pi$ = $\alpha$/$\beta$ = 0.05 with variance of the rate being 0.0005. I think that the authors should just state this. (Also, I'm not sure that everyone knows reflexively what the mean and variance are given $\alpha$ and $\beta$, so it's probably best to remind them.)}}
+
+We thank the reviewer for this clear explanation and agree that it is always best to be extra clear and remind the reader what these values actually mean. We've added the following precisions:
+
+\textit{This simulated, for each character, a variation in the change of character state at different rates while ensuring that these rates were drawn from the same distribution, resulting in an overall mean character rate of 0.05 with a variance of 0.0005.} Line @@@
+
+
 
 \item{\textcolor{blue}{Lines 161 – 163: 'low evolutionary rate values allowed reduction in the number of homoplasic character changes, thus reinforcing the phylogenetic information in the matrices'
 \\
-Again, you need to make sure that the readers know how to convert Gamma parameters to rates! Also, is a rate of 0.05 really all that low? That’s a pretty typical rate per million years for fossil invertebrates.}}
+Again, you need to make sure that the readers know how to convert Gamma parameters to rates! Also, is a rate of 0.05 really all that low? That's a pretty typical rate per million years for fossil invertebrates.}}
+
+We explicitly specified the overall mean and variance of the rates distributions (see above) and removed the term ``low'' to reflect this comment.
+
 
 
 \item{\textcolor{blue}{Lines 163-164: 'We re-simulated every invariant characters to obtain a matrix with no invariant characters in order to better approximate real morphological data matrices.'
 \\
-Ah, but that also means that the true rate is >.05! Programs like RevBayes take into account ascertainment bias (unscored invariant characters), and individual runs could be limited to examine only variant characters; wouldn’t doing the latter and then accommodating ascertainment bias in the analyses be a little more realistic? (This is probably not a major issue, so I would not worry over much about it; however, it is worth mentioning ascertainment bias at this point and why that makes what you are doing more realistic than keeping invariant characters in the simulations.)}}
+Ah, but that also means that the true rate is >.05! Programs like RevBayes take into account ascertainment bias (unscored invariant characters), and individual runs could be limited to examine only variant characters; wouldn't doing the latter and then accommodating ascertainment bias in the analyses be a little more realistic? (This is probably not a major issue, so I would not worry over much about it; however, it is worth mentioning ascertainment bias at this point and why that makes what you are doing more realistic than keeping invariant characters in the simulations.)}}
 
-\item{\textcolor{blue}{Lines 165-167: 'we only selected matrices with Consistency Indices (CI) superior to 0.26 (Sanderson and Donoghue, 1989; O’Reilly et al., 2016).'
+We now specify all this as follows:
+\textit{We re-simulated every invariant character to obtain a matrix with no invariant characters (making the effective mean rate to > 0.05). Although invariant characters are important for effectively measuring the true evolutionary rates, many empirical matrices do not contain invariant characters which is in turn taken into account by software that accommodate for this ascertainment bias.} Line @@@
+
+
+
+\item{\textcolor{blue}{Lines 165-167: 'we only selected matrices with Consistency Indices (CI) superior to 0.26 (Sanderson and Donoghue, 1989; O'Reilly et al., 2016).'
 \\
 I have discovered that younger workers often do not know what the Consistency Index is! So, you might explain that this means about 3.85 (1/0.26) changes per derived character; if we have 50 binary characters, then it would be 192 changes (50/192 = 0.26).}}
+
+We've now added the following precision:
+
+\textit{To ensure that our simulations were reflecting realistic observed parameters, we only selected matrices with Consistency Indices (CI) superior to 0.26 (expecting at least 3.85 (1/0.26) changes per derived character; Sanderson \& Donoghue 1989; O'Reilly et al. 2016).} Line @@@
+
+
 
 \item{\textcolor{blue}{Lines 200 – 202: 'Bayesian inference was run using an Mk model with ascertainment bias and four discrete gamma rate categories (Mkv 4G) with an variable rate prior an exponential (0.5) shape'
 \\
@@ -262,7 +324,13 @@ I think that much more explanation of what these parameters and terms mean is in
 \\
 The authors use four Gamma rate categories: but how are the characters categorized? Again, the authors should remind the readers that this means that we are assuming that characters have a 1 in 4 chance (or however you divide the Gamma) of having the 1st, 2nd, 3rd or 4th quartile rate without assuming that any one character is fast or slow.
 \\
-Also, it should be explained that the Gamma distribution itself is varied over the runs, so that the tree will be considering new topologies, new average rates and new rate distributions. What this means is that the shift in the α=β parameter is drawn from an exponential distribution with a mean of 0.5. However, I think that it is also worth reminding the reader that every generation in the MCMC analysis will consider altered topologies, average rates and Gamma shape parameters; improvements are kept and (sometimes!) worse propositions are accepted, too, in order to better search hypothesis space.}}
+Also, it should be explained that the Gamma distribution itself is varied over the runs, so that the tree will be considering new topologies, new average rates and new rate distributions. What this means is that the shift in the $\alpha$=$\beta$ parameter is drawn from an exponential distribution with a mean of 0.5. However, I think that it is also worth reminding the reader that every generation in the MCMC analysis will consider altered topologies, average rates and Gamma shape parameters; improvements are kept and (sometimes!) worse propositions are accepted, too, in order to better search hypothesis space.}}
+
+We thank the reviewer for these precisions and again agree that it is important to make sure the reader understands the intrications of these parameters:
+
+\textit{Bayesian inference was run using an Mk model with ascertainment bias and four discrete gamma rate categories (Mkv 4$\Gamma$) with an variable rate prior an exponential ($\alpha$=0.5) shape. We've used the Mk model with ascertainment bias (Mkv) to correct for the fact that no invariant characters were present in the matrix (as is often the case with morphological data) allowing the model to estimate the correct evolutionary rates (see above). We used four discrete character rates categories making the assumption that each character has an independent 1/4 chance to be in the 1st, 2nd, 3rd or 4th quartile of the rate distribution. Finally we allowed that the average rate of this distribution (alpha) is drawn from an exponential distribution (with a mean of 0.5) in every iteration of the MCMC allowing an efficient exploration of the parameter space.} Lines @@@
+
+
 
 \item{\textcolor{blue}{Lines 202-204: The MCMC was ran over two runs of 6 chains each for a maximum of 1 x 109 generations with a sampling every 200 generations with an automatic stop if the average standard deviation of split frequency (ASDSF) fell below 0.01.
 \\
@@ -270,13 +338,21 @@ The authors need to state that getting the ASDSF down to <0.01 is taken to mean 
 \\
 To this end, the authors also have to define what convergence is! The next paragraph discusses what they do when they fail to reach convergence, but readers who do now know what convergence is (in this context) are going to be baffled.}}
 
+We've added the following to explain the convergence and the ASDSF more clearly:
+
+\textit{We used this method to diagnose when the 12 chains reached a similar region in the parameter space. In other words, we considered that when the differences in solutions between the chains reaches a stabilised solution independently (ASDSF < 0.01), then the MCMC converged on the “correct” inference} Lines @@@
+
+
+
 \item{\textcolor{blue}{Lines 215-218: 'We measured both the Robinson-Foulds distance (Robinson and Foulds, 1981) and the triplets distance (Dobson, 1975) between the trees inferred from the 'maximised', 'minimised' and 'randomised' matrices and the tree inferred from the 'normal' matrix.
 \\
 I think that a brief explanation of the metrics is in order here. If nothing else, then move lines 230 – 231 up to this paragraph so that readers will know right away why you are using both metrics.}}
+
+We now briefly define the two metrics when mentioning them:
+
+\textit{we measured both the Robinson-Foulds distance (the differences in clade compositions; Robinson \& Foulds 1981) and the triplets distance (the differences in tips positions; Dobson 1975) between the trees inferred}. Lines @@@
+
 \end{itemize}
-
-
-
 
 
 
