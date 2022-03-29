@@ -371,25 +371,78 @@ We now briefly define the two metrics when mentioning them:
 
 \section{Referee 3}
 
-\textcolor{blue}{Sadly however, I am skeptical that this paper really addresses the central issue with character correlation and inferring phylogenies. Particularly, their main conclusion is that character correlation is a 'good' thing, i.e. having increased character correlation actually results in more accurate topologies.} 
+\textcolor{blue}{Sadly however, I am skeptical that this paper really addresses the central issue with character correlation and inferring phylogenies.}
+
+We are also sad that we did not address the central issue(s) with character correlation although that was never our intention. We have now specified more clearly that what this paper ``offers is an idea of what happens when there is some amount of correlated change, but we just do not know how much.'' (as correctly worded by referee 2). We believe that the issue(s!) with character correlation and inferring phylogenies have to be addressed in an incremental way and hope that this manuscript will be a step forward in that direction. We have now clarified that throughout the manuscript: 
+
+% @@@TODO-7.
+
+
+
+\textcolor{blue}{Particularly, their main conclusion is that character correlation is a 'good' thing, i.e. having increased character correlation actually results in more accurate topologies.} 
+
+We do not claim this in the manuscript but rather that character correlation can, for specific datasets and methods, more or less bias topological inference. We have now clarified this
+
+% @@@TODO-8.
+
+
 
 \textcolor{blue}{One of the central conclusions (from the abstract) is 'This means that datasets with low correlation between characters will make it more complicated to estimate a correct topology'. This is not a novel conclusion, nor does it really have anything to do with the issue that the authors claim to address. All this is really confirming is that inferring phylogenies from matrices that contain limited phylogenetic signal is difficult; it is not related to how correlated characters that show homoplasy impact our ability to infer accurate phylogenetic hypotheses. If character correlation really were a positive influence on topological accuracy then character matrices should be coded using a/p coding (rather than using hierarchical characters with some taxa being inapplicable for certain characters) as this coding method would maximize character correlation (e.g. Pleijel 1995, Cladistics).}
 
+We do agree that these are valid limitations from this study and have acknowledged them more clearly:
+Third, by not focusing on modeling the sources of character correlation specifically (see section “Distinction between different character correlations” above), we do not allow to distinguish the specific effect of each correlation for downstream analyses (see Sansom et al. 2017 for such an application on dental morphological data). However, these sources are often not available to authors, either because of the data availability or the resources available to the workers (i.e. time and money) and thus we here propose an approach showing the effect of character correlation when the sources of correlation are effectively unknown. Lines @@@
+% @@@TODO-9
+
+
+
 \textcolor{blue}{Character correlation should only be a problem for inferring an accurate topology if the correlated characters contain misleading phylogenetic signal and change multiple times in concert on the tree, i.e. show coordinated homoplasy.  This is effectively the 'Intra-organismal dependence' type of character correlation that the authors identify in the introduction, the type of character correlation that is probably of most concern regarding inferring phylogenetic trees. This type of dependent character state change is not only an issue for morphological phylogenetics, but is likely also a problem for molecular data. For example the presence of particular amino acids at particular sites in proteins is fundamental for determining 3D protein structure, limiting the substitutions that can occur at particular sites if proteins are to maintain this 3D structure, which is similar to the tooth occlusion example that is cited in the text. This a particularly relevant and interesting example, especially given that an empirical analysis investigating the performance of dental data from mammals found that they recover phylogenies that are more in conflict with those inferred from molecular data (Sansom et al. 2017) citing character non-independence as a possible factor driving this incongruence. This paper is absent from the bibliography and should certainly be discussed, especially as the conclusions of this paper differ so radically.}
+
+We thank the reviewer for drawing our attention to this paper (Sansom et al. 2017) and the DNA example and have now added that to our manuscript:
+
+\textit{It is also worth noting that the evolutionary and intra-organismal dependences induced correlations are by no means restricted to the use of discrete morphological data. In fact, by essence, these correlations appear to any type of data whether continuous (e.g. linear measurements or morphometric geometric measurements) or non-morphological (e.g. behaviour, or - much more commonly used - molecular data).} Lines @@@
+% @@@TODO-10: add ref to Sansom somewhere in the discussion.
+
+
 
 \textcolor{blue}{In the discussion (P6. Line 339) the authors state '(1) evolutionary correlation is implied by simulating the characters using Birth-Death trees; and (2) intra-organismal correlation is present in the matrices for the characters randomly simulated but sharing similar evolutionary simulation regimes.  However, the effect of these sources of correlation was out of the scope of this study and would have required a posteriori changes to the matrices'. This means that characters that are correlated due to shared evolutionary history and characters that show coordinated homoplasy are not distinguished by downstream analyses, limiting the applicability of the results for understanding issues raised by real world examples (such as the dental data analysis by Sansom et al. 2017, Sys Bio).}
 
+We do agree that these are valid limitations from this study and have acknowledged them more clearly:
+
+\textit{Third, by not focusing on modeling the sources of character correlation specifically (see section “Distinction between different character correlations” above), we do not allow to distinguish the specific effect of each correlation for downstream analyses (see Sansom et al. 2017 for such an application on dental morphological data). However, these sources are often not available to authors, either because of the data availability or the resources available to the workers (i.e. time and money) and thus we here propose an approach showing the effect of character correlation when the sources of correlation are effectively unknown.} Lines @@@
+
+
 \textcolor{blue}{In the conclusions the authors state: 'However, in empirical datasets, if character difference is not driven by selection (e.g. pleiotropy) correlation is likely be cancelled out if the correlated characters are randomly distributed with respect to traits.' I am not entirely sure what the authors mean by this sentence. I think that what they are suggesting is that character correlations that arise due to selection will have different impacts on accuracy of phylogenetic reconstructions vs those that arise from drift, which really is what this paper should be trying to address. Instead the analyses pool these types of character correlation rather than trying to disentangle them.}
+
+% @@@TODO-11: specify this in the conclusion
+
+
+
 
 \subsection{Simulation protocol and methodology}
 
-\textcolor{blue}{I am not sure that I understand the logic of only comparing the results of the phylogenetic analyses to what the authors call the 'normal' tree and not the tree that generated the data. Surely the whole point of this exercise is to understand if character correlation actually results in misleading phylogenetic inferences. It strikes me that the way in which they treat their morphological matrices just results in the 'minimised' matrix having the phylogenetic signal that supports the 'normal' tree reinforced as the correlated characters will essentially just contain the same phylogenetic signal that supported the 'normal' tree, though not necessarily the true tree.  For many of the simulated matrices, the normal tree could share very few clades with the tree that was used to generate the data itself, which is clearly demonstrated in O'Reilly et al 2016 (where the same binary HKY simulation method was also used). In this paper, the accuracy of the trees from downstream phylogenetic analyses are often very different to the generating tree. In any revision, I would want to see the impact of comparing the simulated matrices to the generating tree. }
+\textcolor{blue}{I am not sure that I understand the logic of only comparing the results of the phylogenetic analyses to what the authors call the 'normal' tree and not the tree that generated the data. Surely the whole point of this exercise is to understand if character correlation actually results in misleading phylogenetic inferences.}
+
+The purpose of the “normal tree” (now described as the ``topology inferred from the unperturbed matrix'') is to isolate the variables being studied. Indeed, if the whole point of the exercise is to understand if character correlation actually results in misleading signal, one must isolate that variable from all others. This difference is crucial because our methods did not directly simulate covariation. We simulated datasets and then perturbed them. Thus the experimental ‘true tree’ (now described as "the starting tree") is the one recovered by the analyses in the absence of any of our experimental perturbations. Comparison with the simulation (i.e. “starting tree”) would introduce additional stochastic variables that arose during the unperturbed simulation of the datasets. Comparisons with that tree would be unable to isolate the effects of our experimental perturbations.
+
+
+
+\textcolor{blue}{It strikes me that the way in which they treat their morphological matrices just results in the 'minimised' matrix having the phylogenetic signal that supports the 'normal' tree reinforced as the correlated characters will essentially just contain the same phylogenetic signal that supported the 'normal' tree, though not necessarily the true tree.  For many of the simulated matrices, the normal tree could share very few clades with the tree that was used to generate the data itself, which is clearly demonstrated in O'Reilly et al 2016 (where the same binary HKY simulation method was also used). In this paper, the accuracy of the trees from downstream phylogenetic analyses are often very different to the generating tree. In any revision, I would want to see the impact of comparing the simulated matrices to the generating tree.}
+
+We’ve added the comparisons between the trees from the modified matrices and the "starting tree" in the supplementary materials. %TG: is that done?
+However, as stated above, what these results actually show is the effect of A: changing the character correlation + B: the effect of phylogenetic inference + C: the effect of simulating discrete morphological characters. This last component C is not the focus of our study (as specified on lines @@@) and thus is removed from the main manuscript. In fact, there is a really rich amount of papers trying to understand the effect of B and C with no consensus so far (i.e. simulating realistic evolutionary data is complicated AND inferring a realistic evolutionary history from real data is complicated). Therefore, we chose to only focus on A and B and correct for C by effectively comparing to the topology inferred from the unperturbed matrix rather than the starting tree (i.e. making the results relative to the ``best'' inference possible with the simulated data). 
+
+
 
 \subsection{Minor/stylistic comments}
 
 \textcolor{blue}{The merged PDF for review has identical font size for figure/table captions and the main text, making it difficult to read fluently.}
 
+% @@@TODO-13 we have changed the font size for the figures/tables captions and the main text.
+
 \textcolor{blue}{The text has many typos, mostly pluralization (e.g. character vs characters). Randomised is misspelled in Fig 1. Please check the text and figures thoroughly.}
+
+We have fixed the typo in figure 1 and checked the rest of the manuscript more thoroughly.
+%TG: TODO
 
 
 \bibliographystyle{sysbio}
