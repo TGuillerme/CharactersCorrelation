@@ -4,3 +4,20 @@
 *.docx
 *.fdb_latexmk
 *.log
+
+*.fls
+*.pdf
+.Rapp.history
+
+Data/100_Matrices/*
+
+Data/*
+Cluster/*
+
+# Vignettes
+*.html
+
+# Jobs
+Cluster/Bayesian/*.mbcmd
+Cluster/Bayesian/*.mbjob
+Cluster/JobTracker.xlsx
