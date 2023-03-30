@@ -150,38 +150,47 @@ However, encouragingly, they also suggest that, unless correlation is actively m
 %
 %---------------------------------------------
 \section{Introduction}
-The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
-This owes in large part to the advent of new models, methods and software \citep{lewisa2001,ronquista2012,Ronquist2012mrbayes,heath2014fossilized} and the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary.
-While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any investigations into their statistical properties. %MB: I think there are a few classic papers we could cite here. The dismissal tends to arise with the same 'workflow': calculate a molecular tree; calculate a morphological tree; see that they are different; shit on the morphological tree because of this that and the other, but never bother to check if the data actually suggest these phenomena. TG: which ones?
-As morphological data are likely to continue to play an extensive role in phylogenetic analysis,  %MB: cite Nature paper here. TG: which one?
-it is essential to understand the circumstances under which morphological data might be expected to lead to erroneous phylogenetic inferences.
-This opens up possibilities for analysing problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
+%The last two decades have witnessed a resurgence of interest in the use of morphological character data in phylogenetic studies.
+%This owes in large part to the advent of new models, methods and software \citep{lewisa2001,ronquista2012,Ronquist2012mrbayes,heath2014fossilized} and the use of fossils to undertake at least partial reconstructions of phylogenetic trees, especially where ancestral states reconstructions or absolute calibrations of divergence times are necessary.
+%While there is a general appreciation of the limits of morphological data, they are frequently dismissed without any investigations into their statistical properties. %MB: I think there are a few classic papers we could cite here. The dismissal tends to arise with the same 'workflow': calculate a molecular tree; calculate a morphological tree; see that they are different; shit on the morphological tree because of this that and the other, but never bother to check if the data actually suggest these phenomena. TG: which ones?
+%As morphological data are likely to continue to play an extensive role in phylogenetic analysis,  %MB: cite Nature paper here. TG: which one?
+%it is essential to understand the circumstances under which morphological data might be expected to lead to erroneous phylogenetic inferences.
+%This opens up possibilities for analysing problematic datasets and possibly proposing new confidence measures in phylogenetic datasets.
 
-The non-independence of large numbers of morphological characters is often cited in anticipation of problems with morphological data \cite[e.g.][]{Davalos01072014, ZouConvergence}.
-The assumption of character independence is central to phylogenetic inference methods such as maximum likelihood and maximum parsimony \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
-Non-independence of characters implies that some suites of characters are expected to transform in highly correlated ways.
-Not only does this violate the assumptions of phylogenetic analysis, but implies that if convergence has occurred in correlated sets of characters, then this would lead to spurious cladistic groupings.
-Here we distinguish three different modes of forms of character correlation (described in more details in \citealt{wilkison1992ordered,wilkinson1995character,wilkinson1995coping}):
+%% MDB: I think we can just start here. The paragraph above is completely extraneous for readers of Palaeontology.
+The assumption of character independence is central to phylogenetic inference \citep[e.g.][]{joysey1982problems,felsenstein1985phylogenies,lewisa2001,felsenstein2004inferring}.
+Contemporary methods like parsimony and maximum likelihood evaluate phylogenetic trees under the assumption that the input characters represent independent and identically distributed data points.
+However, there are many cases in which morphological data can be reasonably suspected to have evolved in a non-independent way \cite[e.g.][]{Davalos01072014, ZouConvergence}.
+Morphological character inter-dependencies can occur as a result of factors such as functional integration, underlying genetic modularity, or a  hierarchical relationship where one character depends directly on the state of another.
+These relationships can create suites of similar character distributions that may bias phylogenetic analysis and deliver spurious results whose problems cannot be easily detected. 
+At the same time, it is usually impossible to know whether similarities are homologous or the result of convergent evolution without prior knowledge of phylogeny itself.
+This creates an impasse for morphologists, especially for the phylogenies of extinct groups where there is usually no likelihood of recovering molecular sequence data.
+
+In this paper, we explore the circumstances under which character correlation might be expected to be a problem. Despite the realistic \textcolor{blue}{hurdles} posed by character correlations, it remains unclear that can be expected to be a pervasive problem. It is therefore worthwhile to characterise different types of character correlations that can impact comparative data. Here we distinguish four different modes of forms of character correlation (described in more details in \citealt{wilkinson1992ordered,wilkinson1995comparison,wilkinson1995coping}):
 
 \begin{itemize}
-    \item \textbf{Intra-organismal dependence:} this is the result of an intrinsic biological link between two characters.
-    For example the occlusal surface of two opposing molars will be expected to directly covary.
+
+    \item \textcolor{blue}{\textbf{Intra-organismal dependence:}} this is the result of a biological link between two characters that exists within the organism itself. The main cause of this would be pleiotropic genetic effects. This kind of dependence is often described in terms of integration and modularity, which can range from genetic to functional dependencies.
  
     \item \textbf{Evolutionary dependence:} this is the result of sets of characters co-evolving. 
-    For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages.
+    For example, in vertebrates, axial elongation can be correlated to limb reduction with snake-like bodies evolving multiple times in numerous tetrapod lineages. This type of dependence can be thought of in terms of functional suites of characters coevolving.
 
     \item \textbf{Logical dependence:} this is the results of researcher methodology for defining or/and coding discrete morphological characters \citep{Brazeau2011,simoes2017giant}.
     For example, two characters ``tail colour'' and ``tail length'' could be coded two times as an absence for a taxon with no tail \citep{wilkinson1995coping,BrazeauNA}.
     \textcolor{blue}{Note that there are a lot of alternative methodological choices for this example \citep[e.g. using inapplicable tokens; ][]{Brazeau2011} and that these choices affect results more or less depending on the estimation method (parsimony methods contrast with probabilistic methods were ancestral conditions are respectively fixed or not).}
+
+    \textcolor{blue}{\item \textbf{Phenomenological dependence:} This occurs where two morphological characters are expressed (often semantically) as two distinct things, but refer ultimately to the same phenomenon within an organism. For instance, occlusal patterns of mammalian dentitions would be expected to co-vary precisely in opposing mammal dentitions \cite{sansom2017dental}.
+    A similar example is the relative position of the mandible in early gnathostomes and the course of its innervation. As the mandibular arch moves position relative to the rest of the braincase, the innervation patterns are expected to follow suit. Treating these as separate character may create spurious support for placoderm paraphyly \citep[e.g.][]{brazeau2009braincase,king2017bayesian}.}
+    
 \end{itemize}
 
-\noindent Of course, the three sources of dependence can have an interaction: characters describing the left and right lower/upper molars will have induced dependence due to the modularity of the molars, their shared history and the duplicated coding.
+\noindent Of course, the four sources of dependence are not necessarily exclusive: characters describing the left and right lower/upper molars will have \textcolor{blue}{phenomenological} dependence due to the modularity of the molars, their shared history and the duplicated coding.
 Logical dependence, however, is easily distinguished prior to phylogenetic inference, while intra-organismal and evolutionary dependence are much harder to parse.
 Meanwhile, the development of algorithms and software has not yet caught up with the need to deal with these interdependencies \citep{de2015parsimony,BrazeauNA}.
 \textcolor{blue}{Intra-organismal dependence requires more detailed, often extremely time-consuming studies (possibly beyond the limits of available technology).
 Evolutionary dependence itself requires the accurate resolution of a phylogenetic tree (but see useful methods from \citealt{Pagel1994} and \citealt{billet2019serial}), and is best determined by independent character sets.}
 \textcolor{blue}{The latter is commonly hard to get because of the nature of the data: some common types of data (e.g. fossil data) offer very few options of independent character sets and no biological datasets can really be independent.
-It is also worth noting that the evolutionary and intra-organismal dependences induced correlations are by no means restricted to the use of discrete morphological data. In fact, by essence, these correlations appear to any type of data whether continuous (e.g. linear measurements or morphometric geometric measurements) or non-morphological (e.g. behaviour, or - much more commonly used - molecular data).}
+It is also worth noting that the evolutionary and intra-organismal dependences induced correlations are by no means restricted to the use of discrete morphological data. In fact, by essence, these correlations appear to any type of data whether continuous (e.g. linear measurements or morphometric geometric measurements) or non-morphological (e.g. behaviour, or - much more commonly used - molecular data, \citealt{sansom2017dental}).}
 
 \color{black}{Intra-organismal} and evolutionary dependences are inherent parts to Evo-Devo and macroevolutionary studies and best practices to avoid coding-induced dependences are commonly known and applied.
 However, eventually, all these characters, whether they are independent or not are analysed through phylogenetic inference software that are blind to these distinctions.
@@ -237,7 +246,7 @@ We then simulated discrete morphological characters on the topology of these tre
     \item The ``morphological HKY-binary'' model \citep{OReilly20160081} which is an HKY model \citep{HKY85} with a random states frequency (sampled from a Dirichlet distribution $Dir(1,1,1,1)$) and using a transition/transvertion rate of $2$ \citep{douadycomparison2003} but where the purines (A,G) were changed into state $0$ and the pyrimidines (C,T) in state $1$.
     \textcolor{blue}{This allows the changes in character states to vary without specifying which change is more likely, hence expecting an equiprobable change in character state in all directions.}
     \item To generate more than binary states characters, we used the M$k$ model \citep{lewisa2001}.
-    We drew the number of character states with a probability of $0.85$ for binary characters \textcolor{blue}{(using a $2\times2$ Q matrix)} and $0.15$ for three state characters (\textcolor{blue}{using a $3\times3$ Q matrix);} \citealt{Guillerme2016146,ZouConvergence}). %TG: this Q matrix bit is very jargony and unsincere...
+    We drew the number of character states with a probability of $0.85$ for binary characters \textcolor{blue}{(using a $2\times2$ Q matrix)} and $0.15$ for three state characters (\textcolor{blue}{using a $3\times3$ Q matrix;} \citealt{Guillerme2016146,ZouConvergence}).
 \end{itemize}
 
 \noindent For each character, both models (``morphological HKY-binary'' or M$k$) were chosen randomly and run with an overall evolutionary rate drawn from a gamma distribution ($\beta$ = $100$ and $\alpha$ = $5$).
@@ -268,8 +277,7 @@ Using this metric, two characters can have a character difference ranging from 0
 $CD$ is a continuous scaled Hamming distance metric bounded between $0$ and $1$.
 Since we are considering differences as being only Fitch-like (non-additive) and unweighted, we calculated the difference between character states as binary (e.g. $2 - 2 = 0$ or $1 - 8 = 1$).
 
-We standardised each character by arbitrarily modifying their character state tokens (or symbols) by \textcolor{blue}{order of appearance in the matrix - for example for the first character (1st column) in the matrix, if the state coded for the first OTU (1st row) was \texttt{3}, it was translated into \texttt{1} for the whole character (across the 1st column); if the state coded for the second OTU (2nd row) was \texttt{0}, it was translated into \texttt{2} for the whole character, etc.}
-We replaced all the occurrences of the first token to be \texttt{1}, the second to be \texttt{2}, etc.
+We standardised each character by arbitrarily modifying their character state tokens (or symbols) by \textcolor{blue}{order of appearance in the matrix - for example for the first character (1st column) in the matrix, if the state coded for the first OTU (1st row) was \texttt{3}, it was translated into \texttt{1} for the whole character (across the 1st column); if the state coded for the second OTU (2nd row) was \texttt{0}, it was translated into \texttt{2} for the whole character, etc. In other words, we} replaced all the occurrences of the first token to be \texttt{1}, the second to be \texttt{2}, etc.
 This procedure allows comparison of characters regardless of the significance given to their tokens (following the \textit{xyz} notation in \citealt{felsenstein2004inferring}; as used in \citealt{Davalos01072014}).
 This way, a character \texttt{A = \{2,2,3,0,0,3\}} for six taxa would be standardised as \texttt{A' = \{1,1,2,3,3,2\}} \textcolor{blue}{(see supplementary materials 1)}.
 When the character difference is null ($0$) it means that characters convey the same \textcolor{blue}{phylogenetic information} (i.e. characters are entirely correlated). 
@@ -300,7 +308,7 @@ For both methods, we used the arbitrarily chosen outgroup in the simulations to 
 The maximum parsimony inference was run using a heuristic search with random sequence addition replicate 100 times with a limit of $5\times10^6$ rearrangements per replicates.
 
 Bayesian inference was run using an M\textit{k} model with ascertainment bias and four discrete gamma rate categories (M\textit{kv} $4\Gamma$) with an variable rate prior an exponential (0.5) shape.
-\textcolor{blue}{We’ve used the Mk model with ascertainment bias (Mkv) to correct for the fact that no invariant characters were present in the matrix (as is often the case with morphological data) allowing the model to estimate the correct evolutionary rates (see above).
+\textcolor{blue}{We used the Mk model with ascertainment bias (Mkv) to correct for the fact that no invariant characters were present in the matrix (as is often the case with morphological data) allowing the model to estimate the correct evolutionary rates (see above).
 We used four discrete character rates categories making the assumption that each character has an independent $\frac{1}{4}$ chance to be in the $1^{st}$, $2^{nd}$, $3^{rd}$ or $4^{th}$ quartile of the rate distribution.
 Finally we allowed that the average rate of this distribution ($\alpha$) is drawn from an exponential distribution (with a mean of 0.5) in every iteration of the MCMC allowing an efficient exploration of the parameter space.}
 The MCMC was ran over two runs of 6 chains each for a maximum of $1\times10^9$ generations with a sampling every 200 generations with an automatic stop if the average standard deviation of split frequency (ASDSF) fell below 0.01.
@@ -452,7 +460,7 @@ Moreover, because phylogenetic inference software are unable to \textit{a priori
 
 We found that character correlation has an effect on recovering the correct topology: matrices with low character correlation always performed more poorly at recovering the correct topology than matrices with high or randomised character correlation.
 This is especially true in large matrices where we advise to reduce character difference by using bootstrapping with ``bias'' whereas this may not be major problem in modest size matrices (25 taxa; 100 to 350 characters).
-However, in empirical datasets, if character difference is not driven by selection (e.g. pleiotropy) correlation is likely be cancelled out if the correlated characters are randomly distributed with respect to traits.
+% However, in empirical datasets, if character difference is not driven by selection (e.g. pleiotropy) correlation is likely be cancelled out if the correlated characters are randomly distributed with respect to traits.
 We recommend that all morphological phylogenetic analyses should report the level of character correlation or differences so that we can begin to detect and address the problem of coding dependence on inflating our confidence in our phylogenetic reconstructions.
 
 \section{Data availability, repeatability and reproducibility}
